@@ -1,0 +1,41 @@
+name: Project checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  go:
+    name: Go unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container: public.ecr.aws/docker/library/golang:1.26.5-bookworm@sha256:53eeac89074db483fdf0ab3be1df32bf6e47562263d2d0d6baa7f26acb4957dd
+    env:
+      CGO_ENABLED: '1'
+    defaults:
+      run:
+        working-directory: apps/api-go
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: go test -mod=vendor -race ./...
+      - run: go vet -mod=vendor ./...
+  web:
+    name: Web and asset checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container: node:22-bookworm-slim@sha256:3ed748ce9dea62d2f0f0205cdbb6823106d9f973a6f555c402fe2575f8d6e1ae
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run test:web
+      - run: npm run build:web
+      - name: Check asset integrity
+        if: always()
+        run: npm run verify:baseline
