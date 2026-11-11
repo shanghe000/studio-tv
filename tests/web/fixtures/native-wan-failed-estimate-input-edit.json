@@ -1,0 +1,444 @@
+{
+  "targetId": "n",
+  "revision": 152,
+  "acknowledged": {
+    "nodes": [
+      {
+        "style": {
+          "width": 480,
+          "height": 360
+        },
+        "selectable": true,
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "width": 480,
+          "height": 360,
+          "status": "idle",
+          "subType": "text-image",
+          "aspectRatio": "16:9",
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ]
+        }
+      },
+      {
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "selectable": true,
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "params": {
+            "text": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "imageUrls": [
+              "rhtv-asset:image-asset"
+            ],
+            "videoUrls": [
+              "rhtv-asset:video-asset"
+            ],
+            "outputPreset": "landscape-480p-5s"
+          },
+          "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+          "status": "idle",
+          "subType": "multimodal-video",
+          "errorMsg": "COMFY_GENERATION_FAILED",
+          "progress": null,
+          "testMode": false,
+          "modelCode": "wan-animate2-motion-transfer-v1",
+          "modelType": "OPENAPI",
+          "maxConnect": {
+            "text": null,
+            "image": null,
+            "video": null
+          },
+          "generateNum": 1,
+          "capabilityRef": "wan-animate2-motion-transfer-v1",
+          "estimateTaskId": "failed-wan-task",
+          "progressDetail": null,
+          "promptSelection": {
+            "schemaVersion": "1",
+            "referenceBindings": [
+              {
+                "role": "REFERENCE_IMAGE",
+                "assetId": "image-asset"
+              },
+              {
+                "role": "SOURCE_VIDEO",
+                "assetId": "video-asset"
+              }
+            ]
+          },
+          "presetSelections": [],
+          "routerParameters": {
+            "outputPreset": "landscape-480p-5s"
+          },
+          "capabilityVersion": "1",
+          "nodeOutputHistory": [],
+          "userPromptSnapshot": {
+            "value": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "paramName": "prompt"
+          },
+          "generationStartedAt": 1793537471307,
+          "parameterSchemaVersion": "1"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  },
+  "base": {
+    "nodes": [
+      {
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true,
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        }
+      },
+      {
+        "selectable": true,
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+          "params": {
+            "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": [
+              "rhtv-asset:image-asset"
+            ],
+            "videoUrls": [
+              "rhtv-asset:video-asset"
+            ],
+            "text": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only."
+          },
+          "modelCode": "wan-animate2-motion-transfer-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "estimateTaskId": "failed-wan-task",
+          "generationStartedAt": 1793537471307,
+          "errorMsg": "COMFY_GENERATION_FAILED",
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "capabilityRef": "wan-animate2-motion-transfer-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  },
+  "local": {
+    "nodes": [
+      {
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        },
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true
+      },
+      {
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "selectable": true,
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+          "params": {
+            "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": [
+              "rhtv-asset:image-asset"
+            ],
+            "audioUrls": "",
+            "videoUrls": [
+              "rhtv-asset:video-asset"
+            ],
+            "text": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only."
+          },
+          "modelCode": "h3-reference-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "estimateTaskId": "failed-wan-task",
+          "generationStartedAt": 1793537471307,
+          "errorMsg": "COMFY_GENERATION_FAILED",
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "modelType": "OPENAPI"
+        },
+        "style": {
+          "width": 380,
+          "height": 220
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "nextBase": {
+    "nodes": [
+      {
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true,
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        }
+      },
+      {
+        "selectable": true,
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+          "params": {
+            "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": [
+              "rhtv-asset:image-asset"
+            ],
+            "audioUrls": "",
+            "videoUrls": [
+              "rhtv-asset:video-asset"
+            ],
+            "text": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only."
+          },
+          "modelCode": "h3-reference-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "estimateTaskId": "failed-wan-task",
+          "generationStartedAt": 1793537471307,
+          "errorMsg": "COMFY_GENERATION_FAILED",
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "modelType": "OPENAPI"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  },
+  "nextLocal": {
+    "nodes": [
+      {
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        },
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true
+      },
+      {
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "selectable": true,
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+          "params": {
+            "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": ""
+          },
+          "modelCode": "h3-first-last-frame-v1",
+          "generateNum": 1,
+          "subType": "start-end-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "estimateTaskId": "failed-wan-task",
+          "generationStartedAt": 1793537471307,
+          "errorMsg": "COMFY_GENERATION_FAILED",
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "modelType": "OPENAPI"
+        },
+        "style": {
+          "width": 380,
+          "height": 220
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  }
+}

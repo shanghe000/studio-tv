@@ -1,0 +1,24 @@
+{
+  "name": "@studiotv/web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build && node scripts/build-frame.mjs",
+    "build:preview": "RHTV_MODE=preview npm run build",
+    "build:service": "RHTV_MODE=service npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "happy-dom": "20.14.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7",
+    "vitest": "^4.1.11"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.4.0"
+  }
+}

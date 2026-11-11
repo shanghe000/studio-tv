@@ -1,0 +1,47 @@
+{
+  "version": "studio-style-library-1",
+  "sourceName": "STUDIO existing published canvas styleLibrary: apps/web/public/project/assets/index-DeyN_Phq.js",
+  "sourceSHA256": "25a16354d04d8e5c4760e4607aa48ccb5622dd8cf798c79fe9ddda75e39b5bba",
+  "styles": [
+    {
+      "schemaVersion": "1",
+      "revision": 1,
+      "key": "styleLibrary",
+      "id": "cinematic_realism",
+      "label": "电影写实",
+      "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+      "coverUrl": "https://assets.example.invalid/styles/hero-canvas.webp",
+      "referenceImageUrl": "https://assets.example.invalid/styles/hero-canvas.webp"
+    },
+    {
+      "schemaVersion": "1",
+      "revision": 1,
+      "key": "styleLibrary",
+      "id": "anime_illustration",
+      "label": "动漫插画",
+      "prompt": "anime illustration style, clean line art, expressive color, polished character design",
+      "coverUrl": "https://assets.example.invalid/styles/demo-poster.webp",
+      "referenceImageUrl": "https://assets.example.invalid/styles/demo-poster.webp"
+    },
+    {
+      "schemaVersion": "1",
+      "revision": 1,
+      "key": "styleLibrary",
+      "id": "product_ad",
+      "label": "商业产品",
+      "prompt": "premium product advertising, clean studio lighting, sharp details, elegant composition",
+      "coverUrl": "https://assets.example.invalid/styles/examples/modular-speaker.webp",
+      "referenceImageUrl": "https://assets.example.invalid/styles/examples/modular-speaker.webp"
+    },
+    {
+      "schemaVersion": "1",
+      "revision": 1,
+      "key": "styleLibrary",
+      "id": "editorial_fashion",
+      "label": "时尚大片",
+      "prompt": "editorial fashion photography, confident pose, magazine cover lighting, luxurious styling",
+      "coverUrl": "https://assets.example.invalid/styles/examples/lime-rim-light.webp",
+      "referenceImageUrl": "https://assets.example.invalid/styles/examples/lime-rim-light.webp"
+    }
+  ]
+}

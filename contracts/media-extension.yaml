@@ -1,0 +1,1420 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Studio TV Real Media and File Extension",
+    "version": "2.0.0",
+    "description": "Additive real local media/file/Studio execution. Model inference remains explicit Router MOCK only; frozen v1 unchanged."
+  },
+  "x-default-unknown-path-status": 404,
+  "x-persistence": [
+    "public.assets+provenance",
+    "media.file_receipts",
+    "execution.tasks/events/task_assets/history_revisions",
+    "resources.studio_projects/studio_files (existing owned source)",
+    "media.studio_outputs"
+  ],
+  "paths": {
+    "/api/v2/file-assets": {
+      "post": {
+        "operationId": "uploadProductFile",
+        "x-status": "IMPLEMENTED",
+        "description": "Single multipart file+projectId, UUID idempotency; GLB/OBJ/FBX/embedded glTF, PLY, SPZ, SPLAT and Markdown only. Actual bytes validate before READY import.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "UUID"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "projectId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file",
+                  "projectId"
+                ]
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/file-assets/{assetId}": {
+      "get": {
+        "operationId": "getProductFile",
+        "x-status": "IMPLEMENTED",
+        "description": "",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/catalog/media/materialize": {
+      "post": {
+        "operationId": "materializeCatalogMedia",
+        "x-status": "IMPLEMENTED",
+        "description": "Imports only the exact registered local file referenced by persisted catalog family/id/revision/content pointer. Optional projectId uses private ASSET_VAULT.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "UUID"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Materialize"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/media-jobs": {
+      "post": {
+        "operationId": "submitMediaJob",
+        "x-status": "IMPLEMENTED",
+        "description": "Real local FFmpeg processing; input URLs forbidden; durable execution task/events/history, cancellation and recovery.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "UUID"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaCommand"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/media-jobs/{taskId}": {
+      "get": {
+        "operationId": "getMediaJob",
+        "x-status": "IMPLEMENTED",
+        "description": "Returns durable taskId/jobId/state/status/revision, real output assetIds and signed URLs. testMode remains true when any source asset is an explicit MOCK fixture.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/media-jobs/{taskId}/cancel": {
+      "post": {
+        "operationId": "cancelMediaJob",
+        "x-status": "IMPLEMENTED",
+        "description": "Body {}. Single persisted terminal CANCELED race; stops active local process.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/studio/projects/{projectId}/render": {
+      "post": {
+        "operationId": "submitStudioRender",
+        "x-status": "IMPLEMENTED",
+        "description": "Freezes authorized saved files at current root revision, queues real Chromium+FFmpeg job. Returns {jobId}.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "UUID"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Strong current revision ETag"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenderCommand"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/studio/renders/{taskId}": {
+      "get": {
+        "operationId": "getStudioRender",
+        "x-status": "IMPLEMENTED",
+        "description": "Real QUEUED/RUNNING/SUCCEEDED/FAILED/CANCELLED state. Progress is 0 until measured completion, then100; no synthesized timer progress.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      },
+      "delete": {
+        "operationId": "deleteStudioRender",
+        "x-status": "IMPLEMENTED",
+        "description": "Current task If-Match; cancels active work and hides owned render history/file.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Strong current revision ETag"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/studio/projects/{projectId}/renders": {
+      "get": {
+        "operationId": "listStudioRenders",
+        "x-status": "IMPLEMENTED",
+        "description": "Actual durable render history, max1000; larger history413 instead of silent truncation.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/studio/projects/{projectId}/renders/file/{filename}": {
+      "get": {
+        "operationId": "readStudioRender",
+        "x-status": "IMPLEMENTED",
+        "description": "Actual owned completed bytes with MIME/ranges; no substitute movie.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/studio/projects/{projectId}/preview-session": {
+      "post": {
+        "operationId": "createStudioPreview",
+        "x-status": "IMPLEMENTED",
+        "description": "Body {path,composition:boolean}. Scoped 5 minute preview JWT bound to owner/session/HF root/revision. Returns {url,expiresIn}.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "UUID"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/studio/preview/{projectId}/{grant}/{path}": {
+      "get": {
+        "operationId": "readStudioPreview",
+        "x-status": "IMPLEMENTED",
+        "description": "Public signed navigation endpoint: relative workspace files retain scoped grant; each request rechecks live session+tv.access+current revision. Sandboxed authored HTML, no external resources.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "grant",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in STUDIO envelope, or actual media bytes for file reads."
+          },
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access",
+        "x-authentication": "signed studio-preview grant plus live session and tv.access on every file"
+      }
+    },
+    "/api/v2/studio/projects/{projectId}/file-mutations/edit/{path}": {
+      "post": {
+        "operationId": "editStudioFileElement",
+        "x-status": "IMPLEMENTED",
+        "description": "Mutates actual persisted owned HTML without executing scripts. Requires the root project revision and UUID. Atomic revision/file-change event/idempotency receipt; replay preserves original content, changed request409 and stale revision412. ID or bounded simple selector selects one real element.",
+        "security": [
+          {
+            "StudioSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "UUID"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Strong current revision ETag"
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            },
+            "description": "Clean relative saved HTML path; a slash may be percent-encoded once."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid strict request or parameters."
+          },
+          "401": {
+            "description": "Invalid or revoked session."
+          },
+          "403": {
+            "description": "Live tv.access denied."
+          },
+          "404": {
+            "description": "Unknown, foreign or deleted resource."
+          },
+          "409": {
+            "description": "Changed request reuses an idempotency key."
+          },
+          "412": {
+            "description": "Stale revision."
+          },
+          "422": {
+            "description": "Content format, size or hash validation failed."
+          },
+          "200": {
+            "description": "Actual saved {path,content,mimeType,revision} and strong ETag."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditCommand"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Asset": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "FILE"
+            ]
+          },
+          "mimeType": {
+            "type": "string"
+          },
+          "byteSize": {
+            "type": "integer"
+          },
+          "checksumSha256": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "READY"
+            ]
+          },
+          "previewUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "downloadUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "width": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "height": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "durationSeconds": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "urlsExpireAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "rejectionCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "testMode": {
+            "type": "boolean"
+          },
+          "provenance": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "mimeType",
+          "byteSize",
+          "checksumSha256",
+          "state"
+        ]
+      },
+      "MediaCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "nodeId": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "operateType": {
+            "type": "string"
+          },
+          "bizId": {
+            "type": "string"
+          },
+          "canvasId": {
+            "type": "string"
+          },
+          "bizType": {
+            "enum": [
+              "CANVAS"
+            ]
+          },
+          "executor": {
+            "enum": [
+              "FFMPEG"
+            ]
+          },
+          "spec": {
+            "$ref": "#/components/schemas/MediaSpec"
+          }
+        },
+        "required": [
+          "projectId",
+          "spec"
+        ]
+      },
+      "MediaSpec": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "const": 1
+          },
+          "inputs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "assetId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "assetId"
+              ]
+            }
+          },
+          "tracks": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "video",
+                    "audio",
+                    "split",
+                    "compress"
+                  ]
+                },
+                "clips": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 24,
+                  "items": {
+                    "$ref": "#/components/schemas/Clip"
+                  }
+                }
+              },
+              "required": [
+                "type",
+                "clips"
+              ]
+            }
+          },
+          "output": {
+            "$ref": "#/components/schemas/MediaOutput"
+          }
+        },
+        "required": [
+          "inputs",
+          "tracks"
+        ]
+      },
+      "Clip": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "input": {
+            "type": "string"
+          },
+          "trim": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "startMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 600000
+              },
+              "endMs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 600000
+              }
+            },
+            "required": [
+              "startMs"
+            ]
+          },
+          "crop": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 3840
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 2160
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ]
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.25,
+            "maximum": 4
+          },
+          "reverse": {
+            "type": "boolean"
+          },
+          "rotate": {
+            "enum": [
+              "0",
+              "90",
+              "180",
+              "270"
+            ]
+          },
+          "mirror": {
+            "enum": [
+              "horizontal",
+              "vertical"
+            ]
+          }
+        },
+        "required": [
+          "input"
+        ]
+      },
+      "MediaOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "container": {
+            "enum": [
+              "mp4",
+              "webm",
+              "mov",
+              "wav"
+            ]
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3840
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2160
+          },
+          "videoCodec": {
+            "enum": [
+              "h264",
+              "libx264",
+              "vp9",
+              "libvpx-vp9"
+            ]
+          },
+          "audioCodec": {
+            "enum": [
+              "aac",
+              "opus",
+              "pcm_s16le"
+            ]
+          },
+          "bucket": {
+            "const": "canvas"
+          },
+          "crf": {
+            "type": "integer",
+            "minimum": 18,
+            "maximum": 40
+          },
+          "maxBytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 536870912
+          },
+          "preset": {
+            "enum": [
+              "veryfast",
+              "fast",
+              "medium"
+            ],
+            "description": "Applied encoder effort: H264 uses the exact preset; VP9 maps veryfast/fast/medium to cpu-used 8/4/2. Default fast. Video-only; WAV rejects this property."
+          }
+        },
+        "required": [
+          "container"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "container": {
+                  "const": "wav"
+                }
+              },
+              "required": [
+                "container"
+              ]
+            },
+            "then": {
+              "properties": {
+                "preset": false,
+                "crf": false,
+                "videoCodec": false,
+                "fps": {
+                  "const": 0
+                },
+                "width": {
+                  "const": 0
+                },
+                "height": {
+                  "const": 0
+                },
+                "audioCodec": {
+                  "const": "pcm_s16le"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RenderCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fps": {
+            "enum": [
+              24,
+              30,
+              60
+            ]
+          },
+          "quality": {
+            "enum": [
+              "draft",
+              "standard",
+              "high"
+            ]
+          },
+          "format": {
+            "enum": [
+              "mp4",
+              "webm",
+              "mov"
+            ]
+          },
+          "resolution": {
+            "enum": [
+              "1080p",
+              "4k"
+            ]
+          },
+          "composition": {
+            "type": "string",
+            "description": "An owned saved HTML workspace path, for example compositions/a.html; omitted selects index.html.",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "fps",
+          "quality",
+          "format"
+        ]
+      },
+      "Materialize": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "family": {
+            "type": "string"
+          },
+          "resourceId": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "path": {
+            "type": "string",
+            "description": "RFC6901 pointer into the exact persisted resource content, resolving to a registered local media reference."
+          }
+        },
+        "required": [
+          "family",
+          "resourceId",
+          "revision",
+          "path"
+        ]
+      },
+      "ElementTarget": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "selector": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "selectorIndex": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "id"
+            ]
+          },
+          {
+            "required": [
+              "selector"
+            ]
+          }
+        ]
+      },
+      "EditOperation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "enum": [
+              "style",
+              "attribute",
+              "text",
+              "remove"
+            ]
+          },
+          "property": {
+            "type": "string",
+            "maxLength": 102
+          },
+          "value": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 65536
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "EditCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "target": {
+            "$ref": "#/components/schemas/ElementTarget"
+          },
+          "operations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "items": {
+              "$ref": "#/components/schemas/EditOperation"
+            }
+          }
+        },
+        "required": [
+          "target",
+          "operations"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "StudioSession": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1,0 +1,727 @@
+{
+  "targetId": "n",
+  "revision": 126,
+  "acknowledged": {
+    "nodes": [
+      {
+        "style": {
+          "width": 480,
+          "height": 360
+        },
+        "selectable": true,
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "width": 480,
+          "height": 360,
+          "status": "idle",
+          "subType": "text-image",
+          "aspectRatio": "16:9",
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ]
+        }
+      },
+      {
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "selectable": true,
+        "id": "video",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-motion.mp4",
+          "title": "reference-single-motion.mp4",
+          "width": 360,
+          "height": 270,
+          "status": "idle",
+          "subType": "text-video",
+          "duration": 6,
+          "fileName": "reference-single-motion.mp4",
+          "fileSize": 27490,
+          "mimeType": "video/mp4",
+          "videoWidth": 640,
+          "videoHeight": 480,
+          "sourceObjects": [
+            "rhtv-asset:video-asset"
+          ]
+        }
+      },
+      {
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "selectable": true,
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "params": {
+            "text": "",
+            "prompt": "",
+            "imageUrls": [
+              "rhtv-asset:image-asset"
+            ],
+            "videoUrls": [
+              "rhtv-asset:video-asset"
+            ],
+            "outputPreset": "landscape-480p-5s"
+          },
+          "prompt": "",
+          "status": "idle",
+          "subType": "video-video",
+          "testMode": false,
+          "modelCode": "h3-motion-transfer-v1",
+          "modelType": "OPENAPI",
+          "maxConnect": {
+            "text": null,
+            "image": null,
+            "video": null
+          },
+          "generateNum": 1,
+          "capabilityRef": "h3-motion-transfer-v1",
+          "promptSelection": {
+            "schemaVersion": "1",
+            "referenceBindings": [
+              {
+                "role": "REFERENCE_IMAGE",
+                "assetId": "image-asset"
+              },
+              {
+                "role": "SOURCE_VIDEO",
+                "assetId": "video-asset"
+              }
+            ]
+          },
+          "presetSelections": [],
+          "routerParameters": {
+            "outputPreset": "landscape-480p-5s"
+          },
+          "capabilityVersion": "1",
+          "nodeOutputHistory": [],
+          "userPromptSnapshot": {
+            "value": "",
+            "paramName": "prompt"
+          },
+          "parameterSchemaVersion": "1"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      },
+      {
+        "type": "default",
+        "id": "e-video-n",
+        "source": "video",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  },
+  "base": {
+    "nodes": [
+      {
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true,
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        }
+      },
+      {
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true,
+        "id": "video",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-motion.mp4",
+          "title": "reference-single-motion.mp4",
+          "status": "idle",
+          "width": 360,
+          "height": 270,
+          "sourceObjects": [
+            "rhtv-asset:video-asset"
+          ],
+          "subType": "text-video",
+          "fileName": "reference-single-motion.mp4",
+          "fileSize": 27490,
+          "mimeType": "video/mp4",
+          "duration": 6,
+          "videoWidth": 640,
+          "videoHeight": 480
+        }
+      },
+      {
+        "selectable": true,
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "",
+          "params": {
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": [
+              "rhtv-asset:image-asset"
+            ],
+            "videoUrls": [
+              "rhtv-asset:video-asset"
+            ],
+            "prompt": "",
+            "text": ""
+          },
+          "modelCode": "h3-motion-transfer-v1",
+          "generateNum": 1,
+          "subType": "video-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "capabilityRef": "h3-motion-transfer-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      },
+      {
+        "type": "default",
+        "id": "e-video-n",
+        "source": "video",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  },
+  "local": {
+    "nodes": [
+      {
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        },
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true
+      },
+      {
+        "id": "video",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-motion.mp4",
+          "title": "reference-single-motion.mp4",
+          "status": "idle",
+          "width": 360,
+          "height": 270,
+          "sourceObjects": [
+            "rhtv-asset:video-asset"
+          ],
+          "subType": "text-video",
+          "fileName": "reference-single-motion.mp4",
+          "fileSize": 27490,
+          "mimeType": "video/mp4",
+          "duration": 6,
+          "videoWidth": 640,
+          "videoHeight": 480
+        },
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true
+      },
+      {
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "selectable": true,
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "",
+          "params": {
+            "prompt": "A person calmly raises one hand, steady camera, neutral studio background. Web submission acceptance only.",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": "",
+            "videoUrls": ""
+          },
+          "modelCode": "wan-animate2-motion-transfer-v1",
+          "generateNum": 1,
+          "subType": "video-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "modelType": "OPENAPI"
+        },
+        "style": {
+          "width": 380,
+          "height": 220
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      },
+      {
+        "id": "e-video-n",
+        "source": "video",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "priorPending": {
+    "initialEtag": "\"125\"",
+    "unknownBase": false,
+    "phase": "DRAFT",
+    "base": {
+      "nodes": [
+        {
+          "style": {
+            "height": 360,
+            "width": 480
+          },
+          "selectable": true,
+          "id": "image",
+          "type": "rh-image",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "label": "reference-single-person.png",
+            "title": "reference-single-person",
+            "status": "idle",
+            "width": 480,
+            "height": 360,
+            "sourceObjects": [
+              "rhtv-asset:image-asset"
+            ],
+            "aspectRatio": "16:9",
+            "subType": "text-image"
+          }
+        },
+        {
+          "style": {
+            "height": 220,
+            "width": 380
+          },
+          "selectable": true,
+          "id": "video",
+          "type": "rh-video",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "label": "reference-single-motion.mp4",
+            "title": "reference-single-motion.mp4",
+            "status": "idle",
+            "width": 360,
+            "height": 270,
+            "sourceObjects": [
+              "rhtv-asset:video-asset"
+            ],
+            "subType": "text-video",
+            "fileName": "reference-single-motion.mp4",
+            "fileSize": 27490,
+            "mimeType": "video/mp4",
+            "duration": 6,
+            "videoWidth": 640,
+            "videoHeight": 480
+          }
+        },
+        {
+          "selectable": true,
+          "style": {
+            "width": 380,
+            "height": 220
+          },
+          "id": "n",
+          "type": "rh-video",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "label": "视频",
+            "title": "视频",
+            "status": "idle",
+            "prompt": "",
+            "params": {
+              "outputPreset": "landscape-480p-5s",
+              "imageUrls": "",
+              "videoUrls": ""
+            },
+            "modelCode": "h3-motion-transfer-v1",
+            "generateNum": 1,
+            "subType": "video-video",
+            "maxConnect": {
+              "image": null,
+              "text": null,
+              "video": null
+            },
+            "capabilityRef": "h3-motion-transfer-v1",
+            "capabilityVersion": "1",
+            "parameterSchemaVersion": "1"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "type": "default",
+          "id": "e-image-n",
+          "source": "image",
+          "target": "n",
+          "sourceHandle": "output",
+          "targetHandle": "input"
+        },
+        {
+          "type": "default",
+          "id": "e-video-n",
+          "source": "video",
+          "target": "n",
+          "sourceHandle": "output",
+          "targetHandle": "input"
+        }
+      ]
+    },
+    "local": {
+      "nodes": [
+        {
+          "style": {
+            "height": 360,
+            "width": 480
+          },
+          "selectable": true,
+          "id": "image",
+          "type": "rh-image",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "label": "reference-single-person.png",
+            "title": "reference-single-person",
+            "status": "idle",
+            "width": 480,
+            "height": 360,
+            "sourceObjects": [
+              "rhtv-asset:image-asset"
+            ],
+            "aspectRatio": "16:9",
+            "subType": "text-image"
+          }
+        },
+        {
+          "style": {
+            "height": 220,
+            "width": 380
+          },
+          "selectable": true,
+          "id": "video",
+          "type": "rh-video",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "label": "reference-single-motion.mp4",
+            "title": "reference-single-motion.mp4",
+            "status": "idle",
+            "width": 360,
+            "height": 270,
+            "sourceObjects": [
+              "rhtv-asset:video-asset"
+            ],
+            "subType": "text-video",
+            "fileName": "reference-single-motion.mp4",
+            "fileSize": 27490,
+            "mimeType": "video/mp4",
+            "duration": 6,
+            "videoWidth": 640,
+            "videoHeight": 480
+          }
+        },
+        {
+          "selectable": true,
+          "style": {
+            "width": 380,
+            "height": 220
+          },
+          "id": "n",
+          "type": "rh-video",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "label": "视频",
+            "title": "视频",
+            "status": "idle",
+            "prompt": "",
+            "params": {
+              "outputPreset": "landscape-480p-5s",
+              "imageUrls": "",
+              "videoUrls": ""
+            },
+            "modelCode": "h3-motion-transfer-v1",
+            "generateNum": 1,
+            "subType": "video-video",
+            "maxConnect": {
+              "image": null,
+              "text": null,
+              "video": null
+            },
+            "capabilityRef": "h3-motion-transfer-v1",
+            "capabilityVersion": "1",
+            "parameterSchemaVersion": "1"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "type": "default",
+          "id": "e-image-n",
+          "source": "image",
+          "target": "n",
+          "sourceHandle": "output",
+          "targetHandle": "input"
+        },
+        {
+          "type": "default",
+          "id": "e-video-n",
+          "source": "video",
+          "target": "n",
+          "sourceHandle": "output",
+          "targetHandle": "input"
+        }
+      ]
+    }
+  },
+  "nativeAfterReject": {
+    "nodes": [
+      {
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true,
+        "id": "image",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-person.png",
+          "title": "reference-single-person",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image-asset"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        }
+      },
+      {
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true,
+        "id": "video",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "reference-single-motion.mp4",
+          "title": "reference-single-motion.mp4",
+          "status": "idle",
+          "width": 360,
+          "height": 270,
+          "sourceObjects": [
+            "rhtv-asset:video-asset"
+          ],
+          "subType": "text-video",
+          "fileName": "reference-single-motion.mp4",
+          "fileSize": 27490,
+          "mimeType": "video/mp4",
+          "duration": 6,
+          "videoWidth": 640,
+          "videoHeight": 480
+        }
+      },
+      {
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "selectable": true,
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "",
+          "params": {
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": [
+              "rhtv-asset:image-asset"
+            ],
+            "videoUrls": [
+              "rhtv-asset:video-asset"
+            ],
+            "prompt": "",
+            "text": ""
+          },
+          "modelCode": "h3-motion-transfer-v1",
+          "generateNum": 1,
+          "subType": "video-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "modelType": "OPENAPI"
+        },
+        "style": {
+          "width": 380,
+          "height": 220
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "e-image-n",
+        "source": "image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      },
+      {
+        "type": "default",
+        "id": "e-video-n",
+        "source": "video",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  }
+}

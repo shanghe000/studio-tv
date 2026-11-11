@@ -1,0 +1,21 @@
+{
+  "listen_host": "192.0.2.10",
+  "listen_port": 18885,
+  "poll_interval_seconds": 15,
+  "http": {
+    "studio_api_health": {"url": "http://127.0.0.1:18881/healthz", "validator": "json"},
+    "studio_api_ready": {"url": "http://127.0.0.1:18881/readyz", "validator": "ready"},
+    "studio_web": {"url": "http://192.0.2.10:18880/projects/", "validator": "studio_web"},
+    "router_health": {"url": "http://127.0.0.1:18882/healthz", "validator": "json"},
+    "router_ready": {"url": "http://127.0.0.1:18882/readyz", "validator": "json"},
+    "h3_health": {"url": "http://127.0.0.1:16009/health", "validator": "json"},
+    "h3_ready": {"url": "http://127.0.0.1:16009/v1/health", "validator": "h3", "token_file": "/run/generation-secrets/h3_api_key"}
+  },
+  "ssh": {
+    "target": "root@gpu.example.invalid",
+    "port": 21292,
+    "timeout_seconds": 8,
+    "identity_file": "/run/generation-secrets/monitor_ed25519",
+    "known_hosts_file": "/run/generation-secrets/known_hosts"
+  }
+}

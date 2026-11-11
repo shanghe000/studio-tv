@@ -1,0 +1,1363 @@
+{
+  "openapi": "3.1.1",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Studio TV implemented direct canvas Agent run slice",
+    "version": "0.1.0",
+    "description": "IMPLEMENTED optional direct Agent service, enabled only with a configured independently isolated runtime and explicit validated fixed profile. New routes preserve legacy assistant/conversations/.../runs and frozen v1. No live paid model acceptance or deployment is implied by unit/protocol tests."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "x-implementation-stage": "IMPLEMENTED",
+  "x-related-design": "../docs/agent-api-and-live-canvas-design.md",
+  "x-profile-version": "studio-agent-tools-v1",
+  "x-implemented-subset": {
+    "capability": "codex-6-1-text-v1@2",
+    "efforts": [
+      "low",
+      "high"
+    ],
+    "history": "Owned persisted TEXT USER/ASSISTANT, max100 messages/512KB; media and structured inputs unsupported.",
+    "tools": [
+      "studio_canvas_read",
+      "studio_canvas_patch",
+      "studio_model_list",
+      "studio_node_run",
+      "studio_task_read",
+      "studio_task_cancel"
+    ],
+    "canvasRead": "Bounded explicit canvas.Context projection (100 nodes/200 edges, 1200 runes per selected text), no hidden native sidecars or signed links.",
+    "taskRead": "Optional waitSeconds integer0..20, default10; normal user Bearer GET per poll, live reauthorization each time; generation worker is independent.",
+    "durability": "Immutable owner/session/conversation/project binding and prompt/tool/profile/canonical request hashes; one active conversation; fenced leases; run+native call uniqueness; stable UUID downstream keys and terminal receipts.",
+    "auth": "Bearer kept only in service memory, never model/prompt/log/workspace/database. On restart WAITING_FOR_AUTH; refresh cannot change local sid. Live expiry pauses same callback retaining lease.",
+    "recovery": "Completed durable receipts may reconcile only exact actual native terminal snapshot; unknown submission never starts another model turn. Pending native turn after process crash may become UNKNOWN conservatively.",
+    "budget": "Default10min deadline,32 calls,2 independent workers; bounded configurable deployment limits.",
+    "notImplemented": [
+      "Workflow/group execution tools",
+      "undo",
+      "generic HTTP/shell/files/browser tools",
+      "media/STRUCTURED Agent history",
+      "Ultra/sub-agent runtime profile",
+      "cross-replica shared credential routing"
+    ]
+  },
+  "paths": {
+    "/api/v2/agent-capabilities": {
+      "get": {
+        "operationId": "getAgentCapabilities",
+        "summary": "Discover configured, validated direct Agent selection",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Disabled returns enabled=false/toolExecutionAvailable=false and empty capabilities. First profile supports text-only saved history; media/STRUCTURED history fails closed. No catalog/model generation call is submitted.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDiscoveryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        }
+      }
+    },
+    "/api/v2/conversations/{id}/agent-runs": {
+      "post": {
+        "operationId": "createAgentRun",
+        "summary": "Accept one durable canvas-bound Agent run",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Requires persisted owned USER message and owned CANVAS conversation. Only one active run/task per conversation. Stable create receipt freezes parent session, capability, prompt/tool hashes and canvas revision; stale revision is 412.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConversationId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAgentRun"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listActiveAgentRuns",
+        "summary": "Recover current owned conversation Agent run",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConversationId"
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "required": true,
+            "schema": {
+              "const": "active"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{id}": {
+      "get": {
+        "operationId": "getAgentRun",
+        "summary": "Read owned persisted Agent state",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Owner may read a run from a prior session. ETag reflects credentialEpoch, not canvas revision.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{id}/cancel": {
+      "post": {
+        "operationId": "cancelAgentRun",
+        "summary": "Stop new Agent tool operations",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Owner may cancel a run from a prior session. Committed canvas changes and accepted generation tasks remain truthful durable evidence; cancellation is not undo.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyObject"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{id}/auth-context": {
+      "get": {
+        "operationId": "getAgentAuthContext",
+        "summary": "Read same-session credentialEpoch metadata",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Requires same verified owner and parent local sid. No credential is returned. ETag carries credentialEpoch.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateAgentAuthContext",
+        "summary": "Install refreshed same-session Bearer in private memory",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Token only in Authorization header, never body. Same owner/sid only, verified iat/exp cannot regress. Same token replay is unchanged; metadata expired at min JWT exp/session expiry/run deadline. Live paused native callback resumes within same turn; process restart reconciles private checkpoint without resubmitting a model turn.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyObject"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/agent/tools": {
+      "get": {
+        "operationId": "getAgentTools",
+        "summary": "Read fixed typed STUDIO tool registry",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Run must belong to current user. No generic HTTP proxy/call route or native runtime management route exists.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentToolsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{id}/events": {
+      "get": {
+        "operationId": "getAgentRunEvents",
+        "summary": "Replay durable Agent events or bounded authenticated SSE",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "JSON by default. Accept only text/event-stream for SSE; after/Last-Event-ID must agree. Decimal string sequences are independent of canvas events. SSE uses up to 25 seconds/200 events, 2 connections per owner and 64 per process; frozen JWT/session expiry, live authorization before every batch, write deadline and no buffering. stream.error has no cursor. message.delta emits only full terminal-verified reply snapshot; tool notices contain stable operation UUID, registered tool name and actual status, never native call/thread/turn or Bearer.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          },
+          {
+            "$ref": "#/components/parameters/After"
+          },
+          {
+            "$ref": "#/components/parameters/LastEventId"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentEventPageResponse"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "id: 3\nevent: tool.completed\ndata: {\"runId\":\"agr_example\",\"sequence\":\"3\",\"type\":\"tool.completed\",\"data\":{\"callId\":\"UUID\",\"toolName\":\"studio_canvas_read\",\"success\":true,\"status\":200},\"occurredAt\":\"2026-10-07T00:00:00Z\"}\n\n"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{projectId}/canvas-executions": {
+      "post": {
+        "operationId": "submitCanvasExecution",
+        "summary": "Queue one server-snapshot node execution",
+        "x-implementation-stage": "IMPLEMENTED",
+        "description": "Reads owned server graph; no client graph or query accepted. Exact server capability/schema/parameters and PromptSpec are frozen; dependency closure is bounded by 500 nodes/2000 edges. Durable stable-key replay and canvas CAS; async execution and verified background result writeback share existing execution workers. GROUP/CANVAS targets are unsupported.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Actual persisted result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CanvasTaskAcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unknown request fields."
+          },
+          "401": {
+            "description": "Current login credential required."
+          },
+          "403": {
+            "description": "Live tv.access rejected."
+          },
+          "404": {
+            "description": "Owned resource not found."
+          },
+          "409": {
+            "description": "Active conversation, idempotency conflict, credential regression or AGENT_PARENT_SESSION_MISMATCH; a new session cannot adopt an old run."
+          },
+          "412": {
+            "description": "Canvas revision or credentialEpoch conflict."
+          },
+          "413": {
+            "description": "Request body exceeds bounds."
+          },
+          "428": {
+            "description": "Required If-Match missing."
+          },
+          "501": {
+            "description": "Configured and validated Agent runtime/selected capability unavailable; no model/tool invocation submitted."
+          },
+          "503": {
+            "description": "Retryable storage or live authorization unavailable."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CanvasExecutionTarget"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "parameters": {
+      "ConversationId": {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        }
+      },
+      "RunId": {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        }
+      },
+      "ProjectId": {
+        "in": "path",
+        "name": "projectId",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        }
+      },
+      "IdempotencyKey": {
+        "in": "header",
+        "name": "Idempotency-Key",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "IfMatch": {
+        "in": "header",
+        "name": "If-Match",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^\"[1-9][0-9]*\"$"
+        }
+      },
+      "After": {
+        "in": "query",
+        "name": "after",
+        "schema": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "default": "0"
+        }
+      },
+      "LastEventId": {
+        "in": "header",
+        "name": "Last-Event-ID",
+        "schema": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        }
+      },
+      "Limit": {
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 100
+        }
+      }
+    },
+    "schemas": {
+      "AgentParameters": {
+        "type": "object",
+        "properties": {
+          "reasoningEffort": {
+            "type": "string",
+            "enum": [
+              "low",
+              "high"
+            ],
+            "default": "low"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentRun": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "conversationId",
+          "projectId",
+          "messageId",
+          "capabilityRef",
+          "capabilityVersion",
+          "parameters",
+          "expectedRevision",
+          "state",
+          "assistantMessageId",
+          "credentialEpoch",
+          "errorCode",
+          "toolCount",
+          "usage",
+          "createdAt",
+          "updatedAt",
+          "deadline",
+          "authExpiresAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^agr_[0-9a-f]{32}$"
+          },
+          "kind": {
+            "const": "AGENT"
+          },
+          "conversationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+          },
+          "projectId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+          },
+          "messageId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+          },
+          "capabilityRef": {
+            "const": "codex-6-1-text-v1"
+          },
+          "capabilityVersion": {
+            "const": "2"
+          },
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "reasoningEffort": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "high"
+                ],
+                "default": "low"
+              }
+            },
+            "additionalProperties": false
+          },
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "state": {
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "WAITING_FOR_AUTH",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELED",
+              "TIMED_OUT",
+              "UNKNOWN"
+            ]
+          },
+          "assistantMessageId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "credentialEpoch": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]*$"
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "toolCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "usage": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "authExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentRunResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AgentRun"
+          }
+        }
+      },
+      "CreateAgentRun": {
+        "type": "object",
+        "required": [
+          "messageId",
+          "capabilityRef",
+          "capabilityVersion",
+          "parameters",
+          "expectedRevision"
+        ],
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+          },
+          "capabilityRef": {
+            "const": "codex-6-1-text-v1"
+          },
+          "capabilityVersion": {
+            "const": "2"
+          },
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "reasoningEffort": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "high"
+                ],
+                "default": "low"
+              }
+            },
+            "additionalProperties": false
+          },
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmptyObject": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AgentRunListResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "records",
+              "items"
+            ],
+            "properties": {
+              "records": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AgentRun"
+                }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AgentRun"
+                }
+              }
+            }
+          }
+        }
+      },
+      "AgentEvent": {
+        "type": "object",
+        "required": [
+          "runId",
+          "sequence",
+          "type",
+          "data",
+          "occurredAt"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+          },
+          "sequence": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]*$"
+          },
+          "type": {
+            "enum": [
+              "run.state.changed",
+              "tool.started",
+              "tool.completed",
+              "tool.failed",
+              "message.delta",
+              "task.linked"
+            ]
+          },
+          "data": {
+            "type": "object"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgentEventPageResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "items",
+              "nextCursor",
+              "terminal"
+            ],
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/components/schemas/AgentEvent"
+                }
+              },
+              "nextCursor": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              },
+              "terminal": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "AgentDiscoveryResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "enabled",
+              "version",
+              "toolExecutionAvailable",
+              "capabilities"
+            ],
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "version": {
+                "const": "1"
+              },
+              "toolExecutionAvailable": {
+                "type": "boolean"
+              },
+              "capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "capabilityRef",
+                    "capabilityVersion",
+                    "parameterSchemaVersion",
+                    "parameterSchema",
+                    "inputKinds",
+                    "historyTextOnly"
+                  ],
+                  "properties": {
+                    "capabilityRef": {
+                      "const": "codex-6-1-text-v1"
+                    },
+                    "capabilityVersion": {
+                      "const": "2"
+                    },
+                    "version": {
+                      "const": "2"
+                    },
+                    "parameterSchemaVersion": {
+                      "const": "2"
+                    },
+                    "parameterSchema": {
+                      "type": "object"
+                    },
+                    "inputKinds": {
+                      "const": [
+                        "TEXT"
+                      ]
+                    },
+                    "historyTextOnly": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "AgentToolsResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "schemaVersion",
+              "toolSchemaHash",
+              "available",
+              "items"
+            ],
+            "properties": {
+              "schemaVersion": {
+                "const": "1"
+              },
+              "toolSchemaHash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "available": {
+                "type": "boolean"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "description",
+                    "inputSchema",
+                    "operationId",
+                    "version"
+                  ],
+                  "properties": {
+                    "name": {
+                      "enum": [
+                        "studio_canvas_read",
+                        "studio_canvas_patch",
+                        "studio_model_list",
+                        "studio_node_run",
+                        "studio_task_read",
+                        "studio_task_cancel"
+                      ]
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "inputSchema": {
+                      "type": "object"
+                    },
+                    "operationId": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "const": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "CanvasExecutionTarget": {
+        "type": "object",
+        "required": [
+          "target"
+        ],
+        "properties": {
+          "target": {
+            "type": "object",
+            "required": [
+              "type",
+              "id"
+            ],
+            "properties": {
+              "type": {
+                "const": "NODE"
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "CanvasTaskAcceptedResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "description": "Existing execution task DTO, with actual id/taskId, state, revision and frozen plans. Acceptance does not claim provider completion."
+          }
+        }
+      }
+    }
+  }
+}

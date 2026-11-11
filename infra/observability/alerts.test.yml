@@ -1,0 +1,243 @@
+rule_files:
+  - alerts.yml
+evaluation_interval: 15s
+tests:
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api",instance="api:9090"}'
+        values: '0x20'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: STUDIOTVAPIDown
+        exp_alerts: []
+      - eval_time: 2m
+        alertname: STUDIOTVAPIDown
+        exp_alerts:
+          - exp_labels:
+              job: studiotv-api
+              instance: api:9090
+              severity: critical
+            exp_annotations:
+              summary: Studio TV API 指标接口连续两分钟不可达
+              description: 检查 API 容器、独立指标监听和 Compose 网络；此规则不证明业务接口全部不可用。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api"}'
+        values: '1x80'
+      - series: 'studiotv_http_requests_total{job="studiotv-api",status_class="5xx"}'
+        values: '0+1x80'
+      - series: 'studiotv_http_requests_total{job="studiotv-api",status_class="2xx"}'
+        values: '0+1x80'
+    alert_rule_test:
+      - eval_time: 4m
+        alertname: STUDIOTVHighHTTP5xxRatio
+        exp_alerts: []
+      - eval_time: 10m
+        alertname: STUDIOTVHighHTTP5xxRatio
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+            exp_annotations:
+              summary: Studio TV API 五分钟窗口的 5xx 比例持续超过 5%
+              description: 窗口内至少二十个请求才触发，排除低流量单次错误；按路由面板和日志ID定位原因。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api"}'
+        values: '1x80'
+      - series: 'studiotv_http_requests_total{job="studiotv-api",status_class="5xx"}'
+        values: '0+0.01x80'
+      - series: 'studiotv_http_requests_total{job="studiotv-api",status_class="2xx"}'
+        values: '0+0.01x80'
+    alert_rule_test:
+      - eval_time: 20m
+        alertname: STUDIOTVHighHTTP5xxRatio
+        exp_alerts: []
+  - interval: 15s
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: STUDIOTVAPITargetMissing
+        exp_alerts:
+          - exp_labels:
+              job: studiotv-api
+              severity: critical
+            exp_annotations:
+              summary: Studio TV API 抓取目标缺失
+              description: 检查 Prometheus 抓取配置是否仍包含 api:9090。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api"}'
+        values: '1x80'
+      - series: 'studiotv_db_pool_connections{job="studiotv-api",state="acquired"}'
+        values: '19x80'
+      - series: 'studiotv_db_pool_connections{job="studiotv-api",state="max"}'
+        values: '20x80'
+    alert_rule_test:
+      - eval_time: 4m
+        alertname: STUDIOTVDBPoolNearCapacity
+        exp_alerts: []
+      - eval_time: 5m
+        alertname: STUDIOTVDBPoolNearCapacity
+        exp_alerts:
+          - exp_labels:
+              job: studiotv-api
+              severity: warning
+            exp_annotations:
+              summary: Studio TV 数据库连接池占用持续超过 90%
+              description: 检查慢查询、并发请求和连接池等待；此规则只观测 API 连接池，不代表 PostgreSQL 整机连接数。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api"}'
+        values: '1x80'
+      - series: 'studiotv_http_request_duration_seconds_bucket{job="studiotv-api",route="/api/slow",le="1"}'
+        values: '0x80'
+      - series: 'studiotv_http_request_duration_seconds_bucket{job="studiotv-api",route="/api/slow",le="5"}'
+        values: '0+2x80'
+      - series: 'studiotv_http_request_duration_seconds_bucket{job="studiotv-api",route="/api/slow",le="+Inf"}'
+        values: '0+2x80'
+      - series: 'studiotv_http_request_duration_seconds_count{job="studiotv-api",route="/api/slow"}'
+        values: '0+2x80'
+    alert_rule_test:
+      - eval_time: 10m
+        alertname: STUDIOTVHighHTTPP95
+        exp_alerts: []
+      - eval_time: 15m
+        alertname: STUDIOTVHighHTTPP95
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+            exp_annotations:
+              summary: Studio TV 普通 API 的 P95 响应耗时持续超过两秒
+              description: 排除以 /events 结尾的事件流路由；普通请求包含鉴权、数据库和上游等待的端到端耗时。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api"}'
+        values: '1x80'
+      - series: 'studiotv_http_request_duration_seconds_bucket{job="studiotv-api",route="/api/v2/projects/{projectId}/events",le="1"}'
+        values: '0x80'
+      - series: 'studiotv_http_request_duration_seconds_bucket{job="studiotv-api",route="/api/v2/projects/{projectId}/events",le="60"}'
+        values: '0+100x80'
+      - series: 'studiotv_http_request_duration_seconds_bucket{job="studiotv-api",route="/api/v2/projects/{projectId}/events",le="+Inf"}'
+        values: '0+100x80'
+      - series: 'studiotv_http_request_duration_seconds_count{job="studiotv-api",route="/api/v2/projects/{projectId}/events"}'
+        values: '0+100x80'
+    alert_rule_test:
+      - eval_time: 20m
+        alertname: STUDIOTVHighHTTPP95
+        exp_alerts: []
+  - interval: 15s
+    input_series:
+      - series: 'up{job="generation-exporter",instance="host.docker.internal:18885"}'
+        values: '1x20'
+      - series: 'studiotv_generation_service_up{job="generation-exporter",instance="host.docker.internal:18885",service="h3_api"}'
+        values: '0x20'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: STUDIOTVGenerationServiceDown
+        exp_alerts: []
+      - eval_time: 2m
+        alertname: STUDIOTVGenerationServiceDown
+        exp_alerts:
+          - exp_labels:
+              job: generation-exporter
+              instance: host.docker.internal:18885
+              service: h3_api
+              severity: warning
+            exp_annotations:
+              summary: 生成链路服务心跳连续两分钟失败
+              description: 按 service 标签定位 STUDIO API、Web、Router、H3、ComfyUI 或 ART；检查私有隧道和执行端探针。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="generation-exporter",instance="host.docker.internal:18885"}'
+        values: '0x20'
+      - series: 'studiotv_generation_service_up{job="generation-exporter",instance="host.docker.internal:18885",service="h3_api"}'
+        values: '0x20'
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: STUDIOTVGenerationServiceDown
+        exp_alerts: []
+      - eval_time: 2m
+        alertname: STUDIOTVGenerationExporterDown
+        exp_alerts:
+          - exp_labels:
+              job: generation-exporter
+              instance: host.docker.internal:18885
+              severity: critical
+            exp_annotations:
+              summary: 生成服务监控采集器连续两分钟不可达
+              description: 队列缺测不能视为空队列；检查 generation-exporter 容器和 Prometheus 抓取配置。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api",instance="api:9090"}'
+        values: '1x30'
+      - series: 'studiotv_generation_queue_sampler_up{job="studiotv-api",instance="api:9090"}'
+        values: '0x30'
+      - series: 'studiotv_generation_queue_last_success_timestamp_seconds{job="studiotv-api",instance="api:9090"}'
+        values: '0x30'
+      - series: 'studiotv_generation_oldest_queued_age_seconds{job="studiotv-api",instance="api:9090",kind="canvas",capability_family="h3"}'
+        values: '1000x30'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: STUDIOTVGenerationQueueSampleUnavailable
+        exp_alerts:
+          - exp_labels:
+              job: studiotv-api
+              instance: api:9090
+              severity: warning
+            exp_annotations:
+              summary: STUDIO 生成队列采样失败或过期
+              description: 检查只读队列查询与数据库；保留的旧值不代表当前排队长度。
+      - eval_time: 6m
+        alertname: STUDIOTVGenerationQueueWaitLong
+        exp_alerts: []
+    promql_expr_test:
+      - expr: sum(studiotv_generation_tasks{job="studiotv-api",state="queued"} and on(job,instance) (studiotv_generation_queue_sampler_up{job="studiotv-api"} == 1))
+        eval_time: 1m
+        exp_samples: []
+  - interval: 15s
+    input_series:
+      - series: 'up{job="studiotv-api",instance="api:9090"}'
+        values: '1x30'
+      - series: 'studiotv_generation_queue_sampler_up{job="studiotv-api",instance="api:9090"}'
+        values: '1x30'
+      - series: 'studiotv_generation_queue_last_success_timestamp_seconds{job="studiotv-api",instance="api:9090"}'
+        values: '0+15x30'
+      - series: 'studiotv_generation_oldest_queued_age_seconds{job="studiotv-api",instance="api:9090",kind="canvas",capability_family="h3"}'
+        values: '1000x30'
+    alert_rule_test:
+      - eval_time: 4m
+        alertname: STUDIOTVGenerationQueueWaitLong
+        exp_alerts: []
+      - eval_time: 5m
+        alertname: STUDIOTVGenerationQueueWaitLong
+        exp_alerts:
+          - exp_labels:
+              job: studiotv-api
+              instance: api:9090
+              kind: canvas
+              capability_family: h3
+              severity: warning
+            exp_annotations:
+              summary: 生成任务等待超过十五分钟且持续五分钟
+              description: 按 kind 和 capability_family 查看主队列；单卡串行生成时此规则反映积压，不等同于服务故障。
+  - interval: 15s
+    input_series:
+      - series: 'up{job="generation-exporter",instance="host.docker.internal:18885"}'
+        values: '1x20'
+      - series: 'studiotv_generation_collector_last_poll_timestamp_seconds{job="generation-exporter",instance="host.docker.internal:18885"}'
+        values: '0+15x20'
+      - series: 'studiotv_generation_probe_success{job="generation-exporter",instance="host.docker.internal:18885",probe="h3_runtime"}'
+        values: '1x20'
+      - series: 'studiotv_generation_probe_success{job="generation-exporter",instance="host.docker.internal:18885",probe="h3_queue"}'
+        values: '0x20'
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: STUDIOTVGenerationH3RuntimeSampleUnavailable
+        exp_alerts:
+          - exp_labels:
+              job: generation-exporter
+              instance: host.docker.internal:18885
+              probe: h3_queue
+              severity: warning
+            exp_annotations:
+              summary: H3 执行端采样连续两分钟不可用
+              description: 检查专用受限 SSH 密钥、主机身份和执行端只读采样脚本；不使用旧队列数据补零。

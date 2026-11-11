@@ -1,0 +1,1 @@
+function t(t){const o=(t.split(/[?#]/)[0]??"").toLowerCase();return/\.(mp4|webm|mov|m4v|ogg|ogv|mkv|avi)(\s|$)/i.test(o)}function o(t){const o=(t.split(/[?#]/)[0]??"").toLowerCase();return/\.(mp3|wav|aac|m4a|ogg|flac|wma)(\s|$)/i.test(o)}export{o as a,t as i};

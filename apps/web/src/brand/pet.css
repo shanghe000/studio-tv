@@ -1,0 +1,86 @@
+/* Keep React's original layers mounted, with the Studio symbol above them. */
+.agent-fab[data-studio-pet] :is(.agent-fab__glow,.agent-fab__layer,.agent-fab__core,.agent-fab__eyes-follow) {display:none}
+.agent-fab[data-studio-pet] .agent-fab__body {transform:none!important}
+.agent-fab[data-studio-pet] .agent-fab__motion {animation:none!important;transform:none!important;transition:none!important;filter:none!important}
+
+.studio-pet-overlay {
+  --mark-fur-light:#ff963f;
+  --mark-fur:#ed580f;
+  --mark-fur-dark:#b93712;
+  --mark-tip-light:#ffe4ab;
+  --mark-tip:#ffc36b;
+  --mark-face:#fff9eb;
+  --mark-face-shade:#eed6b6;
+  --mark-ink:#9b381c;
+  --mark-accent:#ffc17c;
+  --mark-accent-rgb:255,193,124;
+  --mark-look-x:0px;
+  --mark-look-y:0px;
+  --mark-lean:0deg;
+  position:absolute;
+  left:calc(50% - 44px);
+  top:calc(50% - 44px);
+  width:88px;
+  height:108px;
+  display:block;
+  isolation:isolate;
+  color:var(--mark-face);
+  font-family:inherit;
+  pointer-events:none;
+  user-select:none;
+  animation:studio-mark-arrive .9s cubic-bezier(.16,1,.3,1) both;
+}
+.studio-pet-art {position:relative;display:block;width:132px;height:155px;transform:scale(.6666667);transform-origin:top left}
+.studio-pet-float,.studio-pet-lean {position:relative;display:block;width:132px;height:132px;z-index:2}
+.studio-pet-float {animation:studio-mark-float 4.8s ease-in-out infinite}
+.studio-pet-lean {transform:rotate(var(--mark-lean));transition:transform .18s ease-out}
+.studio-pet-artwork {display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 8px 8px #100d1840)}
+.studio-pet-tail {transform-origin:282px 294px;animation:studio-mark-tail 6s ease-in-out infinite}
+.studio-pet-head {transform:translate(calc(var(--mark-look-x) * .55),calc(var(--mark-look-y) * .45));transition:transform .12s}
+.studio-pet-gaze {transform:translate(var(--mark-look-x),var(--mark-look-y))}
+.studio-pet-eye {transform-box:fill-box;transform-origin:center;animation:studio-mark-blink 6.7s infinite}
+.studio-pet-blush {opacity:0;transition:opacity .3s}
+.studio-pet-aura {
+  position:absolute;top:2px;right:-12px;bottom:7px;left:-12px;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(var(--mark-accent-rgb),.11) 0%,rgba(var(--mark-accent-rgb),.045) 35%,transparent 68%);
+  transform:scale(1.15);animation:studio-mark-breathe 4.8s ease-in-out infinite;
+}
+.studio-pet-orbit {
+  position:absolute;left:4px;top:83px;width:125px;height:39px;
+  border:1px solid rgba(var(--mark-accent-rgb),.1);border-top-color:transparent;border-right-color:rgba(var(--mark-accent-rgb),.25);
+  border-radius:50%;transform:rotate(-18deg);transition:opacity .3s;
+}
+.studio-pet-orbit i {position:absolute;right:7px;top:2px;width:4px;height:4px;background:var(--mark-tip-light);border-radius:50%;box-shadow:0 0 9px rgba(var(--mark-accent-rgb),.5)}
+.studio-pet-shadow {position:absolute;left:36px;top:126px;width:66px;height:8px;border-radius:50%;background:#0f0c1280;filter:blur(4px);animation:studio-mark-shadow 4.8s ease-in-out infinite}
+.agent-fab[data-studio-pet]:hover .studio-pet-blush,.studio-pet-overlay.is-happy .studio-pet-blush {opacity:.65}
+.studio-pet-overlay.is-happy .studio-pet-float {animation:studio-mark-hop 1s cubic-bezier(.22,.8,.3,1)}
+.studio-pet-overlay.is-happy .studio-pet-tail {animation:studio-mark-wag .28s ease-in-out 3}
+.studio-pet-overlay.is-happy .studio-pet-eye {animation:none;transform:scaleY(.3)}
+.studio-pet-overlay.is-dragging .studio-pet-float {animation:none;transform:translateY(-8px) rotate(-9deg) scale(1.08)}
+.studio-pet-overlay.is-dragging .studio-pet-aura {transform:scale(1.55)}
+.studio-pet-overlay.is-asleep .studio-pet-eye {animation:none;transform:scaleY(.12)}
+.studio-pet-overlay.is-asleep :is(.studio-pet-gaze,.studio-pet-head) {transform:none}
+.studio-pet-overlay.is-asleep .studio-pet-lean {transform:rotate(-9deg)}
+.studio-pet-overlay.is-asleep .studio-pet-tail {animation-duration:9s}
+.studio-pet-overlay.is-asleep .studio-pet-orbit {opacity:.25}
+.studio-pet-sparks {position:absolute;left:66px;top:66px;z-index:4}
+.studio-pet-sparks i {position:absolute;font-style:normal;color:var(--mark-tip-light);font-size:20px;text-shadow:0 0 9px var(--mark-accent);animation:studio-mark-spark .95s var(--spark-delay) cubic-bezier(.15,.6,.3,1) both}
+.studio-pet-artwork stop {transition:stop-color .35s ease}
+.studio-pet-head path {transition:fill .35s,stroke .35s}
+.studio-pet-overlay.is-paused,.studio-pet-overlay.is-paused * {animation-play-state:paused!important}
+
+@keyframes studio-mark-arrive {0%{opacity:0;transform:translateY(40px) scale(.7)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes studio-mark-float {0%,to{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes studio-mark-tail {0%,to{transform:rotate(-2deg)}50%{transform:rotate(3deg)}}
+@keyframes studio-mark-blink {0%,42%,46%,72%,76%,to{transform:scaleY(1)}44%,74%{transform:scaleY(.1)}}
+@keyframes studio-mark-breathe {0%,to{opacity:.65}50%{opacity:1}}
+@keyframes studio-mark-shadow {0%,to{transform:scaleX(1);opacity:.7}50%{transform:scaleX(.75);opacity:.35}}
+@keyframes studio-mark-hop {0%,to{transform:translateY(0) scale(1)}15%{transform:translateY(4px) scale(1.08,.9)}45%{transform:translateY(-28px) rotate(-8deg) scale(.96,1.06)}70%{transform:translateY(1px) rotate(4deg) scale(1.08,.94)}}
+@keyframes studio-mark-wag {0%,to{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes studio-mark-spark {0%{opacity:0;transform:translate(0) scale(.3)}15%{opacity:1}to{opacity:0;transform:translate(var(--spark-x),var(--spark-y)) scale(.3) rotate(50deg)}}
+@media(prefers-reduced-motion:reduce) {
+  .studio-pet-overlay,.studio-pet-overlay * {animation:none!important;transition:none!important}
+  .studio-pet-sparks {display:none}
+  .studio-pet-lean,.studio-pet-gaze,.studio-pet-head {transform:none!important}
+}

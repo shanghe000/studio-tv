@@ -1,0 +1,283 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Studio TV internal IPAC authentication extension",
+    "version": "0.2.0",
+    "description": "Additive authentication implementation; frozen core v1 unchanged. Official IPAC client-kit OIDC with live authenticated SessionStatus verifies actual Feishu provenance and revocation. Business authorization is defined separately in authz-extension.json; deployment and real login require registered client and verified upstream service."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "paths": {
+    "/auth/config": {
+      "get": {
+        "operationId": "getLoginConfiguration",
+        "summary": "Read public Feishu login configuration",
+        "security": [],
+        "x-implementation-stage": "IMPLEMENTED",
+        "responses": {
+          "200": {
+            "description": "Configuration only; does not prove real upstream authentication. No secrets or issuer token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginConfigurationResponse"
+                },
+                "examples": {
+                  "ready": {
+                    "value": {
+                      "code": 0,
+                      "message": "OK",
+                      "requestId": "00000000-0000-4000-8000-000000000001",
+                      "data": {
+                        "provider": "IPAC_FEISHU",
+                        "configured": true,
+                        "loginUrl": "/api/v1/auth/feishu/login",
+                        "unavailableReason": null
+                      }
+                    }
+                  },
+                  "notConfigured": {
+                    "value": {
+                      "code": 0,
+                      "message": "OK",
+                      "requestId": "00000000-0000-4000-8000-000000000001",
+                      "data": {
+                        "provider": "IPAC_FEISHU",
+                        "configured": false,
+                        "loginUrl": "/api/v1/auth/feishu/login",
+                        "unavailableReason": "IPAC_NOT_CONFIGURED"
+                      }
+                    }
+                  },
+                  "upstreamUnavailable": {
+                    "value": {
+                      "code": 0,
+                      "message": "OK",
+                      "requestId": "00000000-0000-4000-8000-000000000001",
+                      "data": {
+                        "provider": "IPAC_FEISHU",
+                        "configured": false,
+                        "loginUrl": "/api/v1/auth/feishu/login",
+                        "unavailableReason": "IPAC_SESSION_STATUS_UNAVAILABLE"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/feishu/login": {
+      "get": {
+        "operationId": "beginIPACFeishuLogin",
+        "summary": "Begin Feishu-only IPAC OIDC transaction",
+        "security": [],
+        "x-implementation-stage": "IMPLEMENTED",
+        "parameters": [
+          {
+            "name": "returnTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "/projects/"
+            },
+            "description": "Same-site absolute path only; full external URLs, //, backslashes, CR/LF and authentication-loop returns rejected."
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect through IPAC dedicated Feishu start with OIDC authorize continuation. Server stores single-use state/nonce/PKCE transaction and sets opaque HttpOnly cookie.",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          },
+          "503": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          },
+          "default": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/feishu/callback": {
+      "get": {
+        "operationId": "completeIPACFeishuLogin",
+        "summary": "Consume and verify IPAC login callback",
+        "security": [],
+        "x-implementation-stage": "IMPLEMENTED",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "error",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "error_description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "303": {
+            "description": "Official SDK verifies OIDC, then live SessionStatus verifies matching Feishu subject/sid/version and expiry before creating the local session. Redirect to stored safe returnTo; access token never in redirect URL; refresh cookie HttpOnly.",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          },
+          "401": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          },
+          "403": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          },
+          "503": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          },
+          "default": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "refreshSessionAlias",
+        "summary": "Alias of frozen POST /auth/sessions/refresh",
+        "security": [],
+        "x-implementation-stage": "IMPLEMENTED",
+        "parameters": [
+          {
+            "$ref": "./openapi.json#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Same local session response as /auth/sessions/refresh; Origin and X-CSRF-Token required."
+          },
+          "default": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "logoutSessionAlias",
+        "summary": "Alias of frozen DELETE /auth/session",
+        "security": [],
+        "x-implementation-stage": "IMPLEMENTED",
+        "responses": {
+          "200": {
+            "description": "Origin and X-CSRF-Token required. Revokes the refresh-cookie session and, when supplied, the locally verified Bearer session matching its subject. Local revocation does not require upstream availability. Does not log out other IPAC applications."
+          },
+          "default": {
+            "$ref": "./openapi.json#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginConfiguration": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "const": "IPAC_FEISHU"
+          },
+          "configured": {
+            "type": "boolean",
+            "description": "True only after the authenticated unknown-session readiness probe confirms the deployed IPAC SessionStatus protocol. This does not authenticate the current user or grant business permission."
+          },
+          "loginUrl": {
+            "const": "/api/v1/auth/feishu/login"
+          },
+          "unavailableReason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "IPAC_NOT_CONFIGURED",
+              "IPAC_SESSION_STATUS_UNAVAILABLE",
+              null
+            ],
+            "description": "Missing backend configuration or temporary upstream SessionStatus protocol/credential failure; no secrets or internal error details."
+          }
+        },
+        "required": [
+          "provider",
+          "configured",
+          "loginUrl",
+          "unavailableReason"
+        ],
+        "additionalProperties": false
+      },
+      "LoginConfigurationResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoginConfiguration"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

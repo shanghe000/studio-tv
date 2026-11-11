@@ -1,0 +1,865 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://studiotv.local/contracts/generation-diagnostics-extension.schema.json",
+  "title": "Generation diagnostics extension — IMPLEMENTED",
+  "description": "POST /api/v2/generation-diagnostics; bounded client evidence only, never raw parameter values. Body maximum 16 KiB. Server also checks minimum <= maximum.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "projectId",
+    "nodeId",
+    "errorCode"
+  ],
+  "properties": {
+    "projectId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$",
+      "maxLength": 160
+    },
+    "nodeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$",
+      "maxLength": 160
+    },
+    "errorCode": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]{0,63}$",
+      "maxLength": 64
+    },
+    "sceneCode": {
+      "type": "string",
+      "pattern": "^canvas-[A-Za-z0-9_.:-]*$",
+      "maxLength": 160
+    },
+    "preflight": {
+      "$ref": "#/$defs/preflight"
+    },
+    "relatedRequestId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
+    "clientSnapshot": {
+      "$ref": "#/$defs/clientSnapshot"
+    }
+  },
+  "$defs": {
+    "preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "capabilityRef": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$",
+          "maxLength": 160
+        },
+        "capabilityVersion": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$",
+          "maxLength": 100
+        },
+        "requestedKind": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]{0,63}$",
+          "maxLength": 64
+        },
+        "inputKinds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "TEXT",
+              "STRUCTURED",
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "UNKNOWN"
+            ]
+          },
+          "maxItems": 6,
+          "uniqueItems": true
+        },
+        "issues": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/preflightIssue"
+          }
+        },
+        "sync": {
+          "$ref": "#/$defs/preflightSync"
+        }
+      }
+    },
+    "preflightIssue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field",
+        "reason"
+      ],
+      "properties": {
+        "field": {
+          "enum": [
+            "model.kind",
+            "output.kind",
+            "inputs.kind",
+            "inputs.command",
+            "inputs.snapshot",
+            "references.kind",
+            "references.count",
+            "references.total",
+            "references.visual",
+            "references.any",
+            "references.upload",
+            "media.byteSize",
+            "media.durationMs",
+            "media.totalDurationMs",
+            "media.width",
+            "media.height",
+            "media.pixels",
+            "parameters"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "KIND_UNSUPPORTED",
+            "KIND_MISMATCH",
+            "OUTPUT_UNSUPPORTED",
+            "REFERENCE_FORBIDDEN",
+            "COUNT_EXCEEDED",
+            "COUNT_REQUIRED",
+            "REFERENCE_REQUIRED",
+            "UPLOAD_PENDING",
+            "UPLOAD_FAILED",
+            "MAXIMUM_EXCEEDED",
+            "MINIMUM_NOT_MET",
+            "METADATA_MISSING",
+            "PARAMETER_INVALID",
+            "MODEL_UNAVAILABLE",
+            "MODEL_VERSION_CHANGED",
+            "COMMAND_MISMATCH",
+            "INPUT_CHANGED"
+          ]
+        },
+        "component": {
+          "enum": [
+            "MODEL",
+            "PROMPT",
+            "REFERENCES",
+            "PARAMETERS",
+            "PRESETS",
+            "HISTORY",
+            "OUTPUT",
+            "TOPOLOGY",
+            "IDENTITY",
+            "PERMISSIONS",
+            "METADATA"
+          ]
+        },
+        "inputKind": {
+          "enum": [
+            "TEXT",
+            "STRUCTURED",
+            "IMAGE",
+            "VIDEO",
+            "AUDIO",
+            "UNKNOWN"
+          ]
+        },
+        "inputIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9999
+        },
+        "assetId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$",
+          "maxLength": 160
+        },
+        "sourceNodeId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$",
+          "maxLength": 160
+        },
+        "actual": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expected": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "minimum": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "maximum": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedKinds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "TEXT",
+              "STRUCTURED",
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "UNKNOWN"
+            ]
+          },
+          "maxItems": 6,
+          "uniqueItems": true
+        },
+        "parameterPath": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "outputPreset",
+                  "count",
+                  "transparentBackground",
+                  "reasoningEffort",
+                  "reasoning_effort",
+                  "seed",
+                  "width",
+                  "height",
+                  "aspectRatio",
+                  "steps",
+                  "guidanceScale",
+                  "cfgScale",
+                  "cfg",
+                  "strength",
+                  "denoise",
+                  "sampler",
+                  "scheduler",
+                  "quality",
+                  "format",
+                  "background",
+                  "mode",
+                  "prompt",
+                  "text",
+                  "voice",
+                  "voiceId",
+                  "language",
+                  "speed",
+                  "pitch",
+                  "volume",
+                  "temperature",
+                  "topP",
+                  "topK",
+                  "maxTokens",
+                  "maxOutputTokens",
+                  "maxCompletionTokens",
+                  "minP",
+                  "presencePenalty",
+                  "frequencyPenalty",
+                  "stop",
+                  "generateAudio",
+                  "returnLastFrame",
+                  "subjectMapping",
+                  "referenceSubjectIndex",
+                  "sourceSubjectIndex",
+                  "duration",
+                  "durationSeconds",
+                  "fps",
+                  "resolution",
+                  "numFrames",
+                  "batchSize",
+                  "numImages",
+                  "guidance",
+                  "style",
+                  "enabled"
+                ]
+              },
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9999
+              }
+            ]
+          }
+        },
+        "parameterRule": {
+          "enum": [
+            "required",
+            "type",
+            "enum",
+            "const",
+            "minimum",
+            "maximum",
+            "multipleOf",
+            "minLength",
+            "maxLength",
+            "pattern",
+            "minItems",
+            "maxItems",
+            "uniqueItems",
+            "additionalProperties",
+            "forbidden",
+            "anyOf",
+            "oneOf",
+            "not",
+            "contains",
+            "minProperties",
+            "maxProperties",
+            "unsupportedSchema",
+            "complexity"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "parameterPath"
+                ]
+              },
+              {
+                "required": [
+                  "parameterRule"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "field": {
+                "const": "parameters"
+              },
+              "reason": {
+                "const": "PARAMETER_INVALID"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "preflightSync": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blockedReason"
+      ],
+      "properties": {
+        "blockedReason": {
+          "enum": [
+            "MERGE_CONFLICT",
+            "BASE_UNKNOWN",
+            "CAS_UNCERTAIN"
+          ]
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "conflicts": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/preflightSyncConflict"
+          }
+        }
+      }
+    },
+    "preflightSyncConflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reason",
+        "component"
+      ],
+      "properties": {
+        "reason": {
+          "enum": [
+            "FIELD_CHANGED",
+            "DELETE_EDIT",
+            "MODEL_PARAMETERS",
+            "GROUP_POSITION",
+            "DANGLING_REFERENCE",
+            "BASE_UNKNOWN"
+          ]
+        },
+        "component": {
+          "enum": [
+            "MODEL",
+            "PROMPT",
+            "REFERENCES",
+            "PARAMETERS",
+            "PRESETS",
+            "HISTORY",
+            "OUTPUT",
+            "TOPOLOGY",
+            "IDENTITY",
+            "PERMISSIONS",
+            "METADATA"
+          ]
+        },
+        "sourceNodeId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$",
+          "maxLength": 160
+        }
+      }
+    },
+    "clientSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "phase",
+        "control",
+        "targetType",
+        "nodeCount",
+        "edgeCount",
+        "incoming",
+        "outgoing",
+        "children",
+        "nodes",
+        "links"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "phase": {
+          "enum": [
+            "READINESS",
+            "PREPARE",
+            "SYNC",
+            "SUBMIT"
+          ]
+        },
+        "control": {
+          "enum": [
+            "COMMAND",
+            "GENERATE",
+            "RETRY",
+            "GROUP",
+            "SHORTCUT",
+            "MEDIA"
+          ]
+        },
+        "targetType": {
+          "enum": [
+            "NODE",
+            "GROUP",
+            "CANVAS"
+          ]
+        },
+        "nodeCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "edgeCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "incoming": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "outgoing": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "children": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "target": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "commandNodes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "commandEdges": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "pendingSync": {
+          "type": "boolean"
+        },
+        "syncBlocked": {
+          "type": "boolean"
+        },
+        "syncBusy": {
+          "type": "boolean"
+        },
+        "nodes": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/snapshotNode"
+          }
+        },
+        "links": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source",
+              "target"
+            ],
+            "properties": {
+              "source": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              },
+              "target": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              }
+            }
+          }
+        },
+        "source": {
+          "enum": [
+            "MOUNTED",
+            "COMMAND"
+          ]
+        },
+        "dom": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "host",
+            "generateVisible"
+          ],
+          "properties": {
+            "host": {
+              "type": "boolean"
+            },
+            "draggable": {
+              "type": "boolean"
+            },
+            "dragging": {
+              "type": "boolean"
+            },
+            "selected": {
+              "type": "boolean"
+            },
+            "busyOverlay": {
+              "type": "boolean"
+            },
+            "cancelVisible": {
+              "type": "boolean"
+            },
+            "generateVisible": {
+              "type": "boolean"
+            },
+            "generateDisabled": {
+              "type": "boolean"
+            },
+            "controlAriaDisabled": {
+              "type": "boolean"
+            },
+            "readOnly": {
+              "type": "boolean"
+            },
+            "group": {
+              "type": "boolean"
+            }
+          }
+        },
+        "projection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mountedTarget",
+            "commandTarget",
+            "orderChanged",
+            "mountedMaxConnect",
+            "commandMaxConnect",
+            "mountedInputs",
+            "commandInputs",
+            "addedSources",
+            "removedSources"
+          ],
+          "properties": {
+            "mountedTarget": {
+              "type": "boolean"
+            },
+            "commandTarget": {
+              "type": "boolean"
+            },
+            "orderChanged": {
+              "type": "boolean"
+            },
+            "mountedMaxConnect": {
+              "enum": [
+                "ABSENT",
+                "ALL_NULL",
+                "LIMITED",
+                "OTHER"
+              ]
+            },
+            "commandMaxConnect": {
+              "enum": [
+                "ABSENT",
+                "ALL_NULL",
+                "LIMITED",
+                "OTHER"
+              ]
+            },
+            "mountedInputs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "commandInputs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "addedSources": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "removedSources": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            }
+          }
+        },
+        "click": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "visible",
+            "disabled"
+          ],
+          "properties": {
+            "visible": {
+              "type": "boolean"
+            },
+            "disabled": {
+              "type": "boolean"
+            },
+            "ariaDisabled": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "click"
+            ]
+          },
+          "then": {
+            "properties": {
+              "control": {
+                "enum": [
+                  "GENERATE",
+                  "RETRY",
+                  "SHORTCUT",
+                  "GROUP"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "snapshotNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "kind",
+        "outputs",
+        "sources",
+        "presets"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "rh-image",
+            "rh-video",
+            "rh-audio",
+            "rh-text",
+            "rh-script",
+            "rh-storyboard",
+            "rh-group",
+            "group",
+            "rh-role",
+            "rh-scene",
+            "rh-entity",
+            "rh-ai",
+            "rh-video-analysis",
+            "rh-remake-request",
+            "rh-video-remake",
+            "rh-director",
+            "rh-comment",
+            "rh-world",
+            "rh-w3d",
+            "rh-fastcut",
+            "unknown"
+          ]
+        },
+        "tool": {
+          "enum": [
+            "IMAGE_PORTRAIT",
+            "IMAGE_EXPRESSION",
+            "IMAGE_POSE",
+            "IMAGE_IMAGE",
+            "IMAGE_LIGHT",
+            "IMAGE_MULTIANGLE",
+            "IMAGE_CUTOUT_TEXT",
+            "IMAGE_REDRAW",
+            "IMAGE_ERASE",
+            "IMAGE_ENHANCE",
+            "GRID_CROP",
+            "VIDEO_AUDIO",
+            "IMAGE_CUTOUT",
+            "IMAGE_EXPAND"
+          ]
+        },
+        "status": {
+          "enum": [
+            "idle",
+            "pending",
+            "queued",
+            "uploading",
+            "generating",
+            "running",
+            "finished",
+            "success",
+            "succeeded",
+            "failed",
+            "error",
+            "canceled",
+            "cancelled"
+          ]
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "outputs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "sources": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "presets": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "parent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "selected": {
+          "type": "boolean"
+        },
+        "draggable": {
+          "type": "boolean"
+        },
+        "selectable": {
+          "type": "boolean"
+        },
+        "parentExtent": {
+          "type": "boolean"
+        },
+        "upload": {
+          "type": "boolean"
+        },
+        "portraitResult": {
+          "type": "boolean"
+        },
+        "poseReference": {
+          "type": "boolean"
+        },
+        "promptHidden": {
+          "type": "boolean"
+        },
+        "generating": {
+          "type": "boolean"
+        },
+        "hasTask": {
+          "type": "boolean"
+        },
+        "hasModel": {
+          "type": "boolean"
+        },
+        "historySelected": {
+          "type": "boolean"
+        },
+        "x": {
+          "type": "integer",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "y": {
+          "type": "integer",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "historyCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "dragging": {
+          "type": "boolean"
+        },
+        "parentMismatch": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "dependentRequired": {
+    "relatedRequestId": [
+      "clientSnapshot"
+    ]
+  }
+}

@@ -1,0 +1,3504 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Studio TV Organization Product Extension",
+    "version": "1.0.0",
+    "description": "Implemented owner-scoped PostgreSQL project organization and persisted inbox; independent additive extension. Frozen contracts/openapi.json/yaml remain unchanged."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api/v2/project-folders/config": {
+      "get": {
+        "operationId": "organizationFolderConfig",
+        "summary": "organizationFolderConfig",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Enforced product bounds:3 levels,1000 active folders per owner. No workspace/tool permission UI fields.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Config"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/project-folders": {
+      "get": {
+        "operationId": "organizationListFolders",
+        "summary": "organizationListFolders",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "UPDATED_DESC",
+                "UPDATED_ASC",
+                "CREATED_DESC",
+                "CREATED_ASC",
+                "NAME_ASC",
+                "NAME_DESC",
+                "SIZE_ASC",
+                "SIZE_DESC"
+              ],
+              "default": "UPDATED_DESC"
+            }
+          },
+          {
+            "name": "parentId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/FolderPage"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      },
+      "post": {
+        "operationId": "organizationCreateFolder",
+        "summary": "organizationCreateFolder",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Folder"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FolderCreate"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/project-folders/{id}": {
+      "get": {
+        "operationId": "organizationGetFolder",
+        "summary": "organizationGetFolder",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Folder"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      },
+      "patch": {
+        "operationId": "organizationRenameFolder",
+        "summary": "organizationRenameFolder",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Exactly one strong positive revision ETag; missing428, malformed400, stale412."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Folder"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FolderRename"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      },
+      "delete": {
+        "operationId": "organizationDeleteFolder",
+        "summary": "organizationDeleteFolder",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Atomic recursive soft deletion of folder descendants and their active owner ordinary public.projects, matching native confirmation. No internal vault/foreign/root-outside members affected. Receipts retained; stale folder content revisions412.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Exactly one strong positive revision ETag; missing428, malformed400, stale412."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Deletion"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/project-folders/entries": {
+      "get": {
+        "operationId": "organizationListEntries",
+        "summary": "organizationListEntries",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Actual mixed folders/projects filtered before pagination. ALL absent folderId means root direct contents; CANVAS absent folderId means all ordinary projects for recent-home; folderId means direct children; FOLDER excludes projects. Pinned projects sort first. SIZE uses persisted UTF-8 graph bytes + active READY asset byte_size; folder bytes sum descendant ordinary projects. Project/asset SQL changes invalidate collection/folder revision.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "UPDATED_DESC",
+                "UPDATED_ASC",
+                "CREATED_DESC",
+                "CREATED_ASC",
+                "NAME_ASC",
+                "NAME_DESC",
+                "SIZE_ASC",
+                "SIZE_DESC"
+              ],
+              "default": "UPDATED_DESC"
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "queryScope",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "ALL",
+                "FOLDER",
+                "CANVAS"
+              ],
+              "default": "ALL"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/EntryPage"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/project-folders/tree": {
+      "get": {
+        "operationId": "organizationFolderTree",
+        "summary": "organizationFolderTree",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Validates requested owner ordinary project before returning actual nested folder targets/project leaves. Max1000 folders and10000 ordinary project leaves; overflow413, never partial tree.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Tree"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/project-folders/projects": {
+      "post": {
+        "operationId": "organizationCreateProjectInFolder",
+        "summary": "organizationCreateProjectInFolder",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Atomic real public.projects creation plus optional owner folder membership. Null folderId creates at root. Frozen v1 Project representation.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Project"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCreate"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/projects/{id}/folder": {
+      "get": {
+        "operationId": "organizationProjectMembership",
+        "summary": "organizationProjectMembership",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Membership"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      },
+      "put": {
+        "operationId": "organizationMoveProject",
+        "summary": "organizationMoveProject",
+        "tags": [
+          "Organization"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.project_folders",
+          "organization.project_memberships",
+          "public.projects"
+        ],
+        "description": "Atomic owner ordinary project membership move, including null root. If-Match is actual public.projects revision, which advances for changed membership. A no-op move retains revision. Source/target ancestors invalidate once or more in transaction.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Exactly one strong positive revision ETag; missing428, malformed400, stale412."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Membership"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Move"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v1/notifications": {
+      "get": {
+        "operationId": "organizationListNotificationsv1",
+        "summary": "organizationListNotificationsv1",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Actual persisted owner inbox; absence returns real empty SQL page. Frozen v1 omits revision; additive v2 includes per-row revision. Actual terminal task transitions atomically produce GENERATION notifications. No release/official fixtures seeded.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "UPDATE_RECORD",
+                "OFFICIAL_MESSAGE",
+                "GENERATION"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/NotificationPageV1"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v1/notifications/unread-count": {
+      "get": {
+        "operationId": "organizationUnreadCountsv1",
+        "summary": "organizationUnreadCountsv1",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Counts"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v1/notifications/read": {
+      "post": {
+        "operationId": "organizationReadNotificationsv1",
+        "summary": "organizationReadNotificationsv1",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "All requested notifications must be active and owned; entire operation404 if any is unavailable. Persisted read_at and row revision change only when unread. Replays return stored original counts.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Counts"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IDs"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v1/notifications/{id}": {
+      "get": {
+        "operationId": "organizationGetNotificationv1",
+        "summary": "organizationGetNotificationv1",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Notification"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      },
+      "delete": {
+        "operationId": "organizationDeleteNotificationv1",
+        "summary": "organizationDeleteNotificationv1",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Exactly one strong positive revision ETag; missing428, malformed400, stale412."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/NotificationDeletion"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v1/notifications/delete": {
+      "post": {
+        "operationId": "organizationDeleteNotificationsv1",
+        "summary": "organizationDeleteNotificationsv1",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Bounded atomic owner-only soft deletion. Every requested ID must be active and owned; otherwise404 with no partial changes. UUID receipts retained.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/BatchDeletion"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IDs"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/notifications": {
+      "get": {
+        "operationId": "organizationListNotificationsv2",
+        "summary": "organizationListNotificationsv2",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Actual persisted owner inbox; absence returns real empty SQL page. Frozen v1 omits revision; additive v2 includes per-row revision. Actual terminal task transitions atomically produce GENERATION notifications. No release/official fixtures seeded.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "UPDATE_RECORD",
+                "OFFICIAL_MESSAGE",
+                "GENERATION"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/NotificationPage"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/notifications/unread-count": {
+      "get": {
+        "operationId": "organizationUnreadCountsv2",
+        "summary": "organizationUnreadCountsv2",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Counts"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/notifications/read": {
+      "post": {
+        "operationId": "organizationReadNotificationsv2",
+        "summary": "organizationReadNotificationsv2",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "All requested notifications must be active and owned; entire operation404 if any is unavailable. Persisted read_at and row revision change only when unread. Replays return stored original counts.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Counts"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IDs"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/notifications/{id}": {
+      "get": {
+        "operationId": "organizationGetNotificationv2",
+        "summary": "organizationGetNotificationv2",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Notification"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      },
+      "delete": {
+        "operationId": "organizationDeleteNotificationv2",
+        "summary": "organizationDeleteNotificationv2",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Owner comes exclusively from verified server session and supplied tv.access protection. Unknown fields/query keys rejected. No fixtures or simulated success.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Exactly one strong positive revision ETag; missing428, malformed400, stale412."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/NotificationDeletion"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                },
+                "description": "Strong revision of the returned object/collection."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/notifications/delete": {
+      "post": {
+        "operationId": "organizationDeleteNotificationsv2",
+        "summary": "organizationDeleteNotificationsv2",
+        "tags": [
+          "Notifications"
+        ],
+        "x-implementation-stage": "IMPLEMENTED",
+        "x-persistence": [
+          "organization.notifications",
+          "public.idempotency_keys"
+        ],
+        "description": "Bounded atomic owner-only soft deletion. Every requested ID must be active and owned; otherwise404 with no partial changes. UUID receipts retained.",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID normalized case; owner and operation scoped persistent receipt. Changed payload/precondition409."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual persisted/snapshot state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/BatchDeletion"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IDs"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "Explicit failure; never successful empty placeholder.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "field",
+                "code",
+                "message"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "retryable",
+          "details"
+        ],
+        "additionalProperties": false
+      },
+      "Folder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "level": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "maxLevel": {
+            "const": 3
+          },
+          "allowCreateSubFolder": {
+            "type": "boolean"
+          },
+          "itemCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "byteSize": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "id",
+          "parentId",
+          "name",
+          "revision",
+          "level",
+          "maxLevel",
+          "allowCreateSubFolder",
+          "itemCount",
+          "total",
+          "byteSize",
+          "createdAt",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "name": {
+            "type": "string"
+          },
+          "ownerId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "teamId": {
+            "type": "null"
+          },
+          "coverAssetId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pinned": {
+            "type": "boolean"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "ownerId",
+          "teamId",
+          "coverAssetId",
+          "pinned",
+          "revision",
+          "createdAt",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "Membership": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "folderId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "projectId",
+          "folderId",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "Entry": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "FOLDER",
+              "CANVAS"
+            ]
+          },
+          "folder": {
+            "$ref": "#/components/schemas/Folder"
+          },
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          },
+          "folderId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "byteSize": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "type",
+          "folderId",
+          "byteSize"
+        ],
+        "additionalProperties": false
+      },
+      "FolderPage": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Folder"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "current": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pages": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "records",
+          "page",
+          "current",
+          "size",
+          "total",
+          "pages",
+          "hasNext",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "EntryPage": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entry"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "current": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pages": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "records",
+          "page",
+          "current",
+          "size",
+          "total",
+          "pages",
+          "hasNext",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "FolderCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "FolderRename": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "folderId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "Move": {
+        "type": "object",
+        "properties": {
+          "folderId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "folderId"
+        ],
+        "additionalProperties": false
+      },
+      "Deletion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "deletedFolderIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "deletedProjectIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "deletedFolderIds",
+          "deletedProjectIds",
+          "deletedAt"
+        ],
+        "additionalProperties": false
+      },
+      "Id": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_-]{1,200}$",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "TreeNode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "folderId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,200}$",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "canvasId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "type": {
+            "enum": [
+              "ROOT",
+              "FOLDER",
+              "CANVAS"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "level": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "maxLevel": {
+            "const": 3
+          },
+          "allowCreateSubFolder": {
+            "type": "boolean"
+          },
+          "itemCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "nodesCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "childList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TreeNode"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "folderId",
+          "type",
+          "name",
+          "level",
+          "maxLevel",
+          "allowCreateSubFolder",
+          "itemCount",
+          "total",
+          "childList"
+        ],
+        "additionalProperties": false
+      },
+      "Tree": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TreeNode"
+            }
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "records",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "Config": {
+        "type": "object",
+        "properties": {
+          "maxLevel": {
+            "const": 3
+          },
+          "maxFolders": {
+            "const": 1000
+          }
+        },
+        "required": [
+          "maxLevel",
+          "maxFolders"
+        ],
+        "additionalProperties": false
+      },
+      "NotificationV1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "type": {
+            "enum": [
+              "UPDATE_RECORD",
+              "OFFICIAL_MESSAGE",
+              "GENERATION"
+            ]
+          },
+          "title": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "body": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "read": {
+            "type": "boolean"
+          },
+          "targetUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://",
+                "maxLength": 4096
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "body",
+          "read",
+          "targetUrl",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "type": {
+            "enum": [
+              "UPDATE_RECORD",
+              "OFFICIAL_MESSAGE",
+              "GENERATION"
+            ]
+          },
+          "title": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "body": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "read": {
+            "type": "boolean"
+          },
+          "targetUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://",
+                "maxLength": 4096
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "body",
+          "read",
+          "targetUrl",
+          "createdAt",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "NotificationPageV1": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationV1"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total",
+          "hasMore"
+        ],
+        "additionalProperties": false
+      },
+      "NotificationPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Notification"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total",
+          "hasMore"
+        ],
+        "additionalProperties": false
+      },
+      "Counts": {
+        "type": "object",
+        "properties": {
+          "updateRecords": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "officialMessages": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "generations": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "updateRecords",
+          "officialMessages",
+          "generations",
+          "total"
+        ],
+        "additionalProperties": false
+      },
+      "IDs": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,200}$",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "additionalProperties": false
+      },
+      "NotificationDeletion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,200}$",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "deletedAt"
+        ],
+        "additionalProperties": false
+      },
+      "BatchDeletion": {
+        "type": "object",
+        "properties": {
+          "deletedIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "counts": {
+            "$ref": "#/components/schemas/Counts"
+          }
+        },
+        "required": [
+          "deletedIds",
+          "counts"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

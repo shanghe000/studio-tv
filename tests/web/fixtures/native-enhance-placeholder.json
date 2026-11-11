@@ -1,0 +1,249 @@
+{
+  "command": {
+    "canvasId": "p",
+    "targetType": "NODE",
+    "targetId": "n",
+    "canvas": {
+      "nodes": [
+        {
+          "id": "n",
+          "type": "rh-image",
+          "position": {
+            "x": 480,
+            "y": 150
+          },
+          "data": {
+            "label": "增强",
+            "width": 380,
+            "height": 280,
+            "toolsType": "image-enhance",
+            "toolsSourceUrl": "rhtv-asset:ast_fixture0",
+            "params": {
+              "imageUrls": [
+                "rhtv-asset:ast_fixture0"
+              ],
+              "prompt": "",
+              "text": ""
+            },
+            "modelCode": "codex-image-edit-v1",
+            "generateNum": 1,
+            "subType": "image-image",
+            "modelType": "OPENAPI",
+            "prompt": "",
+            "presetSelections": [],
+            "nodeOutputHistory": []
+          },
+          "style": {
+            "width": 380,
+            "height": 280
+          },
+          "selectable": true,
+          "hidden": false
+        },
+        {
+          "id": "source",
+          "type": "rh-image",
+          "position": {
+            "x": 0,
+            "y": 150
+          },
+          "data": {
+            "title": "工具验收原图",
+            "status": "finished",
+            "width": 360,
+            "height": 360,
+            "output": [
+              {
+                "url": "rhtv-asset:ast_fixture0",
+                "width": 1254,
+                "height": 1254,
+                "assetId": "ast_fixture0",
+                "mediaId": "ast_fixture0",
+                "mimeType": "image/png",
+                "outputId": "out_fixture0",
+                "testMode": false,
+                "outputType": "image/png",
+                "originalUrl": "rhtv-asset:ast_fixture0",
+                "thumbnailUrl": "rhtv-asset:ast_fixture0",
+                "historyOutputId": "out_fixture0"
+              }
+            ],
+            "sourceObjects": [
+              "rhtv-asset:ast_fixture0"
+            ],
+            "imageUrl": "rhtv-asset:ast_fixture0"
+          },
+          "style": {
+            "width": 360,
+            "height": 360
+          },
+          "selectable": true,
+          "hidden": false
+        }
+      ],
+      "edges": [
+        {
+          "source": "source",
+          "target": "n"
+        }
+      ]
+    },
+    "name": "图片工具专项验收 · 2026-10-07"
+  },
+  "baseline": {
+    "nodes": [
+      {
+        "id": "source",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 150
+        },
+        "data": {
+          "title": "工具验收原图",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_fixture0",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "ast_fixture0",
+              "mediaId": "ast_fixture0",
+              "mimeType": "image/png",
+              "outputId": "out_fixture0",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:ast_fixture0",
+              "thumbnailUrl": "rhtv-asset:ast_fixture0",
+              "historyOutputId": "out_fixture0"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:ast_fixture0"
+          ],
+          "imageUrl": "rhtv-asset:ast_fixture0"
+        }
+      },
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 480,
+          "y": 150
+        },
+        "selectable": true,
+        "data": {
+          "label": "增强",
+          "width": 380,
+          "height": 280,
+          "prompt": "",
+          "toolsType": "image-enhance",
+          "toolsSourceUrl": "rhtv-asset:ast_fixture0",
+          "params": {
+            "imageUrl": "rhtv-asset:ast_fixture0",
+            "imageUrls": [
+              "rhtv-asset:ast_fixture0"
+            ]
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "subType": "image-image"
+        },
+        "style": {
+          "width": 380,
+          "height": 280
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-source-n",
+        "source": "source",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "current": {
+    "nodes": [
+      {
+        "id": "source",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 150
+        },
+        "data": {
+          "title": "工具验收原图",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_fixture0",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "ast_fixture0",
+              "mediaId": "ast_fixture0",
+              "mimeType": "image/png",
+              "outputId": "out_fixture0",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:ast_fixture0",
+              "thumbnailUrl": "rhtv-asset:ast_fixture0",
+              "historyOutputId": "out_fixture0"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:ast_fixture0"
+          ],
+          "imageUrl": "rhtv-asset:ast_fixture0"
+        }
+      },
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 480,
+          "y": 150
+        },
+        "selectable": true,
+        "data": {
+          "label": "增强",
+          "width": 380,
+          "height": 280,
+          "prompt": "",
+          "toolsType": "image-enhance",
+          "toolsSourceUrl": "rhtv-asset:ast_fixture0",
+          "params": {
+            "imageUrl": "rhtv-asset:ast_fixture0",
+            "imageUrls": [
+              "rhtv-asset:ast_fixture0"
+            ]
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "subType": "image-image"
+        },
+        "style": {
+          "width": 380,
+          "height": 280
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-source-n",
+        "source": "source",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  }
+}

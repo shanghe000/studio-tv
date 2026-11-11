@@ -1,0 +1,738 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Studio TV model discovery",
+    "version": "1.1.0",
+    "description": "Implemented read-only product intent and actual Router catalog. No pricing, wallet, model execution or example-model registration. Actor comes only from verified local identity."
+  },
+  "servers": [
+    {
+      "url": "/api/v2"
+    }
+  ],
+  "paths": {
+    "/model-requirements": {
+      "get": {
+        "operationId": "productModelRequirements",
+        "summary": "STUDIO feature capability requirements, not a model catalog",
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access",
+        "security": [
+          {
+            "SessionBearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Actual data. Product requirements do not imply available models.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequirementResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid/duplicate/unknown query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Verified Feishu session required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tool access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "MODEL_ROUTER_NOT_CONFIGURED on capability discovery when no adapter is configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Actual Router catalog unavailable, no fallback",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/model-capabilities": {
+      "get": {
+        "operationId": "productModelCapabilities",
+        "summary": "Actual capabilities from configured Models Router",
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access",
+        "security": [
+          {
+            "SessionBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{0,63}$"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 100
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 2000
+            },
+            "description": "Opaque Router cursor. Current empty Router catalog supports only empty cursor."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual data. Product requirements do not imply available models.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid/duplicate/unknown query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Verified Feishu session required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tool access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "MODEL_ROUTER_NOT_CONFIGURED on capability discovery when no adapter is configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Actual Router catalog unavailable, no fallback",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "SessionBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Capability": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "testMode": {
+            "type": "boolean",
+            "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+          },
+          "capabilityRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "kind": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]{0,63}$",
+            "examples": [
+              "LLM",
+              "TEXT_TO_IMAGE",
+              "IMAGE_TO_VIDEO",
+              "OMNI_REFERENCE"
+            ]
+          },
+          "executionKind": {
+            "type": "string",
+            "enum": [
+              "MODEL",
+              "AGENT"
+            ]
+          },
+          "parameterSchemaVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "parameterSchema": {
+            "type": "object",
+            "description": "Immutable JSON Schema 2020-12 for the specific capability/version. Reject unsupported inputs explicitly."
+          },
+          "inputKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Semantic kinds such as TEXT, IMAGE, VIDEO, AUDIO, FILE or STRUCTURED; the fixed capability schema constrains actual combinations."
+          },
+          "outputKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "supportsSession": {
+            "type": "boolean",
+            "description": "Legacy session support projection. Absent sessionMode means OPTIONAL when true, otherwise NONE."
+          },
+          "sessionMode": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "OPTIONAL",
+              "REQUIRED"
+            ],
+            "description": "Optional additive field. NONE requires supportsSession=false; OPTIONAL/REQUIRED require true. NONE and OPTIONAL support independent requests without logical sessions."
+          },
+          "supportsStream": {
+            "type": "boolean",
+            "description": "Verified incremental output support. Persisted Router SSE state/progress events do not imply native token or media streaming."
+          },
+          "supportsCancel": {
+            "type": "boolean"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelDescriptor",
+            "description": "Optional public metadata. New model selectors use configured profiles with this metadata; absence preserves existing generic and MOCK capabilities. Determine text/image eligibility from kind and inputKinds, not model titles."
+          }
+        },
+        "required": [
+          "capabilityRef",
+          "version",
+          "kind",
+          "executionKind",
+          "parameterSchemaVersion",
+          "parameterSchema",
+          "inputKinds",
+          "outputKinds",
+          "supportsSession",
+          "supportsStream",
+          "supportsCancel",
+          "available",
+          "reason"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "sessionMode"
+              ],
+              "properties": {
+                "sessionMode": {
+                  "const": "NONE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "supportsSession": {
+                  "const": false
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "sessionMode"
+              ],
+              "properties": {
+                "sessionMode": {
+                  "const": "OPTIONAL"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "supportsSession": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "sessionMode"
+              ],
+              "properties": {
+                "sessionMode": {
+                  "const": "REQUIRED"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "supportsSession": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ],
+        "examples": [
+          {
+            "capabilityRef": "example/llm",
+            "version": "1",
+            "kind": "LLM",
+            "executionKind": "MODEL",
+            "parameterSchemaVersion": "1",
+            "parameterSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "maxOutputTokens": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4096
+                },
+                "temperature": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 2
+                }
+              },
+              "required": [
+                "maxOutputTokens"
+              ]
+            },
+            "inputKinds": [
+              "TEXT"
+            ],
+            "outputKinds": [
+              "TEXT"
+            ],
+            "supportsSession": true,
+            "sessionMode": "OPTIONAL",
+            "supportsStream": true,
+            "supportsCancel": false,
+            "available": false,
+            "reason": "RESERVED schema fixture; no runtime adapter or model is registered"
+          },
+          {
+            "capabilityRef": "example/t2i",
+            "version": "1",
+            "kind": "TEXT_TO_IMAGE",
+            "executionKind": "MODEL",
+            "parameterSchemaVersion": "1",
+            "parameterSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "enum": [
+                    512,
+                    1024
+                  ]
+                },
+                "height": {
+                  "type": "integer",
+                  "enum": [
+                    512,
+                    1024
+                  ]
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4
+                }
+              },
+              "required": [
+                "width",
+                "height",
+                "count"
+              ]
+            },
+            "inputKinds": [
+              "TEXT"
+            ],
+            "outputKinds": [
+              "IMAGE"
+            ],
+            "supportsSession": false,
+            "sessionMode": "NONE",
+            "supportsStream": false,
+            "supportsCancel": false,
+            "available": false,
+            "reason": "RESERVED schema fixture; no runtime adapter or model is registered"
+          },
+          {
+            "capabilityRef": "example/i2v",
+            "version": "1",
+            "kind": "IMAGE_TO_VIDEO",
+            "executionKind": "MODEL",
+            "parameterSchemaVersion": "1",
+            "parameterSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "enum": [
+                    1280
+                  ]
+                },
+                "height": {
+                  "type": "integer",
+                  "enum": [
+                    720
+                  ]
+                },
+                "durationSeconds": {
+                  "type": "number",
+                  "minimum": 1,
+                  "maximum": 10
+                },
+                "fps": {
+                  "type": "integer",
+                  "enum": [
+                    24
+                  ]
+                }
+              },
+              "required": [
+                "width",
+                "height",
+                "durationSeconds",
+                "fps"
+              ]
+            },
+            "inputKinds": [
+              "TEXT",
+              "IMAGE"
+            ],
+            "outputKinds": [
+              "VIDEO"
+            ],
+            "supportsSession": false,
+            "sessionMode": "NONE",
+            "supportsStream": false,
+            "supportsCancel": false,
+            "available": false,
+            "reason": "RESERVED schema fixture; no runtime adapter or model is registered"
+          }
+        ]
+      },
+      "Requirement": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]{0,63}$"
+          },
+          "priority": {
+            "enum": [
+              "P0",
+              "P1",
+              "P2"
+            ]
+          },
+          "inputKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "kind",
+          "priority",
+          "inputKinds",
+          "outputKinds",
+          "features"
+        ]
+      },
+      "ErrorDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "code",
+          "message"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetail"
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "retryable",
+          "details"
+        ]
+      },
+      "ModelDescriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "providerRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "modelRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          }
+        },
+        "required": [
+          "providerRef",
+          "modelRef",
+          "title",
+          "version"
+        ],
+        "description": "Verified, configured public model metadata for choosing capability profiles. Public refs are stable supplier-neutral product identifiers, never native provider IDs, credentials or runtime configuration. Legacy profiles may omit this optional metadata; clients must preserve frozen legacy references on existing operations."
+      },
+      "RequirementResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Requirement"
+                }
+              },
+              "schemaVersion": {
+                "const": "1"
+              }
+            },
+            "required": [
+              "items",
+              "schemaVersion"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ]
+      },
+      "CapabilityResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Capability"
+                }
+              },
+              "nextCursor": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "schemaVersion": {
+                "const": "1"
+              }
+            },
+            "required": [
+              "items",
+              "nextCursor",
+              "schemaVersion"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ]
+      }
+    }
+  }
+}

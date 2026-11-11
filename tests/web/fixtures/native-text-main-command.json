@@ -1,0 +1,84 @@
+{
+  "capturedAt": "2026-10-22",
+  "baseline": {
+    "nodes": [
+      {
+        "id": "node_1792636174180_ov7of8y",
+        "type": "rh-text",
+        "position": {
+          "x": 643.9899874138895,
+          "y": -79.69446406318269
+        },
+        "selectable": true,
+        "data": {
+          "label": "文本",
+          "title": "文本",
+          "status": "idle",
+          "width": 300,
+          "height": 268,
+          "text": "",
+          "prompt": "请只输出「STUDIOTV生成入口验收通过」，不要额外说明。",
+          "params": {
+            "prompt": "请只输出「STUDIOTV生成入口验收通过」，不要额外说明。",
+            "reasoning_effort": "low"
+          },
+          "modelCode": "codex-6-1-text-v1",
+          "generateNum": 1,
+          "subType": "multimodal-text",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "textModelListType": "multimodal-text"
+        },
+        "style": {
+          "width": 300,
+          "height": 268
+        }
+      }
+    ],
+    "edges": []
+  },
+  "command": {
+    "nodes": [
+      {
+        "id": "node_1792636174180_ov7of8y",
+        "type": "rh-text",
+        "position": {
+          "x": 643.9899874138895,
+          "y": -79.69446406318269
+        },
+        "data": {
+          "label": "文本",
+          "title": "文本",
+          "status": "idle",
+          "width": 300,
+          "height": 268,
+          "text": "",
+          "subType": "multimodal-text",
+          "modelCode": "codex-6-1-text-v1",
+          "params": {
+            "prompt": "请只输出「STUDIOTV生成入口验收通过」，不要额外说明。",
+            "reasoning_effort": "low"
+          },
+          "generateNum": 1,
+          "userPromptSnapshot": {
+            "paramName": "prompt",
+            "value": "请只输出「STUDIOTV生成入口验收通过」，不要额外说明。"
+          },
+          "modelType": "LLM",
+          "textModelListType": "multimodal-text",
+          "textUiCategory": "text-text"
+        },
+        "style": {
+          "width": 300,
+          "height": 268
+        },
+        "selectable": true,
+        "hidden": false
+      }
+    ],
+    "edges": []
+  }
+}

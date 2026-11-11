@@ -1,0 +1,114 @@
+{
+  "capabilityRef": "moss-image-generate-v1",
+  "version": "1",
+  "title": "MOSS-Image · 生图",
+  "kind": "TEXT_TO_IMAGE",
+  "executionKind": "MODEL",
+  "parameterSchemaVersion": "1",
+  "testMode": false,
+  "available": true,
+  "reason": null,
+  "model": {
+    "modelRef": "moss-image",
+    "providerRef": "comfy",
+    "title": "MOSS-Image · 生图",
+    "version": "1"
+  },
+  "inputKinds": [
+    "TEXT",
+    "STRUCTURED"
+  ],
+  "outputKinds": [
+    "IMAGE"
+  ],
+  "sessionMode": "NONE",
+  "supportsCancel": false,
+  "parameterSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "outputPreset": {
+        "type": "string",
+        "enum": [
+          "1024-square",
+          "landscape-1344x768",
+          "portrait-768x1344",
+          "standard-1152x864",
+          "standard-portrait-864x1152",
+          "ultrawide-1536x656"
+        ],
+        "default": "1024-square",
+        "title": "输出规格",
+        "x-enum-labels": {
+          "1024-square": "1:1 · 1024×1024",
+          "landscape-1344x768": "16:9 · 1344×768",
+          "portrait-768x1344": "9:16 · 768×1344",
+          "standard-1152x864": "4:3 · 1152×864",
+          "standard-portrait-864x1152": "3:4 · 864×1152",
+          "ultrawide-1536x656": "21:9 · 1536×656"
+        }
+      }
+    },
+    "x-media-limits": {
+      "IMAGE": 0,
+      "AUDIO": 0,
+      "VIDEO": 0
+    },
+    "x-input-constraints": {
+      "max_audios": 0,
+      "max_images": 0,
+      "max_videos": 0,
+      "min_images": 0,
+      "min_videos": 0,
+      "require_visual": false
+    },
+    "x-output-presets": [
+      {
+        "aspectRatio": "1:1",
+        "height": 1024,
+        "title": "1:1 · 1024×1024",
+        "value": "1024-square",
+        "width": 1024
+      },
+      {
+        "aspectRatio": "7:4",
+        "height": 768,
+        "title": "16:9 · 1344×768",
+        "value": "landscape-1344x768",
+        "width": 1344
+      },
+      {
+        "aspectRatio": "4:7",
+        "height": 1344,
+        "title": "9:16 · 768×1344",
+        "value": "portrait-768x1344",
+        "width": 768
+      },
+      {
+        "aspectRatio": "4:3",
+        "height": 864,
+        "title": "4:3 · 1152×864",
+        "value": "standard-1152x864",
+        "width": 1152
+      },
+      {
+        "aspectRatio": "3:4",
+        "height": 1152,
+        "title": "3:4 · 864×1152",
+        "value": "standard-portrait-864x1152",
+        "width": 864
+      },
+      {
+        "aspectRatio": "96:41",
+        "height": 656,
+        "title": "21:9 · 1536×656",
+        "value": "ultrawide-1536x656",
+        "width": 1536
+      }
+    ],
+    "x-model-source": {
+      "kind": "SELF_HOSTED"
+    },
+    "x-prompt-policy": "required"
+  }
+}

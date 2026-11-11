@@ -1,0 +1,3325 @@
+{
+  "version": "2026-10-03-static-audit",
+  "scope": "existing replica homepage and QA-tested menus; no browser/network/API calls; no Site edits",
+  "sources": {
+    "replica": "rhtv-clone/dist/replica.js",
+    "prepare": "rhtv-clone/prepare.mjs",
+    "bundle": "/home/developer/rhtv-replica/research/original.js",
+    "paymentChunk": "/home/developer/rhtv-replica/research/assets-cache/CanvasAiPaymentDialog-D6cAZf-m.js",
+    "fixtures": "rhtv-clone/dist/fixtures.json",
+    "qa": "/home/developer/rhtv-replica/research/interaction-qa.md"
+  },
+  "globalLegacyProtocol": {
+    "baseUrl": "original Hf https://www.runninghub.ai; current prepared assets helper window.location.origin",
+    "contentType": "application/json",
+    "requestHeaders": {
+      "Authorization": "Bearer <Rh-Accesstoken>",
+      "version": "1.0.0",
+      "X-RH-Lang": "language header",
+      "User-Language": "language header",
+      "X-Team-Id": "active team unless skipTeamContext"
+    },
+    "timeoutMs": 30000,
+    "envelope": {
+      "code": 0,
+      "msg": "success",
+      "errorMessages": null,
+      "data": "endpoint-specific"
+    },
+    "authFailure": {
+      "code": 412,
+      "effect": "global axios rejects; opens login unless suppressAuthModal"
+    },
+    "identifiers": "new service must serialize every ID as string",
+    "pagination": "numeric page request + current response; notice/message requests use current; per-route array versus page must remain distinct"
+  },
+  "counts": {
+    "capturedFixtureVariants": 14,
+    "capturedFixturePaths": 11,
+    "auditedEndpoints": 70,
+    "staticDirectPostPaths": 156,
+    "realBackendEndpointsImplemented": 0
+  },
+  "endpoints": [
+    {
+      "path": "/uc/getUserInfo",
+      "method": "POST",
+      "feature": "profile",
+      "request": {
+        "userId": "string (JWT sub)"
+      },
+      "responseData": {
+        "id": "string",
+        "userId": "string",
+        "nickName": "string",
+        "headIcon": "URL?",
+        "avatar": "URL?",
+        "userRegion": "string",
+        "walletInfo": {
+          "currency": "USD|CNY",
+          "currencySymbol": "$|¥",
+          "balance": "decimal string"
+        },
+        "memberInfo": "object",
+        "userConfig": "object?"
+      },
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Synthetic user and balance=0; no real profile data. Avoid returning original API-key fields to client."
+    },
+    {
+      "path": "/uc/sendEmailCode",
+      "method": "POST",
+      "feature": "auth",
+      "request": {
+        "email": "string",
+        "token": "captcha validToken"
+      },
+      "responseData": "unverified",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Login/auth regex rejects; captcha provider remains legacy. Login routes are not connected."
+    },
+    {
+      "path": "/uc/emailLogin",
+      "method": "POST",
+      "feature": "auth",
+      "request": {
+        "email": "string",
+        "code": "6 digits",
+        "channel": "string|null",
+        "inviteCode": "string|null"
+      },
+      "responseData": {
+        "access_token": "string",
+        "refresh_token": "string",
+        "identify": "string",
+        "firstLogin": "boolean/string",
+        "expire_in": "milliseconds or seconds UNVERIFIED"
+      },
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "expire_in is added directly to Date.now() in original T5; must normalize expiry in adapter, not assume OAuth seconds."
+    },
+    {
+      "path": "/uc/googleLogin",
+      "method": "POST",
+      "feature": "auth",
+      "request": {
+        "googleEmail": "string",
+        "fullName": "string",
+        "phoneNumber": "string",
+        "idToken": "Firebase identity token",
+        "photoUrl": "URL",
+        "channel": "string|null",
+        "inviteCode": "string|null"
+      },
+      "responseData": "same auth token fields",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Firebase redirect and provider config are original; backend must verify idToken, not trust email/fullName."
+    },
+    {
+      "path": "/uc/abroad/pwdLogin",
+      "method": "POST",
+      "feature": "auth",
+      "request": {
+        "email": "string",
+        "password": "MD5 digest from Gxe"
+      },
+      "responseData": "same auth token fields",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Static legacy caller only. Prefer replacing with own modern authentication contract."
+    },
+    {
+      "path": "/uc/pwdLogin",
+      "method": "POST",
+      "feature": "auth",
+      "request": {
+        "mobile": "string",
+        "password": "MD5 digest",
+        "channel": "string|null",
+        "inviteCode": "string|null"
+      },
+      "responseData": "same auth token fields",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/uc/logout",
+      "method": "POST",
+      "feature": "auth",
+      "request": {},
+      "responseData": "unverified",
+      "currentReplica": "generic_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Returns success({}) but does not revoke a real session. Logout clears localStorage independently."
+    },
+    {
+      "path": "/canvas/model/list",
+      "method": "POST",
+      "feature": "models",
+      "request": {
+        "types": "string[]"
+      },
+      "responseData": "[ { type:string, modelList:Model[] } ]",
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Captured 32 type groups for 41 requested types. Original retries empty groups once after 800ms. IDs and skuId must be strings in new service; legacy numeric model ID can be adapted.",
+      "capturedFixtures": [
+        {
+          "index": 5,
+          "requestBody": {
+            "types": [
+              "TEXT_IMAGE",
+              "IMAGE_IMAGE",
+              "TEXT_VIDEO",
+              "IMAGE_VIDEO",
+              "MULTIMODAL_VIDEO",
+              "START_END_VIDEO",
+              "START_VIDEO",
+              "VIDEO_VIDEO",
+              "VIDEO_EDIT",
+              "VIDEO_EXTEND",
+              "VIDEO_HD",
+              "VIDEO_MOTION_TRANSFER",
+              "VIDEO_CLIP_RESHOOT",
+              "VIDEO_REMOVE_WATERMARK",
+              "VIDEO_REMOVE_SUBTITLES",
+              "VIDEO_REMOVE_BLUR",
+              "VIDEO_DEPTH_CONVERTER",
+              "VIDEO_ANALYSIS",
+              "TEXT_AUDIO",
+              "TEXT_MUSIC",
+              "AUDIO_AUDIO",
+              "VIDEO_AUDIO",
+              "TEXT_TEXT",
+              "MULTIMODAL_TEXT",
+              "IMAGE_TEXT",
+              "VIDEO_TEXT",
+              "TEXT_LYRICS",
+              "TEXT_TO_W3D",
+              "IMAGE_TO_W3D",
+              "VIDEO_TO_W3D",
+              "TEXT_TO_3D",
+              "IMAGE_TO_3D",
+              "MULTIMODAL_STORYBOARD",
+              "TEXT_STORYBOARD",
+              "IMAGE_STORYBOARD",
+              "VIDEO_STORYBOARD",
+              "IMAGE_RECOGNITION",
+              "IMAGE_LAYER_DECOMPOSITION",
+              "CONTEXT_IR_MULTIMODAL",
+              "CONTEXT_IR",
+              "PROMPT_ENHANCE"
+            ]
+          },
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "type",
+            "modelList"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/canvas/model/group/list",
+      "method": "POST",
+      "feature": "models",
+      "request": {},
+      "responseData": "[ { modelGroupId, modelGroupName, modelGroupNameEn, icon, nodeTypeList:string[], modelGroupList?:ModelGroup[], nodeModelList?:[ {nodeType,modelList:Model[]} ] } ]",
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Nested groups, not a flat list. Public fixture includes 15 top-level groups.",
+      "capturedFixtures": [
+        {
+          "index": 4,
+          "requestBody": {},
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "modelGroupId",
+            "modelGroupName",
+            "modelGroupNameEn",
+            "icon",
+            "nodeTypeList",
+            "modelGroupList"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/canvas/config/query",
+      "method": "POST",
+      "feature": "homepage_config",
+      "request": {
+        "type": "string"
+      },
+      "responseData": "{ type?:string, content:any|null }",
+      "currentReplica": "explicit_mock_and_fixture",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "CANVAS_HOME_CAROUSEL fixture; all other types default content:null. Fixture matcher looks only at type/productType, so config values must be keyed by type.",
+      "capturedFixtures": [
+        {
+          "index": 1,
+          "requestBody": {
+            "type": "CANVAS_HOME_CAROUSEL"
+          },
+          "responseDataType": "dict",
+          "recordFields": null,
+          "itemFields": null
+        }
+      ]
+    },
+    {
+      "path": "/canvas/config/queryByTypes",
+      "method": "POST",
+      "feature": "homepage_config",
+      "request": {
+        "types": "string[]"
+      },
+      "responseData": "[ {type:string,content:any|null} ]",
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Always []; startup types CANVAS_BUZZY_INTRO_CARD,CNAVAS_CLIENT_SWITCH,CANVAS_THUMBNAIL_QUALITY,CANVAS_NEW_AGENT,CANVAS_YJS_HISTORY_CLEANUP."
+    },
+    {
+      "path": "/api/portal/v2/getDictConfig",
+      "method": "POST",
+      "feature": "homepage_config",
+      "request": {
+        "dictTypes": "string[]"
+      },
+      "responseData": "[ {distId,detailId,detailName,detailValue:string} ]",
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Current fixture is system_contact_way only, replayed for any dictTypes. Actual caller also asks canvas_menu_show_agent,add_asset_whitelist,canvas_openclaw_agent.",
+      "capturedFixtures": [
+        {
+          "index": 0,
+          "requestBody": {
+            "dictTypes": [
+              "system_contact_way"
+            ]
+          },
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "distId",
+            "detailId",
+            "detailName",
+            "detailValue"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/canvas/home/highlight/query",
+      "method": "POST",
+      "feature": "homepage_config",
+      "request": {},
+      "responseData": "[ {id,shareId,actionType:CLONE_CANVAS,titleCn,titleEn,descCn,descEn,coverCnUrl,coverEnUrl,coverCnMediaType:image|video,coverEnMediaType:image|video,coverCnPosterUrl,coverEnPosterUrl,sort} ]",
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Always []; original ignores invalid rows/missing shareId/title/cover and delFlag=true."
+    },
+    {
+      "path": "/canvas/home/hot-skill/query",
+      "method": "POST",
+      "feature": "skills",
+      "request": {},
+      "responseData": "[ {skillId,name,thumbnail?,...} ]",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Current fallback is {}, original converts to []; shortcut max6."
+    },
+    {
+      "path": "/canvas/list",
+      "method": "POST",
+      "feature": "projects",
+      "request": {
+        "page": 1,
+        "size": 8,
+        "keyword": "",
+        "queryScope": "CANVAS",
+        "querySortBy": "UPDATE_TIME",
+        "querySortOrder": "DESC",
+        "folderId": "string?",
+        "teamId": "string?"
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "No local projects -> HTTP500 and code500. Existing localStorage key rhtv-preview-projects allows manual records; no endpoint writes it. Personal suppresses team context; team sends matching teamId and X-Team-Id."
+    },
+    {
+      "path": "/canvas/create",
+      "method": "POST",
+      "feature": "projects",
+      "request": {},
+      "responseData": "{id:string}",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Homepage posts empty object. Prompt, attachments, directModel and preferences are localStorage launch payload then agentLaunchKey query param; generation occurs in editor, not this endpoint."
+    },
+    {
+      "path": "/canvas/rename",
+      "method": "POST",
+      "feature": "projects",
+      "request": {
+        "id": "string",
+        "name": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/delete",
+      "method": "POST",
+      "feature": "projects",
+      "request": {
+        "id": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/pin",
+      "method": "POST",
+      "feature": "projects",
+      "request": {
+        "id": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/unpin",
+      "method": "POST",
+      "feature": "projects",
+      "request": {
+        "id": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/share/link",
+      "method": "POST",
+      "feature": "projects",
+      "request": {
+        "canvasId": "string"
+      },
+      "responseData": "{shareUrl:string}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/share/clone",
+      "method": "POST",
+      "feature": "projects",
+      "request": {
+        "shareId": "string (caller pass-through must audit)"
+      },
+      "responseData": "{canvasId:string}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Observed statically only; not verified by QA."
+    },
+    {
+      "path": "/canvas/skill/list",
+      "method": "POST",
+      "feature": "skills",
+      "request": {
+        "page": 1,
+        "size": 60,
+        "category": "CANVAS_AGENT",
+        "type": "COMMON|USER",
+        "code": "string?",
+        "name": "string?",
+        "querySortBy": "HOTTEST|..."
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Wrapper default size20; homepage asks60. Sht requires object with records array.",
+      "capturedFixtures": [
+        {
+          "index": 2,
+          "requestBody": {
+            "page": 1,
+            "size": 60,
+            "category": "CANVAS_AGENT",
+            "type": "COMMON",
+            "querySortBy": "HOTTEST"
+          },
+          "responseDataType": "dict",
+          "recordFields": [
+            "skillId",
+            "nickName",
+            "headPic",
+            "name",
+            "intro",
+            "useScenario",
+            "useGuide",
+            "outputContentDesc",
+            "presetPrompt",
+            "outputType",
+            "thumbnail",
+            "category",
+            "type",
+            "code",
+            "useCount",
+            "collectCount",
+            "createTime",
+            "updateTime",
+            "isCollect",
+            "isPlatform",
+            "isRecommend"
+          ],
+          "itemFields": null
+        }
+      ]
+    },
+    {
+      "path": "/canvas/skill/type/list",
+      "method": "POST",
+      "feature": "skills",
+      "request": {
+        "category": "CANVAS_AGENT",
+        "type": "COMMON|USER"
+      },
+      "responseData": "array",
+      "currentReplica": "generic_array_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/skill/collect/list",
+      "method": "POST",
+      "feature": "skills",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "category": "CANVAS_AGENT",
+        "name": "string?"
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "generic_page_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/skill/detail",
+      "method": "POST",
+      "feature": "skills",
+      "request": {
+        "skillId": "string"
+      },
+      "responseData": "Skill with required skillId",
+      "currentReplica": "generic_null_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "RJ throws on null/missing skillId. Present fallback is incompatible with real detail loading."
+    },
+    {
+      "path": "/canvas/skill/collect",
+      "method": "POST",
+      "feature": "skills",
+      "request": {
+        "skillId": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/skill/uncollect",
+      "method": "POST",
+      "feature": "skills",
+      "request": {
+        "skillId": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/common-workflow/list",
+      "method": "POST",
+      "feature": "workflows",
+      "request": {
+        "page": "integer >=1",
+        "size": "integer; homepage asks88",
+        "id": "string? (detail fetch page1,size1)",
+        "keyword": "UNVERIFIED; pass-through original helper"
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Fixture captured size60 with 252 total; current mock ignores id, current and size. Detail requests therefore may select first workflow erroneously.",
+      "capturedFixtures": [
+        {
+          "index": 7,
+          "requestBody": null,
+          "responseDataType": "dict",
+          "recordFields": [
+            "id",
+            "code",
+            "name",
+            "description",
+            "workflowContent",
+            "thumbnail",
+            "updateTime",
+            "userId",
+            "nickName",
+            "headPic",
+            "isOwn",
+            "favorited"
+          ],
+          "itemFields": null
+        }
+      ]
+    },
+    {
+      "path": "/canvas/common-workflow/type/list",
+      "method": "POST",
+      "feature": "workflows",
+      "request": {},
+      "responseData": "array",
+      "currentReplica": "generic_array_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/common-workflow/favorite/list",
+      "method": "POST",
+      "feature": "workflows",
+      "request": {
+        "page": "integer?",
+        "size": "integer?"
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "generic_page_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/common-workflow/favorite",
+      "method": "POST",
+      "feature": "workflows",
+      "request": {
+        "commonWorkflowId": "string",
+        "action": "number"
+      },
+      "responseData": "unverified",
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Returns liked but does not persist."
+    },
+    {
+      "path": "/canvas/admin/common-workflow/detail",
+      "method": "POST",
+      "feature": "workflows",
+      "request": {
+        "id": "string; wrapper pass-through"
+      },
+      "responseData": "workflow detail",
+      "currentReplica": "generic_null_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/community/composition/list",
+      "method": "POST",
+      "feature": "community",
+      "request": {
+        "page": 1,
+        "size": 40,
+        "sortType": "EDITOR_PICK",
+        "categoryCode": "string?",
+        "keyword": "string?",
+        "sortBy": "UNVERIFIED; lazy route caller may use additional fields"
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Only page1 editorial fixture captured. Homepage showcase search is reactive LOCAL filtering of loaded records; pagination loads on scroll.",
+      "capturedFixtures": [
+        {
+          "index": 6,
+          "requestBody": {
+            "page": 1,
+            "size": 40,
+            "sortType": "EDITOR_PICK"
+          },
+          "responseDataType": "dict",
+          "recordFields": [
+            "id",
+            "name",
+            "description",
+            "compositionUrl",
+            "compositionDuration",
+            "thumbnail",
+            "categoryCode",
+            "categoryName",
+            "likeCount",
+            "playCount",
+            "authorId",
+            "authorName",
+            "authorAvatar"
+          ],
+          "itemFields": null
+        }
+      ]
+    },
+    {
+      "path": "/canvas/community/category/list",
+      "method": "POST",
+      "feature": "community",
+      "request": {},
+      "responseData": "array",
+      "currentReplica": "generic_array_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/community/config",
+      "method": "POST",
+      "feature": "community",
+      "request": {},
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/community/composition/detail",
+      "method": "POST",
+      "feature": "community",
+      "request": {
+        "compositionId": "string"
+      },
+      "responseData": "FLAT CompositionDetail object (not {detail,canvasContent})",
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Uses list row matching ID and sets compositionPlay:true,allowClone:false; variable d from detail fixture is unused. Actual captured detail is flat and includes allowPublic/cloneCount/liked/publishTime. Admin helper wQr constructs nested shape only for /canvas/admin/composition/detail.",
+      "capturedFixtures": [
+        {
+          "index": 8,
+          "requestBody": null,
+          "responseDataType": "dict",
+          "recordFields": null,
+          "itemFields": null
+        }
+      ]
+    },
+    {
+      "path": "/canvas/community/composition/recommended/list",
+      "method": "POST",
+      "feature": "community",
+      "request": {
+        "recommendedSize": 20
+      },
+      "responseData": "Composition[] (array)",
+      "currentReplica": "explicit_mock_incompatible",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Original SQr sends recommendedSize only. Current explicit handler returns Page<Composition>, shadows captured array fixture, ignores recommendedSize and slices12.",
+      "capturedFixtures": [
+        {
+          "index": 9,
+          "requestBody": null,
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "id",
+            "name",
+            "description",
+            "compositionUrl",
+            "compositionDuration",
+            "thumbnail",
+            "categoryCode",
+            "categoryName",
+            "likeCount",
+            "playCount",
+            "authorId",
+            "authorName",
+            "authorAvatar"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/canvas/community/composition/simpleDetail",
+      "method": "POST",
+      "feature": "community",
+      "request": {
+        "compositionId": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/community/composition/play",
+      "method": "POST",
+      "feature": "community",
+      "request": {
+        "compositionId": "string",
+        "playDuration": "number"
+      },
+      "responseData": "unverified",
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "No playCount storage."
+    },
+    {
+      "path": "/canvas/community/composition/like",
+      "method": "POST",
+      "feature": "community",
+      "request": {
+        "compositionId": "string"
+      },
+      "responseData": "unverified (original toggles using result)",
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Returns {liked:true} because action absent; no persistence."
+    },
+    {
+      "path": "/canvas/community/composition/clone",
+      "method": "POST",
+      "feature": "community",
+      "request": {
+        "compositionId": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Must enforce allowClone and permissions server-side; mocked detail disables clone."
+    },
+    {
+      "path": "/task/quick-creation/inspiration/templates",
+      "method": "POST",
+      "feature": "templates",
+      "request": {
+        "page": 1,
+        "size": 60,
+        "tagId": "string?",
+        "keyword": "string?"
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "Captured pagination has numeric strings; new protocol use numeric pagination. Current local replay handles only b.page>1, not size or tagId.",
+      "capturedFixtures": [
+        {
+          "index": 3,
+          "requestBody": {
+            "page": 1,
+            "size": 60
+          },
+          "responseDataType": "dict",
+          "recordFields": [
+            "templateId",
+            "nameCn",
+            "nameAi",
+            "description",
+            "descriptionAi",
+            "coverUrl",
+            "coverAspectRatio",
+            "coverWidth",
+            "coverHeight",
+            "categoryId",
+            "videoUrl",
+            "tagHot",
+            "tagNew",
+            "sortOrder"
+          ],
+          "itemFields": null
+        }
+      ]
+    },
+    {
+      "path": "/task/quick-creation/inspiration/tags",
+      "method": "POST",
+      "feature": "templates",
+      "request": {},
+      "responseData": "[ {tagId,nameCn,nameAi,sortOrder} ]",
+      "currentReplica": "generic_array_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/task/quick-creation/inspiration/template/detail",
+      "method": "POST",
+      "feature": "templates",
+      "request": {
+        "templateId": "string"
+      },
+      "responseData": "{templateId,nameCn,nameAi,coverUrl,videoUrl,categoryId,snapshot:{bindingId,apiRequestParamsRaw,presetParams,coverUrl,thumbnail,videoUrl,categoryId,...}}",
+      "currentReplica": "explicit_mock_incompatible",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Handler searches r.id against b.id||b.templateId; list fixtures have templateId and no id, so always returns null for valid templates. No detail snapshot fixture."
+    },
+    {
+      "path": "/api/message/user/unreadCount",
+      "method": "POST",
+      "feature": "notifications",
+      "request": {},
+      "responseData": "{officialMessageCount:integer}",
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Always0."
+    },
+    {
+      "path": "/canvas/notice/page",
+      "method": "POST",
+      "feature": "notifications",
+      "request": {
+        "current": 1,
+        "size": 10,
+        "noticeType": "UPDATE_RECORD"
+      },
+      "responseData": "{records:[{noticeId,title,content,hasRead,...}],hasNext:boolean,current,size,total,pages}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Suffix /page is not /list; falls all the way to {}, empty-safe but not valid pagination."
+    },
+    {
+      "path": "/canvas/notice/read",
+      "method": "POST",
+      "feature": "notifications",
+      "request": {
+        "noticeId": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/api/message/list/v2",
+      "method": "POST",
+      "feature": "notifications",
+      "request": {
+        "current": 1,
+        "size": 20,
+        "tabType": "TAB_OFFICIAL_MESSAGE"
+      },
+      "responseData": "{records:[{id,messageType,title,content,hasRead,...}],hasNext:boolean,current,size,total,pages}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Suffix /list/v2 is not /list; returns {}, empty-safe but not valid pagination."
+    },
+    {
+      "path": "/api/message/updateReadStatus",
+      "method": "POST",
+      "feature": "notifications",
+      "request": {
+        "msgId": "string[]"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/api/product/v2/list",
+      "method": "POST",
+      "feature": "catalog_pricing",
+      "request": {
+        "productType": "integer 1|2|3|4"
+      },
+      "responseData": "Product[]",
+      "currentReplica": "fixture_replay",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls; captured fixture response",
+      "notes": "14 captured fixture variants total includes 4 product variants. Product fields in fixture metadata; catalog replay is not payment integration.",
+      "capturedFixtures": [
+        {
+          "index": 10,
+          "requestBody": {
+            "productType": 1
+          },
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "id",
+            "productName",
+            "productCode",
+            "productType",
+            "dailyPrice",
+            "price",
+            "originalPrice",
+            "discountDesc",
+            "currency",
+            "currencySymbol",
+            "serviceUnit",
+            "serviceUnitName",
+            "serviceValue",
+            "renewOrUpgradeFlag",
+            "type",
+            "slogan",
+            "thirdProduct",
+            "thirdProductId",
+            "client",
+            "sort",
+            "buyType",
+            "remainQuantity",
+            "rightConfigList",
+            "location",
+            "packageList",
+            "defaultPackageId",
+            "subsidyCouponDiscount",
+            "subsidyCouponExpireTime"
+          ]
+        },
+        {
+          "index": 11,
+          "requestBody": {
+            "productType": 2
+          },
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "id",
+            "productName",
+            "productCode",
+            "productType",
+            "dailyPrice",
+            "price",
+            "originalPrice",
+            "discountDesc",
+            "currency",
+            "currencySymbol",
+            "serviceUnit",
+            "serviceUnitName",
+            "serviceValue",
+            "renewOrUpgradeFlag",
+            "type",
+            "slogan",
+            "thirdProduct",
+            "thirdProductId",
+            "client",
+            "sort",
+            "buyType",
+            "remainQuantity",
+            "rightConfigList",
+            "location",
+            "packageList",
+            "defaultPackageId",
+            "subsidyCouponDiscount",
+            "subsidyCouponExpireTime"
+          ]
+        },
+        {
+          "index": 12,
+          "requestBody": {
+            "productType": 3
+          },
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "id",
+            "productName",
+            "productCode",
+            "productType",
+            "dailyPrice",
+            "price",
+            "originalPrice",
+            "discountDesc",
+            "currency",
+            "currencySymbol",
+            "serviceUnit",
+            "serviceUnitName",
+            "serviceValue",
+            "renewOrUpgradeFlag",
+            "type",
+            "slogan",
+            "thirdProduct",
+            "thirdProductId",
+            "client",
+            "sort",
+            "buyType",
+            "remainQuantity",
+            "rightConfigList",
+            "location",
+            "packageList",
+            "defaultPackageId",
+            "subsidyCouponDiscount",
+            "subsidyCouponExpireTime"
+          ]
+        },
+        {
+          "index": 13,
+          "requestBody": {
+            "productType": 4
+          },
+          "responseDataType": "list",
+          "recordFields": null,
+          "itemFields": [
+            "id",
+            "productName",
+            "productCode",
+            "productType",
+            "dailyPrice",
+            "price",
+            "originalPrice",
+            "discountDesc",
+            "currency",
+            "currencySymbol",
+            "serviceUnit",
+            "serviceUnitName",
+            "serviceValue",
+            "renewOrUpgradeFlag",
+            "type",
+            "slogan",
+            "thirdProduct",
+            "thirdProductId",
+            "client",
+            "sort",
+            "buyType",
+            "remainQuantity",
+            "rightConfigList",
+            "location",
+            "packageList",
+            "defaultPackageId",
+            "subsidyCouponDiscount",
+            "subsidyCouponExpireTime"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/canvas/price/calculate",
+      "method": "POST",
+      "feature": "catalog_pricing",
+      "request": {
+        "skuId": "string",
+        "priceFactors": [
+          {
+            "title": "string?",
+            "titleEn": "string?",
+            "type": "string",
+            "fieldKey": "string",
+            "fieldValue": "JSON primitive/array"
+          }
+        ]
+      },
+      "responseData": "{totalPrice,originalTotalPrice,discountTotalPrice,userDiscount,currency,freeLimit,freeLimitCount,price,unitKey,tokenPriceEstimable,tip}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "No quote fixture. V2 removes generateNum; caller multiplies unit quote by count. {} can show implicit zero and may cause quote retry; real service must never default an unknown model to free."
+    },
+    {
+      "path": "/api/area/price/calculate",
+      "method": "POST",
+      "feature": "catalog_pricing",
+      "request": {
+        "skuId": "string",
+        "priceFactors": "same as /canvas/price/calculate"
+      },
+      "responseData": "same quote",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Fallback paid unit quote when free quota active."
+    },
+    {
+      "path": "/api/area/price/factor/detail",
+      "method": "POST",
+      "feature": "catalog_pricing",
+      "request": {
+        "skuId": "string"
+      },
+      "responseData": "array",
+      "currentReplica": "generic_null_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "/detail -> null although caller expects array; converts null to []."
+    },
+    {
+      "path": "/canvas/price/estimate",
+      "method": "POST",
+      "feature": "catalog_pricing",
+      "request": {
+        "canvasId": "string",
+        "targetType": "GROUP|NODE|CANVAS",
+        "targetId": "string",
+        "canvas": "serialized graph; {nodes,edges}"
+      },
+      "responseData": "{nodeCount,taskCount,estimatePrice}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Editor group-run estimate; quote not captured."
+    },
+    {
+      "path": "/canvas/price/llm-sku-price",
+      "method": "POST",
+      "feature": "catalog_pricing",
+      "request": {
+        "skuCodes": "string[]"
+      },
+      "responseData": "array",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/api/storage/getCredentials",
+      "method": "POST",
+      "feature": "upload",
+      "request": {
+        "scene": "canvas"
+      },
+      "responseData": "{accessKey,secretKey,sessionToken,bucket,region,endpoint,type,cdnDomain,expiredTime}",
+      "currentReplica": "bypassed",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Original ri gets scoped STS credentials then S3 multipart SDK upload direct to storage, returning CDN URL. prepare.mjs patches homepage cg -> objectURL; no credentials or file bytes go to backend. Other ri/Gp usages in lazy/editor surfaces are NOT patched by cg replacement."
+    },
+    {
+      "path": "/canvas/task/run",
+      "method": "POST",
+      "feature": "generation",
+      "request": {
+        "canvasId": "string",
+        "targetType": "NODE|GROUP|CANVAS",
+        "targetId": "string",
+        "canvas": "serialized graph {nodes,edges}",
+        "name": "string?",
+        "teamId": "string? (scope added by adapter)",
+        "generation": "legacy Yjs context may be added"
+      },
+      "responseData": "{taskId:string,...} (task shape unverified)",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Code contains legacy task execution, not implemented backend. Must adapt launch payload/direct model into own generation job, persist job/result state, and implement polling or SSE; unknown routes must fail explicitly."
+    },
+    {
+      "path": "/canvas/task/batchStatus",
+      "method": "POST",
+      "feature": "generation",
+      "request": {
+        "taskIds": "string[]",
+        "includeResults": "boolean?"
+      },
+      "responseData": "{tasks:TaskStatus[]}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Original converts missing tasks to [] but does not mean generated."
+    },
+    {
+      "path": "/canvas/task/cancel",
+      "method": "POST",
+      "feature": "generation",
+      "request": {
+        "taskId": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/logs/reportEvent",
+      "method": "POST",
+      "feature": "telemetry",
+      "request": {
+        "eventName": "string",
+        "eventBody": "object"
+      },
+      "responseData": null,
+      "currentReplica": "explicit_mock",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "No persistence; skipTeamContext+suppressAuthModal. navigator.sendBeacon replaced no-op."
+    },
+    {
+      "path": "/pay/order/create",
+      "method": "POST",
+      "feature": "payments",
+      "request": {
+        "productId": "string/legacy number?",
+        "payChannel": "STRIPE|ANTOM|...",
+        "bizChannel": "canvas",
+        "productCode": "0021 for custom overseas recharge?",
+        "money": "integer minor units string for custom amount",
+        "currency": "USD|CNY for custom amount",
+        "packageRightsId": "string?",
+        "teamMembershipOrderInfo": "object?"
+      },
+      "responseData": "{orderNo:string,prePayId?:string}",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Statically extracted payment chunk only. Catalog product-specific exclusiveParams also spread into payload."
+    },
+    {
+      "path": "/pay/order/pay",
+      "method": "POST",
+      "feature": "payments",
+      "request": {
+        "orderNo": "string",
+        "prePayId": "string? except WXGLOBAL",
+        "payChannel": "string",
+        "productId": "string?",
+        "productCode": "string? for custom amount",
+        "clientType": "string",
+        "openid": "string|null",
+        "thirdProductId": "string?",
+        "paymentMethodType": "string? if ANTOM"
+      },
+      "responseData": "{payUrl:string,expireSeconds:number,orderMoney,...}",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Backend must determine real product price/channel; client selection must not determine final charged amount."
+    },
+    {
+      "path": "/pay/order/query",
+      "method": "POST",
+      "feature": "payments",
+      "request": {
+        "orderNo": "string"
+      },
+      "responseData": "unverified",
+      "currentReplica": "explicit_blocked",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/api/system/getConfig",
+      "method": "POST",
+      "feature": "payments",
+      "request": {},
+      "responseData": "{h5payEnable:boolean}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/api/product/display/cancelSubButton",
+      "method": "POST",
+      "feature": "payments",
+      "request": {},
+      "responseData": "boolean|{displayCancelSub:boolean}",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/uc/team/membership/products",
+      "method": "GET",
+      "feature": "payments",
+      "request": {
+        "teamId": "string? query"
+      },
+      "responseData": "array",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/uc/team/membership/plan",
+      "method": "GET",
+      "feature": "payments",
+      "request": {
+        "teamId": "string query"
+      },
+      "responseData": "object|null",
+      "currentReplica": "generic_object_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    },
+    {
+      "path": "/canvas/asset/type/list",
+      "method": "POST",
+      "feature": "asset_library",
+      "request": {
+        "category": "COMMON|USER",
+        "teamId": "string?"
+      },
+      "responseData": "array",
+      "currentReplica": "generic_page_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": "Current generic /list returns Page not array: wrapper converts to empty []. Better return array per legacy contract."
+    },
+    {
+      "path": "/canvas/asset/user/group/list",
+      "method": "POST",
+      "feature": "asset_library",
+      "request": {
+        "page": "integer",
+        "size": "integer",
+        "teamId": "string?",
+        "otherFilters": "wrapper pass-through, not fully audited"
+      },
+      "responseData": {
+        "records": "T[]",
+        "current": "integer >=1",
+        "size": "integer >=1",
+        "total": "integer >=0",
+        "pages": "integer >=0",
+        "hasNext": "boolean"
+      },
+      "currentReplica": "generic_page_fallback",
+      "backendImplemented": false,
+      "evidence": "static original bundle caller; no new network calls",
+      "notes": ""
+    }
+  ],
+  "fixtureSchemas": [
+    {
+      "index": 0,
+      "path": "/api/portal/v2/getDictConfig",
+      "requestBody": "{\"dictTypes\":[\"system_contact_way\"]}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "distId": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "detailId": {
+                  "type": "string"
+                },
+                "detailName": {
+                  "type": "string"
+                },
+                "detailValue": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 1,
+      "path": "/canvas/config/query",
+      "requestBody": "{\"type\":\"CANVAS_HOME_CAROUSEL\"}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "content": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sort": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "linkUrl": {
+                      "type": "string"
+                    },
+                    "titleEn": {
+                      "type": "string"
+                    },
+                    "titleZh": {
+                      "type": "string"
+                    },
+                    "mediaUrl": {
+                      "type": "string"
+                    },
+                    "linkAiUrl": {
+                      "type": "string"
+                    },
+                    "linkCnUrl": {
+                      "type": "string"
+                    },
+                    "mediaType": {
+                      "type": "string"
+                    },
+                    "subtitleEn": {
+                      "type": "string"
+                    },
+                    "subtitleZh": {
+                      "type": "string"
+                    },
+                    "themeColor": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 2,
+      "path": "/canvas/skill/list",
+      "requestBody": "{\"page\":1,\"size\":60,\"category\":\"CANVAS_AGENT\",\"type\":\"COMMON\",\"querySortBy\":\"HOTTEST\"}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "records": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "skillId": {
+                      "type": "string"
+                    },
+                    "nickName": {
+                      "type": "string"
+                    },
+                    "headPic": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "intro": {
+                      "type": "string"
+                    },
+                    "useScenario": {
+                      "type": "string"
+                    },
+                    "useGuide": {
+                      "type": "string"
+                    },
+                    "outputContentDesc": {
+                      "type": "string"
+                    },
+                    "presetPrompt": {
+                      "type": "string"
+                    },
+                    "outputType": {
+                      "type": "string"
+                    },
+                    "thumbnail": {
+                      "type": "string"
+                    },
+                    "category": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "useCount": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "collectCount": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "createTime": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "updateTime": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "isCollect": {
+                      "type": "boolean"
+                    },
+                    "isPlatform": {
+                      "type": "boolean"
+                    },
+                    "isRecommend": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "size": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "current": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "pages": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 3,
+      "path": "/task/quick-creation/inspiration/templates",
+      "requestBody": "{\"page\":1,\"size\":60}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "records": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "templateId": {
+                      "type": "string"
+                    },
+                    "nameCn": {
+                      "type": "string"
+                    },
+                    "nameAi": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "null"
+                    },
+                    "descriptionAi": {
+                      "type": "null"
+                    },
+                    "coverUrl": {
+                      "type": "string"
+                    },
+                    "coverAspectRatio": {
+                      "type": "number"
+                    },
+                    "coverWidth": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "coverHeight": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "categoryId": {
+                      "type": "string"
+                    },
+                    "videoUrl": {
+                      "type": "string"
+                    },
+                    "tagHot": {
+                      "type": "boolean"
+                    },
+                    "tagNew": {
+                      "type": "boolean"
+                    },
+                    "sortOrder": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    }
+                  }
+                }
+              },
+              "size": {
+                "type": "string"
+              },
+              "current": {
+                "type": "string"
+              },
+              "total": {
+                "type": "string"
+              },
+              "pages": {
+                "type": "string"
+              },
+              "hasNext": {
+                "type": "boolean"
+              },
+              "hasPrevious": {
+                "type": "boolean"
+              },
+              "nextCursor": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 4,
+      "path": "/canvas/model/group/list",
+      "requestBody": "{}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "modelGroupId": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "modelGroupName": {
+                  "type": "string"
+                },
+                "modelGroupNameEn": {
+                  "type": "string"
+                },
+                "icon": {
+                  "type": "string"
+                },
+                "nodeTypeList": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "modelGroupList": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "modelGroupId": {
+                        "type": "integer",
+                        "unsafeJavaScriptInteger": false
+                      },
+                      "modelGroupName": {
+                        "type": "string"
+                      },
+                      "modelGroupNameEn": {
+                        "type": "string"
+                      },
+                      "icon": {
+                        "type": "string"
+                      },
+                      "nodeTypeList": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "nodeModelList": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "nodeType": {
+                              "type": "string"
+                            },
+                            "modelList": {
+                              "type": "array"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 5,
+      "path": "/canvas/model/list",
+      "requestBody": "{\"types\":[\"TEXT_IMAGE\",\"IMAGE_IMAGE\",\"TEXT_VIDEO\",\"IMAGE_VIDEO\",\"MULTIMODAL_VIDEO\",\"START_END_VIDEO\",\"START_VIDEO\",\"VIDEO_VIDEO\",\"VIDEO_EDIT\",\"VIDEO_EXTEND\",\"VIDEO_HD\",\"VIDEO_MOTION_TRANSFER\",\"VIDEO_CLIP_RESHOOT\",\"VIDEO_REMOVE_WATERMARK\",\"VIDEO_REMOVE_SUBTITLES\",\"VIDEO_REMOVE_BLUR\",\"VIDEO_DEPTH_CONVERTER\",\"VIDEO_ANALYSIS\",\"TEXT_AUDIO\",\"TEXT_MUSIC\",\"AUDIO_AUDIO\",\"VIDEO_AUDIO\",\"TEXT_TEXT\",\"MULTIMODAL_TEXT\",\"IMAGE_TEXT\",\"VIDEO_TEXT\",\"TEXT_LYRICS\",\"TEXT_TO_W3D\",\"IMAGE_TO_W3D\",\"VIDEO_TO_W3D\",\"TEXT_TO_3D\",\"IMAGE_TO_3D\",\"MULTIMODAL_STORYBOARD\",\"TEXT_STORYBOARD\",\"IMAGE_STORYBOARD\",\"VIDEO_STORYBOARD\",\"IMAGE_RECOGNITION\",\"IMAGE_LAYER_DECOMPOSITION\",\"CONTEXT_IR_MULTIMODAL\",\"CONTEXT_IR\",\"PROMPT_ENHANCE\"]}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "modelList": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "unsafeJavaScriptInteger": false
+                      },
+                      "modelCode": {
+                        "type": "string"
+                      },
+                      "modelType": {
+                        "type": "string"
+                      },
+                      "modelName": {
+                        "type": "string"
+                      },
+                      "modelNameEn": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "descriptionEn": {
+                        "type": "string"
+                      },
+                      "icon": {
+                        "type": "string"
+                      },
+                      "generateNum": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "unsafeJavaScriptInteger": false
+                        }
+                      },
+                      "skuId": {
+                        "type": "string"
+                      },
+                      "config": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "display": {
+                              "type": "boolean"
+                            },
+                            "required": {
+                              "type": "boolean"
+                            },
+                            "maxLength": {
+                              "type": "integer",
+                              "unsafeJavaScriptInteger": false
+                            },
+                            "minLength": {
+                              "type": "integer",
+                              "unsafeJavaScriptInteger": false
+                            },
+                            "paramName": {
+                              "type": "string"
+                            },
+                            "paramDataType": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "available": {
+                        "type": "boolean"
+                      },
+                      "existVolcengineAssetEntry": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 6,
+      "path": "/canvas/community/composition/list",
+      "requestBody": "{\"page\":1,\"size\":40,\"sortType\":\"EDITOR_PICK\"}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "records": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "compositionUrl": {
+                      "type": "string"
+                    },
+                    "compositionDuration": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "thumbnail": {
+                      "type": "string"
+                    },
+                    "categoryCode": {
+                      "type": "string"
+                    },
+                    "categoryName": {
+                      "type": "string"
+                    },
+                    "likeCount": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "playCount": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": false
+                    },
+                    "authorId": {
+                      "type": "integer",
+                      "unsafeJavaScriptInteger": true
+                    },
+                    "authorName": {
+                      "type": "string"
+                    },
+                    "authorAvatar": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "size": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "current": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "pages": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 7,
+      "path": "/canvas/common-workflow/list",
+      "requestBody": null,
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "records": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "workflowContent": {
+                      "type": "object",
+                      "properties": {
+                        "edges": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "data": {
+                                "type": "object"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "style": {
+                                "type": "object"
+                              },
+                              "source": {
+                                "type": "string"
+                              },
+                              "target": {
+                                "type": "string"
+                              },
+                              "zIndex": {
+                                "type": "integer",
+                                "unsafeJavaScriptInteger": false
+                              },
+                              "animated": {
+                                "type": "boolean"
+                              },
+                              "sourceHandle": {
+                                "type": "string"
+                              },
+                              "targetHandle": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "nodes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "data": {
+                                "type": "object"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "style": {
+                                "type": "object"
+                              },
+                              "hidden": {
+                                "type": "boolean"
+                              },
+                              "zIndex": {
+                                "type": "integer",
+                                "unsafeJavaScriptInteger": false
+                              },
+                              "position": {
+                                "type": "object"
+                              },
+                              "draggable": {
+                                "type": "boolean"
+                              },
+                              "selectable": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        },
+                        "viewport": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            },
+                            "zoom": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "thumbnail": {
+                      "type": "string"
+                    },
+                    "updateTime": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "string"
+                    },
+                    "nickName": {
+                      "type": "null"
+                    },
+                    "headPic": {
+                      "type": "null"
+                    },
+                    "isOwn": {
+                      "type": "boolean"
+                    },
+                    "favorited": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "size": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "current": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "pages": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 8,
+      "path": "/canvas/community/composition/detail",
+      "requestBody": null,
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "compositionUrl": {
+                "type": "string"
+              },
+              "compositionDuration": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "thumbnail": {
+                "type": "string"
+              },
+              "categoryCode": {
+                "type": "string"
+              },
+              "categoryName": {
+                "type": "string"
+              },
+              "allowClone": {
+                "type": "boolean"
+              },
+              "allowPublic": {
+                "type": "boolean"
+              },
+              "likeCount": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "playCount": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "cloneCount": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": false
+              },
+              "liked": {
+                "type": "boolean"
+              },
+              "authorId": {
+                "type": "integer",
+                "unsafeJavaScriptInteger": true
+              },
+              "authorName": {
+                "type": "string"
+              },
+              "authorAvatar": {
+                "type": "string"
+              },
+              "publishTime": {
+                "type": "string"
+              },
+              "compositionPlay": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 9,
+      "path": "/canvas/community/composition/recommended/list",
+      "requestBody": null,
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "compositionUrl": {
+                  "type": "string"
+                },
+                "compositionDuration": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "thumbnail": {
+                  "type": "string"
+                },
+                "categoryCode": {
+                  "type": "string"
+                },
+                "categoryName": {
+                  "type": "string"
+                },
+                "likeCount": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "playCount": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "authorId": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": true
+                },
+                "authorName": {
+                  "type": "string"
+                },
+                "authorAvatar": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 10,
+      "path": "/api/product/v2/list",
+      "requestBody": "{\"productType\":1}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "productName": {
+                  "type": "string"
+                },
+                "productCode": {
+                  "type": "string"
+                },
+                "productType": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "dailyPrice": {
+                  "type": "null"
+                },
+                "price": {
+                  "type": "number"
+                },
+                "originalPrice": {
+                  "type": "null"
+                },
+                "discountDesc": {
+                  "type": "null"
+                },
+                "currency": {
+                  "type": "string"
+                },
+                "currencySymbol": {
+                  "type": "string"
+                },
+                "serviceUnit": {
+                  "type": "null"
+                },
+                "serviceUnitName": {
+                  "type": "null"
+                },
+                "serviceValue": {
+                  "type": "string"
+                },
+                "renewOrUpgradeFlag": {
+                  "type": "null"
+                },
+                "type": {
+                  "type": "null"
+                },
+                "slogan": {
+                  "type": "null"
+                },
+                "thirdProduct": {
+                  "type": "string"
+                },
+                "thirdProductId": {
+                  "type": "string"
+                },
+                "client": {
+                  "type": "null"
+                },
+                "sort": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "buyType": {
+                  "type": "null"
+                },
+                "remainQuantity": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "rightConfigList": {
+                  "type": "null"
+                },
+                "location": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "packageList": {
+                  "type": "null"
+                },
+                "defaultPackageId": {
+                  "type": "null"
+                },
+                "subsidyCouponDiscount": {
+                  "type": "null"
+                },
+                "subsidyCouponExpireTime": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 11,
+      "path": "/api/product/v2/list",
+      "requestBody": "{\"productType\":2}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "productName": {
+                  "type": "string"
+                },
+                "productCode": {
+                  "type": "string"
+                },
+                "productType": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "dailyPrice": {
+                  "type": "number"
+                },
+                "price": {
+                  "type": "number"
+                },
+                "originalPrice": {
+                  "type": "number"
+                },
+                "discountDesc": {
+                  "type": "string"
+                },
+                "currency": {
+                  "type": "string"
+                },
+                "currencySymbol": {
+                  "type": "string"
+                },
+                "serviceUnit": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "serviceUnitName": {
+                  "type": "string"
+                },
+                "serviceValue": {
+                  "type": "null"
+                },
+                "renewOrUpgradeFlag": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "slogan": {
+                  "type": "string"
+                },
+                "thirdProduct": {
+                  "type": "string"
+                },
+                "thirdProductId": {
+                  "type": "string"
+                },
+                "client": {
+                  "type": "null"
+                },
+                "sort": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "buyType": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "remainQuantity": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "rightConfigList": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "rightId": {
+                        "type": "string"
+                      },
+                      "userType": {
+                        "type": "string"
+                      },
+                      "userTypeName": {
+                        "type": "string"
+                      },
+                      "rightDesc": {
+                        "type": "string"
+                      },
+                      "subRightDesc": {
+                        "type": "string"
+                      },
+                      "oldSubRightDesc": {
+                        "type": "string"
+                      },
+                      "yearSubRightDesc": {
+                        "type": "string"
+                      },
+                      "rightName": {
+                        "type": "null"
+                      },
+                      "isRight": {
+                        "type": "boolean"
+                      },
+                      "rightValue": {
+                        "type": "integer",
+                        "unsafeJavaScriptInteger": false
+                      },
+                      "oldRightValue": {
+                        "type": "integer",
+                        "unsafeJavaScriptInteger": false
+                      },
+                      "yearRightValue": {
+                        "type": "integer",
+                        "unsafeJavaScriptInteger": false
+                      },
+                      "purchaseUnitCode": {
+                        "type": "null"
+                      },
+                      "purchaseUnitName": {
+                        "type": "null"
+                      },
+                      "sort": {
+                        "type": "integer",
+                        "unsafeJavaScriptInteger": false
+                      },
+                      "unitDesc": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "location": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "packageList": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "rightsId": {
+                        "type": "string"
+                      },
+                      "packageName": {
+                        "type": "string"
+                      },
+                      "packageDesc": {
+                        "type": "null"
+                      },
+                      "rightsDesc": {
+                        "type": "string"
+                      },
+                      "isDefault": {
+                        "type": "boolean"
+                      },
+                      "seq": {
+                        "type": "string"
+                      },
+                      "coinValue": {
+                        "type": "integer",
+                        "unsafeJavaScriptInteger": false
+                      },
+                      "walletValue": {
+                        "type": "number"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "unitDesc": {
+                        "type": "string"
+                      },
+                      "packageCode": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "defaultPackageId": {
+                  "type": "string"
+                },
+                "subsidyCouponDiscount": {
+                  "type": "null"
+                },
+                "subsidyCouponExpireTime": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 12,
+      "path": "/api/product/v2/list",
+      "requestBody": "{\"productType\":3}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "productName": {
+                  "type": "string"
+                },
+                "productCode": {
+                  "type": "string"
+                },
+                "productType": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "dailyPrice": {
+                  "type": "null"
+                },
+                "price": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "originalPrice": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "discountDesc": {
+                  "type": "null"
+                },
+                "currency": {
+                  "type": "string"
+                },
+                "currencySymbol": {
+                  "type": "string"
+                },
+                "serviceUnit": {
+                  "type": "null"
+                },
+                "serviceUnitName": {
+                  "type": "null"
+                },
+                "serviceValue": {
+                  "type": "string"
+                },
+                "renewOrUpgradeFlag": {
+                  "type": "null"
+                },
+                "type": {
+                  "type": "null"
+                },
+                "slogan": {
+                  "type": "null"
+                },
+                "thirdProduct": {
+                  "type": "string"
+                },
+                "thirdProductId": {
+                  "type": "string"
+                },
+                "client": {
+                  "type": "null"
+                },
+                "sort": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "buyType": {
+                  "type": "null"
+                },
+                "remainQuantity": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "rightConfigList": {
+                  "type": "null"
+                },
+                "location": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "packageList": {
+                  "type": "null"
+                },
+                "defaultPackageId": {
+                  "type": "null"
+                },
+                "subsidyCouponDiscount": {
+                  "type": "null"
+                },
+                "subsidyCouponExpireTime": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 13,
+      "path": "/api/product/v2/list",
+      "requestBody": "{\"productType\":4}",
+      "response": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "unsafeJavaScriptInteger": false
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorMessages": {
+            "type": "null"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "productName": {
+                  "type": "string"
+                },
+                "productCode": {
+                  "type": "string"
+                },
+                "productType": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "dailyPrice": {
+                  "type": "null"
+                },
+                "price": {
+                  "type": "number"
+                },
+                "originalPrice": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "discountDesc": {
+                  "type": "null"
+                },
+                "currency": {
+                  "type": "string"
+                },
+                "currencySymbol": {
+                  "type": "string"
+                },
+                "serviceUnit": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "serviceUnitName": {
+                  "type": "string"
+                },
+                "serviceValue": {
+                  "type": "null"
+                },
+                "renewOrUpgradeFlag": {
+                  "type": "null"
+                },
+                "type": {
+                  "type": "null"
+                },
+                "slogan": {
+                  "type": "null"
+                },
+                "thirdProduct": {
+                  "type": "null"
+                },
+                "thirdProductId": {
+                  "type": "null"
+                },
+                "client": {
+                  "type": "null"
+                },
+                "sort": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "buyType": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "remainQuantity": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "rightConfigList": {
+                  "type": "null"
+                },
+                "location": {
+                  "type": "integer",
+                  "unsafeJavaScriptInteger": false
+                },
+                "packageList": {
+                  "type": "null"
+                },
+                "defaultPackageId": {
+                  "type": "null"
+                },
+                "subsidyCouponDiscount": {
+                  "type": "null"
+                },
+                "subsidyCouponExpireTime": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "id": "IDs",
+      "severity": "high",
+      "finding": "61 fixture numeric values exceed JS safe integer; authorId and workflow userId occur. Convert identifiers to strings before serializing from backend. Rounded captured numbers cannot be repaired by String() after JSON.parse.",
+      "examples": [
+        {
+          "jsonPath": "fixtures[6].body.data.records[0].authorId",
+          "value": "1854055506158735400"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[1].authorId",
+          "value": "1854055506158735400"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[2].authorId",
+          "value": "1854055506158735400"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[3].authorId",
+          "value": "1854055506158735400"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[4].authorId",
+          "value": "1854055506158735400"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[5].authorId",
+          "value": "1854055506158735400"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[6].authorId",
+          "value": "2081658892425179100"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[7].authorId",
+          "value": "1854055506158735400"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[8].authorId",
+          "value": "2081576011675168800"
+        },
+        {
+          "jsonPath": "fixtures[6].body.data.records[9].authorId",
+          "value": "2081658892425179100"
+        }
+      ]
+    },
+    {
+      "id": "template-detail",
+      "severity": "high",
+      "finding": "Explicit template detail mock uses row.id; real list row key is templateId. It returns null for valid selection."
+    },
+    {
+      "id": "recommended-array",
+      "severity": "high",
+      "finding": "Explicit recommended/list mock returns Page and shadows real array fixture. Legacy contract expects array and request is recommendedSize, no compositionId."
+    },
+    {
+      "id": "fixture-routing",
+      "severity": "high",
+      "finding": "Fixture lookup keys only path + optional type/productType; getDictConfig dictTypes, workflow id, category/tag filters are ignored."
+    },
+    {
+      "id": "pagination",
+      "severity": "high",
+      "finding": "Fixture replay overwrites total=returned rows, pages=1,hasNext=false; b.page>1 becomes empty; ignores requested size,current,cursor. Cannot be backend pagination specification."
+    },
+    {
+      "id": "detail-flat",
+      "severity": "medium",
+      "finding": "Community composition/detail fixture is FLAT; {detail,canvasContent} belongs to admin helper transform only. Do not use nested detail shape for public endpoint."
+    },
+    {
+      "id": "upload",
+      "severity": "high",
+      "finding": "Homepage cg resolves objectURL. This is tab-local preview URL and unsuitable as persisted upload/generation input. Other legacy ri paths are separate."
+    },
+    {
+      "id": "generation-adapter",
+      "severity": "high",
+      "finding": "Homepage canvas/create {} just opens editor and carries launch payload in browser storage/query. Own /v1/generations needs explicit adapter; implementing only that new route will not make legacy original bundle generate."
+    },
+    {
+      "id": "fallbacks",
+      "severity": "high",
+      "finding": "Unknown paths return code0 {} and mutation-like controls falsely report success. Quote {} can imply zero or retry; unsupported capabilities need explicit error."
+    },
+    {
+      "id": "http-logger",
+      "severity": "medium",
+      "finding": "__replicaRequests logs method:local rather than actual XHR/fetch HTTP method. It cannot prove endpoint methods; use static caller evidence."
+    },
+    {
+      "id": "auth",
+      "severity": "high",
+      "finding": "Unsigned synthetic token bypasses only UI gates. Revoke preview seeding when switching to backend; real JWT/HttpOnly session must be validated server-side."
+    },
+    {
+      "id": "membership-content",
+      "severity": "medium",
+      "finding": "QA observed Creative Member package area empty despite product fixture. Need product config compatibility and packageList/defaultPackageId/rightConfigList validation."
+    }
+  ],
+  "allStaticDirectPostPaths": [
+    "/api/area/price/calculate",
+    "/api/area/price/factor/detail",
+    "/api/balanceAlert/get",
+    "/api/balanceAlert/set",
+    "/api/cost/average",
+    "/api/likeOrCollect/resource/list",
+    "/api/likeOrCollect/webapp/list",
+    "/api/message/list/v2",
+    "/api/message/updateReadStatus",
+    "/api/message/user/unreadCount",
+    "/api/portal/creation/list",
+    "/api/portal/tag/tree",
+    "/api/portal/v2/getDictConfig",
+    "/api/resource/list",
+    "/api/resource/team/list",
+    "/api/storage/getCredentials",
+    "/api/user/task/work/valid",
+    "/api/webapp/detail",
+    "/api/webapp/list",
+    "/api/webapp/user/list",
+    "/api/workflow/getDetail",
+    "/api/workflow/webapp-price-estimate",
+    "/canvas/admin/common-workflow/detail",
+    "/canvas/agent/skill/chat/generate",
+    "/canvas/agent/skill/file/content/optimize",
+    "/canvas/asset/type/list",
+    "/canvas/asset/user/group/create",
+    "/canvas/asset/user/group/item/list",
+    "/canvas/asset/user/group/list",
+    "/canvas/checkUserIdByCanvasId",
+    "/canvas/client-backup/claim",
+    "/canvas/client-backup/complete",
+    "/canvas/common-workflow/apply",
+    "/canvas/common-workflow/favorite",
+    "/canvas/common-workflow/favorite/list",
+    "/canvas/common-workflow/list",
+    "/canvas/common-workflow/submit",
+    "/canvas/common-workflow/type/list",
+    "/canvas/community/composition/publish",
+    "/canvas/config/query",
+    "/canvas/config/queryByTypes",
+    "/canvas/cos/fileSizes",
+    "/canvas/create",
+    "/canvas/createFromCase",
+    "/canvas/delete",
+    "/canvas/detail/byCanvasId",
+    "/canvas/feedback",
+    "/canvas/folder/create",
+    "/canvas/folder/delete",
+    "/canvas/folder/getConfig",
+    "/canvas/folder/update",
+    "/canvas/getCanvasDetail",
+    "/canvas/his/generate/param/detail",
+    "/canvas/home/highlight/query",
+    "/canvas/home/hot-skill/query",
+    "/canvas/incentive/activity/list",
+    "/canvas/invoke/api/llm",
+    "/canvas/list",
+    "/canvas/logs/reportEvent",
+    "/canvas/model/group/list",
+    "/canvas/model/list",
+    "/canvas/model/voice/lang/list",
+    "/canvas/model/voice/record/collect",
+    "/canvas/model/voice/record/list",
+    "/canvas/model/voice/record/uncollect",
+    "/canvas/model/voice/scene/list",
+    "/canvas/move/v1/submit",
+    "/canvas/move/v1/targetList",
+    "/canvas/node/tag/create",
+    "/canvas/node/tag/delete",
+    "/canvas/node/tag/initPreset",
+    "/canvas/node/tag/list",
+    "/canvas/node/tag/sort",
+    "/canvas/node/tag/status",
+    "/canvas/node/tag/update",
+    "/canvas/notice/page",
+    "/canvas/notice/read",
+    "/canvas/pin",
+    "/canvas/price/calculate",
+    "/canvas/price/estimate",
+    "/canvas/price/llm-sku-price",
+    "/canvas/prompt/category/tree",
+    "/canvas/prompt/create",
+    "/canvas/prompt/enhance",
+    "/canvas/prompt/favorite/add",
+    "/canvas/prompt/favorite/cancel",
+    "/canvas/prompt/favorite/list",
+    "/canvas/prompt/system/batchList",
+    "/canvas/prompt/system/list",
+    "/canvas/prompt/use/record/add",
+    "/canvas/prompt/use/record/list",
+    "/canvas/prompt/user/delete",
+    "/canvas/prompt/user/list",
+    "/canvas/prompt/user/style/create",
+    "/canvas/prompt/user/style/delete",
+    "/canvas/prompt/user/style/list",
+    "/canvas/prompt/user/style/update",
+    "/canvas/prompt/user/update",
+    "/canvas/remake/assets/upload-voice",
+    "/canvas/remake/config/story-voice-presets",
+    "/canvas/rename",
+    "/canvas/saveLockedCopy",
+    "/canvas/share/clone",
+    "/canvas/share/link",
+    "/canvas/skill/collect",
+    "/canvas/skill/collect/list",
+    "/canvas/skill/delete",
+    "/canvas/skill/detail",
+    "/canvas/skill/list",
+    "/canvas/skill/publish",
+    "/canvas/skill/save",
+    "/canvas/skill/type/list",
+    "/canvas/skill/uncollect",
+    "/canvas/skill/use/record/add",
+    "/canvas/task/batchStatus",
+    "/canvas/task/cancel",
+    "/canvas/task/run",
+    "/canvas/team/comment/create",
+    "/canvas/team/comment/delete",
+    "/canvas/team/comment/list",
+    "/canvas/team/comment/update",
+    "/canvas/team/createFromPersonal",
+    "/canvas/unpin",
+    "/canvas/volcengine/user/asset/delete",
+    "/canvas/volcengine/user/asset/importByAssetId",
+    "/canvas/volcengine/user/asset/list",
+    "/canvas/volcengine/user/asset/update/name",
+    "/canvas/workflow/delete",
+    "/canvas/workflow/detail",
+    "/canvas/workflow/list",
+    "/canvas/workflow/save",
+    "/canvas/yjs-baseline-reset/candidate",
+    "/canvas/yjs/divergence-repair/candidate/chunk",
+    "/canvas/yjs/divergence-repair/candidate/complete",
+    "/canvas/yjs/divergence-repair/candidate/init",
+    "/task/quick-creation/inspiration/tags",
+    "/task/quick-creation/inspiration/template/detail",
+    "/task/quick-creation/inspiration/templates",
+    "/task/third-party/config",
+    "/uc/abroad/pwdLogin",
+    "/uc/apiKey/get",
+    "/uc/emailLogin",
+    "/uc/getUserInfo",
+    "/uc/googleLogin",
+    "/uc/logout",
+    "/uc/pwdLogin",
+    "/uc/redeem/check",
+    "/uc/redeem/redeem",
+    "/uc/sendEmailCode",
+    "/uc/sendSms",
+    "/uc/setCanvasFastWatermark",
+    "/uc/smsLogin",
+    "/uc/team/member/join",
+    "/uc/team/switch",
+    "/uc/wechat/check/login",
+    "/uc/wechat/login/qrcode"
+  ],
+  "importantBoundaries": [
+    "Routes merely present in imported original bundle are not reserved backend implementations.",
+    "Only fixture response capture proves original returned shape; static caller evidence does not prove permissions or successful request.",
+    "Generation/payment/auth/upload backend not implemented.",
+    "Avoid raw original provider API URLs/credentials; proxy own validated backend provider integration."
+  ],
+  "homepageLaunchPayload": {
+    "text": "string",
+    "attachments": [
+      {
+        "name": "string",
+        "type": "image|video|audio",
+        "size": "number",
+        "url": "persistent asset URL; current preview objectURL"
+      }
+    ],
+    "autoSubmit": "boolean",
+    "skillIds": "string[]",
+    "prefs": {
+      "prefsAutoRun": "boolean",
+      "agentAutoRun": "boolean",
+      "prefsTab": "image|video",
+      "selectedImageAspectRatio": "string",
+      "selectedVideoAspectRatio": "string",
+      "selectedImageResolution": "string",
+      "selectedVideoResolution": "string",
+      "selectedVideoDuration": "string",
+      "agentImageModel": "legacy full Model|null",
+      "agentVideoModel": "legacy full Model|null",
+      "activeSkillTag": "object|null",
+      "skipPromptExpand": "boolean",
+      "directMode": "image|video?",
+      "directModel": "legacy full Model?",
+      "directModelParams": "object?",
+      "directSubType": "string?"
+    },
+    "motionTransfer": "alternative payload {imageUrl,videoUrl}",
+    "launchStorage": "a6n stores serialized payload with createdAt and stripped attachments; navigates editor with agentLaunchKey"
+  }
+}

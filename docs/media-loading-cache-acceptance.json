@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-08T06:23:06.081062+00:00",
+  "status": "DEPLOYED",
+  "codeCommit": "5a35ec6",
+  "pipeline": [
+    "AutoDL H3 private output",
+    "Router SHA-verified PostgreSQL artifact bytes on deployment-host",
+    "STUDIO SHA-verified immutable /data/assets file on deployment-host",
+    "STUDIO signed local file response to browser"
+  ],
+  "repeatedPlaybackRequestsModelNode": false,
+  "storageAudit": {
+    "readyAssets": {
+      "IMAGE": 84,
+      "VIDEO": 13,
+      "AUDIO": 3
+    },
+    "generatedArchivedAssets": {
+      "IMAGE": 29,
+      "H3_VIDEO": 7
+    },
+    "volumeApproxMiB": 105,
+    "freeDiskApproxGiB": 720
+  },
+  "observedIssues": [
+    "fresh metadata grants replaced video src on canvas synchronization",
+    "private no-store prevented HTTP browser media caching",
+    "video/audio original file URL reused as image thumbnail",
+    "4 of 7 inspected H3 clips had moov after mdat; no playback derivative exists"
+  ],
+  "changes": [
+    "fresh authorized metadata retains same SHA/kind/MIME grant while its remaining lifetime exceeds 60 seconds",
+    "same-asset in-flight metadata resolves coalesce; later calls still check access and session cleanup fences old responses",
+    "media responses permit private storage with mandatory revalidation; GET/HEAD If-None-Match returns 304 after token/session/ACL/READY/file checks",
+    "strong If-Range preserves 206; mismatch returns original full 200; existing single-range/HEAD/416 semantics preserved",
+    "only image output uses the original preview as thumbnail; video/audio no longer pretend to supply an image poster"
+  ],
+  "verification": {
+    "frontend": {
+      "typecheck": "PASS",
+      "suiteFiles": 83,
+      "suiteTests": 1350,
+      "newMediaRegressionTests": 20,
+      "productionBuild": "PASS"
+    },
+    "backend": {
+      "goUnitSuite": "PASS",
+      "goVet": "PASS",
+      "unitSuiteDatabaseTests": "explicit TEST_DATABASE_URL absent; skipped separately from integration below",
+      "etagParserCases": 18,
+      "isolatedPostgresVersion": 17,
+      "isolatedPostgresTests": [
+        "TestPostgresSignedMediaPermissionLeaseExpiryPreservesSessionOwner",
+        "TestPostgresCoreIntegration"
+      ],
+      "isolatedPostgresResult": "PASS",
+      "covers": [
+        "authorized GET/HEAD 304 without bytes",
+        "exact Range and HEAD 206",
+        "If-Range fallback 200",
+        "foreign asset denial",
+        "project membership revocation with matching ETag",
+        "IPAC permission lease denial with matching ETag",
+        "logout with matching ETag",
+        "missing/truncated local file failure"
+      ]
+    },
+    "baselineNativeAssets": 1198,
+    "frozenContractValidation": "PASS",
+    "contractTests": 63,
+    "production": {
+      "readyz": {
+        "database": "ready",
+        "status": "ready",
+        "storage": "ready"
+      },
+      "webEntry": "index-Bj3D6fn7.js",
+      "mediaRuntime": "runtime-B_5CAvnx.js",
+      "runtimeCodeServed": "PASS",
+      "invalidTokenMediaRequest": {
+        "status": 401,
+        "cacheControl": "no-store"
+      },
+      "changedServices": [
+        "api",
+        "web"
+      ],
+      "assetCountsUnchanged": true,
+      "testContainersNetworksAndOwnedTemporaryFilesCleaned": true
+    },
+    "review": "independent frontend/backend review completed with no unresolved issue"
+  },
+  "performanceScope": {
+    "beforeSample": {
+      "serverAccessLogLookbackHours": 2,
+      "resourceRequests": 56,
+      "statusCounts": {
+        "200": 46,
+        "206": 9,
+        "401": 1
+      },
+      "requestElapsedMedianMs": 451.5,
+      "requestElapsedMaximumMs": 1996,
+      "note": "server entire-response elapsed; not client first-frame or TTFB"
+    },
+    "authorizedCacheHitBodyBytes": 0,
+    "userBrowserFirstFrameBeforeAfter": "NOT_MEASURED",
+    "speedMultiplier": "NOT_CLAIMED"
+  },
+  "remaining": [
+    "first reads still transfer the original bytes from deployment-host",
+    "real video poster/image thumbnails are not generated",
+    "faststart playback derivatives are not generated",
+    "shared Nginx media cache is not enabled; browser cache requires authorization revalidation"
+  ],
+  "gpuRunsDuringTask": 0
+}

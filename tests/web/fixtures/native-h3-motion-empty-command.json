@@ -1,0 +1,259 @@
+{
+  "provenance": {
+    "sourceCapture": "h3-motion-empty-command-evidence.json",
+    "sourceSHA256": "0d52ecfbd84b1f49c2829bbd7cbdff1e594f6f74eeccb2dab8f5b00d927a31b4",
+    "lateMaterialization": {
+      "source": "case14c-h3-motion-after-reject.json",
+      "sha256": "bc7ed0b653ebf69a17039b8837210cb0c2b5d06afb3dbfa11900dc0fe8dcba15",
+      "description": "CI21 real web: native commit materializes validated empty controls and composed media while save awaits; private IDs replaced."
+    }
+  },
+  "before": {
+    "nodes": [
+      {
+        "id": "source-image",
+        "type": "rh-image",
+        "position": {
+          "x": 604.9732325368964,
+          "y": 457.3895515745833
+        },
+        "data": {
+          "label": "reference-first.png",
+          "title": "reference-first",
+          "status": "idle",
+          "width": 480,
+          "height": 360,
+          "sourceObjects": [
+            "rhtv-asset:image"
+          ],
+          "aspectRatio": "16:9",
+          "subType": "text-image"
+        },
+        "style": {
+          "height": 360,
+          "width": 480
+        },
+        "selectable": true
+      },
+      {
+        "id": "source-video",
+        "type": "rh-video",
+        "position": {
+          "x": 604.9732325368964,
+          "y": 857.3895515745833
+        },
+        "data": {
+          "label": "reference-motion.mp4",
+          "title": "reference-motion.mp4",
+          "status": "idle",
+          "width": 360,
+          "height": 270,
+          "sourceObjects": [
+            "rhtv-asset:video"
+          ],
+          "subType": "text-video",
+          "fileName": "reference-motion.mp4",
+          "fileSize": 31398,
+          "mimeType": "video/mp4",
+          "duration": 6,
+          "videoWidth": 640,
+          "videoHeight": 480
+        },
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true
+      },
+      {
+        "id": "n",
+        "type": "rh-video",
+        "position": {
+          "x": 1058.9660085920545,
+          "y": 150.0239901792126
+        },
+        "selectable": true,
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "idle",
+          "prompt": "",
+          "params": {
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": "",
+            "videoUrls": ""
+          },
+          "modelCode": "h3-motion-transfer-v1",
+          "generateNum": 1,
+          "subType": "video-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          }
+        },
+        "style": {
+          "width": 380,
+          "height": 220
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-source-image-n",
+        "source": "source-image",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      },
+      {
+        "id": "e-source-video-n",
+        "source": "source-video",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "command": {
+    "canvasId": "p",
+    "targetType": "NODE",
+    "targetId": "n",
+    "canvas": {
+      "nodes": [
+        {
+          "id": "n",
+          "type": "rh-video",
+          "position": {
+            "x": 1058.9660085920545,
+            "y": 150.0239901792126
+          },
+          "data": {
+            "label": "视频",
+            "title": "视频",
+            "status": "idle",
+            "prompt": "",
+            "subType": "video-video",
+            "modelCode": "h3-motion-transfer-v1",
+            "generateNum": 1,
+            "params": {
+              "outputPreset": "landscape-480p-5s",
+              "imageUrls": [
+                "rhtv-asset:image"
+              ],
+              "videoUrls": [
+                "rhtv-asset:video"
+              ],
+              "prompt": "",
+              "text": ""
+            },
+            "maxConnect": {
+              "image": null,
+              "text": null,
+              "video": null
+            },
+            "userPromptSnapshot": {
+              "paramName": "prompt",
+              "value": ""
+            },
+            "modelType": "OPENAPI",
+            "presetSelections": [],
+            "nodeOutputHistory": []
+          },
+          "style": {
+            "width": 380,
+            "height": 220
+          },
+          "selectable": true,
+          "hidden": false
+        },
+        {
+          "id": "source-image",
+          "type": "rh-image",
+          "position": {
+            "x": 604.9732325368964,
+            "y": 457.3895515745833
+          },
+          "data": {
+            "label": "reference-first.png",
+            "title": "reference-first",
+            "status": "idle",
+            "width": 480,
+            "height": 360,
+            "sourceObjects": [
+              "rhtv-asset:image"
+            ],
+            "aspectRatio": "16:9",
+            "subType": "text-image"
+          },
+          "style": {
+            "height": 360,
+            "width": 480
+          },
+          "selectable": true,
+          "hidden": false
+        },
+        {
+          "id": "source-video",
+          "type": "rh-video",
+          "position": {
+            "x": 604.9732325368964,
+            "y": 857.3895515745833
+          },
+          "data": {
+            "label": "reference-motion.mp4",
+            "title": "reference-motion.mp4",
+            "status": "idle",
+            "width": 360,
+            "height": 270,
+            "sourceObjects": [
+              "rhtv-asset:video"
+            ],
+            "subType": "text-video",
+            "fileName": "reference-motion.mp4",
+            "fileSize": 31398,
+            "mimeType": "video/mp4",
+            "duration": 6,
+            "videoWidth": 640,
+            "videoHeight": 480
+          },
+          "style": {
+            "height": 270,
+            "width": 360
+          },
+          "selectable": true,
+          "hidden": false
+        }
+      ],
+      "edges": [
+        {
+          "source": "source-image",
+          "target": "n"
+        },
+        {
+          "source": "source-video",
+          "target": "n"
+        }
+      ]
+    },
+    "name": "Synthetic motion submission acceptance"
+  },
+  "lateNativeData": {
+    "params": {
+      "outputPreset": "landscape-480p-5s",
+      "imageUrls": [
+        "rhtv-asset:image"
+      ],
+      "videoUrls": [
+        "rhtv-asset:video"
+      ],
+      "prompt": "",
+      "text": ""
+    },
+    "modelType": "OPENAPI",
+    "presetSelections": [],
+    "nodeOutputHistory": []
+  }
+}

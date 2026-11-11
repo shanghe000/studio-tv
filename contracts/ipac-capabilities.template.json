@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "application_code": "${IPAC_APP_ID}",
+  "manifest_version": "studio-ipac-v1",
+  "capabilities": [
+    {
+      "code": "tv.access",
+      "name": "使用 Studio TV",
+      "description": "在已授权的项目工作空间中使用 Studio TV，查看、创建、编辑、删除本人画布作品与素材。"
+    }
+  ]
+}

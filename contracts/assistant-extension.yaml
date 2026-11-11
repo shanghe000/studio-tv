@@ -1,0 +1,2706 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Studio TV Assistant API Extension",
+    "version": "1.3.0",
+    "description": "Persisted owner GLOBAL/CANVAS/HF conversations, authorized USER TEXT/ASSET/selected skill writes, monotonic turn/message deletion and actual task/event client-tool absence query. Nine operations implemented by assistant module; legacy run metadata remains reserved here and production execution-backed routes are documented in execution-extension."
+  },
+  "x-default-unknown-path-status": 404,
+  "paths": {
+    "/api/v2/conversations": {
+      "get": {
+        "operationId": "listConversations",
+        "summary": "List own active GLOBAL and Canvas conversations",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 300
+            },
+            "description": "Trim outer whitespace; title or TEXT-message matching. SQL % and _ are literal."
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "GLOBAL",
+                "CANVAS",
+                "HF"
+              ]
+            },
+            "description": "Optional exact type. HF501; blank/unknown/repeated400. GLOBAL cannot combine with project filters. CANVAS cannot combine with hfProjectId."
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "description": "Filter Canvas roots by owned undeleted project; inaccessible explicit project404. Cannot combine with hfProjectId."
+          },
+          {
+            "name": "hfProjectId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "description": "Reserved HF filter returns501, unless contradictory/invalid filters return400 first."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Owned roots sorted by updatedAt descending then id; GLOBAL independent of project visibility",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationPageResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "HF conversation persistence is RESERVED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      },
+      "post": {
+        "operationId": "createConversation",
+        "summary": "Create private GLOBAL or Canvas conversation",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "description": "Canonical hyphenated UUID, case normalized. Scope is verified owner+operation. Same key/hash returns original201 projection; different hash409; deleted root/project404. Root and receipt commit together."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "New or idempotently replayed initial projection. ETag is quoted revision. GLOBAL has projectId/hfProjectId null.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT: same owner/key, different canonical request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "HF conversation persistence is RESERVED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConversationCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/conversations/{id}": {
+      "delete": {
+        "operationId": "deleteConversation",
+        "summary": "Soft-delete own conversation; retain stored messages",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Positive strong conversation revision ETag. Missing428; malformed400; stale412 with current revision detail."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "accepted=true; ETag increments. Existing history remains stored but hidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcknowledgementResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "VERSION_CONFLICT with CURRENT_REVISION detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "IF_MATCH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      },
+      "get": {
+        "operationId": "getConversation",
+        "summary": "Read own active conversation and current strong revision ETag",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Owned undeleted GLOBAL/Canvas detail. ETag is the current quoted revision. Deleted root/parent project and other owners return404.",
+            "headers": {
+              "ETag": {
+                "description": "Strong conversation revision.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/conversations/{id}/messages": {
+      "get": {
+        "operationId": "listConversationMessages",
+        "summary": "Read own durable message history",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 300
+            },
+            "description": "Trim outer whitespace; title or TEXT-message matching. SQL % and _ are literal."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Persisted Messages by seq ascending then id. Historical MessagePart shapes remain readable; appending USER TEXT does not start a run. Soft-deleted messages are excluded from count, pagination and records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessagePageResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      },
+      "post": {
+        "operationId": "appendConversationUserMessage",
+        "summary": "Append authorized USER TEXT/ASSET/selected skill without starting a model run",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Positive strong conversation revision ETag. Missing428; malformed400; stale412 with current revision detail."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "description": "Hyphenated UUID, case normalized; scope verified owner+assistantAppendUserMessage+key. Canonical content, conversationId and frozen If-Match revision identify the request. Same key/request replays original201 message+receipt revision, even after later appends; changed input/path/precondition409. Every replay rechecks actual root/project/message ownership. Receipt+message+sequence+revision commit in one locked transaction."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "VERSION_CONFLICT with CURRENT_REVISION detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "IF_MATCH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Persisted USER Message plus conversationRevision; first write and replay both201. ETag is receipt conversationRevision, which can be older than current revision on replay. Fetch conversation detail to get current ETag. Server supplies id, seq, role=USER, createdAt. No model invocation/assistant reply/usage.",
+            "headers": {
+              "ETag": {
+                "description": "Strong receipt conversation revision, including on replay.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageReceiptResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT: same owner/key with different content, conversationId or frozen expectedRevision; ASSISTANT_TASK_ACTIVE when a persisted conversation task is QUEUED/RUNNING. New USER append is rejected atomically to preserve turn boundaries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds the shared 1 MiB JSON limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Content-Type must be application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Unsupported STRUCTURED schema or message-parts repository not implemented. Production verifies actual owned READY ASSET and exact selected skill revision/content.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/conversations/{id}/runs": {
+      "post": {
+        "operationId": "createAssistantRun",
+        "summary": "RESERVED: visible conversation is checked before501",
+        "x-implementation-status": "RESERVED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "NOT_IMPLEMENTED: no run, model invocation, output or successful execution is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/assistant-runs/{id}": {
+      "get": {
+        "operationId": "getAssistantRun",
+        "summary": "RESERVED: no queryable run exists",
+        "x-implementation-status": "RESERVED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "NOT_IMPLEMENTED: no run, model invocation, output or successful execution is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/assistant-runs/{id}/events": {
+      "get": {
+        "operationId": "assistantRunEvents",
+        "summary": "RESERVED: no event stream exists",
+        "x-implementation-status": "RESERVED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "NOT_IMPLEMENTED: no run, model invocation, output or successful execution is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/assistant-runs/{id}/cancel": {
+      "post": {
+        "operationId": "cancelAssistantRun",
+        "summary": "RESERVED: no cancellation submitted",
+        "x-implementation-status": "RESERVED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "NOT_IMPLEMENTED: no run, model invocation, output or successful execution is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/assistant-runs/{id}/tool-calls/{callId}/result": {
+      "post": {
+        "operationId": "assistantToolResult",
+        "summary": "RESERVED: no tool receipt accepted",
+        "x-implementation-status": "RESERVED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "callId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "NOT_IMPLEMENTED: no run, model invocation, output or successful execution is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-required-capability": "tv.access"
+      }
+    },
+    "/api/v2/conversations/{id}/turns/{turnId}": {
+      "delete": {
+        "operationId": "assistantDeleteTurn",
+        "summary": "Soft delete own persisted USER turn and its ASSISTANT responses",
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "turnId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "description": "Actual persisted USER message ID"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Positive strong conversation revision ETag. Missing428; malformed400; stale412 with current revision detail."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "description": "Hyphenated UUID, case normalized; scoped by verified owner+operation+key. Binds conversation, target and frozen If-Match. First write/replay200. Replay rechecks live root and retained actual deleted rows; it never resurrects a message."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "ASSISTANT_TASK_ACTIVE for any active task affected by deletion, or IDEMPOTENCY_CONFLICT for changed request/path/precondition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "VERSION_CONFLICT with CURRENT_REVISION detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "IF_MATCH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "TURN_TOO_LARGE: more than1000 selected active messages. Atomic rejection; delete individual ASSISTANT replies before retrying.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Lifecycle repository not implemented. Production PostgreSQL adapter implements this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Actual deletedMessageIds in sequence order. Retains message/attachment/task/receipt audit rows; advances conversation revision once and preserves next sequence. Physical USER boundaries include previously deleted USER rows. Replay returns frozen deletion receipt revision; fetch detail for current ETag. No DELETE request body or query fields accepted.",
+            "headers": {
+              "ETag": {
+                "description": "Strong receipt conversation revision, including on replay.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageDeletionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/conversations/{id}/messages/{messageId}": {
+      "delete": {
+        "operationId": "assistantDeleteMessage",
+        "summary": "Soft delete own persisted message; USER removes its whole turn",
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "description": "Actual persisted message ID. USER also deletes subsequent ASSISTANT messages before the next physical USER boundary; ASSISTANT/TOOL deletes only itself."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[1-9][0-9]*\"$"
+            },
+            "description": "Positive strong conversation revision ETag. Missing428; malformed400; stale412 with current revision detail."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "description": "Hyphenated UUID, case normalized; scoped by verified owner+operation+key. Binds conversation, target and frozen If-Match. First write/replay200. Replay rechecks live root and retained actual deleted rows; it never resurrects a message."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "ASSISTANT_TASK_ACTIVE for any active task affected by deletion, or IDEMPOTENCY_CONFLICT for changed request/path/precondition.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "VERSION_CONFLICT with CURRENT_REVISION detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "IF_MATCH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "TURN_TOO_LARGE: more than1000 selected active messages. Atomic rejection; delete individual ASSISTANT replies before retrying.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Lifecycle repository not implemented. Production PostgreSQL adapter implements this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Actual deletedMessageIds in sequence order. Retains message/attachment/task/receipt audit rows; advances conversation revision once and preserves next sequence. Physical USER boundaries include previously deleted USER rows. Replay returns frozen deletion receipt revision; fetch detail for current ETag. No DELETE request body or query fields accepted.",
+            "headers": {
+              "ETag": {
+                "description": "Strong receipt conversation revision, including on replay.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^\"[1-9][0-9]*\"$"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageDeletionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/conversations/{id}/client-tools/pending": {
+      "get": {
+        "operationId": "assistantPendingClientTools",
+        "summary": "Read actual owner task/event client tool evidence",
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid field/query/header; unknown or repeated query parameters are rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No verified local identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Live tv.access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object missing or inaccessible to this owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable; retryable, access fails closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Actual SQL evidence contains no client tool call or WAITING_TOOL state. No resume/receipt/host event is fabricated. Unknown query parameters rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientToolPendingResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "CLIENT_TOOLS_UNAVAILABLE: actual persisted tool evidence requires a receipt/resume protocol not implemented by the current explicit Router model mock.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "LocalBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Verified Studio local session; host validates IPAC/session state and live tv.access before invoking module."
+      }
+    },
+    "schemas": {
+      "Conversation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "maxLength": 40,
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "maxLength": 40,
+            "format": "date-time"
+          },
+          "projectId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "hfProjectId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "GLOBAL",
+              "CANVAS",
+              "HF"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "createdAt",
+          "updatedAt",
+          "projectId",
+          "hfProjectId",
+          "kind",
+          "title"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "GLOBAL"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "projectId": {
+                  "type": "null"
+                },
+                "hfProjectId": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "CANVAS"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "projectId"
+              ],
+              "properties": {
+                "projectId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "hfProjectId": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "HF"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "projectId": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "description": "Private persisted conversation. CANVAS binds an owned active canvas. HF optionally binds an owned active HyperFrames project."
+      },
+      "ConversationCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "GLOBAL",
+              "CANVAS",
+              "HF"
+            ]
+          },
+          "projectId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "hfProjectId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "kind",
+          "title"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "GLOBAL"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "projectId": {
+                  "type": "null"
+                },
+                "hfProjectId": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "CANVAS"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "projectId"
+              ],
+              "properties": {
+                "projectId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "hfProjectId": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "HF"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "projectId": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "description": "GLOBAL/CANVAS/HF are implemented. GLOBAL has no project binding; HF accepts optional owned hfProjectId. UUID receipt includes the validated body."
+      },
+      "ConversationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data": {
+            "$ref": "#/components/schemas/Conversation"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ConversationPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Conversation"
+            },
+            "maxItems": 100
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "records",
+          "page",
+          "size",
+          "total",
+          "hasNext"
+        ]
+      },
+      "ConversationPageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data": {
+            "$ref": "#/components/schemas/ConversationPage"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "Message": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "conversationId": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "seq": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ASSISTANT",
+              "TOOL"
+            ]
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessagePart"
+            },
+            "maxItems": 100
+          },
+          "createdAt": {
+            "type": "string",
+            "maxLength": 40,
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "conversationId",
+          "seq",
+          "role",
+          "content",
+          "createdAt"
+        ]
+      },
+      "MessagePart": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "TEXT"
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 200000
+              }
+            },
+            "required": [
+              "type",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "ASSET"
+              },
+              "assetId": {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              }
+            },
+            "required": [
+              "type",
+              "assetId"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "STRUCTURED"
+              },
+              "schemaCode": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "value": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "仅用于版本化图谱/动态参数/工具JSON；服务端按对应固定版本schema再次校验；禁存密钥。"
+              }
+            },
+            "required": [
+              "type",
+              "schemaCode",
+              "value"
+            ]
+          }
+        ]
+      },
+      "MessagePage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "maxItems": 100
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hasNext": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "records",
+          "page",
+          "size",
+          "total",
+          "hasNext"
+        ]
+      },
+      "MessagePageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data": {
+            "$ref": "#/components/schemas/MessagePage"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "Acknowledgement": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accepted": {
+            "const": true
+          }
+        },
+        "required": [
+          "accepted"
+        ]
+      },
+      "AcknowledgementResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data": {
+            "$ref": "#/components/schemas/Acknowledgement"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "field",
+                "code",
+                "message"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "retryable",
+          "details"
+        ],
+        "additionalProperties": false
+      },
+      "UserTextPart": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "const": "TEXT"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200000,
+            "description": "Every part is nonempty; the whole message must contain a non-whitespace character. Preserve input text. NUL is invalid.",
+            "not": {
+              "pattern": "\u0000"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "text"
+        ]
+      },
+      "MessageCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UserTextPart"
+                },
+                {
+                  "$ref": "#/components/schemas/UserAssetPart"
+                },
+                {
+                  "$ref": "#/components/schemas/UserSkillPart"
+                }
+              ]
+            },
+            "contains": {
+              "anyOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "const": "TEXT"
+                    },
+                    "text": {
+                      "pattern": "\\S"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "text"
+                  ]
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "ASSET",
+                        "STRUCTURED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "description": "Server assigns USER role/ID/sequence. ASSET IDs must be owned READY; skill revision/version/markdown/files must match stored resource. Append does not start inference. Other structured schemas are reserved501."
+      },
+      "MessageReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "conversationId": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "seq": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "role": {
+            "const": "USER"
+          },
+          "content": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/UserTextPart"
+                },
+                {
+                  "$ref": "#/components/schemas/UserAssetPart"
+                },
+                {
+                  "$ref": "#/components/schemas/UserSkillPart"
+                }
+              ]
+            },
+            "contains": {
+              "anyOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "const": "TEXT"
+                    },
+                    "text": {
+                      "pattern": "\\S"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "text"
+                  ]
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "ASSET",
+                        "STRUCTURED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                }
+              ]
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "maxLength": 40,
+            "format": "date-time"
+          },
+          "conversationRevision": {
+            "type": "integer",
+            "minimum": 2
+          }
+        },
+        "required": [
+          "id",
+          "conversationId",
+          "seq",
+          "role",
+          "content",
+          "createdAt",
+          "conversationRevision"
+        ],
+        "description": "Same Message projection as history plus immutable receipt conversationRevision. No owner, native state, assistant output or model usage."
+      },
+      "MessageReceiptResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data": {
+            "$ref": "#/components/schemas/MessageReceipt"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "UserAssetPart": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "const": "ASSET"
+          },
+          "assetId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "type",
+          "assetId"
+        ]
+      },
+      "UserSkillPart": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "const": "STRUCTURED"
+          },
+          "schemaCode": {
+            "const": "ASSISTANT_SKILL_V1"
+          },
+          "value": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "skillId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "markdown": {
+                "type": "string",
+                "maxLength": 200000
+              },
+              "files": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 300
+                    },
+                    "content": {
+                      "type": "string",
+                      "maxLength": 200000
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "content"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "skillId",
+              "revision",
+              "version",
+              "markdown",
+              "files"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "schemaCode",
+          "value"
+        ]
+      },
+      "MessageDeletion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "conversationId",
+          "deletedMessageIds",
+          "conversationRevision",
+          "deletedAt"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "deletedMessageIds": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1000,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          "conversationRevision": {
+            "type": "integer",
+            "minimum": 2
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "maxLength": 40
+          }
+        }
+      },
+      "ClientToolPending": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "session_id",
+          "status",
+          "call",
+          "resume_command",
+          "active_resume",
+          "host_events",
+          "terminal_recovered"
+        ],
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "status": {
+            "const": "none"
+          },
+          "call": {
+            "type": "null"
+          },
+          "resume_command": {
+            "type": "null"
+          },
+          "active_resume": {
+            "type": "null"
+          },
+          "host_events": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "terminal_recovered": {
+            "const": false
+          }
+        },
+        "description": "Authenticated actual SQL absence of client tool evidence. Persisted unsupported tool evidence returns501 instead of this no-pending shape."
+      },
+      "MessageDeletionResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data": {
+            "$ref": "#/components/schemas/MessageDeletion"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ClientToolPendingResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data": {
+            "$ref": "#/components/schemas/ClientToolPending"
+          },
+          "requestId": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      }
+    }
+  }
+}

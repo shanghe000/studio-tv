@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "title": "Studio TV 使用指南",
+  "language": "zh-CN",
+  "returnLabel": "返回工作台",
+  "returnHref": "/projects/",
+  "readingHint": "展开功能图解，点击图片放大。",
+  "sections": [
+    {
+      "id": "s1",
+      "number": "01",
+      "title": "进入与管理项目",
+      "source": "sections/01-projects.html"
+    },
+    {
+      "id": "s2",
+      "number": "02",
+      "title": "在画布中生成与编辑",
+      "source": "sections/02-canvas.html"
+    },
+    {
+      "id": "s3",
+      "number": "03",
+      "title": "3D 导演台与画板",
+      "source": "sections/03-director.html"
+    },
+    {
+      "id": "s4",
+      "number": "04",
+      "title": "剪辑与导出",
+      "source": "sections/04-editor.html"
+    },
+    {
+      "id": "s5",
+      "number": "05",
+      "title": "个人资产与团队资产",
+      "source": "sections/05-assets.html"
+    }
+  ],
+  "groups": {
+    "s1-projects": {
+      "section": "s1",
+      "title": "项目创建、查找与整理"
+    },
+    "s1-sharing": {
+      "section": "s1",
+      "title": "项目成员与共享"
+    },
+    "s2-models": {
+      "section": "s2",
+      "title": "模型、模式与参考"
+    },
+    "s2-prompt-style": {
+      "section": "s2",
+      "title": "提示词、角色与风格"
+    },
+    "s2-progress-history": {
+      "section": "s2",
+      "title": "生成进度与历史"
+    },
+    "s2-image-analysis": {
+      "section": "s2",
+      "title": "图片解析与局部识别"
+    },
+    "s2-image-storyboard": {
+      "section": "s2",
+      "title": "分镜大师"
+    },
+    "s2-image-portrait": {
+      "section": "s2",
+      "title": "人物调节"
+    },
+    "s2-image-angle-light": {
+      "section": "s2",
+      "title": "角度与打光"
+    },
+    "s2-image-regions": {
+      "section": "s2",
+      "title": "重绘、擦除与扩图"
+    },
+    "s2-image-background": {
+      "section": "s2",
+      "title": "抠图、去文字与换背景"
+    },
+    "s2-image-quality": {
+      "section": "s2",
+      "title": "图像增强与放大"
+    },
+    "s2-image-panorama": {
+      "section": "s2",
+      "title": "全景生成与查看"
+    },
+    "s2-image-local": {
+      "section": "s2",
+      "title": "裁剪、旋转、调色与标注"
+    },
+    "s2-image-grid": {
+      "section": "s2",
+      "title": "宫格裁剪与分镜格子"
+    },
+    "s2-script": {
+      "section": "s2",
+      "title": "脚本策划与分镜表"
+    },
+    "s2-entities": {
+      "section": "s2",
+      "title": "角色图与批量生成"
+    },
+    "s2-storyboard": {
+      "section": "s2",
+      "title": "合成故事板"
+    },
+    "s2-storyboard-video": {
+      "section": "s2",
+      "title": "从故事板创建视频"
+    },
+    "s2-canvas-agent": {
+      "section": "s2",
+      "title": "画布助手"
+    },
+    "s2-group": {
+      "section": "s2",
+      "title": "整组执行"
+    },
+    "s2-video-local": {
+      "section": "s2",
+      "title": "视频抽帧、倍速与音轨"
+    },
+    "s2-audio-local": {
+      "section": "s2",
+      "title": "音频裁切与倍速"
+    },
+    "s2-unavailable": {
+      "section": "s2",
+      "title": "当前未开放：如何识别边界"
+    },
+    "s3-director-scene": {
+      "section": "s3",
+      "title": "导演台：场景与对象"
+    },
+    "s3-director-camera": {
+      "section": "s3",
+      "title": "导演台：视角与输出"
+    },
+    "s3-sketchboard-entry": {
+      "section": "s3",
+      "title": "2D画板入口与绘画"
+    },
+    "s3-sketchboard-models": {
+      "section": "s3",
+      "title": "2D模型与生成方式"
+    },
+    "s3-sketchboard-results": {
+      "section": "s3",
+      "title": "2D结果与历史"
+    },
+    "s4-import": {
+      "section": "s4",
+      "title": "导入与选择素材"
+    },
+    "s4-timeline": {
+      "section": "s4",
+      "title": "时间轴与属性"
+    },
+    "s4-export": {
+      "section": "s4",
+      "title": "预览与导出"
+    },
+    "s5-personal": {
+      "section": "s5",
+      "title": "个人资产与复用"
+    },
+    "s5-team": {
+      "section": "s5",
+      "title": "团队与成员"
+    },
+    "s5-publish": {
+      "section": "s5",
+      "title": "发布到团队"
+    },
+    "s2-canvas-basics": {
+      "section": "s2",
+      "title": "添加内容与选择工具"
+    },
+    "s2-video-providers": {
+      "section": "s2",
+      "title": "官方视频参数与可用状态"
+    },
+    "s2-video-motion": {
+      "section": "s2",
+      "title": "动作素材与人物配对",
+      "columns": 1
+    },
+    "s2-video-inputs": {
+      "section": "s2",
+      "title": "视频素材准备与连线",
+      "columns": 1
+    },
+    "s2-provider-keys": {
+      "section": "s2",
+      "title": "模型来源与个人 API Key"
+    },
+    "s2-provider-price": {
+      "section": "s2",
+      "title": "API 费用预估与计费规则",
+      "columns": 1
+    }
+  }
+}

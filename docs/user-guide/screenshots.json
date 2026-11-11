@@ -1,0 +1,1940 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "canvas-node-copy",
+      "file": "canvas-node-copy.png.svg",
+      "caption": "复制已生成节点后，保留参考连线并独立生成新结果",
+      "alt": "同一张参考图片分别连接原视频节点和复制的视频节点，两者均显示真实生成结果",
+      "steps": [
+        "在已生成的视频节点菜单选择“复制节点”，再粘贴，或选择“创建副本”。",
+        "副本沿用模型、参数和输入连线；检查参考顺序并修改描述后，点击“开始生成”。",
+        "刷新后继续编辑；撤销或重做复制时，节点及其连线一起恢复。"
+      ],
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "canvas-handoff-approval",
+      "file": "canvas-handoff-approval.png.svg",
+      "caption": "收到同事的编辑申请",
+      "alt": "当前编辑者收到 Bob 的申请，可以保存并交接或暂不交接",
+      "steps": [
+        "申请人可以等待并继续查看画布。",
+        "点击“保存并交接”后，申请人会在当前页看到已保存的画布并开始编辑。",
+        "自己的多个标签页可以同时编辑；只有交给另一账号时才需要交接。"
+      ],
+      "width": 771,
+      "height": 257
+    },
+    {
+      "id": "generation-readiness",
+      "file": "generation-readiness.png.svg",
+      "caption": "需要时展开生成检查，修正输入后自动恢复",
+      "alt": "视频节点缺少首帧图片时，生成前检查显示具体型号与原因；说明在参数区外，提供查看输入及收起按钮",
+      "steps": [
+        "选中或编辑节点时不会自动展开问题面板；在生成按钮上查看简短原因。",
+        "点击详情或尝试生成后查看具体问题，按“查看输入”补齐参考。",
+        "修改后自动重查；临时连接恢复后也会继续检查。"
+      ],
+      "width": 1500,
+      "height": 745
+    },
+    {
+      "id": "canvas-reconnect-native",
+      "file": "canvas-reconnect-native.png.svg",
+      "caption": "原生画布示例：文字、图片和视频素材连接到新建节点，自动保存",
+      "alt": "三个素材节点连接到新建的图片和视频节点，连线清楚可见，画布没有多人光标或草稿版本管理入口",
+      "steps": [
+        "可以先新建目标后连接素材，也可以从素材右侧加号拖到空白处创建目标。",
+        "选中目标，按所选模型的要求补齐参考并调整生成参数。",
+        "系统自动保存；断网时保留已输入内容，恢复编辑连接后继续同步。"
+      ],
+      "width": 1200,
+      "height": 760
+    },
+    {
+      "id": "overview-projects",
+      "file": "01-projects.png.svg",
+      "caption": "进入与管理项目：主要操作位置",
+      "alt": "进入与管理项目，关键操作位置已用数字标记",
+      "width": 1360,
+      "height": 420
+    },
+    {
+      "id": "overview-canvas",
+      "file": "02-canvas.png.svg",
+      "caption": "在画布中生成与编辑：主要操作位置",
+      "alt": "在画布中生成与编辑，关键操作位置已用数字标记",
+      "width": 1200,
+      "height": 605
+    },
+    {
+      "id": "overview-director",
+      "file": "03-director.png.svg",
+      "caption": "3D 导演台与画板：主要操作位置",
+      "alt": "3D 导演台与画板，关键操作位置已用数字标记",
+      "width": 1360,
+      "height": 840
+    },
+    {
+      "id": "overview-editor",
+      "file": "04-editor.png.svg",
+      "caption": "剪辑与导出：主要操作位置",
+      "alt": "剪辑与导出，关键操作位置已用数字标记",
+      "width": 1360,
+      "height": 840
+    },
+    {
+      "id": "overview-assets",
+      "file": "05-team-assets.png.svg",
+      "caption": "个人资产与团队资产：主要操作位置",
+      "alt": "个人资产与团队资产，关键操作位置已用数字标记",
+      "width": 1360,
+      "height": 470
+    },
+    {
+      "id": "canvas-upload",
+      "group": "s2-canvas-basics",
+      "file": "canvas-upload.webp.svg",
+      "caption": "把本地素材加入画布",
+      "alt": "添加节点与上传",
+      "order": 2,
+      "steps": [
+        "点击左侧“＋”，展开“上传”。",
+        "选择文件或文件夹，等待素材出现在画布中。"
+      ],
+      "width": 1920,
+      "height": 842
+    },
+    {
+      "id": "canvas-grid-crop-results",
+      "group": "s2-image-local",
+      "file": "canvas-grid-crop-results.png.svg",
+      "caption": "四宫格裁剪结果",
+      "alt": "左侧是原图，右侧分组内是四张可独立移动的裁图，整组执行呈灰色",
+      "order": 5,
+      "steps": [
+        "选中图片，打开“宫格裁剪”，选择“4宫格裁剪”中的“仅裁剪”。",
+        "选中任意裁图，可以拖动位置或连接到生成节点。",
+        "组内只有素材时，“整组执行”呈灰色。点击“解组”可分开整理图片。"
+      ],
+      "width": 2140,
+      "height": 1168
+    },
+    {
+      "id": "image-color",
+      "group": "s2-image-local",
+      "file": "image-color.webp.svg",
+      "caption": "调色：调整光线与颜色后保存",
+      "alt": "调色：光线参数与保存",
+      "order": 3,
+      "steps": [
+        "从“更多”进入“调色”。",
+        "切换参数类别，调整曝光、对比度、颜色等选项。",
+        "查看预览，再点击“保存”。"
+      ],
+      "width": 1962,
+      "height": 1350
+    },
+    {
+      "id": "image-lighting",
+      "group": "s2-image-angle-light",
+      "file": "image-lighting.webp.svg",
+      "caption": "打光：调整方向、高度、强度与颜色",
+      "alt": "打光控制",
+      "order": 2,
+      "steps": [
+        "选中图片并打开“打光”。",
+        "选择主光源方向，调整方位、高度、强度与颜色。",
+        "点击“开始生成”，查看新的光照效果。"
+      ],
+      "width": 1350,
+      "height": 1104
+    },
+    {
+      "id": "image-more-menu",
+      "group": "s2-image-local",
+      "file": "image-more-menu.webp.svg",
+      "caption": "更多菜单：找到图片整理与区域工具",
+      "alt": "图片更多工具菜单",
+      "order": 1,
+      "steps": [
+        "选中图片并展开“更多”。",
+        "按用途选择调色、裁剪、旋转，或重绘、擦除、扩图、抠图、去文字。"
+      ],
+      "width": 458,
+      "height": 692
+    },
+    {
+      "id": "image-toolbar",
+      "group": "s2-canvas-basics",
+      "file": "image-toolbar.webp.svg",
+      "caption": "选中图片，打开对应工具",
+      "alt": "图片工具栏",
+      "order": 3,
+      "steps": [
+        "单击图片，显示上方工具栏。",
+        "选择解析、人物调节、分镜大师等功能；更多工具在“更多”中。"
+      ],
+      "width": 1920,
+      "height": 842
+    },
+    {
+      "id": "portrait-appearance",
+      "group": "s2-image-portrait",
+      "file": "portrait-appearance.webp.svg",
+      "caption": "形象设定：年龄、肤色、发型与体态",
+      "alt": "人物形象",
+      "order": 6,
+      "steps": [
+        "打开“形象设定”，展开希望调整的类别。",
+        "选择所需项目，查看本次形象设定，再点击“开始生成”。"
+      ],
+      "width": 635,
+      "height": 561
+    },
+    {
+      "id": "portrait-face",
+      "group": "s2-image-portrait",
+      "file": "portrait-face.webp.svg",
+      "caption": "面部控制：调整人物表情",
+      "alt": "人物表情",
+      "order": 2,
+      "steps": [
+        "打开“面部控制”，选择“情绪控制”。",
+        "拖动情绪位置或选择预设，查看右侧预览。",
+        "确认本次调整后点击“开始生成”。"
+      ],
+      "width": 1432,
+      "height": 1260
+    },
+    {
+      "id": "portrait-gaze",
+      "group": "s2-image-portrait",
+      "file": "portrait-gaze.webp.svg",
+      "caption": "面部控制：调整视线方向",
+      "alt": "人物视线",
+      "order": 3,
+      "steps": [
+        "在面部控制中切换到“视线方向”。",
+        "选择左上、正视等方向，确认预览后点击“开始生成”。"
+      ],
+      "width": 1432,
+      "height": 1260
+    },
+    {
+      "id": "portrait-makeup",
+      "group": "s2-image-portrait",
+      "file": "portrait-makeup.webp.svg",
+      "caption": "妆容调节：选择妆容预设",
+      "alt": "人物妆容",
+      "order": 7,
+      "steps": [
+        "打开“妆容调节”，切换顶部分类。",
+        "选择妆容，确认“当前所选妆容”后点击“开始生成”。"
+      ],
+      "width": 705,
+      "height": 581
+    },
+    {
+      "id": "portrait-menu",
+      "group": "s2-image-portrait",
+      "file": "portrait-menu.webp.svg",
+      "caption": "人物调节的四个入口",
+      "alt": "人物调节入口",
+      "order": 1,
+      "steps": [
+        "选中含有人物的图片，展开“人物调节”。",
+        "面部控制含表情、视线、嘴形；姿态、形象与妆容分别进入对应面板。"
+      ],
+      "width": 1920,
+      "height": 842
+    },
+    {
+      "id": "portrait-mouth",
+      "group": "s2-image-portrait",
+      "file": "portrait-mouth.webp.svg",
+      "caption": "面部控制：调整嘴巴形态",
+      "alt": "人物嘴形",
+      "order": 4,
+      "steps": [
+        "在面部控制中切换到“嘴巴形态”。",
+        "选择微笑、张嘴等形态，再点击“开始生成”。"
+      ],
+      "width": 1432,
+      "height": 1260
+    },
+    {
+      "id": "portrait-pose",
+      "group": "s2-image-portrait",
+      "file": "portrait-pose.webp.svg",
+      "caption": "姿态调整：拖动骨架关节",
+      "alt": "人物姿态",
+      "order": 5,
+      "steps": [
+        "从人物调节进入“姿态调整”。",
+        "拖动关节点调整姿态；需要时使用比例锁定或重置。",
+        "确认骨架后点击“开始生成”。"
+      ],
+      "width": 954,
+      "height": 700
+    },
+    {
+      "id": "quick-camera-menu",
+      "group": "s2-image-storyboard",
+      "file": "quick-camera-menu.webp.svg",
+      "caption": "分镜大师：表达镜头意图",
+      "alt": "分镜大师运镜选项",
+      "order": 3,
+      "steps": [
+        "展开“分镜大师”中的“运镜控制”。",
+        "选择推、拉、摇、移等镜头意图，检查出现的描述。",
+        "点击浮动条或面板中的生成按钮。"
+      ],
+      "width": 778,
+      "height": 1024
+    },
+    {
+      "id": "quick-emotion-menu",
+      "group": "s2-image-storyboard",
+      "file": "quick-emotion-menu.webp.svg",
+      "caption": "分镜大师：重塑人物情绪",
+      "alt": "分镜大师情绪选项",
+      "order": 4,
+      "steps": [
+        "展开“情绪重塑”。",
+        "选择微笑、思考、疑惑等情绪，检查出现的描述。",
+        "点击浮动条或面板中的生成按钮。"
+      ],
+      "width": 778,
+      "height": 1088
+    },
+    {
+      "id": "quick-lighting-menu",
+      "group": "s2-image-storyboard",
+      "file": "quick-lighting-menu.webp.svg",
+      "caption": "分镜大师：选择光影方向与风格",
+      "alt": "分镜大师光影选项",
+      "order": 2,
+      "steps": [
+        "展开“电影级光影校正”。",
+        "选择主光、逆光、伦勃朗布光等项目，检查出现的描述。",
+        "点击浮动条或面板中的生成按钮。"
+      ],
+      "width": 778,
+      "height": 1232
+    },
+    {
+      "id": "quick-master-menu",
+      "group": "s2-image-storyboard",
+      "file": "quick-master-menu.webp.svg",
+      "caption": "分镜大师：从一张图片继续创作",
+      "alt": "分镜大师主菜单",
+      "order": 1,
+      "steps": [
+        "选中图片，展开“分镜大师”。",
+        "按用途选择预设，检查出现的浮动条或面板中的描述。",
+        "确认后点击生成按钮。"
+      ],
+      "width": 476,
+      "height": 802
+    },
+    {
+      "id": "quick-weather-menu",
+      "group": "s2-image-storyboard",
+      "file": "quick-weather-menu.webp.svg",
+      "caption": "分镜大师：天气与动态场效",
+      "alt": "分镜大师天气与场效",
+      "order": 5,
+      "steps": [
+        "展开“动态场效（意境增强）”。",
+        "选择雨天、雪天、丁达尔效应等项目，检查出现的描述。",
+        "点击浮动条或面板中的生成按钮。"
+      ],
+      "width": 778,
+      "height": 1100
+    },
+    {
+      "id": "image-crop",
+      "group": "s2-image-local",
+      "file": "image-crop.webp.svg",
+      "caption": "裁剪：保留需要的画面",
+      "alt": "裁剪：拖动裁框、宽高比与确认",
+      "order": 2,
+      "steps": [
+        "从“更多”进入“裁剪”。",
+        "拖动裁剪框，或通过“宽高比”选择构图。",
+        "点击“确认”应用裁剪。"
+      ],
+      "width": 1324,
+      "height": 1450
+    },
+    {
+      "id": "image-erase",
+      "group": "s2-image-regions",
+      "file": "image-erase.webp.svg",
+      "caption": "擦除：去掉选定区域的内容",
+      "alt": "区域擦除：标记待移除范围与生成入口",
+      "order": 2,
+      "steps": [
+        "从“更多”进入“擦除”。",
+        "用画笔或矩形标出要去除的区域；可用橡皮修正范围。",
+        "点击“开始生成”，查看补全后的画面。"
+      ],
+      "width": 1962,
+      "height": 2366
+    },
+    {
+      "id": "image-expand",
+      "group": "s2-image-regions",
+      "file": "image-expand.webp.svg",
+      "caption": "扩图：向原图四周补充画面",
+      "alt": "扩图：外框、参考画布和开始生成",
+      "order": 3,
+      "steps": [
+        "从“更多”进入“扩图”。",
+        "拖动外框扩大范围，调整原图在新画布中的位置。",
+        "点击“开始生成”。"
+      ],
+      "width": 1556,
+      "height": 1664
+    },
+    {
+      "id": "image-grid-crop-menu",
+      "group": "s2-image-grid",
+      "file": "image-grid-crop-menu.webp.svg",
+      "caption": "宫格裁剪：选择网格",
+      "alt": "宫格裁剪：选择网格数量或自定义",
+      "order": 1,
+      "steps": [
+        "选中图片，展开“宫格裁剪”。",
+        "选择四宫格、九宫格等网格，或自定义行列数。"
+      ],
+      "width": 630,
+      "height": 730
+    },
+    {
+      "id": "image-grid-output-options",
+      "group": "s2-image-grid",
+      "file": "image-grid-output-options.webp.svg",
+      "caption": "选择拆成图片，或放入分镜格子",
+      "alt": "宫格拆分输出：独立图片或分镜格子",
+      "order": 2,
+      "steps": [
+        "“仅裁剪”会创建独立图片节点。",
+        "“创建分镜格子”会把裁剪结果填入分镜节点，便于后续排序和合成。"
+      ],
+      "width": 630,
+      "height": 470
+    },
+    {
+      "id": "image-redraw",
+      "group": "s2-image-regions",
+      "file": "image-redraw.webp.svg",
+      "caption": "重绘：只描述希望修改的区域",
+      "alt": "区域重绘：标记范围、描述与开始生成",
+      "order": 1,
+      "steps": [
+        "从“更多”进入“重绘”，用画笔或矩形标出区域。",
+        "填写修改要求，例如改变外套颜色并保留其他内容。",
+        "点击“开始生成”。"
+      ],
+      "width": 1962,
+      "height": 2328
+    },
+    {
+      "id": "existing-panorama-webgl-90-fov",
+      "group": "s2-image-panorama",
+      "file": "existing-panorama-webgl-90-fov.webp.svg",
+      "caption": "全景查看：转动视角，再截取需要的画面",
+      "alt": "全景查看器，FOV90、透视曲度、参考线、截图/多视角/重置/镜像/全屏",
+      "order": 2,
+      "steps": [
+        "打开全景结果并拖动视角。",
+        "调整左下角 FOV（视野）与透视曲度，按需打开参考线。",
+        "点击上方“截图”，将当前构图带回画布。"
+      ],
+      "width": 1908,
+      "height": 830
+    },
+    {
+      "id": "image-grid-custom",
+      "group": "s2-image-grid",
+      "file": "image-grid-custom.webp.svg",
+      "caption": "自定义宫格：输入行数与列数",
+      "alt": "自定义宫格：设置行数和列数",
+      "order": 3,
+      "steps": [
+        "在宫格裁剪中选择自定义网格及输出方式。",
+        "输入行数、列数，再点击“确认”。"
+      ],
+      "width": 630,
+      "height": 504
+    },
+    {
+      "id": "image-quality-menu",
+      "group": "s2-image-quality",
+      "file": "image-quality-menu.webp.svg",
+      "caption": "画质：生成式增强，或 SeedVR2 2倍放大",
+      "alt": "画质菜单：增强、放大与高清入口",
+      "order": 1,
+      "steps": [
+        "选中图片并展开“画质”。",
+        "“增强”用于生成式重画细节；“高清”和“放大”共用 SeedVR2 2倍能力。",
+        "SeedVR2 输入长边不超过1024像素；先确认原图尺寸。"
+      ],
+      "width": 380,
+      "height": 304
+    },
+    {
+      "id": "image-angle",
+      "group": "s2-image-angle-light",
+      "file": "image-angle.webp.svg",
+      "caption": "角度：设置旋转、倾斜与远近意图",
+      "alt": "角度控制",
+      "order": 1,
+      "steps": [
+        "选中图片，打开“角度”。",
+        "拖动方块或滑块，调整旋转、倾斜和缩放意图。",
+        "点击“开始生成”。"
+      ],
+      "width": 1194,
+      "height": 704
+    },
+    {
+      "id": "image-annotation",
+      "group": "s2-image-local",
+      "file": "image-annotation.webp.svg",
+      "caption": "标注：添加框、箭头、文字与笔迹",
+      "alt": "图片标注",
+      "order": 5,
+      "steps": [
+        "选中图片并打开“标注”。",
+        "选择形状、画笔、箭头或文字，设置颜色与粗细后在图上标记。",
+        "需要时撤销或擦除，完成后点击“保存”。"
+      ],
+      "width": 1620,
+      "height": 1496
+    },
+    {
+      "id": "image-panorama-menu",
+      "group": "s2-image-panorama",
+      "file": "image-panorama-menu.webp.svg",
+      "caption": "全景图：生成或进入查看器",
+      "alt": "全景图菜单",
+      "order": 1,
+      "steps": [
+        "普通图片先选“生成全景图”，再按面板选择预设并生成。",
+        "已有全景素材可选“进入全景”，拖动查看不同方向。"
+      ],
+      "width": 458,
+      "height": 228
+    },
+    {
+      "id": "image-rotate",
+      "group": "s2-image-local",
+      "file": "image-rotate.webp.svg",
+      "caption": "旋转与镜像：调整图片方向",
+      "alt": "旋转镜像",
+      "order": 4,
+      "steps": [
+        "从“更多”进入“旋转”。",
+        "按需要点击镜像、向左旋转或向右旋转。",
+        "查看画面后点击“保存”。"
+      ],
+      "width": 1292,
+      "height": 1490
+    },
+    {
+      "id": "image-model-menu",
+      "group": "s2-models",
+      "file": "image-model-menu.webp.svg",
+      "caption": "文字生图：选择模型",
+      "alt": "文生图模型菜单",
+      "order": 1,
+      "steps": [
+        "添加图片节点，选择文字生成模式。",
+        "展开模型菜单，选择 Codex、FLUX 或 Z-Image。",
+        "填写描述，确认规格和数量后点击“开始生成”。"
+      ],
+      "width": 634,
+      "height": 500
+    },
+    {
+      "id": "image-role-design",
+      "group": "s2-prompt-style",
+      "file": "image-role-design.webp.svg",
+      "caption": "角色设计：补充人物特征",
+      "alt": "角色设计",
+      "order": 1,
+      "steps": [
+        "在图片生成面板打开“角色设计”。",
+        "按基础、穿搭、五官、体型、发型等分类选择标签。",
+        "点击“保存”，再确认提示词与参考素材是否一致。"
+      ],
+      "width": 1872,
+      "height": 1152
+    },
+    {
+      "id": "image-style-library",
+      "group": "s2-prompt-style",
+      "file": "image-style-library.webp.svg",
+      "caption": "风格库：选择画风",
+      "alt": "风格库",
+      "order": 2,
+      "steps": [
+        "在图片生成面板打开“风格库”。",
+        "按动画与插画、写实等类别筛选，选择需要的风格。",
+        "回到生成面板检查描述；不需要的风格应取消后再生成。"
+      ],
+      "width": 1872,
+      "height": 1152
+    },
+    {
+      "id": "canvas-add-node",
+      "group": "s2-canvas-basics",
+      "file": "canvas-add-node.webp.svg",
+      "caption": "从“＋”添加节点",
+      "alt": "画布添加节点菜单",
+      "order": 1,
+      "steps": [
+        "点击画布左侧“＋”。",
+        "按用途添加文本、图片、视频或脚本策划；已有文件可从下方上传。"
+      ],
+      "width": 496,
+      "height": 1054
+    },
+    {
+      "id": "image-camera-control",
+      "group": "s2-prompt-style",
+      "file": "image-camera-control.webp.svg",
+      "caption": "摄像机控制：组合镜头要求",
+      "alt": "摄像机组合控制",
+      "order": 6,
+      "steps": [
+        "在图片生成面板打开“摄像机控制”。",
+        "分别选择相机、镜头、焦距与光圈。",
+        "打开底部开关，将组合用于本次生成；上方示例图仅供参考。"
+      ],
+      "width": 1112,
+      "height": 1252
+    },
+    {
+      "id": "image-presets",
+      "group": "s2-prompt-style",
+      "file": "image-presets.webp.svg",
+      "caption": "预设：快速选择滤镜或功能描述",
+      "alt": "图片预设选择",
+      "order": 5,
+      "steps": [
+        "打开生成面板中的“预设”。",
+        "按滤镜、功能、自定义分类查找，选择需要的预设。",
+        "回到面板检查提示词，再开始生成。"
+      ],
+      "width": 1592,
+      "height": 990
+    },
+    {
+      "id": "image-recognize-mode",
+      "group": "s2-image-analysis",
+      "file": "image-recognize-mode.webp.svg",
+      "caption": "局部识别：点击图片中的位置",
+      "alt": "局部元素识别模式",
+      "order": 1,
+      "steps": [
+        "选中图片，进入“识别”的元素选择模式。",
+        "点击想了解的局部位置，等待识别结果；每次识别会发起任务。",
+        "用结果辅助修改描述，完成后点“退出”。"
+      ],
+      "width": 1368,
+      "height": 2076
+    },
+    {
+      "id": "sketch-drawing-editor",
+      "group": "s3-sketchboard-entry",
+      "file": "sketch-drawing-editor.webp.svg",
+      "caption": "进入完整2D编辑器，再应用当前绘画",
+      "alt": "2D绘画编辑器与生成设置",
+      "order": 2,
+      "steps": [
+        "从预览点击“进入2D画板”。",
+        "使用画笔、图形、文字、图层等工具整理画面；工程可单独保存。",
+        "选好模型、填写描述，点“应用草图并生成”。"
+      ],
+      "width": 3200,
+      "height": 2200
+    },
+    {
+      "id": "sketch-history-loaded",
+      "group": "s3-sketchboard-results",
+      "file": "sketch-history-loaded.webp.svg",
+      "caption": "画板历史：回看、切换与继续使用",
+      "alt": "2D历史与结果工具栏",
+      "order": 1,
+      "steps": [
+        "点击结果右侧的历史图标。",
+        "点击缩略图切换旧结果，再按需下载、作为新参考或加入画布。"
+      ],
+      "width": 608,
+      "height": 800
+    },
+    {
+      "id": "sketch-manual-overview",
+      "group": "s3-sketchboard-entry",
+      "file": "sketch-manual-overview.webp.svg",
+      "caption": "2D预览：左侧绘画，右侧查看结果",
+      "alt": "2D画板手动生成总览",
+      "order": 1,
+      "steps": [
+        "进入画板后选择“手动生成”。",
+        "在左侧绘画或放入参考，在下方填写描述并选择风格。",
+        "点击生成按钮；右侧结果可加入画布或打开历史回看。"
+      ],
+      "width": 3200,
+      "height": 2200
+    },
+    {
+      "id": "sketch-manual-text-model",
+      "group": "s3-sketchboard-models",
+      "file": "sketch-manual-text-model.webp.svg",
+      "caption": "文字创作：按描述生成，不读取草图",
+      "alt": "2D画板文字创作模型",
+      "order": 1,
+      "steps": [
+        "在手动模式中选择 Z-Image、FLUX 或 Codex 生成模型。",
+        "填写画面描述并选择风格；左侧绘画不会作为约束。",
+        "点击生成；右侧会保留已有结果，直到新的结果完成。"
+      ],
+      "width": 3200,
+      "height": 2200
+    },
+    {
+      "id": "sketch-realtime-pause-controls",
+      "group": "s3-sketchboard-models",
+      "file": "sketch-realtime-pause-controls.webp.svg",
+      "caption": "实时模式：整理参考前先暂停",
+      "alt": "2D实时生成的暂停状态",
+      "order": 3,
+      "steps": [
+        "实时模式支持 Qwen 与 Codex 参考编辑，切入后可能立即提交当前画面。",
+        "整理或替换参考前，点击右下角暂停；显示“已暂停自动更新”后再操作。",
+        "已提交的任务仍会后台处理；准备好后再继续生成。"
+      ],
+      "width": 2612,
+      "height": 1862
+    },
+    {
+      "id": "sketch-save-asset-ready",
+      "group": "s5-personal",
+      "file": "sketch-save-asset-ready.webp.svg",
+      "caption": "将画板结果保存到资产库",
+      "alt": "将画板结果保存到资产库",
+      "order": 1,
+      "steps": [
+        "点击画板结果右侧的保存图标。",
+        "选择分类和保存文件夹，也可新建文件夹。",
+        "确认素材预览后点击“保存”。"
+      ],
+      "width": 1392,
+      "height": 1008
+    },
+    {
+      "id": "sketch-style-options",
+      "group": "s3-sketchboard-models",
+      "file": "sketch-style-options.webp.svg",
+      "caption": "画板风格：与描述保持一致",
+      "alt": "2D画板风格选择",
+      "order": 2,
+      "steps": [
+        "点击底部风格缩略图或“…”展开更多选项。",
+        "选择二次元、线稿、水彩等风格，再检查文字描述是否一致。"
+      ],
+      "width": 2612,
+      "height": 780
+    },
+    {
+      "id": "image-generation-params-complete",
+      "group": "s2-models",
+      "file": "image-generation-params-complete.webp.svg",
+      "caption": "填写描述，确认模型、规格与数量",
+      "alt": "图片生成：描述、模型、规格与数量",
+      "order": 2,
+      "steps": [
+        "写清主体、场景、动作及希望保留的内容。",
+        "选择模型支持的规格和数量；图中的2x表示本次生成两张。",
+        "确认补充设置后，点击“开始生成”。"
+      ],
+      "width": 1830,
+      "height": 552
+    },
+    {
+      "id": "video-audio-separation-menu",
+      "group": "s2-video-local",
+      "file": "video-audio-separation-menu.webp.svg",
+      "caption": "音频分离：提取完整音轨",
+      "alt": "音频分离：完整音轨可用，人声与环境音暂未开放",
+      "order": 5,
+      "steps": [
+        "选中视频，展开“音频分离”。",
+        "选择同名“音频分离”项目，提取完整音轨；人声和环境音分离暂未开放。"
+      ],
+      "width": 1922,
+      "height": 362
+    },
+    {
+      "id": "video-capture-frame-panel",
+      "group": "s2-video-local",
+      "file": "video-capture-frame-panel.webp.svg",
+      "caption": "捕捉帧：先选择画面，再加入画布",
+      "alt": "捕捉帧：首帧、当前帧、逐秒与尾帧",
+      "order": 2,
+      "steps": [
+        "打开“捕捉帧”，拖动时间轴找到需要的时刻。",
+        "点击截首帧、截当前帧、逐秒抽帧或截尾帧。",
+        "检查抽出的图片，再单张添加或点“全部添加到画布”。"
+      ],
+      "width": 1872,
+      "height": 1220
+    },
+    {
+      "id": "video-local-more-menu",
+      "group": "s2-video-local",
+      "file": "video-local-more-menu.webp.svg",
+      "caption": "视频更多菜单：进入倍速",
+      "alt": "视频更多菜单：倍速等入口",
+      "order": 3,
+      "steps": [
+        "选中视频，展开“更多”。",
+        "选择“倍速”，按下一面板设置速度与目标时长。"
+      ],
+      "width": 2024,
+      "height": 522
+    },
+    {
+      "id": "video-local-toolbar",
+      "group": "s2-video-local",
+      "file": "video-local-toolbar.webp.svg",
+      "caption": "选中视频，查看可用工具",
+      "alt": "视频工具栏：捕捉帧、剪辑与完整音轨入口",
+      "order": 1,
+      "steps": [
+        "单击视频节点，显示上方工具栏。",
+        "从“捕捉帧”“音频分离”或“更多”进入对应操作；灰色工具暂未开放。"
+      ],
+      "width": 1922,
+      "height": 292
+    },
+    {
+      "id": "asset-folder-reuse",
+      "group": "s5-personal",
+      "file": "asset-folder-reuse.webp.svg",
+      "caption": "打开文件夹，查看已保存的素材",
+      "alt": "打开个人资产文件夹",
+      "order": 3,
+      "steps": [
+        "点击资产文件夹，查看其中的素材。",
+        "选择需要的素材继续操作；本地文件可从“上传资产”添加。"
+      ],
+      "width": 3200,
+      "height": 2006
+    },
+    {
+      "id": "asset-personal",
+      "group": "s5-personal",
+      "file": "asset-personal.webp.svg",
+      "caption": "个人资产库：查找素材与文件夹",
+      "alt": "个人资产库与文件夹",
+      "order": 2,
+      "steps": [
+        "从顶部进入“资产库”，选择“个人资产”。",
+        "通过搜索、类型筛选或文件夹定位素材。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "audio-local-toolbar",
+      "group": "s2-audio-local",
+      "file": "audio-local-toolbar.webp.svg",
+      "caption": "音频工具：下载、裁剪与变速",
+      "alt": "音频工具栏：下载、裁剪与变速",
+      "order": 1,
+      "steps": [
+        "选中已有音频，显示上方工具栏。",
+        "选择下载、裁剪或变速；波形下方可播放试听。"
+      ],
+      "width": 1152,
+      "height": 782
+    },
+    {
+      "id": "audio-speed-panel",
+      "group": "s2-audio-local",
+      "file": "audio-speed-panel.webp.svg",
+      "caption": "音频变速：设置倍数后生成",
+      "alt": "音频变速：设置倍数后生成",
+      "order": 3,
+      "steps": [
+        "打开音频“变速”，拖动滑条或填写倍数。",
+        "确认新速度后点击“生成”，得到独立的音频结果。"
+      ],
+      "width": 1310,
+      "height": 812
+    },
+    {
+      "id": "audio-trim-panel",
+      "group": "s2-audio-local",
+      "file": "audio-trim-panel.webp.svg",
+      "caption": "音频裁剪：调整保留范围",
+      "alt": "音频截取：调整范围后生成新片段",
+      "order": 2,
+      "steps": [
+        "打开音频“裁剪”，拖动选框两侧改变范围；拖动选框可整体移动。",
+        "确认底部起止时间，点击“生成”创建截取后的片段。"
+      ],
+      "width": 1310,
+      "height": 812
+    },
+    {
+      "id": "home-start",
+      "group": "s1-projects",
+      "file": "home-start.webp.svg",
+      "caption": "首页：从想法或新项目开始",
+      "alt": "首页：从想法或新项目开始",
+      "order": 1,
+      "steps": [
+        "在首页输入创作想法，选择当前可用的创作方式后提交。",
+        "也可点击“新建项目”，先进入空画布。"
+      ],
+      "width": 3200,
+      "height": 1276
+    },
+    {
+      "id": "project-card-menu",
+      "group": "s1-projects",
+      "file": "project-card-menu.webp.svg",
+      "caption": "项目卡片：重命名、移动与置顶",
+      "alt": "项目卡片更多菜单",
+      "order": 5,
+      "steps": [
+        "在项目卡片右下角点击“…”打开更多菜单。",
+        "按需要选择查看详情、重命名、移动至或置顶等操作。"
+      ],
+      "width": 660,
+      "height": 724
+    },
+    {
+      "id": "project-find",
+      "group": "s1-projects",
+      "file": "project-find.webp.svg",
+      "caption": "查找项目：按名称搜索",
+      "alt": "项目页搜索",
+      "order": 2,
+      "steps": [
+        "打开顶部“项目”。",
+        "在右侧搜索框输入项目名称，点击对应卡片进入。"
+      ],
+      "width": 3200,
+      "height": 842
+    },
+    {
+      "id": "project-members",
+      "group": "s1-sharing",
+      "file": "project-members.webp.svg",
+      "caption": "项目成员：设置访问权限",
+      "alt": "项目成员与共享权限",
+      "order": 1,
+      "steps": [
+        "在画布右上打开“项目成员”。",
+        "搜索同事并设置只读或可编辑权限；按需要选择团队并授予权限。",
+        "内部项目地址仍需登录和成员权限，可复制给已有权限的同事。"
+      ],
+      "width": 1432,
+      "height": 1368
+    },
+    {
+      "id": "project-shared",
+      "group": "s1-sharing",
+      "file": "project-shared.webp.svg",
+      "caption": "查看“与我共享”的项目",
+      "alt": "查看与我共享的项目",
+      "order": 2,
+      "steps": [
+        "打开顶部“与我共享”。",
+        "使用列表或搜索查找他人共享给你的项目；尚未被共享时会显示空列表。"
+      ],
+      "width": 3200,
+      "height": 878
+    },
+    {
+      "id": "project-sort",
+      "group": "s1-projects",
+      "file": "project-sort.webp.svg",
+      "caption": "调整项目排序",
+      "alt": "项目排序与顺序",
+      "order": 4,
+      "steps": [
+        "展开排序菜单，选择最近修改、创建日期或文件大小。",
+        "再选择最新优先或最早优先。"
+      ],
+      "width": 452,
+      "height": 894
+    },
+    {
+      "id": "project-type",
+      "group": "s1-projects",
+      "file": "project-type.webp.svg",
+      "caption": "按类型筛选项目与文件夹",
+      "alt": "按项目或文件夹筛选",
+      "order": 3,
+      "steps": [
+        "展开“全部类型”。",
+        "选择全部、仅项目或仅文件夹，缩小列表范围。"
+      ],
+      "width": 388,
+      "height": 496
+    },
+    {
+      "id": "video-speed-panel",
+      "group": "s2-video-local",
+      "file": "video-speed-panel.webp.svg",
+      "caption": "视频倍速：确认目标时长后提交",
+      "alt": "视频倍速：选择可用倍数后提交",
+      "order": 4,
+      "steps": [
+        "从视频“更多”进入“倍速”。",
+        "选择当前可用的倍数，检查原时长与目标时长。",
+        "点击“提交”，等待新的倍速视频完成。"
+      ],
+      "width": 792,
+      "height": 770
+    },
+    {
+      "id": "asset-item-menu",
+      "group": "s5-personal",
+      "file": "asset-item-menu.webp.svg",
+      "caption": "个人素材：查看、加入画布与整理",
+      "alt": "个人素材更多操作",
+      "order": 4,
+      "steps": [
+        "在素材卡片上选择“查看”或“添加到画布”。",
+        "点击卡片“…”可下载、移动或重命名素材。"
+      ],
+      "width": 660,
+      "height": 486
+    },
+    {
+      "id": "team-add-member",
+      "group": "s5-team",
+      "file": "team-add-member.webp.svg",
+      "caption": "添加成员：搜索同事并选择权限",
+      "alt": "搜索并添加团队成员",
+      "order": 5,
+      "steps": [
+        "输入已通过飞书登录过 Studio TV 的同事姓名，点击“搜索”。",
+        "选择同事，并设置只读或可编辑权限。",
+        "确认后点击“添加成员”。"
+      ],
+      "width": 1008,
+      "height": 934
+    },
+    {
+      "id": "team-create",
+      "group": "s5-team",
+      "file": "team-create.webp.svg",
+      "caption": "创建团队：填写名称后确认",
+      "alt": "创建团队表单",
+      "order": 3,
+      "steps": [
+        "在团队管理中点击“创建团队”。",
+        "填写团队名称，确认后点击“创建”。"
+      ],
+      "width": 1008,
+      "height": 574
+    },
+    {
+      "id": "team-import-project",
+      "group": "s5-personal",
+      "file": "team-import-project.webp.svg",
+      "caption": "将团队素材复制到项目",
+      "alt": "把团队素材复制到指定项目",
+      "order": 5,
+      "steps": [
+        "在团队素材下点击“导入项目”。",
+        "选择目标项目，再点击“导入项目”。",
+        "项目中的副本与团队原件各自独立。"
+      ],
+      "width": 1008,
+      "height": 574
+    },
+    {
+      "id": "team-item-menu",
+      "group": "s5-team",
+      "file": "team-item-menu.webp.svg",
+      "caption": "团队素材：按权限整理",
+      "alt": "团队素材更多操作",
+      "order": 6,
+      "steps": [
+        "在团队素材卡片上点击“…”打开更多操作。",
+        "有相应权限时，可重命名、移动或删除团队素材。"
+      ],
+      "width": 3144,
+      "height": 566
+    },
+    {
+      "id": "team-library",
+      "group": "s5-team",
+      "file": "team-library.webp.svg",
+      "caption": "团队资产：切换团队与查看素材",
+      "alt": "团队资产与导入项目",
+      "order": 1,
+      "steps": [
+        "进入“资产库”并选择“团队资产”。",
+        "在左侧下拉菜单切换目标团队，再查看文件夹和素材。",
+        "需要使用某项素材时，点击其“导入项目”。"
+      ],
+      "width": 3200,
+      "height": 1046
+    },
+    {
+      "id": "team-management",
+      "group": "s5-team",
+      "file": "team-management.webp.svg",
+      "caption": "团队管理：打开资产或管理成员",
+      "alt": "团队管理：打开资产、成员与创建",
+      "order": 2,
+      "steps": [
+        "在团队资产页打开“团队管理”。",
+        "选择团队的“打开资产”或“成员”；需要新团队可点击“创建团队”。"
+      ],
+      "width": 1432,
+      "height": 826
+    },
+    {
+      "id": "team-members",
+      "group": "s5-team",
+      "file": "team-members.webp.svg",
+      "caption": "团队成员：查看成员与权限",
+      "alt": "团队成员与成员权限",
+      "order": 4,
+      "steps": [
+        "在团队资产页或团队管理中打开“团队成员”。",
+        "查看只读、可编辑与所有者权限；需要协作时点击“添加成员”。"
+      ],
+      "width": 1432,
+      "height": 650
+    },
+    {
+      "id": "team-publish",
+      "group": "s5-publish",
+      "file": "team-publish.webp.svg",
+      "caption": "发布到团队：选择素材并确认",
+      "alt": "选择个人素材发布到团队",
+      "order": 1,
+      "steps": [
+        "切换到目标团队，点击“发布到团队”。",
+        "从个人素材或已存节点中选择内容，按需要填写共享名称。",
+        "确认发布位置和所选素材后，点击“发布到团队”。"
+      ],
+      "width": 1392,
+      "height": 1506
+    },
+    {
+      "id": "director-cameras",
+      "group": "s3-director-camera",
+      "file": "director-cameras.webp.svg",
+      "caption": "机位：选择方向、景别与视野",
+      "alt": "导演台机位库与镜头参数",
+      "order": 1,
+      "steps": [
+        "打开左侧“机位”，选择基础方向、景别或当前视角。",
+        "通过 FOV 和镜头距离调整构图，再切换机位视角查看。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "director-characters",
+      "group": "s3-director-scene",
+      "file": "director-characters.webp.svg",
+      "caption": "角色库：选择单人或群体入口",
+      "alt": "导演台角色库与群体摆放入口",
+      "order": 2,
+      "steps": [
+        "左侧打开“角色”，按需要选择人物类型。",
+        "群体摆放可从下方阵列或随机分布入口开始，再检查场景位置。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "director-lighting",
+      "group": "s3-director-scene",
+      "file": "director-lighting.webp.svg",
+      "caption": "导演台灯光：主光与环境光",
+      "alt": "导演台主光与环境光",
+      "order": 4,
+      "steps": [
+        "打开左侧“灯光”。",
+        "调整主光强度、水平、俯仰与颜色，再按需要调环境光。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "director-models",
+      "group": "s3-director-scene",
+      "file": "director-models.webp.svg",
+      "caption": "模型库：当前为空，可查看搜索与上传入口",
+      "alt": "导演台模型库：搜索与上传入口",
+      "order": 3,
+      "steps": [
+        "左侧打开“模型”。",
+        "当前未预置模型时会显示空库提示；可通过搜索或上传入口准备资源。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "director-output",
+      "group": "s3-director-camera",
+      "file": "director-output.webp.svg",
+      "caption": "机位视角：画幅与输出入口",
+      "alt": "导演台画幅与输出入口",
+      "order": 2,
+      "steps": [
+        "切换到“机位视角”，在右侧查看所选机位的位置与目标。",
+        "从底部画幅按钮选择构图比例，再检查当前画面。",
+        "底部相机与录像图标为输出入口，按出现的面板继续。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "director-scene",
+      "group": "s3-director-scene",
+      "file": "director-scene.webp.svg",
+      "caption": "导演台：对象列表、视角与基础参数",
+      "alt": "3D导演台场景与工具",
+      "order": 1,
+      "steps": [
+        "左侧“对象”用于选择场景中的对象，顶部切换自由视角与机位视角。",
+        "右侧可调整背景、名称显示、地面网格等基础设置。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "editor-audio",
+      "group": "s4-import",
+      "file": "editor-audio.webp.svg",
+      "caption": "剪辑音效页：查看画布音频",
+      "alt": "在剪辑器选择画布音频",
+      "order": 1,
+      "steps": [
+        "在剪辑页左上选择“音效”。",
+        "切换画布音频或上传入口，查看可用素材；使用时先确认能正常加载与播放。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "editor-export",
+      "group": "s4-export",
+      "file": "editor-export.webp.svg",
+      "caption": "查看导出参数：当前媒体处理有限支持",
+      "alt": "视频导出设置",
+      "order": 1,
+      "steps": [
+        "点击右上“导出”，查看标题、分辨率、格式、帧率和音频选项。",
+        "当前图片和视频导入仍有限制，完整成片建议下载到本地剪辑软件处理；可取消返回编辑。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "editor-ratio",
+      "group": "s4-timeline",
+      "file": "editor-ratio.webp.svg",
+      "caption": "剪辑画幅：从预览下方选择比例",
+      "alt": "选择剪辑画幅",
+      "order": 2,
+      "steps": [
+        "点击播放器右下方的比例按钮。",
+        "选择横屏、竖屏或方形等当前选项，检查文字和画面布局。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "editor-settings",
+      "group": "s4-timeline",
+      "file": "editor-settings.webp.svg",
+      "caption": "剪辑设置：画幅、帧率与背景",
+      "alt": "剪辑器画幅、帧率与背景设置",
+      "order": 3,
+      "steps": [
+        "在左上打开“设置”。",
+        "选择剪辑草稿的宽高比、帧率和背景颜色。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "editor-timeline-properties",
+      "group": "s4-timeline",
+      "file": "editor-timeline-properties.webp.svg",
+      "caption": "文字片段：在时间轴与属性中编辑",
+      "alt": "时间轴文字与属性编辑",
+      "order": 1,
+      "steps": [
+        "从“文本”添加文字片段到时间轴。",
+        "选中片段，在右侧修改中文内容、位置、缩放等属性。",
+        "在时间轴中调整片段位置和时长，并检查中央预览。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "text-editor",
+      "group": "s2-canvas-basics",
+      "file": "text-editor.webp.svg",
+      "caption": "文本节点：编辑内容、选择文字模型",
+      "alt": "文本节点：编辑内容、选择文字模型",
+      "order": 4,
+      "steps": [
+        "添加文本节点，双击正文可编辑文字和格式。",
+        "需要生成新文字时，在下方面板填写要求、选择文字模型，再点“开始生成”。"
+      ],
+      "width": 1772,
+      "height": 1858
+    },
+    {
+      "id": "text-selection-menu",
+      "group": "s2-canvas-basics",
+      "file": "text-selection-menu.webp.svg",
+      "caption": "选中文字，创建文生图节点",
+      "alt": "选中文字，创建文生图节点",
+      "order": 5,
+      "steps": [
+        "在文本正文中选中要使用的画面描述，打开“发送选中文字到”。",
+        "选择“文生图”，画布会创建摘录与图片生成节点。",
+        "选中新图片节点，确认模型和参数后再生成；文生视频需选择已配置的官方视频型号。"
+      ],
+      "width": 1272,
+      "height": 1144
+    },
+    {
+      "id": "canvas-reference-picker",
+      "group": "s2-models",
+      "file": "canvas-reference-picker.webp.svg",
+      "caption": "从画布或我的资产选择参考",
+      "alt": "从画布或我的资产选择参考",
+      "order": 3,
+      "steps": [
+        "点击生成面板中的“＋”，打开素材选择。",
+        "先按当前模型支持的类型筛选；本例选择已加载的图片，也可本地上传。",
+        "返回面板，检查参考顺序与提示词对应；视频素材可回原节点确认内容。"
+      ],
+      "width": 2952,
+      "height": 1794
+    },
+    {
+      "id": "canvas-image-history",
+      "group": "s2-progress-history",
+      "file": "canvas-image-history.webp.svg",
+      "caption": "图片历史：回看与复用已生成结果",
+      "alt": "图片历史：回看与复用已生成结果",
+      "order": 1,
+      "steps": [
+        "点击画布左侧“历史”，切换到“图片历史”。",
+        "打开需要的结果查看，或进入“批量操作”整理。"
+      ],
+      "width": 2888,
+      "height": 1710
+    },
+    {
+      "id": "canvas-video-history",
+      "group": "s2-progress-history",
+      "file": "canvas-video-history.png.svg",
+      "caption": "视频历史：查看封面、预览与再次使用",
+      "alt": "视频历史按日期显示普通视频与分段长片封面，悬停工具栏提供查看、使用、复制提示词及下载",
+      "order": 2,
+      "steps": [
+        "点击画布左侧“历史”，切换到“视频历史”。",
+        "悬停卡片播放视频；使用卡片下方按钮预览、带回画布、复制提示词或下载原视频。"
+      ],
+      "width": 1330,
+      "height": 590
+    },
+    {
+      "id": "image-grid-editor",
+      "group": "s2-image-grid",
+      "file": "image-grid-editor.webp.svg",
+      "caption": "分镜格子：布局、替换与合成",
+      "alt": "分镜格子：布局、替换与合成",
+      "order": 4,
+      "steps": [
+        "创建分镜格子后，在顶部选择比例与网格数量。",
+        "逐格预览、替换或移除图片，确认每格内容和顺序。",
+        "各格就绪后点“合成”，生成组合图片；“退出”返回画布。"
+      ],
+      "width": 1748,
+      "height": 1926
+    },
+    {
+      "id": "script-node",
+      "group": "s2-script",
+      "file": "script-node.webp.svg",
+      "caption": "脚本节点：打开完整分镜表",
+      "alt": "脚本节点：打开完整分镜表",
+      "order": 1,
+      "steps": [
+        "添加“脚本策划”节点，输入剧情、人物和镜头要求并生成。",
+        "完成后点“打开脚本节点”，进入脚本、资产与故事板三步面板。"
+      ],
+      "width": 808,
+      "height": 498
+    },
+    {
+      "id": "script-edit-table",
+      "group": "s2-script",
+      "file": "script-edit-table.webp.svg",
+      "caption": "编辑分镜表与逐镜内容",
+      "alt": "编辑分镜表与逐镜内容",
+      "order": 2,
+      "steps": [
+        "在“脚本”步骤查看镜号、时长、画面描述与分镜提示词。",
+        "用“编辑分镜”修改镜头；“字段”“筛选”用于整理表格。",
+        "检查镜头内容后点“下一步”，准备角色等资产。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "script-global-setting",
+      "group": "s2-script",
+      "file": "script-global-setting.webp.svg",
+      "caption": "全局设定：补充共同要求",
+      "alt": "全局设定：补充共同要求",
+      "order": 3,
+      "steps": [
+        "点分镜表顶部“全局设定”。",
+        "填写各镜共同遵守的场景、人物或风格要求，点“确认”。"
+      ],
+      "width": 1192,
+      "height": 760
+    },
+    {
+      "id": "script-global-assets",
+      "group": "s2-entities",
+      "file": "script-global-assets.webp.svg",
+      "caption": "资产步骤：准备角色参考图",
+      "alt": "资产步骤：准备角色参考图",
+      "order": 1,
+      "steps": [
+        "在“资产”步骤检查角色名称与描述，生成或上传角色图。",
+        "要固定某张图的人物，从素材库明确选作参考，再选参考图编辑模型。",
+        "角色图就绪后选择合并方式，再点“合成故事板”进入逐镜检查。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "script-role-multiselect",
+      "group": "s2-entities",
+      "file": "script-role-multiselect.webp.svg",
+      "caption": "多选角色：单张与批量生成",
+      "alt": "多选角色：单张与批量生成",
+      "order": 2,
+      "steps": [
+        "先在上方选择实际图片模型，再进入“多选”。",
+        "点选一张角色卡可单独生成；点选多张或“选择全部”可批量生成。",
+        "点“生成”打开类型选择；参考编辑模型要求所选角色均已指定参考图。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "script-role-image-type",
+      "group": "s2-entities",
+      "file": "script-role-image-type.webp.svg",
+      "caption": "选择角色图类型，开始生成",
+      "alt": "选择角色图类型，开始生成",
+      "order": 3,
+      "steps": [
+        "按用途选择“角色四视图”或“角色人设图”；点击类型即开始生成。",
+        "实际模型以上一页模型菜单为准；图中“全能图片G2”旧提示不代表已接入该模型。"
+      ],
+      "width": 1096,
+      "height": 526
+    },
+    {
+      "id": "script-compose-storyboard",
+      "group": "s2-storyboard",
+      "file": "script-compose-storyboard.webp.svg",
+      "caption": "逐镜检查，再生成分镜故事板",
+      "alt": "逐镜检查，再生成分镜故事板",
+      "order": 1,
+      "steps": [
+        "在“合成故事板”步骤逐镜检查合成提示词和角色引用。",
+        "选择可用参考编辑模型，确认各镜所需资产就绪。",
+        "点击“生成分镜故事板”，等待分镜图片回到画布。"
+      ],
+      "width": 3200,
+      "height": 2100
+    },
+    {
+      "id": "video-keyframe-models",
+      "group": "s2-models",
+      "file": "video-keyframe-models.webp.svg",
+      "caption": "选择H3首帧或首尾帧模型",
+      "alt": "选择H3首帧或首尾帧模型",
+      "order": 4,
+      "steps": [
+        "选中视频节点，打开左下模型菜单。",
+        "在“图生视频”中选择“MiniMax H3 · 首帧视频”或“首尾帧视频”。",
+        "返回面板，按所选模式补齐起始图或首尾两张图。"
+      ],
+      "width": 1830,
+      "height": 632
+    },
+    {
+      "id": "video-reference-models",
+      "group": "s2-models",
+      "file": "video-reference-models.webp.svg",
+      "caption": "全能参考：文戏、武戏与连续长片",
+      "alt": "全能参考：文戏、武戏与连续长片",
+      "order": 5,
+      "steps": [
+        "打开视频模型菜单，进入“全能参考”。",
+        "人物表演可选文戏，动作场面可选武戏；同场景连续小动作可选SGUN长片。",
+        "选择后重新检查参考素材与该模型提供的规格。"
+      ],
+      "width": 1830,
+      "height": 790
+    },
+    {
+      "id": "video-first-frame",
+      "group": "s2-models",
+      "file": "video-first-frame.webp.svg",
+      "caption": "首帧模型内切换输入模式",
+      "alt": "首帧模型内切换输入模式",
+      "order": 6,
+      "steps": [
+        "选择“MiniMax H3 · 首帧视频”后，查看顶部模式切换。",
+        "图中当前为“多图参考”；需要起始关键帧时切到“首帧”并放入起始图。",
+        "填写动作描述，确认规格后点击“开始生成”。"
+      ],
+      "width": 1830,
+      "height": 632
+    },
+    {
+      "id": "video-first-last",
+      "group": "s2-models",
+      "file": "video-first-last.webp.svg",
+      "caption": "首尾帧：明确起点和终点",
+      "alt": "首尾帧：明确起点和终点",
+      "order": 7,
+      "steps": [
+        "选择“MiniMax H3 · 首尾帧视频”。",
+        "分别添加首帧与尾帧，检查缩略图下的标记和顺序。",
+        "描述中间动作与过渡，确认可选时长后再生成。"
+      ],
+      "width": 1830,
+      "height": 632
+    },
+    {
+      "id": "video-action-params",
+      "group": "s2-models",
+      "file": "video-action-params.webp.svg",
+      "caption": "全能参考：输入素材与生成设置",
+      "alt": "全能参考：输入素材与生成设置",
+      "order": 8,
+      "steps": [
+        "选择文戏或武戏模型，确认顶部为“全能参考”。",
+        "添加图片或视频参考，写清人物、动作和要保留的内容。",
+        "按规格菜单选择分辨率与时长，检查数量后点“开始生成”。"
+      ],
+      "width": 1830,
+      "height": 632
+    },
+    {
+      "id": "canvas-agent",
+      "group": "s2-canvas-agent",
+      "file": "canvas-agent.webp.svg",
+      "caption": "画布助手：从想法开始创作",
+      "alt": "画布助手：从想法开始创作",
+      "order": 1,
+      "steps": [
+        "打开画布助手，在新对话中描述想创建的内容。",
+        "需要时用“＋”补充素材，在设置中选择生成前是否确认。",
+        "检查助手给出的计划和生成节点，再继续编辑；未开放的技能入口仍不可使用。"
+      ],
+      "width": 1062,
+      "height": 2100
+    },
+    {
+      "id": "audio-generation-unavailable",
+      "group": "s2-unavailable",
+      "file": "audio-generation-unavailable.webp.svg",
+      "caption": "未开放：语音与音乐生成",
+      "alt": "未开放：语音与音乐生成",
+      "order": 1,
+      "steps": [
+        "音频节点可展示生成面板，但当前没有已接入的语音／音乐模型。",
+        "需要声音时先上传已有音频；可使用本地裁切、倍速或视频音轨提取。"
+      ],
+      "width": 1830,
+      "height": 1168
+    },
+    {
+      "id": "storyboard-video-plan",
+      "group": "s2-storyboard-video",
+      "file": "storyboard-video-plan.webp.svg",
+      "caption": "从故事板规划每镜视频节点",
+      "alt": "两张故事板各选约5秒，规划两个视频节点，显示总时长10秒",
+      "order": 1,
+      "steps": [
+        "选中故事板组，点击“批量生成视频节点”，勾选要转成视频的分镜图。",
+        "选择模型和每镜规格；图中两镜各约5秒，总时长10秒。",
+        "点“批量生成视频节点”创建节点；再逐个检查参考与描述，点“开始生成”才生成视频。"
+      ],
+      "width": 1792,
+      "height": 634
+    },
+    {
+      "id": "image-style-extract-form",
+      "group": "s2-prompt-style",
+      "file": "image-style-extract-form.webp.svg",
+      "caption": "风格制作：手写描述，或用参考图提取",
+      "alt": "风格制作：手写描述，或用参考图提取",
+      "order": 3,
+      "steps": [
+        "在风格库进入“我的风格”，点击“创建风格”。",
+        "填写名称和不超过500字的风格描述；也可上传参考图后点击“提取风格描述词”。",
+        "确认描述后点击“下一步”；图中示例为手工填写，尚未提取。"
+      ],
+      "width": 1872,
+      "height": 1152
+    },
+    {
+      "id": "image-style-create-form",
+      "group": "s2-prompt-style",
+      "file": "image-style-create-form.webp.svg",
+      "caption": "创建风格：补全封面后确认",
+      "alt": "创建风格：补全封面后确认",
+      "order": 4,
+      "steps": [
+        "确认风格名称与描述。",
+        "上传封面图，再点击“创建风格”；返回生成面板后检查当前选用的风格。"
+      ],
+      "width": 1872,
+      "height": 1152
+    },
+    {
+      "id": "video-drama-presets",
+      "group": "s2-models",
+      "file": "video-drama-parameters.png.svg",
+      "caption": "文戏：分别选择比例、分辨率与时长",
+      "alt": "文戏参数控件，1080P实际1920×1088、时长10秒",
+      "order": 9,
+      "steps": [
+        "打开文戏的模型参数，分别点选比例与分辨率。",
+        "使用独立时长滑杆选择5秒或10秒；1080P档按32像素对齐，实际短边1088。",
+        "旧768×1376／1280×736尺寸仍可在“保留规格”选择；检查参考与描述后再生成。"
+      ],
+      "width": 1512,
+      "height": 757
+    },
+    {
+      "id": "video-long-presets",
+      "group": "s2-models",
+      "file": "video-long-parameters.png.svg",
+      "caption": "SGUN连续长片：独立切换20秒或30秒",
+      "alt": "SGUN参数控件，六比例、四档分辨率与20／30秒独立滑杆",
+      "order": 10,
+      "steps": [
+        "在全能参考中选择SGUN连续长片。",
+        "分别点选比例与480P／768P／1080P（1088对齐）／2K；时长滑杆可切换20秒或30秒。",
+        "检查同场景、小幅动作的参考与描述后再生成。"
+      ],
+      "width": 1512,
+      "height": 757
+    },
+    {
+      "id": "h3-grouped-parameters",
+      "group": "s2-models",
+      "file": "h3-grouped-parameters.png.svg",
+      "caption": "H3参数控件：比例、分辨率与时长分开调整",
+      "alt": "H3参数控件，六个比例按钮、四档分辨率和独立时长滑杆",
+      "order": 11,
+      "steps": [
+        "先选比例，再选分辨率；下方会显示实际输出像素。",
+        "拖动时长滑杆或用方向键，在该型号可用时长间切换；固定时长型号显示固定秒数。",
+        "已有节点保留旧规格；主动选择新增规格时才切换参数版。"
+      ],
+      "width": 1512,
+      "height": 757
+    },
+    {
+      "id": "h3-exact-duration",
+      "group": "s2-models",
+      "file": "h3-exact-duration.png.svg",
+      "caption": "全能参考（含视频）：按整秒选择生成时长",
+      "alt": "自部署全能参考视频参数面板，时长选择12秒，下方显示输出像素、12秒和24fps",
+      "order": 12,
+      "steps": [
+        "选择自部署“MiniMax H3 · 全能参考（含视频）”，接入参考图片或视频。",
+        "打开参数面板，在时长下拉框选择5～15秒中的任意整数秒，也可逐秒拖动滑条。",
+        "例如参考视频为12秒，选择12秒后检查下方输出尺寸与时长，再提交生成。"
+      ],
+      "width": 700,
+      "height": 700
+    },
+    {
+      "id": "video-provider-unconfigured",
+      "group": "s2-video-providers",
+      "file": "video-provider-unconfigured.png.svg",
+      "caption": "未配置的官方模型为灰色，可查看原因",
+      "alt": "灰色官方MiniMax H3型号及请先在个人设置配置对应厂商API Key的提示",
+      "order": 1,
+      "steps": [
+        "打开视频模型菜单，切换到“API 服务”。",
+        "灰色入口不能提交；悬停查看原因，在个人账号的“模型 API Key”中配置对应厂商Key，保存后再选择。"
+      ],
+      "width": 505,
+      "height": 52
+    },
+    {
+      "id": "video-provider-parameters",
+      "group": "s2-video-providers",
+      "file": "video-provider-parameters.png.svg",
+      "caption": "只在型号实际支持的比例、分辨率与时长中选择",
+      "alt": "视频参数控件，六种比例、720P和1080P，以及5秒10秒15秒离散时长",
+      "order": 2,
+      "steps": [
+        "选好型号和模式后，分别选择比例、分辨率与时长。",
+        "检查当前输出；可选组合以该型号为准。智能时长的型号显示智能跟随，不提供固定秒数滑杆。"
+      ],
+      "width": 384,
+      "height": 312
+    },
+    {
+      "id": "video-motion-subject-mapping",
+      "group": "s2-video-motion",
+      "file": "video-motion-subject-mapping.png.svg",
+      "caption": "SCAIL2：按0开始的编号对应人物，自动生成人物遮罩",
+      "alt": "人物参考图片、动作源视频要求，以及两组参考图人物到视频人物的配对下拉框",
+      "order": 3,
+      "steps": [
+        "添加1张人物参考图和1段5.2至15秒的动作视频。",
+        "按首次出现画面从左到右以0开始编号，在两列中逐一配对，最多5组。",
+        "检查每侧编号不重复；SAM3自动生成人物遮罩，无需上传。"
+      ],
+      "width": 288,
+      "height": 456
+    },
+    {
+      "id": "video-empty-input-guidance",
+      "group": "s2-video-inputs",
+      "file": "video-empty-input-guidance.png.svg",
+      "caption": "空视频节点：先连接素材，再选视频模式",
+      "alt": "空视频节点内说明怎样连接左侧输入端、首尾帧需要两张图片、动作迁移需要人物图和动作视频",
+      "order": 1,
+      "steps": [
+        "先将图片或动作视频加入画布。",
+        "从上游素材右侧输出端拖线到视频节点左侧输入端，也可在下方素材区添加。",
+        "参考齐全后选择可用模型，在参数顶部查看数量、时长和人物要求。"
+      ],
+      "width": 400,
+      "height": 232
+    },
+    {
+      "id": "video-reference-material-help",
+      "group": "s2-video-inputs",
+      "file": "video-reference-material-help.png.svg",
+      "caption": "全能参考：先看材料要求，再选输出规格",
+      "alt": "H3图片与音频参考的真实参数面板，顶部说明至少一张图片、最多九张图片及可选三段音频，下方为比例、分辨率和独立时长控件",
+      "order": 2,
+      "steps": [
+        "选择H3图片与音频参考，先查看顶部“生成所需素材”。",
+        "此型号需要1～9张图片，音频可选且最多3段；可添加已上传素材或连接上游节点。",
+        "再选比例、分辨率和时长。其它型号的素材类型、数量和时长以各自面板为准。"
+      ],
+      "width": 320,
+      "height": 531
+    },
+    {
+      "id": "personal-api-key-settings",
+      "group": "s2-provider-keys",
+      "file": "personal-api-key-settings.png.svg",
+      "caption": "个人 API Key：保存后仅显示掩码（示例）",
+      "alt": "个人模型API Key设置，MiniMax中国大陆地区与已保存掩码、Seedance未配置；输入框已清空",
+      "order": 1,
+      "steps": [
+        "从首页或画布右上角个人账号进入“模型 API Key”。",
+        "MiniMax 使用按量计费 Key，并选择对应的国际或中国大陆地区；Seedance 单独配置。",
+        "保存后只显示掩码，自动匹配同厂商已接通型号。保存不会验证余额或调用权限。"
+      ],
+      "width": 405,
+      "height": 694
+    },
+    {
+      "id": "video-model-sources-self-hosted",
+      "group": "s2-provider-keys",
+      "file": "video-model-sources-self-hosted.png.svg",
+      "caption": "自部署：无需个人 Key，仍需补齐素材",
+      "alt": "自部署模型分页与全能参考型号列，滚动后可见长片和TR双采Pika等末尾型号",
+      "order": 2,
+      "steps": [
+        "在模型列表顶部切换“自部署”，无需配置个人 API Key。",
+        "展开对应模式，在型号列内滚动可查看最后几项。",
+        "灰显时查看缺少的参考材料；切换来源分页不会自动替换当前型号。"
+      ],
+      "width": 647,
+      "height": 310
+    },
+    {
+      "id": "video-model-sources-api",
+      "group": "s2-provider-keys",
+      "file": "video-model-sources-api.png.svg",
+      "caption": "API 服务：未配置 Key 时保留灰显入口",
+      "alt": "API服务分页与配置API Key快捷入口，滚动后的Seedance官方型号因未配置个人Key而灰显",
+      "order": 3,
+      "steps": [
+        "切换“API 服务”，展开文生视频、图生视频或全能参考等模式。",
+        "在型号列内滚动查看所有入口；未配置对应厂商 Key 时仍能浏览灰显型号。",
+        "点“配置 API Key”进入个人设置；同厂商型号自动复用已保存配置。"
+      ],
+      "width": 581,
+      "height": 311
+    },
+    {
+      "id": "moss-image-model",
+      "group": "s2-models",
+      "file": "moss-model-selector.png.svg",
+      "caption": "MOSS-Image：在自部署图片模型中选择生图",
+      "alt": "图片模型选择器的自部署分页包含MOSS-Image生图入口",
+      "order": 12,
+      "steps": [
+        "添加普通图片节点，打开模型菜单，切换到“自部署”。",
+        "选择“MOSS-Image · 生图”，填写描述并选择输出尺寸；无需连接参考图片，固定生成一张。"
+      ],
+      "width": 291,
+      "height": 299
+    },
+    {
+      "id": "motion-source-materials",
+      "group": "s2-video-motion",
+      "file": "motion-materials.png.svg",
+      "caption": "H3动作迁移：单人人物图与完整动作视频",
+      "alt": "H3动作迁移素材说明及源视频截帧重绘建议，提示长片可能遗漏手势或改变背景",
+      "order": 1,
+      "steps": [
+        "把人物图和动作视频连到视频节点的左侧输入端。",
+        "选择“H3 动作迁移”，在参数顶部检查单人素材要求；此型号不使用提示词。",
+        "参考图建议由源视频截帧重绘，保留姿态、构图和背景；长片手势与背景需逐条检查。"
+      ],
+      "width": 320,
+      "height": 318
+    },
+    {
+      "id": "motion-source-controls",
+      "group": "s2-video-motion",
+      "file": "motion-source-controls.png.svg",
+      "caption": "H3动作时长跟随源视频，比例与分辨率单独选择",
+      "alt": "H3动作迁移六种比例和480P、768P选择，时长显示跟随动作视频与二至三十秒限制",
+      "order": 2,
+      "steps": [
+        "在参数面板内向下滚动，选择比例及480P或768P。",
+        "时长显示“跟随动作视频”；需要更短的结果时，先裁剪源视频再上传。"
+      ],
+      "width": 318,
+      "height": 363
+    },
+    {
+      "id": "input-media-limits",
+      "group": "s2-video-motion",
+      "file": "input-media-limits.png.svg",
+      "caption": "H3素材规格：人物图不超过10 MiB，动作视频2～30秒",
+      "alt": "H3动作生成素材提示，标明图片10 MiB上限、视频2至30秒及无需提示词或遮罩",
+      "order": 3,
+      "steps": [
+        "上传或连接人物图与动作源视频前，确认图片大小和视频时长。",
+        "超限时先压缩图片或裁剪视频，再替换素材并重新提交。"
+      ],
+      "width": 320,
+      "height": 136
+    },
+    {
+      "id": "video-provider-price-rules",
+      "group": "s2-provider-price",
+      "file": "video-provider-price-rules.png.svg",
+      "caption": "查看预估厂商费用与公开计费规则",
+      "alt": "MiniMax H3费用预估区域显示0.40美元、尚未配置Key的地区未确认提示、公开价格核对日期与输出及参考素材计费规则",
+      "order": 1,
+      "steps": [
+        "选择 API 型号后调整分辨率、比例、时长和参考素材，费用会重新计算。",
+        "展开“计费规则与来源”，查看公开价格核对日期、单价组成和官方链接。",
+        "未配置 MiniMax Key 时先按国际地区美元价估算；确认个人设置地区，实际费用以厂商账单为准。"
+      ],
+      "width": 878,
+      "height": 282
+    },
+    {
+      "id": "video-provider-key-required",
+      "group": "s2-provider-price",
+      "file": "video-provider-key-required.png.svg",
+      "caption": "未配置 Key 时可查看预估，生成按钮禁用",
+      "alt": "MiniMax官方费用预估显示地区未确认，底部开始生成按钮为禁用状态",
+      "order": 2,
+      "steps": [
+        "缺少对应厂商 Key 时，已选 API 型号的生成按钮禁用，悬停可查看配置原因。",
+        "比例、分辨率等参数仍可调整并更新费用；先到个人设置配置正确地区的 Key 后再生成。"
+      ],
+      "width": 878,
+      "height": 171
+    },
+    {
+      "id": "canvas-tool-availability",
+      "group": "s2-unavailable",
+      "file": "canvas-tool-availability-20261104.png.svg",
+      "caption": "同一工具菜单中，完整音轨可用，人声和环境音分离暂未开放",
+      "alt": "视频工具栏及展开的音频分离菜单，可用命令为白色，不可用命令为灰色",
+      "order": 2,
+      "steps": [
+        "选中已有视频，展开“音频分离”。",
+        "点击白色的“音频分离”提取完整音轨。灰色的“人声分离”和“环境音分离”当前不可执行。"
+      ],
+      "width": 1908,
+      "height": 354
+    },
+    {
+      "id": "h3-segmented-longform",
+      "file": "h3-segmented-longform.png.svg",
+      "caption": "H3 分段长片：整片设置、当前参考与已采用分段",
+      "alt": "H3分段长片面板，三段计划12秒，实际864×480且同链尺寸锁定；显示全片共用描述、一张咖啡馆参考图、高级设置与三个已采用分段",
+      "steps": [
+        "展开“H3 分段长片”，填写名称和全片共用描述。",
+        "先选比例与分辨率；已有生成结果后，同链尺寸锁定，以显示的实际像素为准。",
+        "核对“当前参考素材”，展开各段填写剧情、时长与种子。"
+      ],
+      "width": 887,
+      "height": 788
+    },
+    {
+      "id": "h3-segmented-results",
+      "file": "h3-segmented-results.png.svg",
+      "caption": "逐段比较候选，采用结果后续拍与合片",
+      "alt": "分段下方有两个已完成候选，显示种子、864×480尺寸、102帧和实际4.25秒；第二个已采用，可预览、原规格导出或撤回采用，底部为续拍、合片与合片导出入口",
+      "steps": [
+        "用“预览”比较候选，再选择“采用此结果”；需要更换时可“撤回采用”。",
+        "需要续拍时点击“添加续拍段”，填写新增剧情和时长，再点击“续拍新增分段”。",
+        "每段采用有效结果后点击“合并已采用分段”，完成后预览或“导出合片原规格”。"
+      ],
+      "width": 887,
+      "height": 511
+    }
+  ]
+}

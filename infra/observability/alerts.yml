@@ -1,0 +1,117 @@
+groups:
+  - name: studiotv-api
+    rules:
+      - alert: STUDIOTVAPIDown
+        expr: up{job="studiotv-api"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Studio TV API 指标接口连续两分钟不可达
+          description: 检查 API 容器、独立指标监听和 Compose 网络；此规则不证明业务接口全部不可用。
+      - alert: STUDIOTVAPITargetMissing
+        expr: absent(up{job="studiotv-api"})
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Studio TV API 抓取目标缺失
+          description: 检查 Prometheus 抓取配置是否仍包含 api:9090。
+      - alert: STUDIOTVHighHTTP5xxRatio
+        expr: |
+          (sum(rate(studiotv_http_requests_total{job="studiotv-api",status_class="5xx"}[5m]))
+          / sum(rate(studiotv_http_requests_total{job="studiotv-api"}[5m]))) > 0.05
+          and sum(increase(studiotv_http_requests_total{job="studiotv-api"}[5m])) >= 20
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Studio TV API 五分钟窗口的 5xx 比例持续超过 5%
+          description: 窗口内至少二十个请求才触发，排除低流量单次错误；按路由面板和日志ID定位原因。
+      - alert: STUDIOTVHighHTTPP95
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le) (rate(studiotv_http_request_duration_seconds_bucket{job="studiotv-api",route!~".*/events"}[5m]))
+          ) > 2
+          and sum(increase(studiotv_http_request_duration_seconds_count{job="studiotv-api",route!~".*/events"}[5m])) >= 20
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Studio TV 普通 API 的 P95 响应耗时持续超过两秒
+          description: 排除以 /events 结尾的事件流路由；普通请求包含鉴权、数据库和上游等待的端到端耗时。
+      - alert: STUDIOTVDBPoolNearCapacity
+        expr: |
+          studiotv_db_pool_connections{job="studiotv-api",state="acquired"}
+          / ignoring(state) studiotv_db_pool_connections{job="studiotv-api",state="max"} > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Studio TV 数据库连接池占用持续超过 90%
+          description: 检查慢查询、并发请求和连接池等待；此规则只观测 API 连接池，不代表 PostgreSQL 整机连接数。
+  - name: studiotv-generation
+    rules:
+      - alert: STUDIOTVGenerationExporterDown
+        expr: up{job="generation-exporter"} == 0 or absent(up{job="generation-exporter"})
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: 生成服务监控采集器连续两分钟不可达
+          description: 队列缺测不能视为空队列；检查 generation-exporter 容器和 Prometheus 抓取配置。
+      - alert: STUDIOTVGenerationServiceDown
+        expr: |
+          studiotv_generation_service_up{job="generation-exporter"} == 0
+          and on(job,instance) (up{job="generation-exporter"} == 1)
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 生成链路服务心跳连续两分钟失败
+          description: 按 service 标签定位 STUDIO API、Web、Router、H3、ComfyUI 或 ART；检查私有隧道和执行端探针。
+      - alert: STUDIOTVGenerationServiceNotReady
+        expr: |
+          studiotv_generation_service_ready{job="generation-exporter"} == 0
+          and on(job,instance) (up{job="generation-exporter"} == 1)
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 生成链路服务连续两分钟未就绪
+          description: API 可达仍可能缺少数据库、worker 配置或必需推理节点；按 service 标签检查对应就绪条件。
+      - alert: STUDIOTVGenerationQueueSampleUnavailable
+        expr: |
+          (studiotv_generation_queue_sampler_up{job="studiotv-api"} == 0
+          or time() - studiotv_generation_queue_last_success_timestamp_seconds{job="studiotv-api"} > 30
+          or absent(studiotv_generation_queue_sampler_up{job="studiotv-api"}))
+          and on(job) (up{job="studiotv-api"} == 1)
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: STUDIO 生成队列采样失败或过期
+          description: 检查只读队列查询与数据库；保留的旧值不代表当前排队长度。
+      - alert: STUDIOTVGenerationH3RuntimeSampleUnavailable
+        expr: |
+          (studiotv_generation_probe_success{job="generation-exporter",probe=~"h3_runtime|h3_queue|comfy_queue"} == 0
+          or time() - studiotv_generation_collector_last_poll_timestamp_seconds{job="generation-exporter"} > 40)
+          and on(job,instance) (up{job="generation-exporter"} == 1)
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: H3 执行端采样连续两分钟不可用
+          description: 检查专用受限 SSH 密钥、主机身份和执行端只读采样脚本；不使用旧队列数据补零。
+      - alert: STUDIOTVGenerationQueueWaitLong
+        expr: |
+          studiotv_generation_oldest_queued_age_seconds{job="studiotv-api"} > 900
+          and on(job,instance) (studiotv_generation_queue_sampler_up{job="studiotv-api"} == 1)
+          and on(job,instance) (time() - studiotv_generation_queue_last_success_timestamp_seconds{job="studiotv-api"} < 30)
+          and on(job,instance) (up{job="studiotv-api"} == 1)
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 生成任务等待超过十五分钟且持续五分钟
+          description: 按 kind 和 capability_family 查看主队列；单卡串行生成时此规则反映积压，不等同于服务故障。

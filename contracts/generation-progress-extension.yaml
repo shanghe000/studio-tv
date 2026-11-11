@@ -1,0 +1,387 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Studio TV Measured Generation Progress Extension",
+    "version": "1.0.0",
+    "description": "IMPLEMENTED in STUDIO source. Additive v2 task Plan progress and measured phase detail; frozen contracts/openapi.json v1 is unchanged. No timer-derived percentages. Sampler fraction is scoped and clears when loading/decoding has no measurement. Task reaches 1 only after verified output import. Existing authenticated canvas live-snapshot/SSE carries server-owned graph.data.progress (0..100) and progressDetail; input semantics ignore only those top-level presentation fields."
+  },
+  "x-implementation-status": "IMPLEMENTED",
+  "x-router-negotiation": {
+    "header": "X-Models-Router-Features",
+    "value": "progress-detail-v1"
+  },
+  "paths": {
+    "/api/v2/tasks/{id}": {
+      "get": {
+        "operationId": "getTaskMeasuredProgress",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actual authorized durable task receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "404": {
+            "description": "Task not visible to this actor"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "LocalBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Plan": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nodeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "executionId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "state": {
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "WAITING_TOOL",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELED"
+            ]
+          },
+          "capabilityRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "capabilityVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "outputs": {
+            "type": "array",
+            "items": {
+              "$ref": "execution-extension.json#/components/schemas/Output"
+            }
+          },
+          "errorCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "nodeSnapshot": {
+            "type": "object"
+          },
+          "testMode": {
+            "type": "boolean"
+          },
+          "historyDeletedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "canvasBinding": {
+            "$ref": "execution-extension.json#/components/schemas/CanvasBinding",
+            "readOnly": true
+          },
+          "progress": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1,
+            "readOnly": true,
+            "description": "Actual observed fraction within progressDetail.scope. Null when unavailable, queued/loading/decoding without measurement. SAMPLING reaching 1 is not total task completion."
+          },
+          "progressDetail": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProgressDetail"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "readOnly": true
+          }
+        },
+        "required": [
+          "nodeId",
+          "executionId",
+          "state",
+          "capabilityRef",
+          "capabilityVersion",
+          "parameters",
+          "outputs",
+          "testMode"
+        ]
+      },
+      "Task": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "projectId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "conversationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "messageId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "kind": {
+            "enum": [
+              "CANVAS",
+              "ASSISTANT",
+              "MEDIA",
+              "SKETCH",
+              "STUDIO"
+            ]
+          },
+          "targetType": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "targetId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "name": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "WAITING_TOOL",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELED"
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "plans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Plan"
+            },
+            "maxItems": 500
+          },
+          "testMode": {
+            "type": "boolean"
+          },
+          "snapshot": {
+            "type": "object"
+          },
+          "runtimeMetadata": {
+            "type": "object"
+          },
+          "errorCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "canvasManaged": {
+            "type": "boolean",
+            "readOnly": true,
+            "description": "True only for server-accepted opt-in single basic-node canvas writeback. Absent or false identifies the existing execution path; graph display fields do not supply this authority."
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "kind",
+          "targetType",
+          "targetId",
+          "name",
+          "state",
+          "revision",
+          "plans",
+          "testMode",
+          "createdAt",
+          "updatedAt"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "canvasManaged": {
+                  "const": true
+                }
+              },
+              "required": [
+                "canvasManaged"
+              ]
+            },
+            "then": {
+              "properties": {
+                "kind": {
+                  "const": "CANVAS"
+                },
+                "targetType": {
+                  "const": "NODE"
+                },
+                "projectId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "plans": {
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "required": [
+                      "canvasBinding"
+                    ],
+                    "properties": {
+                      "state": {
+                        "enum": [
+                          "QUEUED",
+                          "RUNNING",
+                          "SUCCEEDED",
+                          "FAILED",
+                          "CANCELED"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "plans": {
+                  "items": {
+                    "not": {
+                      "required": [
+                        "canvasBinding"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ProgressDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "phase": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "scope": {
+            "enum": [
+              "SAMPLING",
+              "TASK"
+            ]
+          },
+          "currentStep": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "totalSteps": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "phase",
+          "scope"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+:root {
+ --studio-background:#19171d;
+ --studio-surface:#232027;
+ --studio-border:#37313f;
+ --studio-primary:#725e8f;
+ --studio-accent:#b6a2ce;
+ --studio-ink:#eee9f2;
+ --studio-pet-tail:#89709f;
+ --studio-pet-tip:#b9a3ca;
+ --rh-green:var(--studio-accent);
+ --rh-green-rgb:182 162 206;
+ --rh-green-hover:#c3b0d8;
+ --canvas-accent-color:var(--studio-accent);
+ --canvas-accent-success:var(--studio-accent);
+ --canvas-mention-accent:var(--studio-accent);
+ --agent-accent-action:var(--studio-accent);
+ --agent-accent-action-hover:#c3b0d8;
+ --agent-accent-created:var(--studio-accent);
+ --agent-accent-created-rgb:182 162 206;
+}
+.canvas-page-header .canvas-logo img {
+ height:26px;
+ width:188px;
+ object-fit:contain;
+ object-position:left center;
+}
+.home-agent-brand-icon {
+ background:var(--studio-accent);
+ -webkit-mask:url('/brand/tv-glyph.svg') center / contain no-repeat;
+ mask:url('/brand/tv-glyph.svg') center / contain no-repeat;
+}
+.plugin-center-brand-mark > svg,
+.plugin-center-brand-mark__word {display:none}
+.plugin-center-brand-mark::before {
+ content:'';display:block;width:188px;height:28px;
+ background:url('/brand/studio-wordmark.svg') left center / contain no-repeat;
+}
+.canvas-logo-back {position:relative;border-radius:8px;background:#725e8f24}
+.canvas-logo-back > svg {visibility:hidden}
+.canvas-logo-back::after {
+ content:'';position:absolute;inset:4px;background:var(--studio-accent);
+ -webkit-mask:url('/brand/tv-glyph.svg') center / contain no-repeat;
+ mask:url('/brand/tv-glyph.svg') center / contain no-repeat;
+ pointer-events:none;
+}
+#rhtv-feishu-login section {background:var(--studio-background);border-color:var(--studio-border)}
+#rhtv-feishu-login .rhtv-feishu-primary,
+#rhtv-feature-blocked button {background:var(--studio-primary);color:var(--studio-ink)}
+.home-send-btn.active:not(:disabled) {
+ background:var(--studio-primary);color:var(--studio-ink);box-shadow:none;
+}
+.home-send-btn.active:not(:disabled):hover {background:#816b9d}
+[data-studio-brand] :focus-visible {outline-color:var(--studio-accent)}
+/* Preserve the native buttons, their event targets and their beam animation. */
+svg[data-studio-frames-mark] > :not([data-studio-frame-art]) {display:none}
+svg[data-studio-frames-mark] > [data-studio-frame-art] {pointer-events:none}
+.hyperframes-btn .hyperframes-icon {width:26px;height:26px;overflow:visible;filter:none}
+.hyperframes-btn {background:linear-gradient(135deg,#ed580f19,#ffc36b0c)!important}
+[data-studio-brand] .hyperframes-btn::before,[data-studio-brand] .hyperframes-btn::after {background:conic-gradient(from 0deg,transparent 0deg,#ed580f 15deg,#ffc36b 22deg,transparent 40deg,transparent 180deg,#ed580f 195deg,#ffc36b 202deg,transparent 220deg)!important}
+.hyperframes-topbar-logo {width:174px!important;height:36px!important;filter:none!important}
+.hf-header__logo-svg {width:194px!important;height:42px!important;filter:none!important}
+.studio-frames-tail,.studio-frames-face {transform-box:fill-box;transform-origin:center;transition:transform .3s ease}
+.hyperframes-btn:hover .studio-frames-tail,.hyperframes-btn:focus-visible .studio-frames-tail {transform:rotate(-7deg)}
+.hyperframes-btn:hover .studio-frames-face,.hyperframes-btn:focus-visible .studio-frames-face {transform:rotate(3deg) translateY(-3px)}
+.hf-header__logo:hover .studio-frames-tail {transform:rotate(-5deg)}
+/* Native inner/glow animations and random blink timers stay in place. */
+[data-studio-agent-mark] :is(.agent-orb-icon__layer,.agent-orb-icon__core,.agent-orb-icon__eyes,.storyboard-agent-orb-icon__layer,.storyboard-agent-orb-icon__core,.storyboard-agent-orb-icon__eyes) {visibility:hidden!important}
+[data-studio-brand] [data-studio-agent-mark] :is(.agent-orb-icon__glow,.storyboard-agent-orb-icon__glow) {background:radial-gradient(circle,#ed580f29 0,#ed580f10 38%,transparent 72%)!important}
+.studio-agent-mark {position:relative;z-index:2;width:100%;height:100%;overflow:visible;pointer-events:none;flex-shrink:0}
+.studio-agent-mark .studio-frames-face > path:last-child {transform-box:fill-box;transform-origin:center;transition:transform .15s cubic-bezier(.4,0,.2,1),opacity .15s cubic-bezier(.4,0,.2,1)}
+[data-studio-agent-mark]:has(:is(.agent-orb-icon__eye,.storyboard-agent-orb-icon__eye).is-blink) .studio-agent-mark .studio-frames-face > path:last-child {opacity:.9;transform:scaleY(.1)}
+/* Match the native selector specificity before colour-derived override rules;
+ * only colours change, including the native rotating --hf-bubble-angle. */
+[data-studio-brand] .hf-chat .hf-chat__input-bubble {background:#725e8f08!important;box-shadow:0 0 0 1px #725e8f26,0 4px 14px #725e8f12,0 0 18px #ed580f08!important}
+[data-studio-brand] .hf-chat .hf-chat__input-bubble::before {background:conic-gradient(from var(--hf-bubble-angle),#b6a2ce99,#725e8fb3,#ed580f66,#89709fa6,#b6a2ce99)!important}
+[data-studio-brand] .hf-chat .hf-chat__input-bubble::after {background:radial-gradient(95% 105% at 50% 112%,#725e8f0f,transparent 68%)!important}
+[data-studio-brand] .hf-chat .hf-chat__input-bubble:focus-within,[data-studio-brand] .hf-chat .hf-chat__input-bubble:hover {box-shadow:0 0 0 1px #b6a2ce38,0 5px 18px #725e8f20,0 0 22px #ed580f10!important}
+@media(prefers-reduced-motion:reduce) {
+ .studio-frames-tail,.studio-frames-face {transition:none!important;transform:none!important}
+ .hyperframes-btn::before,.hyperframes-btn::after {animation:none!important}
+ [data-studio-agent-mark] :is(.agent-orb-icon__inner,.agent-orb-icon__glow,.storyboard-agent-orb-icon__inner,.storyboard-agent-orb-icon__glow) {animation:none!important}
+ [data-studio-agent-mark] .studio-agent-mark .studio-frames-face > path:last-child {transition:none!important;transform:none!important;opacity:1!important}
+}
+@media(max-width:760px) {
+ .canvas-page-header .canvas-logo img {width:142px;height:23px}
+}

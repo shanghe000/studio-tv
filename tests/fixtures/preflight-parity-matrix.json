@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "1",
+  "scope": "Synthetic capabilities and owned-asset facts only; no model invocation or production project writes",
+  "rules": [
+    {
+      "id": "parameter-schema",
+      "priority": 0,
+      "status": "IMPLEMENTED_SHARED",
+      "entryPoints": [
+        "image",
+        "video",
+        "text",
+        "audio",
+        "tools",
+        "group",
+        "app"
+      ],
+      "backend": "apps/api-go/internal/modules/execution/application/service.go:validateParameters",
+      "frontend": "apps/web/src/service/schema-parameters.ts:validateCapabilityParameters",
+      "examples": [
+        "Unknown outputPreset enum",
+        "Boolean supplied as a string",
+        "Required nested subject index absent",
+        "Enum member outside the numeric maximum",
+        "Unexpected nested parameter",
+        "Non-unique oneOf branch"
+      ],
+      "boundary": "Project native UI caches out before validating Router parameters. Unsupported schema assertions fail explicitly; backend remains authoritative."
+    },
+    {
+      "id": "trusted-media-limits-and-metadata",
+      "priority": 0,
+      "status": "IMPLEMENTED_SHARED",
+      "entryPoints": [
+        "image",
+        "video",
+        "text-with-image",
+        "audio",
+        "tools",
+        "group",
+        "app"
+      ],
+      "backend": "apps/api-go/internal/modules/execution/application/media_constraints.go:validateMediaAssets",
+      "frontend": "apps/web/src/service/input-media-constraints.ts:validateInputMedia and validatePlannedInputMedia",
+      "examples": [
+        "Image above advertised maxBytes",
+        "Video above advertised maxDurationMs",
+        "Image dimensions missing while maxPixels is declared",
+        "File size missing while maxBytes is declared",
+        "Audio total duration above declared aggregate maximum",
+        "Catalog-declared upstream output dimensions exceed downstream limits before batch submission"
+      ],
+      "boundary": "The common execution preparation invokes these helpers for every resolved capability. Actual consumed asset metadata is trusted; planned outputs use only matching catalog-declared known facts and never invent missing metadata. Browser display metadata is not trusted asset evidence."
+    },
+    {
+      "id": "required-image",
+      "priority": 0,
+      "status": "IMPLEMENTED_SHARED",
+      "backend": "apps/api-go/internal/modules/execution/application/service.go:canvas and prompts.go:validatePromptInputs",
+      "examples": [
+        "IMAGE_UNDERSTANDING without an image",
+        "Real model IMAGE_TO_IMAGE without an image",
+        "Image edit feature template without its required reference"
+      ],
+      "boundary": "Legacy generic mock IMAGE_TO_IMAGE is not given stronger requirements. Template-specific requirements remain distinct from model modality compatibility."
+    },
+    {
+      "id": "video-reference-counts",
+      "priority": 0,
+      "status": "EXISTING_SHARED_VALIDATOR",
+      "frontend": "apps/web/src/service/video-input.ts:videoPreflightError",
+      "examples": [
+        "First-last frame needs exactly two images",
+        "Text-to-video rejects references",
+        "Motion transfer requires source video",
+        "Advertised per-kind and total reference maxima"
+      ],
+      "boundary": "Versioned x-media-roles and x-media-limits define profile requirements; unadvertised provider restrictions are not guessed."
+    },
+    {
+      "id": "graph-acceptance",
+      "priority": 1,
+      "status": "IMPLEMENTED_SHARED",
+      "backend": "apps/api-go/internal/modules/execution/domain/task.go:ParseGraph",
+      "frontend": "apps/web/src/service/generation-readiness.ts:validateGenerationGraph",
+      "examples": [
+        "Any full-graph cycle including unselected nodes",
+        "Self loop",
+        "More than 500 nodes",
+        "More than 2000 edges",
+        "Graph above two MiB",
+        "Name above 400 UTF-8 bytes"
+      ],
+      "boundary": "App-only topological sorting is insufficient for ordinary canvas/group submission. Frozen command projection may intentionally contain only the target and consumed dependencies."
+    },
+    {
+      "id": "app-form",
+      "priority": 1,
+      "status": "IMPLEMENTED_SHARED",
+      "backend": "apps/api-go/internal/modules/execution/application/apps.go:App and validateAppValue",
+      "frontend": "apps/web/src/service/execution.ts:appPlan and appInputs",
+      "examples": [
+        "Stale app form revision",
+        "Duplicate/missing field",
+        "Wrong asset kind",
+        "Numeric integer/range and option checks",
+        "More than 200 inputs",
+        "A serialized field exceeds 200000 bytes"
+      ],
+      "boundary": "Form revisions and asset access can change after local validation, and must still be checked by the server."
+    },
+    {
+      "id": "media-operation-spec",
+      "priority": 1,
+      "status": "IMPLEMENTED_SHARED",
+      "backend": "apps/api-go/internal/modules/media/domain/spec.go:Spec.Validate",
+      "frontend": "apps/web/src/service/media-job-validation.ts:validateMediaJob",
+      "examples": [
+        "Inputs outside 1..16",
+        "Duplicate track kinds",
+        "More than 24 total clips",
+        "Invalid trim, crop, speed, rotate or mirror",
+        "Unreferenced input",
+        "Incompatible output dimensions, codecs or container"
+      ],
+      "boundary": "The frontend should mirror syntax and declared input metadata constraints. Actual decoding, corrupt streams, FFmpeg availability and output verification remain runtime concerns."
+    },
+    {
+      "id": "history-and-runtime-state",
+      "priority": 2,
+      "status": "SERVER_RUNTIME_BOUNDARY",
+      "backend": "apps/api-go/internal/modules/execution/application/canvas_inputs.go and inputs.go",
+      "examples": [
+        "Selected history deleted after submit",
+        "Project access revoked after preflight",
+        "Upstream planned result has not been produced yet",
+        "Provider network failure",
+        "Model rejects or returns corrupt output"
+      ],
+      "boundary": "Never fabricate metadata, silently replace selected history, or weaken server authorization and consistency checks to make preflight appear complete."
+    }
+  ],
+  "parameterSchemaSupport": {
+    "catalogFixtureCount": 55,
+    "supportedAssertions": [
+      "type",
+      "enum",
+      "const",
+      "required",
+      "properties",
+      "additionalProperties",
+      "patternProperties",
+      "propertyNames",
+      "minimum",
+      "maximum",
+      "exclusiveMinimum",
+      "exclusiveMaximum",
+      "multipleOf",
+      "minLength",
+      "maxLength",
+      "pattern",
+      "minItems",
+      "maxItems",
+      "uniqueItems",
+      "items",
+      "prefixItems",
+      "additionalItems",
+      "contains",
+      "minContains",
+      "maxContains",
+      "minProperties",
+      "maxProperties",
+      "dependencies",
+      "dependentRequired",
+      "dependentSchemas",
+      "allOf",
+      "anyOf",
+      "oneOf",
+      "not",
+      "if",
+      "then",
+      "else",
+      "local $ref"
+    ],
+    "annotations": [
+      "title",
+      "description",
+      "default",
+      "examples",
+      "deprecated",
+      "readOnly",
+      "writeOnly",
+      "$schema",
+      "$id",
+      "$anchor",
+      "$comment",
+      "$defs",
+      "definitions",
+      "x-*"
+    ],
+    "explicitlyUnsupportedExamples": [
+      "Remote $ref",
+      "format assertions",
+      "unevaluatedProperties"
+    ],
+    "limits": "Bounded schema and value recursion; no silent success for unknown assertions"
+  }
+}

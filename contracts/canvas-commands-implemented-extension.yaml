@@ -1,0 +1,635 @@
+openapi: 3.1.1
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Studio TV implemented canvas command slice
+  version: 0.1.0
+  description: 'IMPLEMENTED first slice: owner-scoped manual user-token typed commands
+    and historical receipts. Supports ordinary rh-text/rh-image/rh-video editable
+    inputs, move/delete and default-port edges. Does not enable Agent runs, tool loops,
+    generation or result application. Project graph/revision event coverage, finite JSON replay
+    and bounded SSE are specified separately by canvas-sync-implemented-extension.json.
+    node.create/updateInputs maps title to data.title, text to data.text and prompt
+    to data.params.prompt; existing generatedText and native extensions are read-only
+    and preserved.'
+servers:
+- url: /
+x-implementation-stage: IMPLEMENTED
+x-related-design: ../docs/agent-api-and-live-canvas-design.md
+x-implemented-subset:
+  operations:
+  - node.create
+  - node.updateInputs
+  - node.move
+  - node.delete
+  - edge.create
+  - edge.delete
+  nodeTypes:
+  - rh-text
+  - rh-image
+  - rh-video
+  inputSchemaVersion: '1'
+  explicitPorts: false
+  agentContext: RESERVED:501
+  events: Stored atomically for commands; legacy graph/revision invalidation and finite
+    JSON replay are now specified by canvas-sync-implemented-extension.json. No realtime
+    SSE.
+paths:
+  /api/v2/projects/{projectId}/canvas-commands:
+    post:
+      operationId: submitCanvasCommand
+      summary: 提交typed画布命令并持久记录回执
+      description: 当前用户认证和实时tv.access；If-Match为graph revision。保存、revision、回执、项目事件同事务；不等于已实现undo。
+      x-implementation-stage: IMPLEMENTED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Committed historical command receipt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandReceiptResponse'
+          headers:
+            ETag:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '412':
+          $ref: '#/components/responses/Error412'
+        '413':
+          $ref: '#/components/responses/Error413'
+        '415':
+          $ref: '#/components/responses/Error415'
+        '422':
+          $ref: '#/components/responses/Error422'
+        '428':
+          $ref: '#/components/responses/Error428'
+        '501':
+          $ref: '#/components/responses/Error501'
+        '503':
+          $ref: '#/components/responses/Error503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CanvasCommand'
+  /api/v2/projects/{projectId}/canvas-commands/{commandId}:
+    get:
+      operationId: getCanvasCommandReceipt
+      summary: 读取本人已提交命令回执
+      description: 同owner/project；回执是历史修订，非当前graph head。
+      x-implementation-stage: IMPLEMENTED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/CommandId'
+      responses:
+        '200':
+          description: Committed historical command receipt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandReceiptResponse'
+          headers:
+            ETag:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/Error400'
+        '401':
+          $ref: '#/components/responses/Error401'
+        '403':
+          $ref: '#/components/responses/Error403'
+        '404':
+          $ref: '#/components/responses/Error404'
+        '409':
+          $ref: '#/components/responses/Error409'
+        '412':
+          $ref: '#/components/responses/Error412'
+        '413':
+          $ref: '#/components/responses/Error413'
+        '415':
+          $ref: '#/components/responses/Error415'
+        '422':
+          $ref: '#/components/responses/Error422'
+        '428':
+          $ref: '#/components/responses/Error428'
+        '501':
+          $ref: '#/components/responses/Error501'
+        '503':
+          $ref: '#/components/responses/Error503'
+components:
+  schemas:
+    Id:
+      type: string
+      minLength: 1
+      maxLength: 64
+      pattern: ^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$
+    Position:
+      type: object
+      properties:
+        x:
+          type: number
+        y:
+          type: number
+      required:
+      - x
+      - y
+      additionalProperties: false
+    AgentContext:
+      type: object
+      properties:
+        runId:
+          $ref: '#/components/schemas/Id'
+        toolCallId:
+          $ref: '#/components/schemas/Id'
+      required:
+      - runId
+      - toolCallId
+      additionalProperties: false
+      description: 首次执行验证已登记pending call的owner/session/target/冻结hash；完成后仅匹配已存回执重放/查询，不执行新副作用；不赋权。
+    GraphDelta:
+      type: object
+      properties:
+        nodesUpsert:
+          type: array
+          items:
+            $ref: ./openapi.json#/components/schemas/GraphNode
+        nodesRemoved:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        edgesUpsert:
+          type: array
+          items:
+            $ref: ./openapi.json#/components/schemas/GraphEdge
+        edgesRemoved:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        viewport:
+          $ref: ./openapi.json#/components/schemas/ProjectGraph/properties/viewport
+      required:
+      - nodesUpsert
+      - nodesRemoved
+      - edgesUpsert
+      - edgesRemoved
+      additionalProperties: false
+      description: 只读，服务器归一化后的真正变更；可以包含保留meta，客户端不能借写命令直接构造它。 顶层viewport变化也必须表达；接收端更新base并保留本tab相机。
+    CommandReceipt:
+      type: object
+      properties:
+        commandId:
+          $ref: '#/components/schemas/Id'
+        projectId:
+          $ref: '#/components/schemas/Id'
+        state:
+          const: COMMITTED
+        baseRevision:
+          $ref: '#/components/schemas/Revision'
+        graphRevision:
+          $ref: '#/components/schemas/Revision'
+        eventCursor:
+          $ref: '#/components/schemas/Cursor'
+        delta:
+          $ref: '#/components/schemas/GraphDelta'
+        committedAt:
+          type: string
+          format: date-time
+      required:
+      - commandId
+      - projectId
+      - state
+      - baseRevision
+      - graphRevision
+      - eventCursor
+      - delta
+      - committedAt
+      additionalProperties: false
+      description: 200证明事务已提交；幂等重放返回原回执，不代表现在的项目head仍等于此revision。
+    CommandReceiptResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          const: OK
+        requestId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        data:
+          $ref: '#/components/schemas/CommandReceipt'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 200
+        message:
+          type: string
+        requestId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        retryable:
+          type: boolean
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - code
+      - message
+      - requestId
+      - retryable
+      - details
+      additionalProperties: false
+    NodeMove:
+      type: object
+      properties:
+        type:
+          const: node.move
+        nodeId:
+          $ref: '#/components/schemas/Id'
+        position:
+          $ref: '#/components/schemas/Position'
+      required:
+      - type
+      - nodeId
+      - position
+      additionalProperties: false
+    NodeDelete:
+      type: object
+      properties:
+        type:
+          const: node.delete
+        nodeId:
+          $ref: '#/components/schemas/Id'
+      required:
+      - type
+      - nodeId
+      additionalProperties: false
+    EdgeDelete:
+      type: object
+      properties:
+        type:
+          const: edge.delete
+        edgeId:
+          $ref: '#/components/schemas/Id'
+      required:
+      - type
+      - edgeId
+      additionalProperties: false
+    ImageVideoInputs:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        prompt:
+          type: string
+          maxLength: 200000
+      additionalProperties: false
+    TextInputs:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        prompt:
+          type: string
+          maxLength: 200000
+        text:
+          type: string
+          maxLength: 200000
+      additionalProperties: false
+    UpdatedInputs:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        prompt:
+          type: string
+          maxLength: 200000
+        text:
+          type: string
+          maxLength: 200000
+      additionalProperties: false
+      minProperties: 1
+      description: Target nodeType is read from the owned persisted graph; text is
+        permitted only for ordinary rh-text. Special native subTypes return501. Unknown
+        and server-generated fields are rejected.
+    NewTextNode:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nodeType:
+          const: rh-text
+        inputSchemaVersion:
+          const: '1'
+        position:
+          $ref: '#/components/schemas/Position'
+        inputs:
+          $ref: '#/components/schemas/TextInputs'
+      required:
+      - id
+      - nodeType
+      - inputSchemaVersion
+      - position
+      - inputs
+      additionalProperties: false
+    NewImageNode:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nodeType:
+          const: rh-image
+        inputSchemaVersion:
+          const: '1'
+        position:
+          $ref: '#/components/schemas/Position'
+        inputs:
+          $ref: '#/components/schemas/ImageVideoInputs'
+      required:
+      - id
+      - nodeType
+      - inputSchemaVersion
+      - position
+      - inputs
+      additionalProperties: false
+    NewVideoNode:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nodeType:
+          const: rh-video
+        inputSchemaVersion:
+          const: '1'
+        position:
+          $ref: '#/components/schemas/Position'
+        inputs:
+          $ref: '#/components/schemas/ImageVideoInputs'
+      required:
+      - id
+      - nodeType
+      - inputSchemaVersion
+      - position
+      - inputs
+      additionalProperties: false
+    NewNode:
+      oneOf:
+      - $ref: '#/components/schemas/NewTextNode'
+      - $ref: '#/components/schemas/NewImageNode'
+      - $ref: '#/components/schemas/NewVideoNode'
+    NodeCreate:
+      type: object
+      properties:
+        type:
+          const: node.create
+        node:
+          $ref: '#/components/schemas/NewNode'
+      required:
+      - type
+      - node
+      additionalProperties: false
+    NodeUpdateInputs:
+      type: object
+      properties:
+        type:
+          const: node.updateInputs
+        nodeId:
+          $ref: '#/components/schemas/Id'
+        inputSchemaVersion:
+          const: '1'
+        inputs:
+          $ref: '#/components/schemas/UpdatedInputs'
+      required:
+      - type
+      - nodeId
+      - inputSchemaVersion
+      - inputs
+      additionalProperties: false
+    Edge:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        source:
+          $ref: '#/components/schemas/Id'
+        target:
+          $ref: '#/components/schemas/Id'
+        sourceHandle:
+          type: 'null'
+        targetHandle:
+          type: 'null'
+      required:
+      - id
+      - source
+      - target
+      - sourceHandle
+      - targetHandle
+      additionalProperties: false
+      description: First slice implements only the default null ports between rh-text/rh-image/rh-video
+        nodes; explicit port names return501. Endpoints must exist; self links and
+        reserved metadata are rejected.
+    EdgeCreate:
+      type: object
+      properties:
+        type:
+          const: edge.create
+        edge:
+          $ref: '#/components/schemas/Edge'
+      required:
+      - type
+      - edge
+      additionalProperties: false
+    CanvasOperation:
+      oneOf:
+      - $ref: '#/components/schemas/NodeCreate'
+      - $ref: '#/components/schemas/NodeUpdateInputs'
+      - $ref: '#/components/schemas/NodeMove'
+      - $ref: '#/components/schemas/NodeDelete'
+      - $ref: '#/components/schemas/EdgeCreate'
+      - $ref: '#/components/schemas/EdgeDelete'
+      discriminator:
+        propertyName: type
+    CanvasCommand:
+      type: object
+      properties:
+        schemaVersion:
+          const: '1'
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CanvasOperation'
+          maxItems: 100
+          minItems: 1
+        agentContext:
+          $ref: '#/components/schemas/AgentContext'
+          description: 'RESERVED: all provided agentContext values return501 until
+            authoritative pending tool-call registration is implemented.'
+      required:
+      - schemaVersion
+      - operations
+      additionalProperties: false
+    ErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+          minLength: 1
+          maxLength: 200
+        message:
+          type: string
+      required:
+      - field
+      - code
+      - message
+      additionalProperties: false
+    Cursor:
+      type: string
+      pattern: ^(0|[1-9][0-9]*)$
+      maxLength: 19
+      description: 十进制事件序号；按project或run分区，不是graph revision。
+    Revision:
+      type: integer
+      minimum: 1
+      maximum: 9007199254740991
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: STUDIO access JWT
+      description: 当前PF用户access；与Web相同身份。禁止service token替代、token URL或owner参数赋权。
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/Id'
+    IfMatch:
+      name: If-Match
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: ^"[1-9][0-9]*"$
+      description: 一个正整数强ETag。分别指conversation、graph或auth-context，操作说明明确资源。
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: UUID；请求摘要包括If-Match；重试保留原key和前提。
+    CommandId:
+      name: commandId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/Id'
+  responses:
+    Error400:
+      description: VALIDATION_FAILED, UNKNOWN_FIELD, EVENT_CURSOR_INVALID
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error401:
+      description: UNAUTHENTICATED, IPAC_SESSION_STALE
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error403:
+      description: IPAC_PERMISSION_DENIED
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error404:
+      description: RESOURCE_NOT_FOUND
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error409:
+      description: IDEMPOTENCY_CONFLICT, CONVERSATION_BUSY, RUN_TERMINAL, RUN_SESSION_MISMATCH,
+        CREDENTIAL_SUPERSEDED
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error412:
+      description: VERSION_CONFLICT
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error413:
+      description: PAYLOAD_TOO_LARGE
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error415:
+      description: CONTENT_TYPE_UNSUPPORTED
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error422:
+      description: INVALID_GRAPH_OPERATION, ASSET_UNAVAILABLE, CAPABILITY_UNAVAILABLE
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error428:
+      description: IF_MATCH_REQUIRED
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error501:
+      description: NOT_IMPLEMENTED, TOOL_UNAVAILABLE, MODEL_EXECUTION_DISABLED
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error503:
+      description: AUTH_BACKEND_UNAVAILABLE, IPAC_AUTHORIZATION_UNAVAILABLE, MODEL_BACKEND_UNAVAILABLE
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

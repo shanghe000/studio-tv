@@ -1,0 +1,214 @@
+{
+  "command": {
+    "nodes": [
+      {
+        "id": "node_1792640774921_494vc5i",
+        "type": "rh-image",
+        "position": {
+          "x": 1513.9899874138896,
+          "y": -79.69446406318269
+        },
+        "data": {
+          "label": "图像生成",
+          "title": "图像生成",
+          "status": "idle",
+          "width": 380,
+          "height": 220,
+          "aspectRatio": "16:9",
+          "params": {
+            "prompt": "STUDIOTV生成入口验收通过",
+            "outputPreset": "1024-square",
+            "text": "STUDIOTV生成入口验收通过"
+          },
+          "modelCode": "z-image-turbo-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "userPromptSnapshot": {
+            "paramName": "prompt",
+            "value": ""
+          },
+          "modelType": "OPENAPI",
+          "prompt": "STUDIOTV生成入口验收通过",
+          "presetSelections": [],
+          "nodeOutputHistory": []
+        },
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "selectable": true,
+        "hidden": false
+      },
+      {
+        "id": "node_1792640774921_dkuwgs5",
+        "type": "rh-text",
+        "position": {
+          "x": 1063.9899874138896,
+          "y": -79.69446406318269
+        },
+        "data": {
+          "label": "文生图提示词",
+          "title": "文生图提示词",
+          "status": "idle",
+          "width": 300,
+          "height": 268,
+          "text": "STUDIOTV生成入口验收通过",
+          "subType": "text-text"
+        },
+        "style": {
+          "width": 300,
+          "height": 268
+        },
+        "selectable": true,
+        "hidden": false
+      }
+    ],
+    "edges": [
+      {
+        "source": "node_1792640774921_dkuwgs5",
+        "target": "node_1792640774921_494vc5i"
+      }
+    ]
+  },
+  "baseline": {
+    "nodes": [
+      {
+        "id": "node_1792636174180_ov7of8y",
+        "type": "rh-text",
+        "position": {
+          "x": 643.9899874138895,
+          "y": -79.69446406318269
+        },
+        "data": {
+          "label": "文本",
+          "title": "文本",
+          "status": "finished",
+          "width": 300,
+          "height": 268,
+          "text": "STUDIOTV生成入口验收通过",
+          "content": "STUDIOTV生成入口验收通过",
+          "prompt": "请只输出「STUDIOTV生成入口验收通过」，不要额外说明。",
+          "output": [
+            {
+              "outputId": "out_e025374666b2be9d47363146d6d6982ce22d4f76",
+              "outputType": "text",
+              "testMode": false,
+              "text": "STUDIOTV生成入口验收通过"
+            }
+          ],
+          "opResize": true,
+          "params": {
+            "prompt": "请只输出「STUDIOTV生成入口验收通过」，不要额外说明。",
+            "reasoning_effort": "low"
+          },
+          "modelCode": "codex-6-1-text-v1",
+          "generateNum": 1,
+          "subType": "multimodal-text",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "textModelListType": "multimodal-text",
+          "taskId": "tsk_37616bda88734faf8682e13601ec6b0b",
+          "estimateTaskId": "tsk_37616bda88734faf8682e13601ec6b0b",
+          "generationStartedAt": 1792639815040,
+          "errorMsg": "",
+          "historyStorage": {
+            "historyId": "exe_5e4f1ea820ae44c497cc1c1f6838bb65",
+            "resultCount": 1,
+            "revision": "5",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "modelType": "LLM"
+        },
+        "style": {
+          "height": 268,
+          "width": 300
+        },
+        "selectable": true
+      },
+      {
+        "id": "node_1792640774921_dkuwgs5",
+        "type": "rh-text",
+        "position": {
+          "x": 1063.9899874138896,
+          "y": -79.69446406318269
+        },
+        "selectable": true,
+        "data": {
+          "label": "文生图提示词",
+          "title": "文生图提示词",
+          "status": "idle",
+          "width": 300,
+          "height": 268,
+          "text": "STUDIOTV生成入口验收通过",
+          "subType": "text-text"
+        },
+        "style": {
+          "width": 300,
+          "height": 268
+        }
+      },
+      {
+        "id": "node_1792640774921_494vc5i",
+        "type": "rh-image",
+        "position": {
+          "x": 1513.9899874138896,
+          "y": -79.69446406318269
+        },
+        "selectable": true,
+        "data": {
+          "label": "图像生成",
+          "title": "图像生成",
+          "status": "idle",
+          "width": 380,
+          "height": 220,
+          "prompt": "",
+          "aspectRatio": "16:9",
+          "params": {
+            "prompt": "",
+            "outputPreset": "1024-square"
+          },
+          "modelCode": "z-image-turbo-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          }
+        },
+        "style": {
+          "width": 380,
+          "height": 220
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-node_1792636174180_ov7of8y-node_1792640774921_dkuwgs5",
+        "source": "node_1792636174180_ov7of8y",
+        "target": "node_1792640774921_dkuwgs5",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      },
+      {
+        "id": "e-node_1792640774921_dkuwgs5-node_1792640774921_494vc5i",
+        "source": "node_1792640774921_dkuwgs5",
+        "target": "node_1792640774921_494vc5i",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "targetId": "node_1792640774921_494vc5i"
+}

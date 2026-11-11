@@ -1,0 +1,9 @@
+# Use only when migrating an existing installation. Missing volumes must fail
+# rather than silently starting a second, empty database or asset store.
+volumes:
+  postgres_data:
+    external: true
+    name: ${STUDIOTV_POSTGRES_VOLUME:?Set the existing PostgreSQL volume name}
+  asset_data:
+    external: true
+    name: ${STUDIOTV_ASSET_VOLUME:?Set the existing asset volume name}

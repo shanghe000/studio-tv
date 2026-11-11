@@ -1,0 +1,1 @@
+function n(n,o){return-1===n?0:o}function o(n,o,r){const t=r>o+1;return{overflowing:t,canScrollLeft:t&&n>1,canScrollRight:t&&n+o<r-1}}export{o as getCampCategoryScrollState,n as getCampCategoryScrollTarget};

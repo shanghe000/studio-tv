@@ -1,0 +1,234 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Studio TV bounded Agent canvas context",
+    "version": "1.0.0",
+    "description": "First implemented read-only slice. Does not enable app-server tool calling or imply all Agent draft routes are implemented. Existing CANVAS assistant turns use this same server-derived context; authored SYSTEM/DEVELOPER presets remain unchanged."
+  },
+  "paths": {
+    "/api/v2/projects/{projectId}/agent-context": {
+      "get": {
+        "operationId": "readAgentCanvasContext",
+        "x-implementation-status": "IMPLEMENTED",
+        "x-required-capability": "tv.access",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owned bounded saved canvas snapshot. Text/structure only; no media pixels or mutation authority.",
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CanvasContextResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Query parameters not accepted"
+          },
+          "401": {
+            "description": "Missing/expired login"
+          },
+          "403": {
+            "description": "Live tv.access denied"
+          },
+          "404": {
+            "description": "Project missing or not owned"
+          },
+          "422": {
+            "description": "Invalid saved graph"
+          },
+          "503": {
+            "description": "Authentication/DB temporarily unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "CanvasContext": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": "STUDIO_CANVAS_CONTEXT_V1"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "graphRevision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "nodes": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "prompt": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "assetId": {
+                  "type": "string"
+                },
+                "capabilityRef": {
+                  "type": "string"
+                },
+                "capabilityVersion": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ]
+                },
+                "textTruncated": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "position",
+                "textTruncated"
+              ]
+            }
+          },
+          "edges": {
+            "type": "array",
+            "maxItems": 200,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "source",
+                "target"
+              ]
+            }
+          },
+          "totalNodes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "totalEdges": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "toolExecutionAvailable": {
+            "const": false
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "graphRevision",
+          "nodes",
+          "edges",
+          "totalNodes",
+          "totalEdges",
+          "truncated",
+          "toolExecutionAvailable"
+        ]
+      },
+      "CanvasContextResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/CanvasContext"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ]
+      }
+    }
+  }
+}

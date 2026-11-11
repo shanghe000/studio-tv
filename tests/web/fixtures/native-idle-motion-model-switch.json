@@ -1,0 +1,1082 @@
+{
+  "projectId": "qa_native",
+  "targetId": "qa_video",
+  "revision": 4,
+  "acknowledged": {
+    "nodes": [
+      {
+        "id": "qa_source_video",
+        "type": "rh-video",
+        "position": {
+          "x": 20,
+          "y": 60
+        },
+        "data": {
+          "label": "上传视频 · 动作来源",
+          "title": "上传视频 · 动作来源",
+          "status": "idle",
+          "width": 360,
+          "height": 203,
+          "sourceObjects": [
+            "rhtv-asset:qa_source_video"
+          ],
+          "subType": "text-video"
+        }
+      },
+      {
+        "id": "qa_image",
+        "type": "rh-image",
+        "position": {
+          "x": 20,
+          "y": 420
+        },
+        "data": {
+          "label": "上传图片 · 角色来源",
+          "title": "上传图片 · 角色来源",
+          "subType": "text-image",
+          "status": "idle",
+          "sourceObjects": [
+            "rhtv-asset:qa_image"
+          ],
+          "width": 320,
+          "height": 180
+        }
+      },
+      {
+        "id": "qa_video",
+        "type": "rh-video",
+        "position": {
+          "x": 560,
+          "y": 180
+        },
+        "data": {
+          "label": "动作迁移已有结果",
+          "title": "动作迁移已有结果",
+          "status": "idle",
+          "width": 360,
+          "height": 203,
+          "prompt": "",
+          "output": [
+            {
+              "url": "rhtv-asset:qa_result",
+              "width": 640,
+              "height": 360,
+              "assetId": "qa_result",
+              "mediaId": "qa_result",
+              "mimeType": "video/mp4",
+              "outputId": "qa_motion_output",
+              "testMode": false,
+              "durationMs": 3000,
+              "outputType": "video/mp4",
+              "originalUrl": "rhtv-asset:qa_result",
+              "thumbnailUrl": "rhtv-asset:qa_poster"
+            }
+          ],
+          "videoUrl": "rhtv-asset:qa_result",
+          "params": {
+            "prompt": " ",
+            "imageUrls": "",
+            "videoUrls": "",
+            "outputPreset": "landscape-768p-source"
+          },
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {},
+          "errorMsg": "",
+          "historyStorage": {
+            "source": "remote",
+            "schemaVersion": 1,
+            "historyId": "qa_exe_motion",
+            "revision": "8",
+            "resultCount": 1
+          },
+          "progress": 100,
+          "testMode": false,
+          "progressDetail": null,
+          "promptSelection": {
+            "schemaVersion": "1",
+            "referenceBindings": [
+              {
+                "assetId": "qa_source_video",
+                "role": "MOTION_REFERENCE"
+              },
+              {
+                "assetId": "qa_image",
+                "role": "REFERENCE_IMAGE"
+              }
+            ]
+          },
+          "routerParameters": {
+            "outputPreset": "landscape-768p-source"
+          },
+          "modelCode": "h3-motion-transfer-v1",
+          "capabilityRef": "h3-motion-transfer-v1",
+          "capabilityVersion": "2",
+          "parameterSchemaVersion": "2"
+        }
+      },
+      {
+        "id": "qa_moss",
+        "type": "rh-image",
+        "position": {
+          "x": 20,
+          "y": 780
+        },
+        "data": {
+          "label": "已有图片结果 · MOSS",
+          "title": "已有图片结果 · MOSS",
+          "status": "finished",
+          "width": 360,
+          "height": 203,
+          "prompt": "Synthetic authored input.",
+          "output": [
+            {
+              "url": "rhtv-asset:qa_moss_result",
+              "assetId": "qa_moss_result",
+              "mediaId": "qa_moss_result",
+              "outputId": "qa_moss_output",
+              "outputType": "image/png",
+              "width": 640,
+              "height": 360
+            }
+          ],
+          "params": {
+            "prompt": "Synthetic authored input.",
+            "text": "Synthetic authored input.",
+            "outputPreset": "portrait-768x1344"
+          },
+          "subType": "text-image",
+          "taskId": "qa_old_image_task",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "source": "remote",
+            "schemaVersion": 1,
+            "historyId": "qa_exe_moss",
+            "revision": "5",
+            "resultCount": 1
+          },
+          "modelCode": "moss-image-generate-v1",
+          "capabilityRef": "moss-image-generate-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        }
+      },
+      {
+        "id": "qa_empty_video",
+        "type": "rh-video",
+        "position": {
+          "x": 1120,
+          "y": 340
+        },
+        "data": {
+          "label": "空视频节点 · 尚未选模型",
+          "title": "空视频节点 · 尚未选模型",
+          "subType": "multimodal-video",
+          "status": "idle"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-qa_image-qa_empty_video",
+        "source": "qa_image",
+        "target": "qa_empty_video",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      },
+      {
+        "id": "e-qa_source_video-qa_empty_video",
+        "source": "qa_source_video",
+        "target": "qa_empty_video",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      },
+      {
+        "id": "e-qa_video-qa_empty_video",
+        "source": "qa_video",
+        "target": "qa_empty_video",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      },
+      {
+        "id": "e-qa_source_video-qa_video",
+        "source": "qa_source_video",
+        "target": "qa_video",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      },
+      {
+        "type": "default",
+        "id": "e-qa_image-qa_video",
+        "source": "qa_image",
+        "target": "qa_video",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ],
+    "meta": {
+      "id": "qa_native",
+      "name": "真实原生画布 · 单人动作迁移重连验收",
+      "viewport": {
+        "x": 30,
+        "y": 60,
+        "zoom": 0.6
+      }
+    },
+    "viewport": {
+      "x": 30,
+      "y": 60,
+      "zoom": 0.6
+    }
+  },
+  "pending": [
+    {
+      "base": {
+        "nodes": [
+          {
+            "id": "qa_source_video",
+            "type": "rh-video",
+            "position": {
+              "x": 20,
+              "y": 60
+            },
+            "data": {
+              "label": "上传视频 · 动作来源",
+              "title": "上传视频 · 动作来源",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "sourceObjects": [
+                "rhtv-asset:qa_result"
+              ],
+              "subType": "text-video"
+            }
+          },
+          {
+            "id": "qa_image",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 420
+            },
+            "data": {
+              "label": "上传图片 · 角色来源",
+              "title": "上传图片 · 角色来源",
+              "status": "idle",
+              "width": 320,
+              "height": 180,
+              "sourceObjects": [
+                "rhtv-asset:qa_image"
+              ],
+              "subType": "text-image"
+            }
+          },
+          {
+            "id": "qa_video",
+            "type": "rh-video",
+            "position": {
+              "x": 560,
+              "y": 180
+            },
+            "data": {
+              "label": "动作迁移已有结果",
+              "title": "动作迁移已有结果",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "prompt": "",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_result",
+                  "width": 640,
+                  "height": 360,
+                  "assetId": "qa_result",
+                  "mediaId": "qa_result",
+                  "mimeType": "video/mp4",
+                  "outputId": "qa_motion_output",
+                  "testMode": false,
+                  "durationMs": 3000,
+                  "outputType": "video/mp4",
+                  "originalUrl": "rhtv-asset:qa_result",
+                  "thumbnailUrl": "rhtv-asset:qa_poster"
+                }
+              ],
+              "videoUrl": "rhtv-asset:qa_result",
+              "params": {
+                "prompt": " ",
+                "imageUrls": "",
+                "videoUrls": "",
+                "outputPreset": "landscape-768p-source"
+              },
+              "modelCode": "h3-motion-transfer-v1",
+              "generateNum": 1,
+              "subType": "multimodal-video",
+              "maxConnect": {},
+              "errorMsg": "",
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_motion",
+                "revision": "8",
+                "resultCount": 1
+              },
+              "capabilityRef": "h3-motion-transfer-v1",
+              "capabilityVersion": "2",
+              "parameterSchemaVersion": "2"
+            }
+          },
+          {
+            "id": "qa_moss",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 780
+            },
+            "data": {
+              "label": "已有图片结果 · MOSS",
+              "title": "已有图片结果 · MOSS",
+              "status": "finished",
+              "width": 360,
+              "height": 203,
+              "prompt": "Synthetic authored input.",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_moss_result",
+                  "assetId": "qa_moss_result",
+                  "mediaId": "qa_moss_result",
+                  "outputId": "qa_moss_output",
+                  "outputType": "image/png",
+                  "width": 640,
+                  "height": 360
+                }
+              ],
+              "params": {
+                "prompt": "Synthetic authored input.",
+                "text": "Synthetic authored input.",
+                "outputPreset": "portrait-768x1344"
+              },
+              "modelCode": "moss-image-generate-v1",
+              "subType": "text-image",
+              "taskId": "qa_old_image_task",
+              "nodeOutputHistory": [],
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_moss",
+                "revision": "5",
+                "resultCount": 1
+              },
+              "capabilityRef": "moss-image-generate-v1",
+              "capabilityVersion": "1",
+              "parameterSchemaVersion": "1"
+            }
+          },
+          {
+            "id": "qa_empty_video",
+            "type": "rh-video",
+            "position": {
+              "x": 1120,
+              "y": 340
+            },
+            "data": {
+              "label": "空视频节点 · 尚未选模型",
+              "title": "空视频节点 · 尚未选模型",
+              "status": "idle",
+              "subType": "multimodal-video"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e-qa_image-qa_empty_video",
+            "source": "qa_image",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_empty_video",
+            "source": "qa_source_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_video-qa_empty_video",
+            "source": "qa_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_video",
+            "source": "qa_source_video",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "type": "default",
+            "id": "e-qa_image-qa_video",
+            "source": "qa_image",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          }
+        ],
+        "meta": {
+          "id": "qa_native",
+          "name": "真实原生画布 · 单人动作迁移重连验收",
+          "viewport": {
+            "x": 30,
+            "y": 60,
+            "zoom": 0.6
+          }
+        },
+        "viewport": {
+          "x": 30,
+          "y": 60,
+          "zoom": 0.6
+        }
+      },
+      "local": {
+        "nodes": [
+          {
+            "id": "qa_source_video",
+            "type": "rh-video",
+            "position": {
+              "x": 20,
+              "y": 60
+            },
+            "data": {
+              "label": "上传视频 · 动作来源",
+              "title": "上传视频 · 动作来源",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "sourceObjects": [
+                "rhtv-asset:qa_result"
+              ],
+              "subType": "text-video"
+            }
+          },
+          {
+            "id": "qa_image",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 420
+            },
+            "data": {
+              "label": "上传图片 · 角色来源",
+              "title": "上传图片 · 角色来源",
+              "status": "idle",
+              "width": 320,
+              "height": 180,
+              "sourceObjects": [
+                "rhtv-asset:qa_image"
+              ],
+              "subType": "text-image"
+            }
+          },
+          {
+            "id": "qa_video",
+            "type": "rh-video",
+            "position": {
+              "x": 560,
+              "y": 180
+            },
+            "data": {
+              "label": "动作迁移已有结果",
+              "title": "动作迁移已有结果",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "prompt": "",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_result",
+                  "width": 640,
+                  "height": 360,
+                  "assetId": "qa_result",
+                  "mediaId": "qa_result",
+                  "mimeType": "video/mp4",
+                  "outputId": "qa_motion_output",
+                  "testMode": false,
+                  "durationMs": 3000,
+                  "outputType": "video/mp4",
+                  "originalUrl": "rhtv-asset:qa_result",
+                  "thumbnailUrl": "rhtv-asset:qa_result"
+                }
+              ],
+              "videoUrl": "rhtv-asset:qa_result",
+              "params": {
+                "prompt": " ",
+                "outputPreset": "landscape-768p-source",
+                "imageUrls": "",
+                "audioUrls": "",
+                "videoUrls": ""
+              },
+              "modelCode": "h3-video-reference-v1",
+              "generateNum": 1,
+              "subType": "multimodal-video",
+              "maxConnect": {
+                "image": null,
+                "text": null,
+                "video": null
+              },
+              "errorMsg": "",
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_motion",
+                "revision": "8",
+                "resultCount": 1
+              }
+            }
+          },
+          {
+            "id": "qa_moss",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 780
+            },
+            "data": {
+              "label": "已有图片结果 · MOSS",
+              "title": "已有图片结果 · MOSS",
+              "status": "finished",
+              "width": 360,
+              "height": 203,
+              "prompt": "Synthetic authored input.",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_moss_result",
+                  "assetId": "qa_moss_result",
+                  "mediaId": "qa_moss_result",
+                  "outputId": "qa_moss_output",
+                  "outputType": "image/png",
+                  "width": 640,
+                  "height": 360
+                }
+              ],
+              "params": {
+                "prompt": "Synthetic authored input.",
+                "text": "Synthetic authored input.",
+                "outputPreset": "portrait-768x1344"
+              },
+              "modelCode": "moss-image-generate-v1",
+              "subType": "text-image",
+              "taskId": "qa_old_image_task",
+              "nodeOutputHistory": [],
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_moss",
+                "revision": "5",
+                "resultCount": 1
+              },
+              "capabilityRef": "moss-image-generate-v1",
+              "capabilityVersion": "1",
+              "parameterSchemaVersion": "1"
+            }
+          },
+          {
+            "id": "qa_empty_video",
+            "type": "rh-video",
+            "position": {
+              "x": 1120,
+              "y": 340
+            },
+            "data": {
+              "label": "空视频节点 · 尚未选模型",
+              "title": "空视频节点 · 尚未选模型",
+              "status": "idle",
+              "subType": "multimodal-video"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e-qa_image-qa_empty_video",
+            "source": "qa_image",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_empty_video",
+            "source": "qa_source_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_video-qa_empty_video",
+            "source": "qa_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_video",
+            "source": "qa_source_video",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "type": "default",
+            "id": "e-qa_image-qa_video",
+            "source": "qa_image",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          }
+        ],
+        "meta": {
+          "id": "qa_native",
+          "name": "真实原生画布 · 单人动作迁移重连验收",
+          "viewport": {
+            "x": 30,
+            "y": 60,
+            "zoom": 0.6
+          }
+        },
+        "viewport": {
+          "x": 30,
+          "y": 60,
+          "zoom": 0.6
+        }
+      },
+      "initialEtag": "\"4\"",
+      "unknownBase": false,
+      "phase": "DRAFT"
+    },
+    {
+      "base": {
+        "nodes": [
+          {
+            "id": "qa_source_video",
+            "type": "rh-video",
+            "position": {
+              "x": 20,
+              "y": 60
+            },
+            "data": {
+              "label": "上传视频 · 动作来源",
+              "title": "上传视频 · 动作来源",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "sourceObjects": [
+                "rhtv-asset:qa_result"
+              ],
+              "subType": "text-video"
+            }
+          },
+          {
+            "id": "qa_image",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 420
+            },
+            "data": {
+              "label": "上传图片 · 角色来源",
+              "title": "上传图片 · 角色来源",
+              "status": "idle",
+              "width": 320,
+              "height": 180,
+              "sourceObjects": [
+                "rhtv-asset:qa_image"
+              ],
+              "subType": "text-image"
+            }
+          },
+          {
+            "id": "qa_video",
+            "type": "rh-video",
+            "position": {
+              "x": 560,
+              "y": 180
+            },
+            "data": {
+              "label": "动作迁移已有结果",
+              "title": "动作迁移已有结果",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "prompt": "",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_result",
+                  "width": 640,
+                  "height": 360,
+                  "assetId": "qa_result",
+                  "mediaId": "qa_result",
+                  "mimeType": "video/mp4",
+                  "outputId": "qa_motion_output",
+                  "testMode": false,
+                  "durationMs": 3000,
+                  "outputType": "video/mp4",
+                  "originalUrl": "rhtv-asset:qa_result",
+                  "thumbnailUrl": "rhtv-asset:qa_result"
+                }
+              ],
+              "videoUrl": "rhtv-asset:qa_result",
+              "params": {
+                "prompt": " ",
+                "outputPreset": "landscape-768p-source",
+                "imageUrls": "",
+                "audioUrls": "",
+                "videoUrls": ""
+              },
+              "modelCode": "h3-video-reference-v1",
+              "generateNum": 1,
+              "subType": "multimodal-video",
+              "maxConnect": {
+                "image": null,
+                "text": null,
+                "video": null
+              },
+              "errorMsg": "",
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_motion",
+                "revision": "8",
+                "resultCount": 1
+              }
+            }
+          },
+          {
+            "id": "qa_moss",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 780
+            },
+            "data": {
+              "label": "已有图片结果 · MOSS",
+              "title": "已有图片结果 · MOSS",
+              "status": "finished",
+              "width": 360,
+              "height": 203,
+              "prompt": "Synthetic authored input.",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_moss_result",
+                  "assetId": "qa_moss_result",
+                  "mediaId": "qa_moss_result",
+                  "outputId": "qa_moss_output",
+                  "outputType": "image/png",
+                  "width": 640,
+                  "height": 360
+                }
+              ],
+              "params": {
+                "prompt": "Synthetic authored input.",
+                "text": "Synthetic authored input.",
+                "outputPreset": "portrait-768x1344"
+              },
+              "modelCode": "moss-image-generate-v1",
+              "subType": "text-image",
+              "taskId": "qa_old_image_task",
+              "nodeOutputHistory": [],
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_moss",
+                "revision": "5",
+                "resultCount": 1
+              },
+              "capabilityRef": "moss-image-generate-v1",
+              "capabilityVersion": "1",
+              "parameterSchemaVersion": "1"
+            }
+          },
+          {
+            "id": "qa_empty_video",
+            "type": "rh-video",
+            "position": {
+              "x": 1120,
+              "y": 340
+            },
+            "data": {
+              "label": "空视频节点 · 尚未选模型",
+              "title": "空视频节点 · 尚未选模型",
+              "status": "idle",
+              "subType": "multimodal-video"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e-qa_image-qa_empty_video",
+            "source": "qa_image",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_empty_video",
+            "source": "qa_source_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_video-qa_empty_video",
+            "source": "qa_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_video",
+            "source": "qa_source_video",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "type": "default",
+            "id": "e-qa_image-qa_video",
+            "source": "qa_image",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          }
+        ],
+        "meta": {
+          "id": "qa_native",
+          "name": "真实原生画布 · 单人动作迁移重连验收",
+          "viewport": {
+            "x": 30,
+            "y": 60,
+            "zoom": 0.6
+          }
+        },
+        "viewport": {
+          "x": 30,
+          "y": 60,
+          "zoom": 0.6
+        }
+      },
+      "local": {
+        "nodes": [
+          {
+            "id": "qa_source_video",
+            "type": "rh-video",
+            "position": {
+              "x": 20,
+              "y": 60
+            },
+            "data": {
+              "label": "上传视频 · 动作来源",
+              "title": "上传视频 · 动作来源",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "sourceObjects": [
+                "rhtv-asset:qa_result"
+              ],
+              "subType": "text-video"
+            }
+          },
+          {
+            "id": "qa_image",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 420
+            },
+            "data": {
+              "label": "上传图片 · 角色来源",
+              "title": "上传图片 · 角色来源",
+              "status": "idle",
+              "width": 320,
+              "height": 180,
+              "sourceObjects": [
+                "rhtv-asset:qa_image"
+              ],
+              "subType": "text-image"
+            }
+          },
+          {
+            "id": "qa_video",
+            "type": "rh-video",
+            "position": {
+              "x": 560,
+              "y": 180
+            },
+            "data": {
+              "label": "动作迁移已有结果",
+              "title": "动作迁移已有结果",
+              "status": "idle",
+              "width": 360,
+              "height": 203,
+              "prompt": "",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_result",
+                  "width": 640,
+                  "height": 360,
+                  "assetId": "qa_result",
+                  "mediaId": "qa_result",
+                  "mimeType": "video/mp4",
+                  "outputId": "qa_motion_output",
+                  "testMode": false,
+                  "durationMs": 3000,
+                  "outputType": "video/mp4",
+                  "originalUrl": "rhtv-asset:qa_result",
+                  "thumbnailUrl": "rhtv-asset:qa_poster"
+                }
+              ],
+              "videoUrl": "rhtv-asset:qa_result",
+              "params": {
+                "prompt": " ",
+                "outputPreset": "landscape-768p-source",
+                "imageUrls": "",
+                "audioUrls": "",
+                "videoUrls": ""
+              },
+              "modelCode": "h3-video-reference-v1",
+              "generateNum": 1,
+              "subType": "multimodal-video",
+              "maxConnect": {
+                "image": null,
+                "text": null,
+                "video": null
+              },
+              "errorMsg": "",
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_motion",
+                "revision": "8",
+                "resultCount": 1
+              }
+            }
+          },
+          {
+            "id": "qa_moss",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 780
+            },
+            "data": {
+              "label": "已有图片结果 · MOSS",
+              "title": "已有图片结果 · MOSS",
+              "status": "finished",
+              "width": 360,
+              "height": 203,
+              "prompt": "Synthetic authored input.",
+              "output": [
+                {
+                  "url": "rhtv-asset:qa_moss_result",
+                  "assetId": "qa_moss_result",
+                  "mediaId": "qa_moss_result",
+                  "outputId": "qa_moss_output",
+                  "outputType": "image/png",
+                  "width": 640,
+                  "height": 360
+                }
+              ],
+              "params": {
+                "prompt": "Synthetic authored input.",
+                "text": "Synthetic authored input.",
+                "outputPreset": "portrait-768x1344"
+              },
+              "modelCode": "moss-image-generate-v1",
+              "subType": "text-image",
+              "taskId": "qa_old_image_task",
+              "nodeOutputHistory": [],
+              "historyStorage": {
+                "source": "remote",
+                "schemaVersion": 1,
+                "historyId": "qa_exe_moss",
+                "revision": "5",
+                "resultCount": 1
+              },
+              "capabilityRef": "moss-image-generate-v1",
+              "capabilityVersion": "1",
+              "parameterSchemaVersion": "1"
+            }
+          },
+          {
+            "id": "qa_empty_video",
+            "type": "rh-video",
+            "position": {
+              "x": 1120,
+              "y": 340
+            },
+            "data": {
+              "label": "空视频节点 · 尚未选模型",
+              "title": "空视频节点 · 尚未选模型",
+              "status": "idle",
+              "subType": "multimodal-video"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e-qa_image-qa_empty_video",
+            "source": "qa_image",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_empty_video",
+            "source": "qa_source_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_video-qa_empty_video",
+            "source": "qa_video",
+            "target": "qa_empty_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_source_video-qa_video",
+            "source": "qa_source_video",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input"
+          },
+          {
+            "id": "e-qa_image-qa_video",
+            "source": "qa_image",
+            "target": "qa_video",
+            "sourceHandle": "output",
+            "targetHandle": "input",
+            "type": "default"
+          }
+        ],
+        "meta": {
+          "id": "qa_native",
+          "name": "真实原生画布 · 单人动作迁移重连验收",
+          "viewport": {
+            "x": 30,
+            "y": 60,
+            "zoom": 0.6
+          }
+        },
+        "viewport": {
+          "x": 30,
+          "y": 60,
+          "zoom": 0.6
+        }
+      },
+      "initialEtag": "\"4\"",
+      "unknownBase": false,
+      "phase": "FAILED"
+    }
+  ]
+}

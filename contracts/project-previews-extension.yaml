@@ -1,0 +1,240 @@
+---
+openapi: 3.1.0
+info:
+  title: Studio TV Project Preview Extension
+  version: 1.0.0
+  description: Implemented additive card projection API. Frozen v1 contracts remain
+    unchanged; no migration or new environment variable.
+servers:
+- url: "/"
+paths:
+  "/api/v2/project-previews/query":
+    post:
+      operationId: queryProjectPreviews
+      summary: Read bounded persisted project card previews
+      tags:
+      - ProjectPreviews
+      x-implementation-stage: IMPLEMENTED
+      x-implementation-status: IMPLEMENTED
+      x-required-capability: tv.access
+      x-persistence:
+      - public.projects
+      - public.assets
+      - collaboration.project_role
+      description: Read-only query, no idempotency key or write. JSON body is limited
+        to 8192 bytes; unknown JSON fields and all query parameters are rejected.
+        Requires the actual authenticated actor and tv.access. Current owned/direct/team
+        project ACL is checked in one SQL statement for the full batch. Missing, unauthorized,
+        disabled-user, deleted and internal projects all return the same whole-batch
+        404 PROJECT_NOT_FOUND; no partial metadata is emitted. Explicit READY non-deleted
+        same-storage-owner IMAGE cover wins. Otherwise the first READY IMAGE referenced
+        by a persisted image/rh-image node assetId or exact rhtv-asset media-reference
+        field is chosen in node order. Arbitrary URLs, prompts, reserved metadata,
+        other-owner assets, unready/deleted assets and non-images never become thumbnails.
+        A soft-deleted source project does not retract an existing explicit cover
+        or saved graph reference. nodesCount excludes the reserved rhtv_meta_v1 node.
+        Private signed URLs bind the actual actor and local SID for 15 minutes and
+        the existing asset-read route rechecks live session, tv.access and project/team
+        authorization on every read. Successful responses are private/no-store; clients
+        must not treat previews as a reusable canvas snapshot or mutation authorization.
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProjectPreviewQuery"
+      responses:
+        '200':
+          description: One item per requested ID in exactly the request order; no
+            graph or complete asset list.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ProjectPreviewResponse"
+        '400':
+          "$ref": "#/components/responses/Error"
+        '401':
+          "$ref": "#/components/responses/Error"
+        '403':
+          "$ref": "#/components/responses/Error"
+        '404':
+          "$ref": "#/components/responses/Error"
+        '413':
+          "$ref": "#/components/responses/Error"
+        '415':
+          "$ref": "#/components/responses/Error"
+        '500':
+          "$ref": "#/components/responses/Error"
+        '503':
+          "$ref": "#/components/responses/Error"
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    Error:
+      description: Standard safe error envelope. A batch never distinguishes project
+        absence from denied visibility.
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/ErrorEnvelope"
+  schemas:
+    ProjectPreviewQuery:
+      type: object
+      properties:
+        projectIds:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 64
+            pattern: "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+          minItems: 1
+          maxItems: 100
+          uniqueItems: true
+      required:
+      - projectIds
+      additionalProperties: false
+    ProjectMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        name:
+          type: string
+        ownerId:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        teamId:
+          type: 'null'
+        coverAssetId:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 64
+            pattern: "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+          - type: 'null'
+        pinned:
+          type: boolean
+        revision:
+          type: integer
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        role:
+          enum:
+          - OWNER
+          - EDITOR
+          - VIEWER
+      required:
+      - id
+      - name
+      - ownerId
+      - teamId
+      - coverAssetId
+      - pinned
+      - revision
+      - createdAt
+      - updatedAt
+      - role
+      additionalProperties: false
+    PrivateThumbnail:
+      type: object
+      properties:
+        assetId:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+        url:
+          type: string
+          format: uri
+        urlsExpireAt:
+          type: string
+          format: date-time
+      required:
+      - assetId
+      - url
+      - urlsExpireAt
+      additionalProperties: false
+    ProjectPreview:
+      type: object
+      properties:
+        project:
+          "$ref": "#/components/schemas/ProjectMetadata"
+        role:
+          enum:
+          - OWNER
+          - EDITOR
+          - VIEWER
+        nodesCount:
+          type: integer
+          minimum: 0
+        thumbnail:
+          anyOf:
+          - "$ref": "#/components/schemas/PrivateThumbnail"
+          - type: 'null'
+      required:
+      - project
+      - role
+      - nodesCount
+      - thumbnail
+      additionalProperties: false
+    ProjectPreviewResult:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ProjectPreview"
+          minItems: 1
+          maxItems: 100
+      required:
+      - items
+      additionalProperties: false
+    ProjectPreviewResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          const: OK
+        requestId:
+          type: string
+        data:
+          "$ref": "#/components/schemas/ProjectPreviewResult"
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ErrorEnvelope:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        requestId:
+          type: string
+        details: {}
+      required:
+      - code
+      - message
+      - requestId
+      additionalProperties: false

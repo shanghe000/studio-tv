@@ -1,0 +1,111 @@
+{
+  "kind": "image",
+  "activeIndex": 3,
+  "urlFieldsOmitted": true,
+  "diagnosticCanonicalAssets": [
+    "rhtv-asset:ast_3ab234eeb8b1521ea6e7203950bf2c3be26c054d039cfba1",
+    "rhtv-asset:ast_f4d019549fffc6b644d67af10997dac5934124aaac044531"
+  ],
+  "actualItemKeys": [
+    [
+      "key",
+      "url",
+      "thumbnailUrl",
+      "canvasHistoryTaskId",
+      "canvasHistoryTaskPlanId",
+      "metadata",
+      "prompt",
+      "canvasHistoryDetail",
+      "canvasHistoryDetailLoaded"
+    ],
+    [
+      "key",
+      "url",
+      "thumbnailUrl",
+      "canvasHistoryTaskId",
+      "canvasHistoryTaskPlanId",
+      "metadata",
+      "prompt",
+      "canvasHistoryDetail",
+      "canvasHistoryDetailLoaded"
+    ]
+  ],
+  "items": [
+    {
+      "key": "canvas-history-image-out_52d692f34ecd4e9ca293276a3463b8f12ad10616d18aea0dc06ba16594e01787",
+      "metadata": {
+        "createdAt": 1792647243097,
+        "model": "z-image-turbo-generate-v1",
+        "modelCode": "z-image-turbo-generate-v1",
+        "ratio": "16:9",
+        "outputCount": 2
+      },
+      "canvasHistoryTaskId": "tsk_4b7542f97064480cb42b30ca3ad6864c",
+      "canvasHistoryTaskPlanId": "exe_d4ea07b62dee4f2a8e324a7bae78e097",
+      "canvasHistoryDetailLoaded": true,
+      "canvasHistoryDetail": {
+        "id": "exe_d4ea07b62dee4f2a8e324a7bae78e097",
+        "taskId": "tsk_4b7542f97064480cb42b30ca3ad6864c",
+        "executionId": "exe_d4ea07b62dee4f2a8e324a7bae78e097",
+        "outputs": [
+          {
+            "id": "out_52d692f34ecd4e9ca293276a3463b8f12ad10616d18aea0dc06ba16594e01787",
+            "type": "ASSET",
+            "assetId": "ast_3ab234eeb8b1521ea6e7203950bf2c3be26c054d039cfba1",
+            "mimeType": "image/png",
+            "width": 1024,
+            "height": 1024,
+            "testMode": false
+          },
+          {
+            "id": "out_875171cca7cc50bb0ec3bb128927c17dc1933b8227636ddc0178891d08bd61aa",
+            "type": "ASSET",
+            "assetId": "ast_f4d019549fffc6b644d67af10997dac5934124aaac044531",
+            "mimeType": "image/png",
+            "width": 1024,
+            "height": 1024,
+            "testMode": false
+          }
+        ]
+      }
+    },
+    {
+      "key": "canvas-history-image-out_875171cca7cc50bb0ec3bb128927c17dc1933b8227636ddc0178891d08bd61aa",
+      "metadata": {
+        "createdAt": 1792647243097,
+        "model": "z-image-turbo-generate-v1",
+        "modelCode": "z-image-turbo-generate-v1",
+        "ratio": "16:9",
+        "outputCount": 2
+      },
+      "canvasHistoryTaskId": "tsk_4b7542f97064480cb42b30ca3ad6864c",
+      "canvasHistoryTaskPlanId": "exe_d4ea07b62dee4f2a8e324a7bae78e097",
+      "canvasHistoryDetailLoaded": true,
+      "canvasHistoryDetail": {
+        "id": "exe_d4ea07b62dee4f2a8e324a7bae78e097",
+        "taskId": "tsk_4b7542f97064480cb42b30ca3ad6864c",
+        "executionId": "exe_d4ea07b62dee4f2a8e324a7bae78e097",
+        "outputs": [
+          {
+            "id": "out_52d692f34ecd4e9ca293276a3463b8f12ad10616d18aea0dc06ba16594e01787",
+            "type": "ASSET",
+            "assetId": "ast_3ab234eeb8b1521ea6e7203950bf2c3be26c054d039cfba1",
+            "mimeType": "image/png",
+            "width": 1024,
+            "height": 1024,
+            "testMode": false
+          },
+          {
+            "id": "out_875171cca7cc50bb0ec3bb128927c17dc1933b8227636ddc0178891d08bd61aa",
+            "type": "ASSET",
+            "assetId": "ast_f4d019549fffc6b644d67af10997dac5934124aaac044531",
+            "mimeType": "image/png",
+            "width": 1024,
+            "height": 1024,
+            "testMode": false
+          }
+        ]
+      }
+    }
+  ]
+}

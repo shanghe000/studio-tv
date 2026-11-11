@@ -1,0 +1,489 @@
+{
+  "schemaVersion": 1,
+  "purpose": "截图补齐位置清单；不作为已开放或已截图证明。只纳入实际可用界面和干净截图。",
+  "groups": [
+    {
+      "id": "s1-projects",
+      "section": "s1",
+      "title": "项目创建、查找与整理",
+      "suggestedPanels": [
+        "新建项目与最近项目",
+        "项目搜索／文件夹／更多菜单"
+      ],
+      "placement": "四步概览后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 5
+    },
+    {
+      "id": "s1-sharing",
+      "section": "s1",
+      "title": "项目成员与共享",
+      "suggestedPanels": [
+        "项目成员与权限",
+        "与我共享／项目地址"
+      ],
+      "placement": "协作说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 2
+    },
+    {
+      "id": "s2-canvas-basics",
+      "section": "s2",
+      "title": "添加内容与选择工具",
+      "suggestedPanels": [
+        "添加节点",
+        "上传文件",
+        "选中图片后的工具栏"
+      ],
+      "placement": "画布四步概览后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 5
+    },
+    {
+      "id": "s2-models",
+      "section": "s2",
+      "title": "模型、模式与参考",
+      "suggestedPanels": [
+        "文字生图模型与规格／数量",
+        "参考图编辑与参考顺序",
+        "视频首帧／首尾帧／全能参考"
+      ],
+      "placement": "模型说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 8
+    },
+    {
+      "id": "s2-prompt-style",
+      "section": "s2",
+      "title": "提示词、角色与风格",
+      "suggestedPanels": [
+        "提示词优化",
+        "角色设计／风格库／摄像机控制"
+      ],
+      "placement": "补充设置后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 4
+    },
+    {
+      "id": "s2-progress-history",
+      "section": "s2",
+      "title": "生成进度与历史",
+      "suggestedPanels": [
+        "排队／采样／解码进度",
+        "历史预览／复用／下载"
+      ],
+      "placement": "进度说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-image-analysis",
+      "section": "s2",
+      "title": "图片解析与局部识别",
+      "suggestedPanels": [
+        "解析结果",
+        "点击局部元素返回识别框"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-image-storyboard",
+      "section": "s2",
+      "title": "分镜大师",
+      "suggestedPanels": [
+        "四宫格／时刻推演",
+        "布光／镜头意图",
+        "情绪／天气效果／空间层次／三视图"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 5
+    },
+    {
+      "id": "s2-image-portrait",
+      "section": "s2",
+      "title": "人物调节",
+      "suggestedPanels": [
+        "表情／视线／嘴形",
+        "姿态与骨架",
+        "形象／妆容"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 7
+    },
+    {
+      "id": "s2-image-angle-light",
+      "section": "s2",
+      "title": "角度与打光",
+      "suggestedPanels": [
+        "角度参数",
+        "灯光参数与颜色"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 2
+    },
+    {
+      "id": "s2-image-regions",
+      "section": "s2",
+      "title": "重绘、擦除与扩图",
+      "suggestedPanels": [
+        "重绘区域与描述",
+        "擦除区域",
+        "扩图画布与原图位置"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 3
+    },
+    {
+      "id": "s2-image-background",
+      "section": "s2",
+      "title": "抠图、去文字与换背景",
+      "suggestedPanels": [
+        "透明抠图",
+        "去文字",
+        "换背景"
+      ],
+      "placement": "图片工具速查后",
+      "status": "AWAITING_SCREENSHOT_MANIFEST"
+    },
+    {
+      "id": "s2-image-quality",
+      "section": "s2",
+      "title": "图像增强与放大",
+      "suggestedPanels": [
+        "图像增强",
+        "SeedVR2两倍放大"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-image-panorama",
+      "section": "s2",
+      "title": "全景生成与查看",
+      "suggestedPanels": [
+        "图片／文字全景",
+        "全景预览与视野",
+        "截图回画布"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 2
+    },
+    {
+      "id": "s2-image-local",
+      "section": "s2",
+      "title": "裁剪、旋转、调色与标注",
+      "suggestedPanels": [
+        "裁剪／镜像／旋转",
+        "调色",
+        "标注"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 5
+    },
+    {
+      "id": "s2-image-grid",
+      "section": "s2",
+      "title": "宫格裁剪与分镜格子",
+      "suggestedPanels": [
+        "宫格裁剪",
+        "创建／排序／合成分镜格子"
+      ],
+      "placement": "图片工具速查后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 4
+    },
+    {
+      "id": "s2-script",
+      "section": "s2",
+      "title": "脚本策划与分镜表",
+      "suggestedPanels": [
+        "脚本输入与选项",
+        "分镜表结果"
+      ],
+      "placement": "脚本说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 3
+    },
+    {
+      "id": "s2-entities",
+      "section": "s2",
+      "title": "角色图与批量生成",
+      "suggestedPanels": [
+        "上传或选择角色参考",
+        "多选单张／批量生成",
+        "角色人设图／四视图"
+      ],
+      "placement": "脚本说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 3
+    },
+    {
+      "id": "s2-storyboard",
+      "section": "s2",
+      "title": "合成故事板",
+      "suggestedPanels": [
+        "故事板合并选项",
+        "分镜图片生成"
+      ],
+      "placement": "脚本说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-storyboard-video",
+      "section": "s2",
+      "title": "从故事板创建视频",
+      "suggestedPanels": [
+        "批量生成视频节点",
+        "文戏／武戏与视频参数"
+      ],
+      "placement": "视频分镜说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-canvas-agent",
+      "section": "s2",
+      "title": "画布助手",
+      "suggestedPanels": [
+        "画布伙伴与生成偏好",
+        "生成的节点与回复"
+      ],
+      "placement": "视频分镜说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-group",
+      "section": "s2",
+      "title": "整组执行",
+      "suggestedPanels": [
+        "选择节点打组",
+        "整组执行与各节点结果"
+      ],
+      "placement": "视频分镜说明后",
+      "status": "AWAITING_SCREENSHOT_MANIFEST"
+    },
+    {
+      "id": "s2-video-local",
+      "section": "s2",
+      "title": "视频抽帧、倍速与音轨",
+      "suggestedPanels": [
+        "首帧／末帧／当前帧／抽帧",
+        "倍速",
+        "全部音轨提取"
+      ],
+      "placement": "媒体处理说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 5
+    },
+    {
+      "id": "s2-audio-local",
+      "section": "s2",
+      "title": "音频裁切与倍速",
+      "suggestedPanels": [
+        "音频裁切",
+        "音频倍速"
+      ],
+      "placement": "媒体处理说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 3
+    },
+    {
+      "id": "s2-unavailable",
+      "section": "s2",
+      "title": "当前未开放：如何识别边界",
+      "suggestedPanels": [
+        "灰色入口与未开放提示",
+        "音频／音乐／3D空模型列表",
+        "AI应用／工作流／SkillHub暂停提示"
+      ],
+      "placement": "未开放能力说明后；图注明确说明不可使用",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s3-director-scene",
+      "section": "s3",
+      "title": "导演台：场景与对象",
+      "suggestedPanels": [
+        "角色／模型／灯光",
+        "移动／旋转／缩放"
+      ],
+      "placement": "3D操作概览后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 4
+    },
+    {
+      "id": "s3-director-camera",
+      "section": "s3",
+      "title": "导演台：视角与输出",
+      "suggestedPanels": [
+        "自由视角／机位",
+        "截图／录制入口"
+      ],
+      "placement": "3D操作概览后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 2
+    },
+    {
+      "id": "s3-sketchboard-entry",
+      "section": "s3",
+      "title": "2D画板入口与绘画",
+      "suggestedPanels": [
+        "画板预览入口",
+        "完整2D绘画面板"
+      ],
+      "placement": "2D说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 2
+    },
+    {
+      "id": "s3-sketchboard-models",
+      "section": "s3",
+      "title": "2D模型与生成方式",
+      "suggestedPanels": [
+        "七项手动模型与参考／文字分组",
+        "两项实时模型与暂停"
+      ],
+      "placement": "2D说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 3
+    },
+    {
+      "id": "s3-sketchboard-results",
+      "section": "s3",
+      "title": "2D结果与历史",
+      "suggestedPanels": [
+        "历史切换／继续编辑",
+        "下载／保存资产／加入画布"
+      ],
+      "placement": "2D说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s4-import",
+      "section": "s4",
+      "title": "导入与选择素材",
+      "suggestedPanels": [
+        "导入／画布／历史／资产"
+      ],
+      "placement": "剪辑四步后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s4-timeline",
+      "section": "s4",
+      "title": "时间轴与属性",
+      "suggestedPanels": [
+        "时间轴排序／分割",
+        "元素属性与画幅"
+      ],
+      "placement": "剪辑四步后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 3
+    },
+    {
+      "id": "s4-export",
+      "section": "s4",
+      "title": "预览与导出",
+      "suggestedPanels": [
+        "预览播放器",
+        "导出面板"
+      ],
+      "placement": "剪辑四步后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s5-personal",
+      "section": "s5",
+      "title": "个人资产与复用",
+      "suggestedPanels": [
+        "个人资产目录",
+        "导入项目"
+      ],
+      "placement": "资产操作后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 5
+    },
+    {
+      "id": "s5-team",
+      "section": "s5",
+      "title": "团队与成员",
+      "suggestedPanels": [
+        "切换／创建团队",
+        "成员与权限"
+      ],
+      "placement": "资产操作后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 6
+    },
+    {
+      "id": "s5-publish",
+      "section": "s5",
+      "title": "发布到团队",
+      "suggestedPanels": [
+        "发布选择与目录",
+        "发布后的团队资产"
+      ],
+      "placement": "资产操作后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-video-providers",
+      "section": "s2",
+      "title": "官方视频参数与可用状态",
+      "suggestedPanels": [
+        "未配置型号的灰色入口与原因",
+        "按真实型号显示比例、分辨率、时长"
+      ],
+      "placement": "官方API说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 2
+    },
+    {
+      "id": "s2-video-motion",
+      "section": "s2",
+      "title": "动作素材与人物配对",
+      "suggestedPanels": [
+        "人物参考图与动作源视频要求",
+        "SCAIL2人物编号与自动遮罩"
+      ],
+      "placement": "动作迁移说明后",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 1
+    },
+    {
+      "id": "s2-video-inputs",
+      "section": "s2",
+      "title": "视频素材准备与连线",
+      "suggestedPanels": [
+        "空视频节点的就地材料与连线提示",
+        "已连接上游后的材料状态与参数说明"
+      ],
+      "placement": "视频材料提示后、模型截图前",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 2
+    },
+    {
+      "id": "s2-provider-keys",
+      "section": "s2",
+      "title": "模型来源与个人 API Key",
+      "status": "PARTIAL_SCREENSHOT_MANIFEST",
+      "screenshotCount": 3
+    }
+  ]
+}

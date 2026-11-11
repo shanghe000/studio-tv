@@ -1,0 +1,106 @@
+{
+  "sourceCapture": "flux2-model-switch-conflict-evidence.json",
+  "sourceSHA256": "a4471389dd2b99692716f02a370b7de7b31ed8a5232db38a0f66d952f4c2d6ad",
+  "projectId": "p",
+  "targetId": "n",
+  "revision": 11,
+  "acknowledged": {
+    "nodes": [
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "modelCode": "flux1-dev-generate-v1",
+          "capabilityRef": "flux1-dev-generate-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1",
+          "routerParameters": {
+            "outputPreset": "1024-square"
+          },
+          "params": {
+            "text": "A synthetic acceptance image: red cube on a grey table.",
+            "prompt": "A synthetic acceptance image: red cube on a grey table.",
+            "outputPreset": "1024-square"
+          },
+          "prompt": "A synthetic acceptance image: red cube on a grey table.",
+          "presetSelections": [],
+          "userPromptSnapshot": {
+            "value": "A synthetic acceptance image: red cube on a grey table.",
+            "paramName": "prompt"
+          },
+          "modelType": "OPENAPI",
+          "testMode": false,
+          "generateNum": 1,
+          "status": "failed",
+          "taskId": "task-failed-comfy",
+          "estimateTaskId": "task-failed-comfy",
+          "progress": null,
+          "errorMsg": "COMFY_GENERATION_FAILED"
+        }
+      }
+    ],
+    "edges": []
+  },
+  "base": {
+    "nodes": [
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "modelCode": "flux1-dev-generate-v1",
+          "params": {
+            "outputPreset": "1024-square",
+            "prompt": "A synthetic acceptance image: red cube on a grey table.",
+            "text": "A synthetic acceptance image: red cube on a grey table."
+          },
+          "prompt": "A synthetic acceptance image: red cube on a grey table.",
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "generateNum": 1,
+          "status": "failed",
+          "taskId": "task-failed-comfy",
+          "estimateTaskId": "task-failed-comfy",
+          "progress": null,
+          "errorMsg": "COMFY_GENERATION_FAILED"
+        }
+      }
+    ],
+    "edges": []
+  },
+  "local": {
+    "nodes": [
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "modelCode": "flux2-klein-9b-generate-v1",
+          "params": {
+            "prompt": "A synthetic acceptance image: red cube on a grey table.",
+            "outputPreset": "1024-square"
+          },
+          "prompt": "A synthetic acceptance image: red cube on a grey table.",
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "generateNum": 1,
+          "status": "failed",
+          "taskId": "task-failed-comfy",
+          "estimateTaskId": "task-failed-comfy",
+          "errorMsg": "COMFY_GENERATION_FAILED"
+        }
+      }
+    ],
+    "edges": []
+  }
+}

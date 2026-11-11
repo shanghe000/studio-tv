@@ -1,0 +1,1801 @@
+{
+  "examples": [
+    {
+      "name": "root-text-folder",
+      "domain": "canvas",
+      "schema": "FolderCreate",
+      "value": {
+        "parentId": null,
+        "name": "剧本",
+        "kind": "TEXT"
+      },
+      "valid": true
+    },
+    {
+      "name": "folder-name-required",
+      "domain": "canvas",
+      "schema": "FolderCreate",
+      "value": {
+        "parentId": null,
+        "kind": "TEXT"
+      },
+      "valid": false
+    },
+    {
+      "name": "text-item",
+      "domain": "canvas",
+      "schema": "LibraryItemCreate",
+      "value": {
+        "folderId": "folder_1",
+        "name": "旁白",
+        "kind": "TEXT",
+        "content": {
+          "text": "清晨的城市。"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "media-item",
+      "domain": "canvas",
+      "schema": "LibraryItemCreate",
+      "value": {
+        "folderId": "folder_2",
+        "name": "参考图",
+        "kind": "IMAGE",
+        "content": {
+          "assetId": "asset_ready_1"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "3d-item-separate-id",
+      "domain": "canvas",
+      "schema": "LibraryItemCreate",
+      "value": {
+        "folderId": null,
+        "name": "角色模型",
+        "kind": "MODEL_3D",
+        "content": {
+          "modelAssetId": "model_asset_1"
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "text-not-media",
+      "domain": "canvas",
+      "schema": "LibraryItemCreate",
+      "value": {
+        "folderId": null,
+        "name": "文本",
+        "kind": "TEXT",
+        "content": {
+          "assetId": "asset_1"
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "remote-media-forbidden",
+      "domain": "canvas",
+      "schema": "LibraryItemCreate",
+      "value": {
+        "folderId": null,
+        "name": "图片",
+        "kind": "IMAGE",
+        "content": {
+          "url": "https://elsewhere.invalid/a.jpg"
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "empty-move-rejected",
+      "domain": "canvas",
+      "schema": "LibraryMove",
+      "value": {
+        "targetFolderId": null,
+        "folders": [],
+        "items": []
+      },
+      "valid": false
+    },
+    {
+      "name": "move-with-revisions",
+      "domain": "canvas",
+      "schema": "LibraryMove",
+      "value": {
+        "targetFolderId": "folder_3",
+        "folders": [
+          {
+            "id": "folder_2",
+            "expectedRevision": 4
+          }
+        ],
+        "items": []
+      },
+      "valid": true
+    },
+    {
+      "name": "manifest-glb",
+      "domain": "canvas",
+      "schema": "ModelAssetUploadRequest",
+      "value": {
+        "projectId": "project_1",
+        "format": "GLB",
+        "entrypoint": "character.glb",
+        "files": [
+          {
+            "path": "character.glb",
+            "mimeType": "model/gltf-binary",
+            "byteSize": 20,
+            "checksumSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ]
+      },
+      "valid": true,
+      "semantic": "modelManifest",
+      "context": {}
+    },
+    {
+      "name": "gltf-ready-file-resources",
+      "domain": "canvas",
+      "schema": "ModelAsset",
+      "value": {
+        "id": "model_asset_1",
+        "projectId": "project_1",
+        "format": "GLTF",
+        "entrypoint": "scene.gltf",
+        "state": "READY",
+        "byteSize": 40,
+        "downloadUrl": "https://media.example.invalid/scene.gltf",
+        "urlsExpireAt": "2026-10-04T01:00:00Z",
+        "files": [
+          {
+            "path": "scene.gltf",
+            "mimeType": "model/gltf+json",
+            "byteSize": 20,
+            "checksumSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "downloadUrl": "https://media.example.invalid/scene.gltf"
+          },
+          {
+            "path": "buffer.bin",
+            "mimeType": "application/octet-stream",
+            "byteSize": 20,
+            "checksumSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "downloadUrl": "https://media.example.invalid/buffer.bin"
+          }
+        ],
+        "createdAt": "2026-10-04T00:00:00Z"
+      },
+      "valid": true
+    },
+    {
+      "name": "manifest-traversal-rejected",
+      "domain": "canvas",
+      "schema": "ModelAssetUploadRequest",
+      "value": {
+        "projectId": "project_1",
+        "format": "GLTF",
+        "entrypoint": "../secret.gltf",
+        "files": [
+          {
+            "path": "../secret.gltf",
+            "mimeType": "model/gltf+json",
+            "byteSize": 20,
+            "checksumSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ]
+      },
+      "valid": false
+    },
+    {
+      "name": "manifest-empty-rejected",
+      "domain": "canvas",
+      "schema": "ModelAssetUploadRequest",
+      "value": {
+        "projectId": "project_1",
+        "format": "GLB",
+        "entrypoint": "character.glb",
+        "files": []
+      },
+      "valid": false
+    },
+    {
+      "name": "manifest-entrypoint-missing",
+      "domain": "canvas",
+      "schema": "ModelAssetUploadRequest",
+      "value": {
+        "projectId": "project_1",
+        "format": "GLTF",
+        "entrypoint": "scene.gltf",
+        "files": [
+          {
+            "path": "buffer.bin",
+            "mimeType": "application/octet-stream",
+            "byteSize": 20,
+            "checksumSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ]
+      },
+      "valid": false,
+      "semantic": "modelManifest",
+      "context": {}
+    },
+    {
+      "name": "typed-app-input",
+      "domain": "canvas",
+      "schema": "AppInput",
+      "value": {
+        "id": "input_scale",
+        "nodeId": "source_12",
+        "fieldName": "scale",
+        "label": {
+          "en": "Scale"
+        },
+        "description": {
+          "en": "Size"
+        },
+        "required": true,
+        "type": "INT",
+        "defaultValue": 2,
+        "constraints": {
+          "minimum": 1,
+          "maximum": 4
+        }
+      },
+      "valid": true,
+      "semantic": "appInput",
+      "context": {}
+    },
+    {
+      "name": "typed-app-input-string-rejected",
+      "domain": "canvas",
+      "schema": "AppInput",
+      "value": {
+        "id": "input_scale",
+        "nodeId": "source_12",
+        "fieldName": "scale",
+        "label": {
+          "en": "Scale"
+        },
+        "description": {
+          "en": "Size"
+        },
+        "required": true,
+        "type": "INT",
+        "defaultValue": "2",
+        "constraints": {
+          "minimum": 1,
+          "maximum": 4
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "typed-app-default-bounds",
+      "domain": "canvas",
+      "schema": "AppInput",
+      "value": {
+        "id": "input_scale",
+        "nodeId": "source_12",
+        "fieldName": "scale",
+        "label": {
+          "en": "Scale"
+        },
+        "description": {
+          "en": "Size"
+        },
+        "required": true,
+        "type": "INT",
+        "defaultValue": 5,
+        "constraints": {
+          "minimum": 1,
+          "maximum": 4
+        }
+      },
+      "valid": false,
+      "semantic": "appInput",
+      "context": {}
+    },
+    {
+      "name": "app-media-binding",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [],
+        "bindings": [
+          {
+            "appNodeId": "node_app",
+            "inputId": "input_image",
+            "sourceNodeId": "node_image"
+          }
+        ]
+      },
+      "valid": true,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_image",
+              "type": "IMAGE",
+              "required": true
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-stale-version",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "6",
+        "values": [],
+        "bindings": [
+          {
+            "appNodeId": "node_app",
+            "inputId": "input_image",
+            "sourceNodeId": "node_image"
+          }
+        ]
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_image",
+              "type": "IMAGE",
+              "required": true
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-dangling-source",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [],
+        "bindings": [
+          {
+            "appNodeId": "node_app",
+            "inputId": "input_image",
+            "sourceNodeId": "missing"
+          }
+        ]
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_image",
+              "type": "IMAGE",
+              "required": true
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-cross-tenant-asset",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [],
+        "bindings": [
+          {
+            "appNodeId": "node_app",
+            "inputId": "input_image",
+            "sourceNodeId": "node_image"
+          }
+        ]
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_image",
+              "type": "IMAGE",
+              "required": true
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": false,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-conflicting-value-binding",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [
+          {
+            "inputId": "input_image",
+            "value": "asset_ready_1"
+          }
+        ],
+        "bindings": [
+          {
+            "appNodeId": "node_app",
+            "inputId": "input_image",
+            "sourceNodeId": "node_image"
+          }
+        ]
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_image",
+              "type": "IMAGE",
+              "required": true
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-version-required",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "values": [],
+        "bindings": [
+          {
+            "appNodeId": "node_app",
+            "inputId": "input_image",
+            "sourceNodeId": "node_image"
+          }
+        ]
+      },
+      "valid": false
+    },
+    {
+      "name": "app-typed-submitted-value",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [
+          {
+            "inputId": "input_scale",
+            "value": 2
+          }
+        ],
+        "bindings": []
+      },
+      "valid": true,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_scale",
+              "type": "INT",
+              "required": true,
+              "constraints": {
+                "minimum": 1,
+                "maximum": 4
+              }
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-submitted-string-rejected",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [
+          {
+            "inputId": "input_scale",
+            "value": "2"
+          }
+        ],
+        "bindings": []
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_scale",
+              "type": "INT",
+              "required": true,
+              "constraints": {
+                "minimum": 1,
+                "maximum": 4
+              }
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-submitted-bounds-rejected",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [
+          {
+            "inputId": "input_scale",
+            "value": 5
+          }
+        ],
+        "bindings": []
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_scale",
+              "type": "INT",
+              "required": true,
+              "constraints": {
+                "minimum": 1,
+                "maximum": 4
+              }
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-submitted-null-required-rejected",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [
+          {
+            "inputId": "input_scale",
+            "value": null
+          }
+        ],
+        "bindings": []
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_scale",
+              "type": "INT",
+              "required": true,
+              "constraints": {
+                "minimum": 1,
+                "maximum": 4
+              }
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-required-input-missing",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [],
+        "bindings": []
+      },
+      "valid": false,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_image",
+              "type": "IMAGE",
+              "required": true
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "IMAGE",
+            "assetId": "asset_ready_1"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "app-text-node-binding",
+      "domain": "canvas",
+      "schema": "AppInvocationInput",
+      "value": {
+        "projectId": "project_1",
+        "appNodeId": "node_app",
+        "appId": "app_1",
+        "appVersion": "7",
+        "values": [],
+        "bindings": [
+          {
+            "appNodeId": "node_app",
+            "inputId": "input_image",
+            "sourceNodeId": "node_image"
+          }
+        ]
+      },
+      "valid": true,
+      "semantic": "appInvocation",
+      "context": {
+        "app": {
+          "id": "app_1",
+          "version": "7",
+          "inputs": [
+            {
+              "id": "input_image",
+              "type": "STRING",
+              "required": true
+            }
+          ]
+        },
+        "nodes": {
+          "node_image": {
+            "kind": "TEXT"
+          }
+        },
+        "assets": {
+          "asset_ready_1": {
+            "state": "READY",
+            "authorized": true,
+            "kind": "IMAGE"
+          }
+        }
+      }
+    },
+    {
+      "name": "compatible-empty-graph",
+      "domain": "canvas",
+      "schema": "CompatibleProjectGraph",
+      "value": {
+        "schemaVersion": "1",
+        "nodes": [
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {},
+              "edges": {}
+            }
+          }
+        ],
+        "edges": [],
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "zoom": 1
+        }
+      },
+      "valid": true,
+      "semantic": "graph",
+      "context": {
+        "authorizedAssets": []
+      }
+    },
+    {
+      "name": "duplicate-metadata-node",
+      "domain": "canvas",
+      "schema": "CompatibleProjectGraph",
+      "value": {
+        "schemaVersion": "1",
+        "nodes": [
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {},
+              "edges": {}
+            }
+          },
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {},
+              "edges": {}
+            }
+          }
+        ],
+        "edges": [],
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "zoom": 1
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "prototype-meta-rejected",
+      "domain": "canvas",
+      "schema": "CompatibleProjectGraph",
+      "value": {
+        "schemaVersion": "1",
+        "nodes": [
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {
+                "__proto__": {
+                  "polluted": true
+                }
+              },
+              "edges": {}
+            }
+          }
+        ],
+        "edges": [],
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "zoom": 1
+        }
+      },
+      "valid": false,
+      "semantic": "graph",
+      "context": {
+        "authorizedAssets": []
+      }
+    },
+    {
+      "name": "compatible-group-style-graph",
+      "domain": "canvas",
+      "schema": "CompatibleProjectGraph",
+      "value": {
+        "nodes": [
+          {
+            "id": "group_1",
+            "type": "group",
+            "position": {
+              "x": 2,
+              "y": 3
+            },
+            "data": {
+              "title": "组",
+              "__rhtv": {
+                "native": {
+                  "style": {
+                    "width": 640,
+                    "height": 480
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "node_1",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "data": {
+              "assetId": "asset_ready_1",
+              "__rhtv": {
+                "native": {
+                  "parentId": "group_1",
+                  "extent": "parent",
+                  "style": {
+                    "borderRadius": 8
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {
+                "id": "project_1",
+                "name": "分组项目"
+              },
+              "edges": {
+                "edge_1": {
+                  "style": {
+                    "stroke": "#8b8"
+                  },
+                  "animated": false
+                }
+              }
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "edge_1",
+            "source": "group_1",
+            "target": "node_1",
+            "sourceHandle": null,
+            "targetHandle": "input"
+          }
+        ],
+        "viewport": {
+          "x": 5,
+          "y": -10,
+          "zoom": 0.8
+        },
+        "schemaVersion": "1"
+      },
+      "valid": true,
+      "semantic": "graph",
+      "context": {
+        "authorizedAssets": [
+          "asset_ready_1"
+        ]
+      }
+    },
+    {
+      "name": "graph-asset-authority",
+      "domain": "canvas",
+      "schema": "CompatibleProjectGraph",
+      "value": {
+        "nodes": [
+          {
+            "id": "group_1",
+            "type": "group",
+            "position": {
+              "x": 2,
+              "y": 3
+            },
+            "data": {
+              "title": "组",
+              "__rhtv": {
+                "native": {
+                  "style": {
+                    "width": 640,
+                    "height": 480
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "node_1",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "data": {
+              "assetId": "other_tenant_asset",
+              "__rhtv": {
+                "native": {
+                  "parentId": "group_1",
+                  "extent": "parent",
+                  "style": {
+                    "borderRadius": 8
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {
+                "id": "project_1",
+                "name": "分组项目"
+              },
+              "edges": {
+                "edge_1": {
+                  "style": {
+                    "stroke": "#8b8"
+                  },
+                  "animated": false
+                }
+              }
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "edge_1",
+            "source": "group_1",
+            "target": "node_1",
+            "sourceHandle": null,
+            "targetHandle": "input"
+          }
+        ],
+        "viewport": {
+          "x": 5,
+          "y": -10,
+          "zoom": 0.8
+        },
+        "schemaVersion": "1"
+      },
+      "valid": false,
+      "semantic": "graph",
+      "context": {
+        "authorizedAssets": [
+          "asset_ready_1"
+        ]
+      }
+    },
+    {
+      "name": "graph-group-cycle",
+      "domain": "canvas",
+      "schema": "CompatibleProjectGraph",
+      "value": {
+        "nodes": [
+          {
+            "id": "group_1",
+            "type": "group",
+            "position": {
+              "x": 2,
+              "y": 3
+            },
+            "data": {
+              "title": "组",
+              "__rhtv": {
+                "native": {
+                  "style": {
+                    "width": 640,
+                    "height": 480
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "node_1",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "data": {
+              "assetId": "asset_ready_1",
+              "__rhtv": {
+                "native": {
+                  "parentId": "node_1",
+                  "extent": "parent",
+                  "style": {
+                    "borderRadius": 8
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {
+                "id": "project_1",
+                "name": "分组项目"
+              },
+              "edges": {
+                "edge_1": {
+                  "style": {
+                    "stroke": "#8b8"
+                  },
+                  "animated": false
+                }
+              }
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "edge_1",
+            "source": "group_1",
+            "target": "node_1",
+            "sourceHandle": null,
+            "targetHandle": "input"
+          }
+        ],
+        "viewport": {
+          "x": 5,
+          "y": -10,
+          "zoom": 0.8
+        },
+        "schemaVersion": "1"
+      },
+      "valid": false,
+      "semantic": "graph",
+      "context": {
+        "authorizedAssets": [
+          "asset_ready_1"
+        ]
+      }
+    },
+    {
+      "name": "graph-model-asset-authority",
+      "domain": "canvas",
+      "schema": "CompatibleProjectGraph",
+      "value": {
+        "nodes": [
+          {
+            "id": "group_1",
+            "type": "group",
+            "position": {
+              "x": 2,
+              "y": 3
+            },
+            "data": {
+              "title": "组",
+              "__rhtv": {
+                "native": {
+                  "style": {
+                    "width": 640,
+                    "height": 480
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "node_1",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "data": {
+              "assetId": "asset_ready_1",
+              "__rhtv": {
+                "native": {
+                  "parentId": "group_1",
+                  "extent": "parent",
+                  "style": {
+                    "borderRadius": 8
+                  }
+                }
+              },
+              "modelAssetId": "other_tenant_model"
+            }
+          },
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {
+                "id": "project_1",
+                "name": "分组项目"
+              },
+              "edges": {
+                "edge_1": {
+                  "style": {
+                    "stroke": "#8b8"
+                  },
+                  "animated": false
+                }
+              }
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "edge_1",
+            "source": "group_1",
+            "target": "node_1",
+            "sourceHandle": null,
+            "targetHandle": "input"
+          }
+        ],
+        "viewport": {
+          "x": 5,
+          "y": -10,
+          "zoom": 0.8
+        },
+        "schemaVersion": "1"
+      },
+      "valid": false,
+      "semantic": "graph",
+      "context": {
+        "authorizedAssets": [
+          "asset_ready_1"
+        ],
+        "authorizedModelAssets": []
+      }
+    },
+    {
+      "name": "hf-workspace-file",
+      "domain": "canvas",
+      "schema": "HFFileWrite",
+      "value": {
+        "path": "scenes/intro.html",
+        "mimeType": "text/html",
+        "content": "<div>Opening</div>"
+      },
+      "valid": true
+    },
+    {
+      "name": "hf-absolute-path-rejected",
+      "domain": "canvas",
+      "schema": "HFFileWrite",
+      "value": {
+        "path": "/etc/passwd",
+        "mimeType": "text/plain",
+        "content": "a"
+      },
+      "valid": false
+    },
+    {
+      "name": "hf-render-revision",
+      "domain": "canvas",
+      "schema": "HFRenderRequest",
+      "value": {
+        "entrypointFileId": "hf_file_1",
+        "workspaceRevision": 3,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "durationSeconds": 10
+      },
+      "valid": true
+    },
+    {
+      "name": "hf-render-too-long",
+      "domain": "canvas",
+      "schema": "HFRenderRequest",
+      "value": {
+        "entrypointFileId": "hf_file_1",
+        "workspaceRevision": 3,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "durationSeconds": 601
+      },
+      "valid": false
+    },
+    {
+      "name": "all-four-capabilities-reserved",
+      "domain": "model",
+      "schema": "root",
+      "value": {
+        "stage": "RESERVED",
+        "connected": false,
+        "capabilities": [
+          {
+            "capability": "LLM",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "LLMInput",
+            "transports": [
+              "HTTP_JSON",
+              "SSE"
+            ],
+            "nativeSchemaVersion": null
+          },
+          {
+            "capability": "TEXT_TO_IMAGE",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "TextToImageInput",
+            "transports": [
+              "HTTP_JSON",
+              "POLLING"
+            ],
+            "nativeSchemaVersion": null
+          },
+          {
+            "capability": "IMAGE_TO_VIDEO",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "ImageToVideoInput",
+            "transports": [
+              "POLLING",
+              "ASYNC_CALLBACK"
+            ],
+            "nativeSchemaVersion": null
+          },
+          {
+            "capability": "OMNI_REFERENCE",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "OmniReferenceInput",
+            "transports": [
+              "HTTP_JSON",
+              "ASYNC_CALLBACK"
+            ],
+            "nativeSchemaVersion": null
+          }
+        ]
+      },
+      "valid": true
+    },
+    {
+      "name": "provider-not-falsely-connected",
+      "domain": "model",
+      "schema": "root",
+      "value": {
+        "stage": "RESERVED",
+        "connected": true,
+        "capabilities": [
+          {
+            "capability": "LLM",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "LLMInput",
+            "transports": [
+              "HTTP_JSON",
+              "SSE"
+            ],
+            "nativeSchemaVersion": null
+          },
+          {
+            "capability": "TEXT_TO_IMAGE",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "TextToImageInput",
+            "transports": [
+              "HTTP_JSON",
+              "POLLING"
+            ],
+            "nativeSchemaVersion": null
+          },
+          {
+            "capability": "IMAGE_TO_VIDEO",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "ImageToVideoInput",
+            "transports": [
+              "POLLING",
+              "ASYNC_CALLBACK"
+            ],
+            "nativeSchemaVersion": null
+          },
+          {
+            "capability": "OMNI_REFERENCE",
+            "connected": false,
+            "stage": "RESERVED",
+            "adapterId": null,
+            "inputContract": "OmniReferenceInput",
+            "transports": [
+              "HTTP_JSON",
+              "ASYNC_CALLBACK"
+            ],
+            "nativeSchemaVersion": null
+          }
+        ]
+      },
+      "valid": false
+    },
+    {
+      "name": "provider-neutral-LLM",
+      "domain": "model",
+      "schema": "AdapterInvocation",
+      "value": {
+        "requestId": "request_1",
+        "capability": "LLM",
+        "modelId": "model_reserved_1",
+        "capabilityVersion": "1",
+        "invocationType": "LLM",
+        "input": {
+          "messages": [
+            {
+              "role": "USER",
+              "parts": [
+                {
+                  "type": "TEXT",
+                  "text": "Describe the scene."
+                }
+              ]
+            }
+          ],
+          "parameters": {}
+        },
+        "nativeRequest": null
+      },
+      "valid": true
+    },
+    {
+      "name": "provider-neutral-TEXT_TO_IMAGE",
+      "domain": "model",
+      "schema": "AdapterInvocation",
+      "value": {
+        "requestId": "request_1",
+        "capability": "TEXT_TO_IMAGE",
+        "modelId": "model_reserved_1",
+        "capabilityVersion": "1",
+        "invocationType": "TEXT_TO_IMAGE",
+        "input": {
+          "prompt": "Mountain",
+          "outputCount": 1,
+          "parameters": {
+            "aspectRatio": "16:9"
+          }
+        },
+        "nativeRequest": null
+      },
+      "valid": true
+    },
+    {
+      "name": "provider-neutral-IMAGE_TO_VIDEO",
+      "domain": "model",
+      "schema": "AdapterInvocation",
+      "value": {
+        "requestId": "request_1",
+        "capability": "IMAGE_TO_VIDEO",
+        "modelId": "model_reserved_1",
+        "capabilityVersion": "1",
+        "invocationType": "IMAGE_TO_VIDEO",
+        "input": {
+          "sourceAssetId": "asset_ready_1",
+          "prompt": "Slow pan",
+          "parameters": {
+            "durationSeconds": 5
+          }
+        },
+        "nativeRequest": null
+      },
+      "valid": true
+    },
+    {
+      "name": "provider-neutral-OMNI_REFERENCE",
+      "domain": "model",
+      "schema": "AdapterInvocation",
+      "value": {
+        "requestId": "request_1",
+        "capability": "OMNI_REFERENCE",
+        "modelId": "model_reserved_1",
+        "capabilityVersion": "1",
+        "invocationType": "OMNI_REFERENCE",
+        "input": {
+          "prompt": "Same characters",
+          "references": [
+            {
+              "assetId": "asset_ready_1",
+              "role": "CHARACTER"
+            }
+          ],
+          "parameters": {}
+        },
+        "nativeRequest": null
+      },
+      "valid": true
+    },
+    {
+      "name": "video-not-forced-into-chat-shape",
+      "domain": "model",
+      "schema": "AdapterInvocation",
+      "value": {
+        "requestId": "request_1",
+        "capability": "IMAGE_TO_VIDEO",
+        "modelId": "model_reserved_1",
+        "capabilityVersion": "1",
+        "invocationType": "IMAGE_TO_VIDEO",
+        "input": {
+          "prompt": "Pan",
+          "messages": []
+        },
+        "nativeRequest": null
+      },
+      "valid": false
+    }
+  ],
+  "roundtrips": [
+    {
+      "name": "groups-and-edge-ui",
+      "sourceGraph": {
+        "nodes": [
+          {
+            "id": "group_1",
+            "type": "group",
+            "position": {
+              "x": 2,
+              "y": 3
+            },
+            "data": {
+              "title": "组"
+            },
+            "style": {
+              "width": 640,
+              "height": 480
+            }
+          },
+          {
+            "id": "node_1",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "data": {
+              "assetId": "asset_ready_1"
+            },
+            "parentId": "group_1",
+            "extent": "parent",
+            "style": {
+              "borderRadius": 8
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "edge_1",
+            "source": "group_1",
+            "target": "node_1",
+            "sourceHandle": null,
+            "targetHandle": "input",
+            "style": {
+              "stroke": "#8b8"
+            },
+            "animated": false
+          }
+        ],
+        "meta": {
+          "id": "project_1",
+          "name": "分组项目"
+        },
+        "viewport": {
+          "x": 5,
+          "y": -10,
+          "zoom": 0.8
+        }
+      },
+      "projectGraph": {
+        "nodes": [
+          {
+            "id": "group_1",
+            "type": "group",
+            "position": {
+              "x": 2,
+              "y": 3
+            },
+            "data": {
+              "title": "组",
+              "__rhtv": {
+                "native": {
+                  "style": {
+                    "width": 640,
+                    "height": 480
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "node_1",
+            "type": "rh-image",
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "data": {
+              "assetId": "asset_ready_1",
+              "__rhtv": {
+                "native": {
+                  "parentId": "group_1",
+                  "extent": "parent",
+                  "style": {
+                    "borderRadius": 8
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {
+                "id": "project_1",
+                "name": "分组项目"
+              },
+              "edges": {
+                "edge_1": {
+                  "style": {
+                    "stroke": "#8b8"
+                  },
+                  "animated": false
+                }
+              }
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "edge_1",
+            "source": "group_1",
+            "target": "node_1",
+            "sourceHandle": null,
+            "targetHandle": "input"
+          }
+        ],
+        "viewport": {
+          "x": 5,
+          "y": -10,
+          "zoom": 0.8
+        },
+        "schemaVersion": "1"
+      }
+    },
+    {
+      "name": "empty-graph",
+      "sourceGraph": {
+        "nodes": [],
+        "edges": [],
+        "meta": {},
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "zoom": 1
+        }
+      },
+      "projectGraph": {
+        "schemaVersion": "1",
+        "nodes": [
+          {
+            "id": "rhtv_meta_v1",
+            "type": "__rhtv_meta",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "data": {
+              "version": "1",
+              "meta": {},
+              "edges": {}
+            }
+          }
+        ],
+        "edges": [],
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "zoom": 1
+        }
+      }
+    }
+  ]
+}

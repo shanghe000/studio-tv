@@ -1,0 +1,105 @@
+{
+  "targetId": "node_1792640326287_101cpyv",
+  "command": {
+    "id": "node_1792640326287_101cpyv",
+    "type": "rh-image",
+    "position": {
+      "x": -42.67282252856975,
+      "y": 560
+    },
+    "style": {
+      "width": 513,
+      "height": 220
+    },
+    "data": {
+      "label": "图片",
+      "title": "图片",
+      "status": "idle",
+      "width": 380,
+      "height": 220,
+      "prompt": "雨后宁静的旧书店街道，黄昏暖灯映照湿润石板路，没有人物和招牌文字。连续完整的360度环境，等距柱状投影，水平地平线，左右边缘自然连续。",
+      "panorama": {
+        "isPanoramaNode": true,
+        "pausedModel": "codex-image-generate-v1",
+        "locked": true
+      },
+      "opResize": true,
+      "aspectRatio": "16:9",
+      "subType": "text-image",
+      "modelCode": "codex-image-generate-v1",
+      "generateNum": 1,
+      "params": {
+        "prompt": "雨后宁静的旧书店街道，黄昏暖灯映照湿润石板路，没有人物和招牌文字。连续完整的360度环境，等距柱状投影，水平地平线，左右边缘自然连续。",
+        "transparentBackground": false,
+        "text": "雨后宁静的旧书店街道，黄昏暖灯映照湿润石板路，没有人物和招牌文字。连续完整的360度环境，等距柱状投影，水平地平线，左右边缘自然连续。"
+      },
+      "maxConnect": {
+        "image": null,
+        "text": null,
+        "video": null
+      },
+      "presetSelections": [
+        {
+          "key": "panorama",
+          "id": "panorama",
+          "labelKey": "canvas.imageToolbar.panorama"
+        }
+      ],
+      "sceneCode": "canvas-image-panorama-text",
+      "userPromptSnapshot": {
+        "paramName": "prompt",
+        "value": "雨后宁静的旧书店街道，黄昏暖灯映照湿润石板路，没有人物和招牌文字。连续完整的360度环境，等距柱状投影，水平地平线，左右边缘自然连续。"
+      },
+      "modelType": "OPENAPI"
+    }
+  },
+  "baseline": {
+    "id": "node_1792640326287_101cpyv",
+    "type": "rh-image",
+    "position": {
+      "x": -42.67282252856975,
+      "y": 560
+    },
+    "style": {
+      "width": 380,
+      "height": 220
+    },
+    "data": {
+      "label": "图片",
+      "title": "图片",
+      "status": "idle",
+      "width": 380,
+      "height": 220,
+      "prompt": "雨后宁静的旧书店街道，黄昏暖灯映照湿润石板路，没有人物和招牌文字。连续完整的360度环境，等距柱状投影，水平地平线，左右边缘自然连续。",
+      "panorama": {
+        "isPanoramaNode": true,
+        "pausedModel": "codex-image-generate-v1",
+        "locked": true
+      },
+      "opResize": true,
+      "aspectRatio": "16:9",
+      "params": {
+        "prompt": "雨后宁静的旧书店街道，黄昏暖灯映照湿润石板路，没有人物和招牌文字。连续完整的360度环境，等距柱状投影，水平地平线，左右边缘自然连续。"
+      },
+      "modelCode": "image-image-rhart-image-n-g31-flash-official",
+      "generateNum": 1,
+      "subType": "text-image",
+      "maxConnect": {
+        "image": null,
+        "text": null,
+        "video": null
+      },
+      "presetSelections": [
+        {
+          "key": "panorama",
+          "id": "panorama",
+          "labelKey": "canvas.imageToolbar.panorama"
+        }
+      ]
+    }
+  },
+  "error": {
+    "code": "STALE_EXECUTION_INPUT",
+    "message": "生成命令与当前画布输入不一致，请重新生成。"
+  }
+}

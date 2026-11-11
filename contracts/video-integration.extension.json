@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1",
+  "status": "IMPLEMENTED",
+  "mediaJobs": {"path": "/api/v2/media-jobs", "optionalCanvasBinding": ["graph", "expectedRevision"], "requiresNodeId": true, "result": "task.canvasManaged and task.plans[].canvasBinding; durable server-side node writeback"},
+  "internalMediaRead": {"path": "/internal/model-assets/read-media", "authentication": "independent model-media service Bearer secret", "ownership": "existing task read grant, verified actor, asset visibility, immutable version and SHA256", "metadataHeaders": ["X-Media-Width", "X-Media-Height", "X-Media-Duration-Ms"], "imageOnlyRouteUnchanged": true},
+  "videoModels": "Exact versioned Router catalog; only verified output preset tuples are exposed",
+  "audioExtraction": "VIDEO_AUDIO all -> owned FFMPEG EXTRACT_AUDIO; vocal/ambient separation remain unavailable",
+  "unknown": "Router UNKNOWN remains nonterminal; original invocation is reconciled without new generation",
+  "reserved": ["H3 cancel", "video analysis", "depth", "repair", "AI quality enhancement", "vocal and ambient separation"]
+}

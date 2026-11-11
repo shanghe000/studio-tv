@@ -1,0 +1,12 @@
+apiVersion: 1
+providers:
+  - name: studiotv-api
+    orgId: 1
+    folder: Studio TV
+    type: file
+    disableDeletion: true
+    editable: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: false
+    options:
+      path: /etc/grafana/studiotv-infra/observability/grafana/dashboards

@@ -1,0 +1,77 @@
+{
+  "id": "codex-image-edit-v1",
+  "modelCode": "codex-image-edit-v1",
+  "kind": "IMAGE_TO_IMAGE",
+  "modelName": "Codex 图像工具（宿主 gpt-6.1-sol） · 参考图编辑",
+  "modelNameEn": "Codex 图像工具（宿主 gpt-6.1-sol） · 参考图编辑",
+  "modelType": "OPENAPI",
+  "description": "",
+  "descriptionEn": "",
+  "generateNum": [
+    1,
+    2,
+    4
+  ],
+  "config": [
+    {
+      "paramName": "prompt",
+      "paramDataType": "string",
+      "type": "prompt",
+      "title": "描述",
+      "titleEn": "Prompt",
+      "display": true,
+      "required": false
+    },
+    {
+      "paramName": "transparentBackground",
+      "paramDataType": "boolean",
+      "type": "boolean",
+      "title": "透明背景",
+      "titleEn": "transparentBackground",
+      "display": true,
+      "required": false,
+      "paramValue": false,
+      "optionValue": [
+        {
+          "value": true,
+          "labelCn": "true",
+          "labelEn": "true"
+        },
+        {
+          "value": false,
+          "labelCn": "false",
+          "labelEn": "false"
+        }
+      ]
+    },
+    {
+      "paramName": "imageUrls",
+      "paramDataType": "arrayString",
+      "type": "imageUrls",
+      "title": "参考图片",
+      "titleEn": "Reference images",
+      "display": true,
+      "required": false,
+      "maxNum": 4
+    }
+  ],
+  "available": true,
+  "capabilityRef": "codex-image-edit-v1",
+  "capabilityVersion": "3",
+  "parameterSchemaVersion": "3",
+  "testMode": false,
+  "inputKinds": [
+    "TEXT",
+    "STRUCTURED",
+    "IMAGE"
+  ],
+  "outputKinds": [
+    "IMAGE"
+  ],
+  "model": {
+    "providerRef": "codex",
+    "modelRef": "codex-image",
+    "title": "Codex 图像工具（宿主 gpt-6.1-sol）",
+    "version": "1"
+  }
+}

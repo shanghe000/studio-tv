@@ -1,0 +1,438 @@
+openapi: 3.1.0
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Studio TV exact capability version extension
+  version: 1.0.0
+  description: Independent implemented extension for explicit historical selections
+    and frozen requests. Discovery stays latest-only. Existing v1 contracts, accepted
+    requests, template hashes and version-1 parameter schemas are unchanged.
+servers:
+- url: /api/v2
+paths:
+  /model-capability-version:
+    get:
+      operationId: productExactModelCapabilityVersion
+      summary: Authoritative exact public capability/version metadata
+      x-implementation-status: IMPLEMENTED
+      x-required-capability: tv.access
+      security:
+      - SessionBearer: []
+      parameters:
+      - name: ref
+        in: query
+        required: true
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$
+      - name: version
+        in: query
+        required: true
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,99}$
+      responses:
+        '200':
+          description: Exact capability/version metadata, including current availability.
+            Never latest fallback.
+          headers:
+            Cache-Control:
+              schema:
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapabilityVersionResponse'
+        '400':
+          description: Missing, malformed, repeated or unknown query; request body
+            forbidden.
+          headers:
+            Cache-Control:
+              schema:
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Verified Feishu session required.
+          headers:
+            Cache-Control:
+              schema:
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Live tv.access authorization denied.
+          headers:
+            Cache-Control:
+              schema:
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Exact capability/version pair does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '501':
+          description: Configured gateway has no exact-version lookup adapter.
+          headers:
+            Cache-Control:
+              schema:
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Authoritative metadata unavailable or mismatched; never fallback.
+          headers:
+            Cache-Control:
+              schema:
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    SessionBearer:
+      type: http
+      scheme: bearer
+  schemas:
+    Capability:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+        testMode:
+          type: boolean
+          description: Optional additive provenance flag. MOCK adapter results always
+            set true; this is not evidence of real model execution.
+        capabilityRef:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$
+        version:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$
+        kind:
+          type: string
+          pattern: ^[A-Z][A-Z0-9_]{0,63}$
+          examples:
+          - LLM
+          - TEXT_TO_IMAGE
+          - IMAGE_TO_VIDEO
+          - OMNI_REFERENCE
+        executionKind:
+          type: string
+          enum:
+          - MODEL
+          - AGENT
+        parameterSchemaVersion:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$
+        parameterSchema:
+          type: object
+          description: Immutable JSON Schema 2020-12 for the specific capability/version.
+            Reject unsupported inputs explicitly.
+        inputKinds:
+          type: array
+          items:
+            type: string
+          description: Semantic kinds such as TEXT, IMAGE, VIDEO, AUDIO, FILE or STRUCTURED;
+            the fixed capability schema constrains actual combinations.
+        outputKinds:
+          type: array
+          items:
+            type: string
+        supportsSession:
+          type: boolean
+          description: Legacy session support projection. Absent sessionMode means
+            OPTIONAL when true, otherwise NONE.
+        sessionMode:
+          type: string
+          enum:
+          - NONE
+          - OPTIONAL
+          - REQUIRED
+          description: Optional additive field. NONE requires supportsSession=false;
+            OPTIONAL/REQUIRED require true. NONE and OPTIONAL support independent
+            requests without logical sessions.
+        supportsStream:
+          type: boolean
+          description: Verified incremental output support. Persisted Router SSE state/progress
+            events do not imply native token or media streaming.
+        supportsCancel:
+          type: boolean
+        available:
+          type: boolean
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+        model:
+          $ref: '#/components/schemas/ModelDescriptor'
+          description: Optional public metadata. New model selectors use configured
+            profiles with this metadata; absence preserves existing generic and MOCK
+            capabilities. Determine text/image eligibility from kind and inputKinds,
+            not model titles.
+      required:
+      - capabilityRef
+      - version
+      - kind
+      - executionKind
+      - parameterSchemaVersion
+      - parameterSchema
+      - inputKinds
+      - outputKinds
+      - supportsSession
+      - supportsStream
+      - supportsCancel
+      - available
+      - reason
+      allOf:
+      - if:
+          required:
+          - sessionMode
+          properties:
+            sessionMode:
+              const: NONE
+        then:
+          properties:
+            supportsSession:
+              const: false
+      - if:
+          required:
+          - sessionMode
+          properties:
+            sessionMode:
+              const: OPTIONAL
+        then:
+          properties:
+            supportsSession:
+              const: true
+      - if:
+          required:
+          - sessionMode
+          properties:
+            sessionMode:
+              const: REQUIRED
+        then:
+          properties:
+            supportsSession:
+              const: true
+      examples:
+      - capabilityRef: example/llm
+        version: '1'
+        kind: LLM
+        executionKind: MODEL
+        parameterSchemaVersion: '1'
+        parameterSchema:
+          type: object
+          additionalProperties: false
+          properties:
+            maxOutputTokens:
+              type: integer
+              minimum: 1
+              maximum: 4096
+            temperature:
+              type: number
+              minimum: 0
+              maximum: 2
+          required:
+          - maxOutputTokens
+        inputKinds:
+        - TEXT
+        outputKinds:
+        - TEXT
+        supportsSession: true
+        sessionMode: OPTIONAL
+        supportsStream: true
+        supportsCancel: false
+        available: false
+        reason: RESERVED schema fixture; no runtime adapter or model is registered
+      - capabilityRef: example/t2i
+        version: '1'
+        kind: TEXT_TO_IMAGE
+        executionKind: MODEL
+        parameterSchemaVersion: '1'
+        parameterSchema:
+          type: object
+          additionalProperties: false
+          properties:
+            width:
+              type: integer
+              enum:
+              - 512
+              - 1024
+            height:
+              type: integer
+              enum:
+              - 512
+              - 1024
+            count:
+              type: integer
+              minimum: 1
+              maximum: 4
+          required:
+          - width
+          - height
+          - count
+        inputKinds:
+        - TEXT
+        outputKinds:
+        - IMAGE
+        supportsSession: false
+        sessionMode: NONE
+        supportsStream: false
+        supportsCancel: false
+        available: false
+        reason: RESERVED schema fixture; no runtime adapter or model is registered
+      - capabilityRef: example/i2v
+        version: '1'
+        kind: IMAGE_TO_VIDEO
+        executionKind: MODEL
+        parameterSchemaVersion: '1'
+        parameterSchema:
+          type: object
+          additionalProperties: false
+          properties:
+            width:
+              type: integer
+              enum:
+              - 1280
+            height:
+              type: integer
+              enum:
+              - 720
+            durationSeconds:
+              type: number
+              minimum: 1
+              maximum: 10
+            fps:
+              type: integer
+              enum:
+              - 24
+          required:
+          - width
+          - height
+          - durationSeconds
+          - fps
+        inputKinds:
+        - TEXT
+        - IMAGE
+        outputKinds:
+        - VIDEO
+        supportsSession: false
+        sessionMode: NONE
+        supportsStream: false
+        supportsCancel: false
+        available: false
+        reason: RESERVED schema fixture; no runtime adapter or model is registered
+    ModelDescriptor:
+      type: object
+      additionalProperties: false
+      properties:
+        providerRef:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$
+        modelRef:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        version:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$
+      required:
+      - providerRef
+      - modelRef
+      - title
+      - version
+      description: Verified, configured public model metadata for choosing capability
+        profiles. Public refs are stable supplier-neutral product identifiers, never
+        native provider IDs, credentials or runtime configuration. Legacy profiles
+        may omit this optional metadata; clients must preserve frozen legacy references
+        on existing operations.
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        requestId:
+          type: string
+        retryable:
+          type: boolean
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - code
+      - message
+      - requestId
+      - retryable
+      - details
+    ErrorDetail:
+      type: object
+      additionalProperties: false
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+      required:
+      - field
+      - code
+      - message
+    CapabilityVersionResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+        requestId:
+          type: string
+        data:
+          $ref: '#/components/schemas/Capability'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+x-router-transport:
+  method: GET
+  path: /extensions/capability-versions/v1/capability
+  query:
+  - ref
+  - version
+  response: Single Capability, no envelope
+  actor: Verified STUDIO owner mapped to signed Router actor; never browser subject headers
+x-version-policy:
+  lookup: Explicit historical version or frozen worker submit only. Never replace
+    an exact pair with latest.
+  reasoningSchema2: Canonical reasoningEffort string enum low/high, default low; projected
+    native field reasoning_effort with Low/High in original parameter panel.
+  reasoningSchema1: Exact version1 retains its immutable empty parameter schema. No
+    reasoning control is projected for a saved version1 node.
+  replay: Existing receipts and accepted input/prompt hashes are preserved; no re-selection
+    of latest during receipt polling.

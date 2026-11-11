@@ -1,0 +1,194 @@
+{
+  "sourceEvidence": [
+    "root-h3-action-server-version-diagnostic.json",
+    "native-storyboard-h3-action-final-live.json",
+    "native-h3-action-terminal-state-diagnostic.json"
+  ],
+  "reconstruction": "CONTROLLED_RECONSTRUCTION: prior combines the real accepted planNodeSnapshot inputs with real terminal output/videoUrl/history and confirmed SUCCEEDED/APPLIED task binding. Historical project events were invalidations, so this is not an archived pre-autosave graph byte sequence. nativeAfter is the actual captured failed native terminal view.",
+  "taskId": "tsk_8c4737e7aa864d7d8304330967420e7e",
+  "serverPrior": {
+    "id": "node_1792648080807_aobqzkd",
+    "data": {
+      "label": "分镜视频2",
+      "title": "分镜视频2",
+      "width": 380,
+      "height": 214,
+      "params": {
+        "text": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+        "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+        "audioUrls": [],
+        "imageUrls": [
+          "rhtv-asset:ast_eb8b040bfdf702747bfeac455dcfeb517df6059f453ebeab",
+          "rhtv-asset:ast_b1ac988ac8a8811a07d3e222e0c7384d339f457edbb8e66a"
+        ],
+        "videoUrls": [],
+        "outputPreset": "landscape-480p-5s"
+      },
+      "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+      "status": "finished",
+      "groupId": "group-1792648080809",
+      "subType": "multimodal-video",
+      "testMode": false,
+      "modelCode": "h3-action-reference-v1",
+      "modelType": "OPENAPI",
+      "styleName": "film::电影写实",
+      "toolsType": "multimodal-video",
+      "groupColor": "rgba(163, 159, 159, 0.21)",
+      "maxConnect": {
+        "text": null,
+        "image": null,
+        "video": null
+      },
+      "addNewGroup": true,
+      "aspectRatio": "16:9",
+      "generateNum": 1,
+      "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+      "isStoryboard": true,
+      "capabilityRef": "h3-action-reference-v1",
+      "storyboardShot": "2",
+      "toolsSourceUrl": [
+        "rhtv-asset:ast_eb8b040bfdf702747bfeac455dcfeb517df6059f453ebeab",
+        "rhtv-asset:ast_b1ac988ac8a8811a07d3e222e0c7384d339f457edbb8e66a"
+      ],
+      "storyboardIndex": 2,
+      "storyboardRowId": "studio-shot-2__merge_studio-shot-2",
+      "presetSelections": [],
+      "routerParameters": {
+        "outputPreset": "landscape-480p-5s"
+      },
+      "capabilityVersion": "1",
+      "nodeOutputHistory": [],
+      "userPromptSnapshot": {
+        "value": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+        "paramName": "prompt"
+      },
+      "parameterSchemaVersion": "1",
+      "storyboardVideoSyncedPrompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+      "output": [
+        {
+          "url": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "width": 864,
+          "height": 480,
+          "assetId": "ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "mediaId": "ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "mimeType": "video/mp4",
+          "outputId": "out_6121e7ad1ffe4f76994e7caf632cab97dd2ff0f3d6a640668b30befabc86768d",
+          "testMode": false,
+          "durationMs": 5167,
+          "outputType": "video/mp4",
+          "originalUrl": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "thumbnailUrl": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33"
+        }
+      ],
+      "videoUrl": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+      "historyStorage": {
+        "source": "remote",
+        "revision": "11",
+        "historyId": "exe_b06e81b95b1b432dbf6400952645f926",
+        "resultCount": 1,
+        "schemaVersion": 1
+      },
+      "errorMsg": "",
+      "taskId": "tsk_8c4737e7aa864d7d8304330967420e7e"
+    },
+    "type": "rh-video",
+    "style": {
+      "width": 380,
+      "height": 214
+    },
+    "hidden": false,
+    "position": {
+      "x": 4614.638858878308,
+      "y": 1349.5
+    },
+    "selectable": true
+  },
+  "nativeAfter": {
+    "id": "node_1792648080807_aobqzkd",
+    "type": "rh-video",
+    "position": {
+      "x": 4614.638858878308,
+      "y": 1349.5
+    },
+    "data": {
+      "label": "分镜视频2",
+      "title": "分镜视频2",
+      "status": "idle",
+      "width": 380,
+      "height": 214,
+      "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+      "groupColor": "rgba(163, 159, 159, 0.21)",
+      "groupId": "group-1792648080809",
+      "output": [
+        {
+          "url": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "width": 864,
+          "height": 480,
+          "assetId": "ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "mediaId": "ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "mimeType": "video/mp4",
+          "outputId": "out_6121e7ad1ffe4f76994e7caf632cab97dd2ff0f3d6a640668b30befabc86768d",
+          "testMode": false,
+          "durationMs": 5167,
+          "outputType": "video/mp4",
+          "originalUrl": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+          "thumbnailUrl": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33"
+        }
+      ],
+      "videoUrl": "rhtv-asset:ast_557f26280f961a8639d5da5d8a12b79faa5869c193e32b33",
+      "toolsType": "multimodal-video",
+      "toolsSourceUrl": [
+        "rhtv-asset:ast_eb8b040bfdf702747bfeac455dcfeb517df6059f453ebeab",
+        "rhtv-asset:ast_b1ac988ac8a8811a07d3e222e0c7384d339f457edbb8e66a"
+      ],
+      "aspectRatio": "16:9",
+      "params": {
+        "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+        "outputPreset": "landscape-480p-5s",
+        "imageUrls": [
+          "rhtv-asset:ast_eb8b040bfdf702747bfeac455dcfeb517df6059f453ebeab",
+          "rhtv-asset:ast_b1ac988ac8a8811a07d3e222e0c7384d339f457edbb8e66a"
+        ],
+        "audioUrls": [],
+        "videoUrls": [],
+        "text": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+        "aspectRatio": "16:9",
+        "rhModel": "h3-action-reference-v1"
+      },
+      "modelCode": "h3-action-reference-v1",
+      "generateNum": 1,
+      "subType": "multimodal-video",
+      "maxConnect": {
+        "image": null,
+        "text": null,
+        "video": null
+      },
+      "estimateTaskId": "tsk_8c4737e7aa864d7d8304330967420e7e",
+      "generationStartedAt": 1792649840298,
+      "errorMsg": "",
+      "nodeOutputHistory": [],
+      "historyStorage": {
+        "source": "remote",
+        "revision": "11",
+        "historyId": "exe_b06e81b95b1b432dbf6400952645f926",
+        "resultCount": 1,
+        "schemaVersion": 1
+      },
+      "presetSelections": [],
+      "styleName": "film::电影写实",
+      "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+      "storyboardVideoSyncedPrompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】2\n【时长】5s\n【角色名称】周宁@图片2\n【角色描述】成年中国男性，短黑发，身穿蓝衬衫、黑长裤。\n【画面描述】固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+      "isStoryboard": true,
+      "storyboardIndex": 2,
+      "storyboardRowId": "studio-shot-2__merge_studio-shot-2",
+      "storyboardShot": "2",
+      "modelType": "OPENAPI",
+      "addNewGroup": true
+    },
+    "style": {
+      "height": 214,
+      "width": 380
+    },
+    "selectable": true
+  }
+}

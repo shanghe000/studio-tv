@@ -1,0 +1,233 @@
+{
+  "filter": [
+    "kodak_film",
+    "cool_cyber",
+    "soft_pastel"
+  ],
+  "function": [
+    "multi_view",
+    "character_sheet",
+    "scene_extension"
+  ],
+  "camera": [
+    "canon_eos_r5",
+    "arri_alexa_35",
+    "panavision_c"
+  ],
+  "roleDesign:basic:presentation": [
+    "studio-role-basic-woman-v1",
+    "studio-role-basic-man-v1",
+    "studio-role-basic-androgynous-v1"
+  ],
+  "roleDesign:face:expression": [
+    "studio-role-face-calm-v1",
+    "studio-role-face-smile-v1",
+    "studio-role-face-determined-v1"
+  ],
+  "roleDesign:hair:length": [
+    "studio-role-hair-short-v1",
+    "studio-role-hair-long-v1",
+    "studio-role-hair-tied-v1"
+  ],
+  "roleDesign:body:build": [
+    "studio-role-body-slim-v1",
+    "studio-role-body-athletic-v1",
+    "studio-role-body-broad-v1"
+  ],
+  "roleDesign:outfit:wardrobe": [
+    "studio-role-outfit-casual-v1",
+    "studio-role-outfit-formal-v1",
+    "studio-role-outfit-fantasy-v1"
+  ],
+  "roleDesign:style:rendering": [
+    "studio-role-style-realistic-v1",
+    "studio-role-style-illustration-v1",
+    "studio-role-style-animation-v1"
+  ],
+  "makeup": [
+    "studio-portrait-1059-v1",
+    "studio-portrait-1058-v1",
+    "studio-portrait-1057-v1",
+    "studio-portrait-1056-v1",
+    "studio-portrait-1055-v1",
+    "studio-portrait-1054-v1",
+    "studio-portrait-1053-v1",
+    "studio-portrait-1052-v1",
+    "studio-portrait-1051-v1",
+    "studio-portrait-1050-v1",
+    "studio-portrait-1049-v1",
+    "studio-portrait-1048-v1",
+    "studio-portrait-1047-v1",
+    "studio-portrait-1046-v1",
+    "studio-portrait-1045-v1",
+    "studio-portrait-1044-v1",
+    "studio-portrait-1043-v1",
+    "studio-portrait-1042-v1",
+    "studio-portrait-1041-v1",
+    "studio-portrait-1040-v1",
+    "studio-portrait-1039-v1",
+    "studio-portrait-1038-v1",
+    "studio-portrait-1037-v1",
+    "studio-portrait-1036-v1",
+    "studio-portrait-1035-v1",
+    "studio-portrait-1034-v1",
+    "studio-portrait-1033-v1",
+    "studio-portrait-1032-v1",
+    "studio-portrait-1031-v1",
+    "studio-portrait-1030-v1",
+    "studio-portrait-1029-v1",
+    "studio-portrait-1028-v1",
+    "studio-portrait-1027-v1",
+    "studio-portrait-1026-v1",
+    "studio-portrait-1025-v1",
+    "studio-portrait-1024-v1",
+    "studio-portrait-1023-v1",
+    "studio-portrait-1022-v1",
+    "studio-portrait-1021-v1",
+    "studio-portrait-1020-v1",
+    "studio-portrait-1019-v1",
+    "studio-portrait-1018-v1",
+    "studio-portrait-1017-v1",
+    "studio-portrait-1016-v1",
+    "studio-portrait-1015-v1",
+    "studio-portrait-1014-v1",
+    "studio-portrait-1013-v1",
+    "studio-portrait-1012-v1",
+    "studio-portrait-1011-v1",
+    "studio-portrait-1010-v1",
+    "studio-portrait-1009-v1",
+    "studio-portrait-1008-v1",
+    "studio-portrait-1007-v1",
+    "studio-portrait-1006-v1",
+    "studio-portrait-1005-v1",
+    "studio-portrait-1004-v1",
+    "studio-portrait-1003-v1",
+    "studio-portrait-1002-v1",
+    "studio-portrait-1001-v1",
+    "studio-portrait-1000-v1",
+    "studio-portrait-999-v1",
+    "studio-portrait-998-v1",
+    "studio-portrait-997-v1",
+    "studio-portrait-996-v1",
+    "studio-portrait-995-v1",
+    "studio-portrait-994-v1",
+    "studio-portrait-993-v1",
+    "studio-portrait-992-v1",
+    "studio-portrait-991-v1",
+    "studio-portrait-990-v1",
+    "studio-portrait-989-v1",
+    "studio-portrait-988-v1",
+    "studio-portrait-987-v1",
+    "studio-portrait-986-v1",
+    "studio-portrait-985-v1",
+    "studio-portrait-984-v1",
+    "studio-portrait-983-v1",
+    "studio-portrait-982-v1",
+    "studio-portrait-981-v1",
+    "studio-portrait-980-v1",
+    "studio-portrait-979-v1",
+    "studio-portrait-978-v1",
+    "studio-portrait-977-v1"
+  ],
+  "poseBase": [
+    "studio-portrait-952-v1"
+  ],
+  "clothing": [
+    "studio-portrait-951-v1",
+    "studio-portrait-950-v1",
+    "studio-portrait-949-v1",
+    "studio-portrait-948-v1",
+    "studio-portrait-947-v1"
+  ],
+  "body": [
+    "studio-portrait-946-v1",
+    "studio-portrait-945-v1",
+    "studio-portrait-944-v1"
+  ],
+  "hair": [
+    "studio-portrait-943-v1",
+    "studio-portrait-942-v1",
+    "studio-portrait-941-v1",
+    "studio-portrait-940-v1",
+    "studio-portrait-939-v1",
+    "studio-portrait-938-v1",
+    "studio-portrait-937-v1",
+    "studio-portrait-936-v1"
+  ],
+  "skin": [
+    "studio-portrait-935-v1",
+    "studio-portrait-934-v1",
+    "studio-portrait-933-v1"
+  ],
+  "age": [
+    "studio-portrait-932-v1",
+    "studio-portrait-931-v1",
+    "studio-portrait-930-v1"
+  ],
+  "mouth": [
+    "studio-portrait-929-v1",
+    "studio-portrait-928-v1",
+    "studio-portrait-927-v1",
+    "studio-portrait-926-v1",
+    "studio-portrait-925-v1",
+    "studio-portrait-924-v1",
+    "studio-portrait-923-v1",
+    "studio-portrait-922-v1",
+    "studio-portrait-921-v1"
+  ],
+  "emotion": [
+    "studio-portrait-905-v1",
+    "studio-portrait-904-v1",
+    "studio-portrait-903-v1",
+    "studio-portrait-902-v1",
+    "studio-portrait-901-v1",
+    "studio-portrait-900-v1",
+    "studio-portrait-899-v1",
+    "studio-portrait-898-v1",
+    "studio-portrait-897-v1",
+    "studio-portrait-896-v1",
+    "studio-portrait-895-v1",
+    "studio-portrait-894-v1",
+    "studio-portrait-893-v1",
+    "studio-portrait-892-v1",
+    "studio-portrait-891-v1",
+    "studio-portrait-890-v1",
+    "studio-portrait-889-v1",
+    "studio-portrait-888-v1",
+    "studio-portrait-887-v1",
+    "studio-portrait-886-v1",
+    "studio-portrait-885-v1",
+    "studio-portrait-884-v1",
+    "studio-portrait-883-v1",
+    "studio-portrait-882-v1",
+    "studio-portrait-881-v1",
+    "studio-portrait-880-v1",
+    "studio-portrait-879-v1",
+    "studio-portrait-878-v1",
+    "studio-portrait-877-v1",
+    "studio-portrait-876-v1",
+    "studio-portrait-875-v1",
+    "studio-portrait-874-v1",
+    "studio-portrait-873-v1",
+    "studio-portrait-872-v1",
+    "studio-portrait-871-v1",
+    "studio-portrait-870-v1"
+  ],
+  "gaze": [
+    "studio-portrait-869-v1",
+    "studio-portrait-868-v1",
+    "studio-portrait-867-v1",
+    "studio-portrait-866-v1",
+    "studio-portrait-865-v1",
+    "studio-portrait-864-v1",
+    "studio-portrait-863-v1",
+    "studio-portrait-862-v1",
+    "studio-portrait-861-v1"
+  ],
+  "protection:background": [
+    "studio-portrait-858-v1"
+  ],
+  "protection:style": [
+    "studio-portrait-857-v1"
+  ]
+}

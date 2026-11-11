@@ -1,0 +1,135 @@
+# Append to compose.yaml and the existing production overlays; never use down -v.
+services:
+  api:
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      STUDIOTV_LOG_DIR: /var/log/studio-tv
+      STUDIOTV_ENV: ${STUDIOTV_ENV:-deployment-host}
+      METRICS_ENABLED: ${METRICS_ENABLED:-true}
+      METRICS_ADDR: ${METRICS_ADDR:-0.0.0.0:9090}
+      STUDIOTV_ALERT_WEBHOOK_URL_FILE: ${STUDIOTV_ALERT_WEBHOOK_URL_FILE:-/run/observability-secrets/feishu_webhook_url}
+    volumes:
+      - ./var/log/studio-tv:/var/log/studio-tv
+      - ${STUDIOTV_OBSERVABILITY_SECRETS_DIR:-/home/user/.config/studio-tv/observability}:/run/observability-secrets:ro
+    logging: &bounded-logs
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+  web:
+    logging: *bounded-logs
+  prometheus:
+    container_name: studio-tv-prometheus-1
+    image: prom/prometheus:v3.13.4@sha256:87861b8cf91579109319ebc300f3f1060e6da9c05d6ae8ad15a20c879e84e32e
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/studiotv-infra/observability/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=${STUDIOTV_PROMETHEUS_RETENTION_TIME:-15d}
+      - --storage.tsdb.retention.size=${STUDIOTV_PROMETHEUS_RETENTION_SIZE:-5GB}
+    ports:
+      - "${STUDIOTV_PROMETHEUS_BIND_IP:-127.0.0.1}:${STUDIOTV_PROMETHEUS_PORT:-18884}:9090"
+    volumes:
+      # Bind the stable parent: Git may replace a leaf file/directory on deploy.
+      - ./infra:/etc/prometheus/studiotv-infra:ro
+      - prometheus_data:/prometheus
+    networks:
+      - default
+      - observability
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, "http://127.0.0.1:9090/-/ready"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    logging: *bounded-logs
+  generation-exporter:
+    container_name: studio-tv-generation-exporter-1
+    image: studio-tv-generation-exporter
+    build:
+      context: ./infra/observability/generation-exporter
+    restart: unless-stopped
+    # The private H3 tunnel and API ports only listen on the host.
+    network_mode: host
+    environment:
+      GENERATION_EXPORTER_CONFIG: /run/generation-secrets/config.json
+    volumes:
+      - ${STUDIOTV_GENERATION_MONITOR_SECRETS_DIR:-/home/user/.config/studio-tv/generation-monitoring}:/run/generation-secrets:ro
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://192.0.2.10:18885/healthz', timeout=2).read()"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
+    logging: *bounded-logs
+  grafana:
+    container_name: studio-tv-grafana-1
+    image: grafana/grafana:13.2.3@sha256:b28bae15e219c998fb0e0424ed724930cc61b1f61fb404d47c862f9a23f9e572
+    restart: unless-stopped
+    depends_on:
+      prometheus:
+        condition: service_started
+    environment:
+      GF_SECURITY_ADMIN_USER: ${STUDIOTV_GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana_admin_password
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_USERS_AUTO_ASSIGN_ORG_ROLE: Viewer
+      GF_SECURITY_DISABLE_GRAVATAR: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_PLUGINS_PREINSTALL: ""
+      GF_PLUGINS_PREINSTALL_SYNC: ""
+      GF_PLUGINS_PLUGIN_ADMIN_ENABLED: "false"
+      GF_PLUGINS_PUBLIC_KEY_RETRIEVAL_DISABLED: "true"
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: ""
+      GF_PATHS_PROVISIONING: /etc/grafana/studiotv-infra/observability/grafana/provisioning
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/studiotv-infra/observability/grafana/dashboards/studiotv-api.json
+      GF_LOG_MODE: console
+      GF_LOG_LEVEL: ${STUDIOTV_GRAFANA_LOG_LEVEL:-info}
+    secrets:
+      - grafana_admin_password
+    ports:
+      - "${STUDIOTV_GRAFANA_BIND_IP:-192.0.2.10}:${STUDIOTV_GRAFANA_PORT:-18883}:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infra:/etc/grafana/studiotv-infra:ro
+    networks:
+      - observability
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, "http://127.0.0.1:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging: *bounded-logs
+volumes:
+  prometheus_data:
+    name: ${STUDIOTV_PROMETHEUS_VOLUME:-studio-tv_prometheus_data}
+  grafana_data:
+    name: ${STUDIOTV_GRAFANA_VOLUME:-studio-tv_grafana_data}
+networks:
+  observability:
+    driver: bridge
+secrets:
+  grafana_admin_password:
+    file: ${STUDIOTV_OBSERVABILITY_SECRETS_DIR:-/home/user/.config/studio-tv/observability}/grafana_admin_password

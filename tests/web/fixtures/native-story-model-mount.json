@@ -1,0 +1,256 @@
+{
+  "command": {
+    "canvasId": "p",
+    "targetType": "NODE",
+    "targetId": "n",
+    "canvas": {
+      "nodes": [
+        {
+          "id": "n",
+          "type": "rh-image",
+          "position": {
+            "x": 960,
+            "y": 8070
+          },
+          "data": {
+            "sceneCode": "canvas-image-quick-create-story-board-4-grid",
+            "modelCode": "image-imagerhart-image-g-2-official-image-to-image",
+            "params": {
+              "prompt": "",
+              "transparentBackground": false,
+              "imageUrls": [
+                "rhtv-asset:owned"
+              ],
+              "resolution": "2k"
+            },
+            "generateNum": 1,
+            "toolsType": "image-image",
+            "toolsSourceUrl": "rhtv-asset:owned",
+            "label": "剧情推演四宫格",
+            "title": "剧情推演四宫格",
+            "presetSelections": [],
+            "userPromptSnapshot": {
+              "paramName": "prompt",
+              "value": ""
+            },
+            "nodeOutputHistory": []
+          },
+          "style": {
+            "w": 360,
+            "h": 360
+          },
+          "selectable": true
+        },
+        {
+          "id": "source",
+          "type": "rh-image",
+          "position": {
+            "x": 500,
+            "y": 150
+          },
+          "data": {
+            "title": "工具验收原图",
+            "status": "finished",
+            "width": 360,
+            "height": 360,
+            "output": [
+              {
+                "url": "rhtv-asset:owned",
+                "width": 1254,
+                "height": 1254,
+                "assetId": "owned",
+                "mediaId": "owned",
+                "mimeType": "image/png",
+                "outputId": "source-output",
+                "testMode": false,
+                "outputType": "image/png",
+                "originalUrl": "rhtv-asset:owned",
+                "thumbnailUrl": "rhtv-asset:owned",
+                "historyOutputId": "source-output"
+              }
+            ],
+            "sourceObjects": [
+              "rhtv-asset:owned"
+            ],
+            "imageUrl": "rhtv-asset:owned"
+          },
+          "style": {
+            "width": 360,
+            "height": 360
+          },
+          "selectable": true,
+          "hidden": false
+        }
+      ],
+      "edges": [
+        {
+          "source": "source",
+          "target": "n"
+        }
+      ]
+    },
+    "name": "图片工具专项验收 · 2026-10-07"
+  },
+  "baseline": {
+    "nodes": [
+      {
+        "id": "source",
+        "type": "rh-image",
+        "position": {
+          "x": 500,
+          "y": 150
+        },
+        "data": {
+          "title": "工具验收原图",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:owned",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "owned",
+              "mediaId": "owned",
+              "mimeType": "image/png",
+              "outputId": "source-output",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:owned",
+              "thumbnailUrl": "rhtv-asset:owned",
+              "historyOutputId": "source-output"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:owned"
+          ],
+          "imageUrl": "rhtv-asset:owned"
+        }
+      },
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 960,
+          "y": 8070
+        },
+        "selectable": true,
+        "data": {
+          "label": "剧情推演四宫格",
+          "title": "剧情推演四宫格",
+          "toolsType": "image-image",
+          "toolsSourceUrl": "rhtv-asset:owned",
+          "params": {
+            "prompt": "",
+            "transparentBackground": false,
+            "imageUrls": [
+              "rhtv-asset:owned"
+            ],
+            "resolution": "2k"
+          },
+          "modelCode": "image-imagerhart-image-g-2-official-image-to-image",
+          "generateNum": 1,
+          "sceneCode": "canvas-image-quick-create-story-board-4-grid"
+        },
+        "style": {
+          "w": 360,
+          "h": 360
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-source-n",
+        "source": "source",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "current": {
+    "nodes": [
+      {
+        "id": "source",
+        "type": "rh-image",
+        "position": {
+          "x": 500,
+          "y": 150
+        },
+        "data": {
+          "title": "工具验收原图",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:owned",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "owned",
+              "mediaId": "owned",
+              "mimeType": "image/png",
+              "outputId": "source-output",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:owned",
+              "thumbnailUrl": "rhtv-asset:owned",
+              "historyOutputId": "source-output"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:owned"
+          ],
+          "imageUrl": "rhtv-asset:owned"
+        }
+      },
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 960,
+          "y": 8070
+        },
+        "selectable": true,
+        "data": {
+          "label": "剧情推演四宫格",
+          "title": "剧情推演四宫格",
+          "toolsType": "image-image",
+          "toolsSourceUrl": "rhtv-asset:owned",
+          "params": {
+            "prompt": "",
+            "transparentBackground": false,
+            "imageUrls": [
+              "rhtv-asset:owned"
+            ],
+            "resolution": "2k"
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "subType": "image-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "sceneCode": "canvas-image-quick-create-story-board-4-grid"
+        },
+        "style": {
+          "w": 360,
+          "h": 360
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-source-n",
+        "source": "source",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  }
+}

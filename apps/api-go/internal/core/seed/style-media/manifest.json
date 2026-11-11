@@ -1,0 +1,35 @@
+{
+  "version": "studio-style-media-1",
+  "catalogVersion": "studio-style-library-1",
+  "revision": 1,
+  "media": [
+    {
+      "resourceId": "cinematic_realism",
+      "url": "https://assets.example.invalid/styles/hero-canvas.webp",
+      "file": "cinematic_realism.webp",
+      "sha256": "1275aea88cb06c9a09ebbd7bedd9555bd7b38f4dc661195a3433156b6f9a93de",
+      "byteSize": 4454
+    },
+    {
+      "resourceId": "anime_illustration",
+      "url": "https://assets.example.invalid/styles/demo-poster.webp",
+      "file": "anime_illustration.webp",
+      "sha256": "1275aea88cb06c9a09ebbd7bedd9555bd7b38f4dc661195a3433156b6f9a93de",
+      "byteSize": 4454
+    },
+    {
+      "resourceId": "product_ad",
+      "url": "https://assets.example.invalid/styles/examples/modular-speaker.webp",
+      "file": "product_ad.webp",
+      "sha256": "1275aea88cb06c9a09ebbd7bedd9555bd7b38f4dc661195a3433156b6f9a93de",
+      "byteSize": 4454
+    },
+    {
+      "resourceId": "editorial_fashion",
+      "url": "https://assets.example.invalid/styles/examples/lime-rim-light.webp",
+      "file": "editorial_fashion.webp",
+      "sha256": "1275aea88cb06c9a09ebbd7bedd9555bd7b38f4dc661195a3433156b6f9a93de",
+      "byteSize": 4454
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "checkedAt": "2026-10-08T04:06:53.872Z",
+  "canvasId": "prj_529e0e09-723b-46da-aa7b-c99ba860ea76",
+  "nodes": 21,
+  "conflict": false,
+  "capabilities": [
+    {
+      "ref": "h3-first-frame-v1",
+      "title": "H3 · 首帧视频",
+      "version": "2",
+      "schemaVersion": "2",
+      "parameter": {
+        "default": "480p-landscape-5s",
+        "description": "固定 864×480、24fps；实际时长随帧数取整，不支持中途取消。",
+        "enum": [
+          "480p-landscape-5s"
+        ],
+        "title": "时长（横屏 480p / 24fps）",
+        "type": "string",
+        "x-enum-labels": {
+          "480p-landscape-5s": "5 秒"
+        }
+      }
+    },
+    {
+      "ref": "h3-first-last-frame-v1",
+      "title": "H3 · 首尾帧视频",
+      "version": "2",
+      "schemaVersion": "2",
+      "parameter": {
+        "default": "480p-landscape-5s",
+        "description": "固定 864×480、24fps；实际时长随帧数取整，不支持中途取消。",
+        "enum": [
+          "480p-landscape-5s",
+          "480p-landscape-10s",
+          "480p-landscape-15s"
+        ],
+        "title": "时长（横屏 480p / 24fps）",
+        "type": "string",
+        "x-enum-labels": {
+          "480p-landscape-10s": "10 秒",
+          "480p-landscape-15s": "15 秒",
+          "480p-landscape-5s": "5 秒"
+        }
+      }
+    },
+    {
+      "ref": "h3-reference-v1",
+      "title": "H3 · 图片与音频参考",
+      "version": "2",
+      "schemaVersion": "2",
+      "parameter": {
+        "default": "480p-landscape-5s",
+        "description": "固定 864×480、24fps；实际时长随帧数取整，不支持中途取消。",
+        "enum": [
+          "480p-landscape-5s",
+          "480p-landscape-10s",
+          "480p-landscape-15s"
+        ],
+        "title": "时长（横屏 480p / 24fps）",
+        "type": "string",
+        "x-enum-labels": {
+          "480p-landscape-10s": "10 秒",
+          "480p-landscape-15s": "15 秒",
+          "480p-landscape-5s": "5 秒"
+        }
+      }
+    },
+    {
+      "ref": "h3-video-reference-v1",
+      "title": "H3 · 全能参考（含视频）",
+      "version": "2",
+      "schemaVersion": "2",
+      "parameter": {
+        "default": "480p-landscape-5s",
+        "description": "固定 864×480、24fps；实际时长随帧数取整，不支持中途取消。",
+        "enum": [
+          "480p-landscape-5s",
+          "480p-landscape-10s",
+          "480p-landscape-15s"
+        ],
+        "title": "时长（横屏 480p / 24fps）",
+        "type": "string",
+        "x-enum-labels": {
+          "480p-landscape-10s": "10 秒",
+          "480p-landscape-15s": "15 秒",
+          "480p-landscape-5s": "5 秒"
+        }
+      }
+    }
+  ],
+  "historicalBindings": [
+    {
+      "id": "node_1791386592643_vrv8bk2_video",
+      "version": "1",
+      "schemaVersion": "1"
+    },
+    {
+      "id": "h3-first-live",
+      "version": "1",
+      "schemaVersion": "1"
+    },
+    {
+      "id": "h3-omni-live",
+      "version": "1",
+      "schemaVersion": "1"
+    },
+    {
+      "id": "h3-video-ref-live",
+      "version": "1",
+      "schemaVersion": "1"
+    },
+    {
+      "id": "studio-video-e151291e-c272-49b0-9aab-0f32f29b8508",
+      "version": "1",
+      "schemaVersion": "1"
+    },
+    {
+      "id": "studio-video-7d4720a8-6f6a-487c-bafc-bab5f437bef3",
+      "version": "1",
+      "schemaVersion": "1"
+    }
+  ],
+  "schema_version": 1,
+  "deployed": {
+    "web": "b325634",
+    "router": "62ed054"
+  },
+  "handoff": {
+    "optionsSHA256": "2350f4add96664d8d64510a7d36200801f5609beede86c6a2cbeb3a7abf793b8",
+    "evidenceSHA256": "7c5620427b883f4a660764c62ec0a3ad856b577c78eef376d48b0496d2736a94"
+  },
+  "uiChecks": {
+    "agentAllFourMenusInspected": true,
+    "firstFrameOnly5": true,
+    "otherModes5_10_15": true,
+    "selected15FirstLastFrame": true,
+    "selected10ImageAudio": true,
+    "selected15VideoReference": true,
+    "historicalFirstLastFrameOnly5": true,
+    "modelTextTransform": "none",
+    "nativeFontPreserved": true
+  },
+  "validation": {
+    "frontendTests": 19,
+    "frontendTestFiles": 4,
+    "typecheck": true,
+    "routerTargetedPackages": [
+      "h3",
+      "codexexecution",
+      "bootstrap"
+    ],
+    "workerPollingDeadlineResumeTest": true,
+    "additionalGPUJobs": 0,
+    "longDurationProductEndToEndGPUJob": false,
+    "screenshotCaptured": false
+  },
+  "limitations": [
+    "Pure FIRST_FRAME long-duration modes remain unavailable.",
+    "Long-duration GPU evidence comes from the H3 service handoff; this product rollout verified menus, protocol mapping and offline recovery without another GPU job.",
+    "Full 15-second reference inputs, maximum reference counts and portrait output are not acceptance-tested.",
+    "FIFO scheduling unchanged; no queue position, ETA or fairness guarantee."
+  ]
+}

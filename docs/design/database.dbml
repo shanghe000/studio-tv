@@ -1,0 +1,1815 @@
+// GENERATED from isolated PostgreSQL 17 metadata; do not use as a migration.
+// 57 proposed tables + 10 existing tables. SQL remains authoritative.
+// Source sha256: 4c65921335be1744d6b8eaac1617de9b9c6428630b556c9cc7db12ecdb07c77b
+Project StudioTV {
+  database_type: 'PostgreSQL'
+  Note: '完整规划：57新增+10现有。MVP建议16新增。列/PK/FK来自实际DDL；触发器、生成列和条件索引以database.sql为准。'
+}
+
+Table public.asset_uploads {
+  id text [pk, not null]
+  asset_id text [not null]
+  owner_id text [not null]
+  grant_id text [not null]
+  expires_at "timestamp with time zone" [not null]
+  complete_deadline_at "timestamp with time zone" [not null]
+  uploaded_at "timestamp with time zone" [null]
+  object_etag text [null]
+  completed_at "timestamp with time zone" [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (asset_id) [name: 'asset_uploads_asset_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX asset_uploads_asset_id_key ON public.asset_uploads USING btree (asset_id)']
+  }
+}
+
+Table public.assets {
+  id text [pk, not null]
+  owner_id text [not null]
+  project_id text [not null]
+  file_name text [not null]
+  kind text [not null]
+  mime_type text [not null]
+  byte_size bigint [not null]
+  checksum_sha256 text [not null]
+  state text [not null, default: `'UPLOADING'::text`]
+  width integer [null]
+  height integer [null]
+  duration_seconds "double precision" [null]
+  rejection_code text [null]
+  storage_key text [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  blob_id text [null]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (id, owner_id) [name: 'studio_assets_id_owner_uq', unique, type: btree, note: 'CREATE UNIQUE INDEX studio_assets_id_owner_uq ON public.assets USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX assets_blob_idx ON public.assets USING btree (blob_id) WHERE (blob_id IS NOT NULL)
+  // Conditional/expression index: CREATE INDEX assets_owner_project ON public.assets USING btree (owner_id, project_id) WHERE (deleted_at IS NULL)
+  // assets_byte_size_check: CHECK (byte_size > 0)
+  // assets_kind_check: CHECK (kind = ANY (ARRAY['IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text]))
+  // assets_state_check: CHECK (state = ANY (ARRAY['UPLOADING'::text, 'PROCESSING'::text, 'READY'::text, 'REJECTED'::text, 'DELETED'::text]))
+}
+
+Table public.federated_identities {
+  issuer text [not null]
+  subject_id text [not null]
+  user_id text [not null]
+  provider text [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (issuer, subject_id) [name: 'federated_identities_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX federated_identities_pkey ON public.federated_identities USING btree (issuer, subject_id)']
+    (user_id, issuer) [name: 'federated_identities_user_id_issuer_key', unique, type: btree, note: 'CREATE UNIQUE INDEX federated_identities_user_id_issuer_key ON public.federated_identities USING btree (user_id, issuer)']
+  }
+  // federated_identities_provider_check: CHECK (provider = 'feishu'::text)
+}
+
+Table public.idempotency_keys {
+  owner_id text [not null]
+  operation text [not null]
+  key uuid [not null]
+  request_hash text [not null]
+  response_status integer [not null]
+  response_body jsonb [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (owner_id, operation, key) [name: 'idempotency_keys_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX idempotency_keys_pkey ON public.idempotency_keys USING btree (owner_id, operation, key)']
+  }
+}
+
+Table public.ipac_workspaces {
+  id text [pk, not null]
+  application_id text [not null]
+  ipac_project_id text [not null]
+  ipac_environment_id text [not null]
+  project_code text [not null]
+  project_name text [not null]
+  environment_code text [not null]
+  environment_name text [not null]
+  risk_level text [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '现有历史表，已停用；不参与业务权限；既有服务表，复用不重建'
+  indexes {
+    (application_id, ipac_project_id, ipac_environment_id) [name: 'ipac_workspaces_application_id_ipac_project_id_ipac_environ_key', unique, type: btree, note: 'CREATE UNIQUE INDEX ipac_workspaces_application_id_ipac_project_id_ipac_environ_key ON public.ipac_workspaces USING btree (application_id, ipac_project_id, ipac_environment_id)']
+  }
+  // SQL trigger: CREATE TRIGGER ipac_workspaces_immutable_scope BEFORE UPDATE OF application_id, ipac_project_id, ipac_environment_id ON ipac_workspaces FOR EACH ROW EXECUTE FUNCTION immutable_ipac_workspace_scope()
+}
+
+Table public.oidc_login_transactions {
+  token_hash text [pk, not null]
+  transaction jsonb [not null]
+  expires_at "timestamp with time zone" [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (expires_at) [name: 'oidc_transaction_expiry', type: btree, note: 'CREATE INDEX oidc_transaction_expiry ON public.oidc_login_transactions USING btree (expires_at)']
+  }
+}
+
+Table public.projects {
+  id text [pk, not null]
+  owner_id text [not null]
+  name text [not null]
+  cover_asset_id text [null]
+  pinned boolean [not null, default: `false`]
+  revision integer [not null, default: `1`]
+  graph jsonb [not null, default: `'{"edges": [], "nodes": [], "viewport": {"x": 0, "y": 0, "zoom": 1}, "schemaVersion": "1"}'::jsonb`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  workspace_id text [null]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (id, owner_id) [name: 'studio_projects_id_owner_uq', unique, type: btree, note: 'CREATE UNIQUE INDEX studio_projects_id_owner_uq ON public.projects USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX projects_owner_updated ON public.projects USING btree (owner_id, updated_at DESC) WHERE (deleted_at IS NULL)
+  // Conditional/expression index: CREATE INDEX projects_owner_workspace_updated ON public.projects USING btree (owner_id, workspace_id, updated_at DESC) WHERE (deleted_at IS NULL)
+  // projects_revision_check: CHECK (revision > 0)
+  // SQL trigger: CREATE TRIGGER projects_immutable_workspace BEFORE UPDATE OF workspace_id ON projects FOR EACH ROW EXECUTE FUNCTION immutable_project_workspace()
+}
+
+Table public.refresh_tokens {
+  token_hash text [pk, not null]
+  session_id text [not null]
+  expires_at "timestamp with time zone" [not null]
+  consumed_at "timestamp with time zone" [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (session_id) [name: 'refresh_session', type: btree, note: 'CREATE INDEX refresh_session ON public.refresh_tokens USING btree (session_id)']
+  }
+}
+
+Table public.sessions {
+  id text [pk, not null]
+  user_id text [not null]
+  expires_at "timestamp with time zone" [not null]
+  revoked_at "timestamp with time zone" [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  ipac_issuer text [null]
+  ipac_subject text [null]
+  ipac_session_id text [null]
+  ipac_session_version bigint [null]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (user_id) [name: 'sessions_user', type: btree, note: 'CREATE INDEX sessions_user ON public.sessions USING btree (user_id)']
+  }
+}
+
+Table public.users {
+  id text [pk, not null]
+  email text [not null]
+  password_hash text [null]
+  display_name text [not null]
+  locale text [not null, default: `'zh-CN'::text`]
+  preferences jsonb [not null, default: `'{}'::jsonb`]
+  disabled boolean [not null, default: `false`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  avatar_url text [null]
+  Note: '现有复用；既有服务表，复用不重建'
+  indexes {
+    (email) [name: 'users_email_key', unique, type: btree, note: 'CREATE UNIQUE INDEX users_email_key ON public.users USING btree (email)']
+  }
+  // studio_users_reserved_owner_ck: CHECK (id <> '@catalog'::text)
+}
+
+Table media.blob_uploads {
+  id text [pk, not null]
+  owner_id text [not null]
+  purpose text [not null]
+  resource_id text [null]
+  resource_owner_key text [null]
+  resource_kind text [null]
+  hf_project_id text [null]
+  blob_id text [not null]
+  file_name text [not null]
+  grant_id uuid [not null]
+  state text [not null, default: `'PENDING'::text`]
+  expires_at "timestamp with time zone" [not null]
+  complete_deadline_at "timestamp with time zone" [not null]
+  uploaded_at "timestamp with time zone" [null]
+  completed_at "timestamp with time zone" [null]
+  rejection_code text [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；Markdown、附件、字体等：purpose、可选 Skill/HF 归属、blob_id、grant/state/到期。'
+  indexes {
+    (id, owner_id, blob_id) [name: 'blob_uploads_id_owner_id_blob_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX blob_uploads_id_owner_id_blob_id_key ON media.blob_uploads USING btree (id, owner_id, blob_id)']
+    (owner_id, purpose, created_at, id) [name: 'blob_uploads_owner_purpose_idx', type: btree, note: 'CREATE INDEX blob_uploads_owner_purpose_idx ON media.blob_uploads USING btree (owner_id, purpose, created_at DESC, id)']
+  }
+  // Conditional/expression index: CREATE INDEX blob_uploads_expiry_idx ON media.blob_uploads USING btree (complete_deadline_at) WHERE (state = ANY (ARRAY['PENDING'::text, 'UPLOADED'::text]))
+  // blob_uploads_check: CHECK (complete_deadline_at >= expires_at)
+  // blob_uploads_check1: CHECK (purpose = 'SKILL'::text AND hf_project_id IS NULL AND (resource_id IS NULL OR resource_owner_key = owner_id AND resource_kind = 'SKILL'::text) OR purpose = 'HF'::text AND hf_project_id IS NOT NULL AND resource_id IS NULL)
+  // blob_uploads_check2: CHECK (state <> 'READY'::text OR completed_at IS NOT NULL)
+  // blob_uploads_file_name_check: CHECK (char_length(file_name) >= 1 AND char_length(file_name) <= 255)
+  // blob_uploads_purpose_check: CHECK (purpose = ANY (ARRAY['SKILL'::text, 'HF'::text]))
+  // blob_uploads_state_check: CHECK (state = ANY (ARRAY['PENDING'::text, 'UPLOADED'::text, 'READY'::text, 'REJECTED'::text, 'EXPIRED'::text]))
+  // SQL trigger: CREATE TRIGGER blob_uploads_owner_guard BEFORE UPDATE ON media.blob_uploads FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'purpose', 'hf_project_id', 'blob_id', 'file_name')
+}
+
+Table media.blobs {
+  id text [pk, not null]
+  owner_id text [null]
+  owner_key text [null, note: 'GENERATED ALWAYS AS (COALESCE(owner_id, \'@catalog\'::text)) STORED']
+  scope text [not null]
+  backend text [not null, default: `'LOCAL'::text`]
+  bucket text [not null, default: `''::text`]
+  object_key text [not null]
+  object_version text [not null, default: `''::text`]
+  mime_type text [not null]
+  byte_size bigint [not null]
+  checksum_sha256 text [not null]
+  state text [not null, default: `'STAGING'::text`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  verified_at "timestamp with time zone" [null]
+  deleted_at "timestamp with time zone" [null]
+  Note: '建议首期新增；物理对象目录：scope、owner_key、backend/bucket/object_key/version、MIME/大小/SHA256、state。'
+  indexes {
+    (backend, bucket, object_key, object_version) [name: 'blobs_backend_bucket_object_key_object_version_key', unique, type: btree, note: 'CREATE UNIQUE INDEX blobs_backend_bucket_object_key_object_version_key ON media.blobs USING btree (backend, bucket, object_key, object_version)']
+    (id, owner_key) [name: 'blobs_id_owner_key_key', unique, type: btree, note: 'CREATE UNIQUE INDEX blobs_id_owner_key_key ON media.blobs USING btree (id, owner_key)']
+  }
+  // Conditional/expression index: CREATE INDEX blobs_owner_created_idx ON media.blobs USING btree (owner_key, created_at DESC, id) WHERE (deleted_at IS NULL)
+  // blobs_backend_check: CHECK (backend = ANY (ARRAY['LOCAL'::text, 'S3'::text]))
+  // blobs_byte_size_check: CHECK (byte_size > 0)
+  // blobs_check: CHECK (scope = 'PRIVATE'::text AND owner_id IS NOT NULL OR scope = 'CURATED'::text AND owner_id IS NULL)
+  // blobs_check1: CHECK (state = 'READY'::text AND verified_at IS NOT NULL OR state <> 'READY'::text)
+  // blobs_checksum_sha256_check: CHECK (checksum_sha256 ~ '^[a-f0-9]{64}$'::text)
+  // blobs_scope_check: CHECK (scope = ANY (ARRAY['PRIVATE'::text, 'CURATED'::text]))
+  // blobs_state_check: CHECK (state = ANY (ARRAY['STAGING'::text, 'READY'::text, 'REJECTED'::text, 'DELETED'::text]))
+  // SQL trigger: CREATE TRIGGER blobs_owner_guard BEFORE UPDATE ON media.blobs FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'scope')
+  // SQL trigger: CREATE TRIGGER blobs_verified_guard BEFORE UPDATE ON media.blobs FOR EACH ROW EXECUTE FUNCTION media.guard_verified_blob()
+}
+
+Table media.model_assets {
+  id text [pk, not null]
+  owner_id text [not null]
+  project_id text [null]
+  name text [not null]
+  format text [not null]
+  entrypoint text [not null]
+  preview_asset_id text [null]
+  state text [not null, default: `'UPLOADING'::text`]
+  byte_size bigint [not null, default: `0`]
+  revision bigint [not null, default: `1`]
+  rejection_code text [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；独立 3D bundle：name、format、entrypoint、preview_asset_id、state/revision、可选来源 project。'
+  indexes {
+    (id, owner_id) [name: 'model_assets_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX model_assets_id_owner_id_key ON media.model_assets USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX model_assets_owner_project_idx ON media.model_assets USING btree (owner_id, project_id, created_at DESC, id) WHERE (deleted_at IS NULL)
+  // model_assets_byte_size_check: CHECK (byte_size >= 0)
+  // model_assets_entrypoint_check: CHECK (platform.valid_relative_path(entrypoint))
+  // model_assets_format_check: CHECK (format = ANY (ARRAY['GLB'::text, 'GLTF'::text, 'OBJ'::text, 'FBX'::text, 'SPZ'::text, 'PLY'::text, 'SPLAT'::text]))
+  // model_assets_name_check: CHECK (char_length(name) >= 1 AND char_length(name) <= 255)
+  // model_assets_revision_check: CHECK (revision > 0)
+  // model_assets_state_check: CHECK (state = ANY (ARRAY['UPLOADING'::text, 'PROCESSING'::text, 'READY'::text, 'REJECTED'::text, 'DELETED'::text]))
+  // SQL trigger: CREATE TRIGGER model_assets_owner_guard BEFORE UPDATE ON media.model_assets FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id')
+}
+
+Table media.model_files {
+  model_asset_id text [not null]
+  owner_id text [not null]
+  path text [not null]
+  mime_type text [not null]
+  byte_size bigint [not null]
+  checksum_sha256 text [not null]
+  blob_id text [null]
+  state text [not null, default: `'PENDING'::text`]
+  Note: '完整蓝图，建议后续；bundle 子文件：path、预期大小/SHA256、blob_id、验证状态。'
+  indexes {
+    (model_asset_id, path) [name: 'model_files_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX model_files_pkey ON media.model_files USING btree (model_asset_id, path)']
+  }
+  // Conditional/expression index: CREATE INDEX model_files_blob_idx ON media.model_files USING btree (blob_id) WHERE (blob_id IS NOT NULL)
+  // model_files_byte_size_check: CHECK (byte_size > 0)
+  // model_files_check: CHECK (state <> 'READY'::text OR blob_id IS NOT NULL)
+  // model_files_checksum_sha256_check: CHECK (checksum_sha256 ~ '^[a-f0-9]{64}$'::text)
+  // model_files_path_check: CHECK (platform.valid_relative_path(path))
+  // model_files_state_check: CHECK (state = ANY (ARRAY['PENDING'::text, 'READY'::text, 'REJECTED'::text]))
+}
+
+Table media.model_uploads {
+  id text [pk, not null]
+  model_asset_id text [not null]
+  owner_id text [not null]
+  grant_id uuid [not null]
+  expires_at "timestamp with time zone" [not null]
+  complete_deadline_at "timestamp with time zone" [not null]
+  completed_at "timestamp with time zone" [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；bundle 上传凭据：grant_id、expiry/deadline、completed_at。'
+  indexes {
+    (model_asset_id) [name: 'model_uploads_model_asset_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX model_uploads_model_asset_id_key ON media.model_uploads USING btree (model_asset_id)']
+  }
+  // Conditional/expression index: CREATE INDEX model_uploads_expiry_idx ON media.model_uploads USING btree (complete_deadline_at) WHERE (completed_at IS NULL)
+  // model_uploads_check: CHECK (complete_deadline_at >= expires_at)
+}
+
+Table canvas.media_refs {
+  id text [pk, not null]
+  project_id text [not null]
+  owner_id text [not null]
+  node_key text [not null, default: `''::text`]
+  ref_kind text [not null]
+  asset_id text [null]
+  model_asset_id text [null]
+  Note: '建议首期新增；快照/封面媒体引用投影：project、node_key、ref_kind、asset_id 或 model_asset_id。'
+  // Conditional/expression index: CREATE INDEX canvas_media_asset_reverse_idx ON canvas.media_refs USING btree (asset_id) WHERE (asset_id IS NOT NULL)
+  // Conditional/expression index: CREATE UNIQUE INDEX canvas_media_asset_uq ON canvas.media_refs USING btree (project_id, node_key, ref_kind, asset_id) WHERE (asset_id IS NOT NULL)
+  // Conditional/expression index: CREATE INDEX canvas_media_model_reverse_idx ON canvas.media_refs USING btree (model_asset_id) WHERE (model_asset_id IS NOT NULL)
+  // Conditional/expression index: CREATE UNIQUE INDEX canvas_media_model_uq ON canvas.media_refs USING btree (project_id, node_key, ref_kind, model_asset_id) WHERE (model_asset_id IS NOT NULL)
+  // media_refs_check: CHECK (num_nonnulls(asset_id, model_asset_id) = 1)
+  // media_refs_check1: CHECK (ref_kind = 'NODE'::text AND node_key <> ''::text OR ref_kind = 'COVER'::text AND node_key = ''::text AND asset_id IS NOT NULL)
+  // media_refs_ref_kind_check: CHECK (ref_kind = ANY (ARRAY['NODE'::text, 'COVER'::text]))
+}
+
+Table canvas.tag_sets {
+  owner_id text [pk, not null]
+  revision bigint [not null, default: `1`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '建议首期新增；用户标签聚合头：owner、revision。'
+  // tag_sets_revision_check: CHECK (revision > 0)
+}
+
+Table canvas.tags {
+  id text [pk, not null]
+  owner_id text [not null]
+  name text [not null]
+  color text [not null]
+  sort_order integer [not null, default: `0`]
+  enabled boolean [not null, default: `true`]
+  revision bigint [not null, default: `1`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '建议首期新增；name/color/sort_order/enabled/revision；节点内只保存 tag IDs。'
+  indexes {
+    (id, owner_id) [name: 'tags_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX tags_id_owner_id_key ON canvas.tags USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX tags_owner_sort_idx ON canvas.tags USING btree (owner_id, sort_order, id) WHERE (deleted_at IS NULL)
+  // tags_color_check: CHECK (color ~ '^#[a-fA-F0-9]{6}$'::text)
+  // tags_name_check: CHECK (char_length(name) >= 1 AND char_length(name) <= 100)
+  // tags_revision_check: CHECK (revision > 0)
+  // tags_sort_order_check: CHECK (sort_order >= 0)
+}
+
+Table catalog.app_versions {
+  resource_id text [not null]
+  owner_key text [not null]
+  resource_kind text [not null, default: `'AI_APP'::text`]
+  version text [not null]
+  workflow_id text [not null]
+  workflow_version text [not null]
+  workflow_owner_key text [not null]
+  inputs_schema jsonb [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；固定 workflow_id/version/owner_key，inputs_schema 数组。'
+  indexes {
+    (resource_id, version) [name: 'app_versions_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX app_versions_pkey ON catalog.app_versions USING btree (resource_id, version)']
+    (resource_id, version, owner_key) [name: 'app_versions_resource_id_version_owner_key_key', unique, type: btree, note: 'CREATE UNIQUE INDEX app_versions_resource_id_version_owner_key_key ON catalog.app_versions USING btree (resource_id, version, owner_key)']
+  }
+  // app_versions_check: CHECK (workflow_owner_key = owner_key OR workflow_owner_key = '@catalog'::text)
+  // app_versions_inputs_schema_check: CHECK (jsonb_typeof(inputs_schema) = 'array'::text)
+  // app_versions_resource_kind_check: CHECK (resource_kind = 'AI_APP'::text)
+  // SQL trigger: CREATE TRIGGER app_versions_immutable BEFORE DELETE OR UPDATE ON catalog.app_versions FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table catalog.categories {
+  id text [pk, not null]
+  namespace text [not null]
+  node_role text [not null, default: `'CATEGORY'::text`]
+  code text [not null]
+  parent_id text [null]
+  name_localized jsonb [not null]
+  scope text [null]
+  menu_type text [null]
+  ui_type text [null]
+  sort_order integer [not null, default: `0`]
+  enabled boolean [not null, default: `true`]
+  Note: '建议首期新增；字典树：namespace、node_role、code、parent、名称、scope/menu/ui_type。'
+  indexes {
+    (id, namespace) [name: 'categories_id_namespace_key', unique, type: btree, note: 'CREATE UNIQUE INDEX categories_id_namespace_key ON catalog.categories USING btree (id, namespace)']
+    (id, namespace, node_role) [name: 'categories_id_namespace_node_role_key', unique, type: btree, note: 'CREATE UNIQUE INDEX categories_id_namespace_node_role_key ON catalog.categories USING btree (id, namespace, node_role)']
+    (namespace, node_role, code) [name: 'categories_namespace_node_role_code_key', unique, type: btree, note: 'CREATE UNIQUE INDEX categories_namespace_node_role_code_key ON catalog.categories USING btree (namespace, node_role, code)']
+    (namespace, parent_id, sort_order, id) [name: 'categories_parent_sort_idx', type: btree, note: 'CREATE INDEX categories_parent_sort_idx ON catalog.categories USING btree (namespace, parent_id, sort_order, id)']
+  }
+  // categories_check: CHECK (parent_id IS NULL OR parent_id <> id)
+  // categories_check1: CHECK (ui_type IS NULL OR namespace = 'CHARACTER_FILTER'::text)
+  // categories_name_localized_check: CHECK (jsonb_typeof(name_localized) = 'object'::text)
+  // categories_namespace_check: CHECK (namespace = ANY (ARRAY['CHARACTER_FILTER'::text, 'WORKFLOW'::text, 'PROMPT'::text, 'SKILL'::text, 'APP_TAG'::text, 'DIRECTOR_MODEL'::text, 'ANIMATION'::text]))
+  // categories_node_role_check: CHECK (node_role = ANY (ARRAY['GROUP'::text, 'CATEGORY'::text]))
+  // categories_scope_check: CHECK (scope = ANY (ARRAY['IMAGE'::text, 'VIDEO'::text]))
+  // categories_ui_type_check: CHECK (ui_type = ANY (ARRAY['TAB'::text, 'COLOR'::text, 'DROPDOWN'::text]))
+  // SQL trigger: CREATE TRIGGER categories_tree_guard BEFORE INSERT OR UPDATE ON catalog.categories FOR EACH ROW EXECUTE FUNCTION catalog.guard_category_tree()
+}
+
+Table catalog.character_attributes {
+  character_id text [not null]
+  character_owner_key text [not null]
+  category_id text [not null]
+  option_code text [not null]
+  Note: '建议首期新增；角色的 category/option 关系，不藏进 JSONB。'
+  indexes {
+    (category_id, option_code, character_id) [name: 'character_attributes_filter_idx', type: btree, note: 'CREATE INDEX character_attributes_filter_idx ON catalog.character_attributes USING btree (category_id, option_code, character_id)']
+    (character_id, category_id, option_code) [name: 'character_attributes_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX character_attributes_pkey ON catalog.character_attributes USING btree (character_id, category_id, option_code)']
+  }
+}
+
+Table catalog.character_favorites {
+  owner_id text [not null]
+  character_id text [not null]
+  character_owner_key text [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '建议首期新增；本人收藏角色，重复添加/取消幂等。'
+  indexes {
+    (owner_id, character_id) [name: 'character_favorites_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX character_favorites_pkey ON catalog.character_favorites USING btree (owner_id, character_id)']
+    (owner_id, created_at, character_id) [name: 'character_favorites_recent_idx', type: btree, note: 'CREATE INDEX character_favorites_recent_idx ON catalog.character_favorites USING btree (owner_id, created_at DESC, character_id)']
+  }
+  // character_favorites_check: CHECK (character_owner_key = owner_id OR character_owner_key = '@catalog'::text)
+}
+
+Table catalog.character_images {
+  id text [pk, not null]
+  character_id text [not null]
+  character_owner_key text [not null]
+  name text [not null]
+  image_type text [not null]
+  catalog_media_id text [null]
+  asset_id text [null]
+  sort_order integer [not null, default: `0`]
+  Note: '建议首期新增；三视图：name/image_type/sort_order；curated media 或本人 asset。'
+  indexes {
+    (character_id, sort_order, id) [name: 'character_images_order_idx', type: btree, note: 'CREATE INDEX character_images_order_idx ON catalog.character_images USING btree (character_id, sort_order, id)']
+  }
+  // character_images_check: CHECK (num_nonnulls(catalog_media_id, asset_id) = 1)
+  // character_images_image_type_check: CHECK (image_type = ANY (ARRAY['closeUp'::text, 'fullBody'::text, 'multiView'::text, 'other'::text]))
+}
+
+Table catalog.characters {
+  id text [pk, not null]
+  owner_id text [null]
+  owner_key text [null, note: 'GENERATED ALWAYS AS (COALESCE(owner_id, \'@catalog\'::text)) STORED']
+  scope text [not null, default: `'CURATED'::text`]
+  name_localized jsonb [not null]
+  description_localized jsonb [not null, default: `'{}'::jsonb`]
+  search_text text [not null, default: `''::text`]
+  version text [not null]
+  revision bigint [not null, default: `1`]
+  sort_order integer [not null, default: `0`]
+  status text [not null, default: `'ACTIVE'::text`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '建议首期新增；公共角色根：scope/owner_key、名称/描述、search_text、version/revision、状态/顺序。'
+  indexes {
+    (id, owner_key) [name: 'characters_id_owner_key_key', unique, type: btree, note: 'CREATE UNIQUE INDEX characters_id_owner_key_key ON catalog.characters USING btree (id, owner_key)']
+  }
+  // Conditional/expression index: CREATE INDEX characters_scope_sort_idx ON catalog.characters USING btree (scope, status, sort_order, id) WHERE (deleted_at IS NULL)
+  // characters_check: CHECK (scope = 'PRIVATE'::text AND owner_id IS NOT NULL OR scope = 'CURATED'::text AND owner_id IS NULL)
+  // characters_description_localized_check: CHECK (jsonb_typeof(description_localized) = 'object'::text)
+  // characters_name_localized_check: CHECK (jsonb_typeof(name_localized) = 'object'::text)
+  // characters_revision_check: CHECK (revision > 0)
+  // characters_scope_check: CHECK (scope = ANY (ARRAY['CURATED'::text, 'PRIVATE'::text]))
+  // characters_status_check: CHECK (status = ANY (ARRAY['DRAFT'::text, 'ACTIVE'::text, 'RETIRED'::text]))
+  // SQL trigger: CREATE TRIGGER characters_owner_guard BEFORE UPDATE ON catalog.characters FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'scope')
+}
+
+Table catalog.filter_options {
+  category_id text [not null]
+  category_namespace text [not null, default: `'CHARACTER_FILTER'::text`]
+  category_node_role text [not null, default: `'CATEGORY'::text`]
+  code text [not null]
+  name_localized jsonb [not null]
+  color_value text [null]
+  sort_order integer [not null, default: `0`]
+  filter_only boolean [not null, default: `false`]
+  enabled boolean [not null, default: `true`]
+  Note: '建议首期新增；角色筛选项：category、code、名称、颜色、顺序/filter_only。'
+  indexes {
+    (category_id, code) [name: 'filter_options_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX filter_options_pkey ON catalog.filter_options USING btree (category_id, code)']
+  }
+  // filter_options_category_namespace_check: CHECK (category_namespace = 'CHARACTER_FILTER'::text)
+  // filter_options_category_node_role_check: CHECK (category_node_role = 'CATEGORY'::text)
+  // filter_options_code_check: CHECK (code <> 'all'::text)
+  // filter_options_color_value_check: CHECK (color_value IS NULL OR color_value ~ '^#[a-fA-F0-9]{6}$'::text)
+  // filter_options_name_localized_check: CHECK (jsonb_typeof(name_localized) = 'object'::text)
+}
+
+Table catalog.media {
+  id text [pk, not null]
+  blob_id text [not null]
+  blob_owner_key text [not null, default: `'@catalog'::text`]
+  kind text [not null]
+  title text [not null, default: `''::text`]
+  width integer [null]
+  height integer [null]
+  duration_ms bigint [null]
+  metadata jsonb [not null, default: `'{}'::jsonb`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '建议首期新增；受控公司目录文件：curated Blob、kind、尺寸/时长、metadata。'
+  indexes {
+    (blob_id) [name: 'catalog_media_blob_idx', type: btree, note: 'CREATE INDEX catalog_media_blob_idx ON catalog.media USING btree (blob_id)']
+  }
+  // media_blob_owner_key_check: CHECK (blob_owner_key = '@catalog'::text)
+  // media_duration_ms_check: CHECK (duration_ms >= 0)
+  // media_height_check: CHECK (height > 0)
+  // media_kind_check: CHECK (kind = ANY (ARRAY['IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text, 'MODEL_3D'::text, 'DOCUMENT'::text, 'FONT'::text, 'ANIMATION'::text]))
+  // media_metadata_check: CHECK (jsonb_typeof(metadata) = 'object'::text)
+  // media_width_check: CHECK (width > 0)
+}
+
+Table catalog.model_capabilities {
+  id text [pk, not null]
+  model_id text [not null]
+  node_type text [not null]
+  active_version text [not null]
+  available boolean [not null, default: `false`]
+  unavailable_reason text [null]
+  sort_order integer [not null, default: `0`]
+  Note: '完整蓝图，建议后续；model+node_type 能力：active_version、available/reason、顺序。'
+  indexes {
+    (model_id, node_type) [name: 'model_capabilities_model_id_node_type_key', unique, type: btree, note: 'CREATE UNIQUE INDEX model_capabilities_model_id_node_type_key ON catalog.model_capabilities USING btree (model_id, node_type)']
+    (node_type, available, sort_order, id) [name: 'model_capabilities_type_idx', type: btree, note: 'CREATE INDEX model_capabilities_type_idx ON catalog.model_capabilities USING btree (node_type, available, sort_order, id)']
+  }
+}
+
+Table catalog.model_group_members {
+  group_id text [not null]
+  capability_id text [not null]
+  sort_order integer [not null, default: `0`]
+  Note: '完整蓝图，建议后续；家族与模型能力的有序关系。'
+  indexes {
+    (group_id, capability_id) [name: 'model_group_members_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX model_group_members_pkey ON catalog.model_group_members USING btree (group_id, capability_id)']
+  }
+}
+
+Table catalog.model_groups {
+  id text [pk, not null]
+  parent_id text [null]
+  code text [not null]
+  name_localized jsonb [not null]
+  icon_media_id text [null]
+  sort_order integer [not null, default: `0`]
+  Note: '完整蓝图，建议后续；模型家族树：parent/code/名称/顺序。'
+  indexes {
+    (code) [name: 'model_groups_code_key', unique, type: btree, note: 'CREATE UNIQUE INDEX model_groups_code_key ON catalog.model_groups USING btree (code)']
+    (parent_id, sort_order, id) [name: 'model_groups_parent_idx', type: btree, note: 'CREATE INDEX model_groups_parent_idx ON catalog.model_groups USING btree (parent_id, sort_order, id)']
+  }
+  // model_groups_check: CHECK (parent_id IS NULL OR parent_id <> id)
+  // model_groups_name_localized_check: CHECK (jsonb_typeof(name_localized) = 'object'::text)
+  // SQL trigger: CREATE TRIGGER model_groups_tree_guard BEFORE INSERT OR UPDATE ON catalog.model_groups FOR EACH ROW EXECUTE FUNCTION catalog.guard_model_group_tree()
+}
+
+Table catalog.model_versions {
+  capability_id text [not null]
+  version text [not null]
+  parameter_schema jsonb [not null]
+  ui_config jsonb [not null]
+  default_params jsonb [not null, default: `'{}'::jsonb`]
+  input_requirements jsonb [not null, default: `'[]'::jsonb`]
+  output_types jsonb [not null, default: `'[]'::jsonb`]
+  generate_counts "integer[]" [not null, default: `ARRAY[1]`]
+  executor_key text [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；parameter_schema、原 UI config、defaults、inputs、outputs、generate_counts、executor_key。'
+  indexes {
+    (capability_id, version) [name: 'model_versions_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX model_versions_pkey ON catalog.model_versions USING btree (capability_id, version)']
+  }
+  // model_versions_default_params_check: CHECK (jsonb_typeof(default_params) = 'object'::text)
+  // model_versions_generate_counts_check: CHECK (cardinality(generate_counts) >= 1 AND cardinality(generate_counts) <= 32 AND (0 < ALL (generate_counts)))
+  // model_versions_input_requirements_check: CHECK (jsonb_typeof(input_requirements) = 'array'::text)
+  // model_versions_output_types_check: CHECK (jsonb_typeof(output_types) = 'array'::text)
+  // model_versions_parameter_schema_check: CHECK (jsonb_typeof(parameter_schema) = 'object'::text)
+  // model_versions_ui_config_check: CHECK (jsonb_typeof(ui_config) = 'array'::text)
+  // SQL trigger: CREATE TRIGGER model_versions_immutable BEFORE DELETE OR UPDATE ON catalog.model_versions FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table catalog.models {
+  id text [pk, not null]
+  code text [not null]
+  name_localized jsonb [not null]
+  description_localized jsonb [not null, default: `'{}'::jsonb`]
+  icon_media_id text [null]
+  provider_key text [null]
+  status text [not null, default: `'DRAFT'::text`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；稳定 model code、名称、描述、icon、服务端 provider_key、目录状态。'
+  indexes {
+    (code) [name: 'models_code_key', unique, type: btree, note: 'CREATE UNIQUE INDEX models_code_key ON catalog.models USING btree (code)']
+  }
+  // models_description_localized_check: CHECK (jsonb_typeof(description_localized) = 'object'::text)
+  // models_name_localized_check: CHECK (jsonb_typeof(name_localized) = 'object'::text)
+  // models_status_check: CHECK (status = ANY (ARRAY['DRAFT'::text, 'ACTIVE'::text, 'RETIRED'::text]))
+}
+
+Table catalog.prompt_versions {
+  resource_id text [not null]
+  owner_key text [not null]
+  resource_kind text [not null]
+  version text [not null]
+  target_type text [not null]
+  prompt_code text [null]
+  prefix_prompt text [not null, default: `''::text`]
+  suffix_prompt text [not null, default: `''::text`]
+  hidden_content boolean [not null, default: `false`]
+  reference_media_id text [null]
+  reference_asset_id text [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；target_type、prompt_code、prefix/suffix、hidden_content、参考媒体。'
+  indexes {
+    (resource_id, version) [name: 'prompt_versions_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX prompt_versions_pkey ON catalog.prompt_versions USING btree (resource_id, version)']
+  }
+  // prompt_versions_check: CHECK (num_nonnulls(reference_media_id, reference_asset_id) <= 1)
+  // prompt_versions_resource_kind_check: CHECK (resource_kind = ANY (ARRAY['PROMPT'::text, 'STYLE'::text]))
+  // prompt_versions_target_type_check: CHECK (target_type = ANY (ARRAY['IMAGE'::text, 'VIDEO'::text, 'TEXT'::text]))
+  // SQL trigger: CREATE TRIGGER prompt_versions_immutable BEFORE DELETE OR UPDATE ON catalog.prompt_versions FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table catalog.resource_category_links {
+  resource_id text [not null]
+  category_id text [not null]
+  Note: '完整蓝图，建议后续；App 多标签等资源分类关系。'
+  indexes {
+    (resource_id, category_id) [name: 'resource_category_links_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX resource_category_links_pkey ON catalog.resource_category_links USING btree (resource_id, category_id)']
+    (category_id, resource_id) [name: 'resource_category_reverse_idx', type: btree, note: 'CREATE INDEX resource_category_reverse_idx ON catalog.resource_category_links USING btree (category_id, resource_id)']
+  }
+}
+
+Table catalog.resource_user_states {
+  owner_id text [not null]
+  resource_id text [not null]
+  resource_owner_key text [not null]
+  favorited boolean [not null, default: `false`]
+  favorited_at "timestamp with time zone" [null]
+  usage_count bigint [not null, default: `0`]
+  last_used_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；资源收藏与最近使用：favorited/at、usage_count、last_used_at。'
+  indexes {
+    (owner_id, resource_id) [name: 'resource_user_states_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX resource_user_states_pkey ON catalog.resource_user_states USING btree (owner_id, resource_id)']
+  }
+  // Conditional/expression index: CREATE INDEX resource_user_favorites_idx ON catalog.resource_user_states USING btree (owner_id, favorited_at DESC, resource_id) WHERE favorited
+  // Conditional/expression index: CREATE INDEX resource_user_recent_idx ON catalog.resource_user_states USING btree (owner_id, last_used_at DESC, resource_id) WHERE (last_used_at IS NOT NULL)
+  // resource_user_states_check: CHECK (resource_owner_key = owner_id OR resource_owner_key = '@catalog'::text)
+  // resource_user_states_check1: CHECK (NOT favorited OR favorited_at IS NOT NULL)
+  // resource_user_states_usage_count_check: CHECK (usage_count >= 0)
+}
+
+Table catalog.resources {
+  id text [pk, not null]
+  kind text [not null]
+  owner_id text [null]
+  owner_key text [null, note: 'GENERATED ALWAYS AS (COALESCE(owner_id, \'@catalog\'::text)) STORED']
+  scope text [not null]
+  name_localized jsonb [not null]
+  description_localized jsonb [not null, default: `'{}'::jsonb`]
+  search_text text [not null, default: `''::text`]
+  cover_media_id text [null]
+  cover_asset_id text [null]
+  category_id text [null]
+  active_version text [not null]
+  revision bigint [not null, default: `1`]
+  recommended boolean [not null, default: `false`]
+  status text [not null, default: `'DRAFT'::text`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；Workflow/Prompt/Style/Skill/App/Voice 共用身份登记：kind、scope/owner_key、名称、封面、active_version/revision。'
+  indexes {
+    (id, owner_key) [name: 'resources_id_owner_key_key', unique, type: btree, note: 'CREATE UNIQUE INDEX resources_id_owner_key_key ON catalog.resources USING btree (id, owner_key)']
+    (id, owner_key, kind) [name: 'resources_id_owner_key_kind_key', unique, type: btree, note: 'CREATE UNIQUE INDEX resources_id_owner_key_kind_key ON catalog.resources USING btree (id, owner_key, kind)']
+  }
+  // Conditional/expression index: CREATE INDEX resources_category_idx ON catalog.resources USING btree (category_id, kind, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // Conditional/expression index: CREATE INDEX resources_owner_kind_idx ON catalog.resources USING btree (owner_key, kind, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // Conditional/expression index: CREATE INDEX resources_scope_kind_idx ON catalog.resources USING btree (scope, kind, status, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // resources_check: CHECK (num_nonnulls(cover_media_id, cover_asset_id) <= 1)
+  // resources_check1: CHECK (scope = 'PRIVATE'::text AND owner_id IS NOT NULL OR scope = 'CURATED'::text AND owner_id IS NULL)
+  // resources_description_localized_check: CHECK (jsonb_typeof(description_localized) = 'object'::text)
+  // resources_kind_check: CHECK (kind = ANY (ARRAY['WORKFLOW'::text, 'PROMPT'::text, 'STYLE'::text, 'SKILL'::text, 'AI_APP'::text, 'VOICE'::text]))
+  // resources_name_localized_check: CHECK (jsonb_typeof(name_localized) = 'object'::text)
+  // resources_revision_check: CHECK (revision > 0)
+  // resources_scope_check: CHECK (scope = ANY (ARRAY['PRIVATE'::text, 'CURATED'::text]))
+  // resources_status_check: CHECK (status = ANY (ARRAY['DRAFT'::text, 'ACTIVE'::text, 'RETIRED'::text]))
+  // SQL trigger: CREATE CONSTRAINT TRIGGER resources_active_version_fk AFTER INSERT OR UPDATE ON catalog.resources DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION catalog.verify_resource_version()
+  // SQL trigger: CREATE TRIGGER resources_owner_guard BEFORE UPDATE ON catalog.resources FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'scope', 'kind')
+}
+
+Table catalog.skill_files {
+  skill_id text [not null]
+  skill_version text [not null]
+  owner_key text [not null]
+  path text [not null]
+  file_type text [not null]
+  primary_file boolean [not null, default: `false`]
+  blob_id text [not null]
+  upload_id text [null]
+  Note: '完整蓝图，建议后续；version 内 path/type/primary、blob_id/upload_id；Markdown 与附件。'
+  indexes {
+    (blob_id) [name: 'skill_files_blob_idx', type: btree, note: 'CREATE INDEX skill_files_blob_idx ON catalog.skill_files USING btree (blob_id)']
+    (skill_id, skill_version, path) [name: 'skill_files_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX skill_files_pkey ON catalog.skill_files USING btree (skill_id, skill_version, path)']
+  }
+  // Conditional/expression index: CREATE UNIQUE INDEX skill_files_primary_uq ON catalog.skill_files USING btree (skill_id, skill_version) WHERE primary_file
+  // skill_files_path_check: CHECK (platform.valid_relative_path(path))
+  // SQL trigger: CREATE TRIGGER skill_files_immutable BEFORE DELETE OR UPDATE ON catalog.skill_files FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table catalog.skill_versions {
+  resource_id text [not null]
+  owner_key text [not null]
+  resource_kind text [not null, default: `'SKILL'::text`]
+  version text [not null]
+  scenario text [not null, default: `''::text`]
+  guide text [not null, default: `''::text`]
+  output_description text [not null, default: `''::text`]
+  preset_prompt text [not null, default: `''::text`]
+  output_type text [not null]
+  output_samples jsonb [not null, default: `'[]'::jsonb`]
+  sub_options jsonb [not null, default: `'[]'::jsonb`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；scenario/guide/preset、输出类型、samples/sub_options。'
+  indexes {
+    (resource_id, version) [name: 'skill_versions_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX skill_versions_pkey ON catalog.skill_versions USING btree (resource_id, version)']
+    (resource_id, version, owner_key) [name: 'skill_versions_resource_id_version_owner_key_key', unique, type: btree, note: 'CREATE UNIQUE INDEX skill_versions_resource_id_version_owner_key_key ON catalog.skill_versions USING btree (resource_id, version, owner_key)']
+  }
+  // skill_versions_output_samples_check: CHECK (jsonb_typeof(output_samples) = 'array'::text)
+  // skill_versions_output_type_check: CHECK (output_type = ANY (ARRAY['TEXT'::text, 'IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text, 'WORLD_3D'::text, 'MODEL_3D'::text, 'STRUCTURED'::text]))
+  // skill_versions_resource_kind_check: CHECK (resource_kind = 'SKILL'::text)
+  // skill_versions_sub_options_check: CHECK (jsonb_typeof(sub_options) = 'array'::text)
+  // SQL trigger: CREATE TRIGGER skill_versions_immutable BEFORE DELETE OR UPDATE ON catalog.skill_versions FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table catalog.voice_versions {
+  resource_id text [not null]
+  owner_key text [not null]
+  resource_kind text [not null, default: `'VOICE'::text`]
+  version text [not null]
+  capability_id text [null]
+  provider_voice_code text [not null]
+  gender text [not null]
+  language_codes "text[]" [not null, default: `'{}'::text[]`]
+  dialect_codes "text[]" [not null, default: `'{}'::text[]`]
+  scene_codes "text[]" [not null, default: `'{}'::text[]`]
+  preview_media_id text [null]
+  metadata jsonb [not null, default: `'{}'::jsonb`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；provider_voice_code、capability、gender、语言/方言/场景、preview/metadata。'
+  indexes {
+    (language_codes) [name: 'voice_versions_languages_idx', note: 'CREATE INDEX voice_versions_languages_idx ON catalog.voice_versions USING gin (language_codes)']
+    (resource_id, version) [name: 'voice_versions_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX voice_versions_pkey ON catalog.voice_versions USING btree (resource_id, version)']
+    (scene_codes) [name: 'voice_versions_scenes_idx', note: 'CREATE INDEX voice_versions_scenes_idx ON catalog.voice_versions USING gin (scene_codes)']
+  }
+  // voice_versions_gender_check: CHECK (gender = ANY (ARRAY['FEMALE'::text, 'MALE'::text, 'UNKNOWN'::text]))
+  // voice_versions_metadata_check: CHECK (jsonb_typeof(metadata) = 'object'::text)
+  // voice_versions_resource_kind_check: CHECK (resource_kind = 'VOICE'::text)
+  // SQL trigger: CREATE TRIGGER voice_versions_immutable BEFORE DELETE OR UPDATE ON catalog.voice_versions FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table catalog.workflow_versions {
+  resource_id text [not null]
+  owner_key text [not null]
+  resource_kind text [not null, default: `'WORKFLOW'::text`]
+  version text [not null]
+  graph jsonb [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；immutable graph；由 Workflow 聚合写入。'
+  indexes {
+    (resource_id, version) [name: 'workflow_versions_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX workflow_versions_pkey ON catalog.workflow_versions USING btree (resource_id, version)']
+    (resource_id, version, owner_key) [name: 'workflow_versions_resource_id_version_owner_key_key', unique, type: btree, note: 'CREATE UNIQUE INDEX workflow_versions_resource_id_version_owner_key_key ON catalog.workflow_versions USING btree (resource_id, version, owner_key)']
+  }
+  // workflow_versions_graph_check: CHECK (jsonb_typeof(graph) = 'object'::text)
+  // workflow_versions_resource_kind_check: CHECK (resource_kind = 'WORKFLOW'::text)
+  // SQL trigger: CREATE TRIGGER workflow_versions_immutable BEFORE DELETE OR UPDATE ON catalog.workflow_versions FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table library.collections {
+  owner_id text [pk, not null]
+  revision bigint [not null, default: `1`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '建议首期新增；本人库聚合头：revision/updated_at，串行目录批量改动。'
+  // collections_revision_check: CHECK (revision > 0)
+}
+
+Table library.folder_media_refs {
+  folder_id text [not null]
+  owner_id text [not null]
+  asset_id text [not null]
+  sort_order smallint [not null]
+  Note: '建议首期新增；目录自定义封面拼图，仅保存 4 个有序本人图片引用。'
+  indexes {
+    (asset_id) [name: 'folder_media_asset_reverse_idx', type: btree, note: 'CREATE INDEX folder_media_asset_reverse_idx ON library.folder_media_refs USING btree (asset_id)']
+    (folder_id, asset_id) [name: 'folder_media_refs_folder_id_asset_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX folder_media_refs_folder_id_asset_id_key ON library.folder_media_refs USING btree (folder_id, asset_id)']
+    (folder_id, sort_order) [name: 'folder_media_refs_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX folder_media_refs_pkey ON library.folder_media_refs USING btree (folder_id, sort_order)']
+  }
+  // folder_media_refs_sort_order_check: CHECK (sort_order >= 0 AND sort_order <= 3)
+}
+
+Table library.folders {
+  id text [pk, not null]
+  owner_id text [not null]
+  parent_id text [null]
+  category_code text [not null]
+  kind text [not null, default: `'MIXED'::text`]
+  name text [not null]
+  revision bigint [not null, default: `1`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '建议首期新增；parent/category_code/name、kind=MIXED 默认、revision。'
+  indexes {
+    (id, owner_id) [name: 'folders_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX folders_id_owner_id_key ON library.folders USING btree (id, owner_id)']
+    (id, owner_id, kind) [name: 'folders_id_owner_id_kind_key', unique, type: btree, note: 'CREATE UNIQUE INDEX folders_id_owner_id_kind_key ON library.folders USING btree (id, owner_id, kind)']
+  }
+  // Conditional/expression index: CREATE INDEX folders_parent_idx ON library.folders USING btree (owner_id, parent_id, kind, category_code, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // folders_category_code_check: CHECK (category_code = ANY (ARRAY['USER_CHARACTER'::text, 'USER_SCENE'::text, 'USER_THING'::text, 'USER_STYLE'::text, 'USER_PRODUCT'::text, 'USER_OTHER'::text]))
+  // folders_check: CHECK (parent_id IS NULL OR parent_id <> id)
+  // folders_kind_check: CHECK (kind = ANY (ARRAY['MIXED'::text, 'IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text, 'TEXT'::text, 'MODEL_3D'::text]))
+  // folders_name_check: CHECK (char_length(name) >= 1 AND char_length(name) <= 120)
+  // folders_revision_check: CHECK (revision > 0)
+  // SQL trigger: CREATE TRIGGER folders_tree_guard BEFORE INSERT OR UPDATE ON library.folders FOR EACH ROW EXECUTE FUNCTION library.guard_folder_tree()
+}
+
+Table library.item_media_refs {
+  id text [pk, not null]
+  item_id text [not null]
+  owner_id text [not null]
+  asset_id text [null]
+  model_asset_id text [null]
+  ref_role text [not null]
+  name text [not null, default: `''::text`]
+  sort_order integer [not null, default: `0`]
+  Note: '建议首期新增；节点参考媒体、自有图库有序图片、主图/缩略图。'
+  indexes {
+    (item_id, sort_order, id) [name: 'item_media_order_idx', type: btree, note: 'CREATE INDEX item_media_order_idx ON library.item_media_refs USING btree (item_id, sort_order, id)']
+  }
+  // Conditional/expression index: CREATE INDEX item_media_asset_reverse_idx ON library.item_media_refs USING btree (asset_id) WHERE (asset_id IS NOT NULL)
+  // Conditional/expression index: CREATE INDEX item_media_model_reverse_idx ON library.item_media_refs USING btree (model_asset_id) WHERE (model_asset_id IS NOT NULL)
+  // Conditional/expression index: CREATE UNIQUE INDEX item_primary_media_uq ON library.item_media_refs USING btree (item_id) WHERE (ref_role = 'PRIMARY'::text)
+  // item_media_refs_check: CHECK (num_nonnulls(asset_id, model_asset_id) = 1)
+  // item_media_refs_ref_role_check: CHECK (ref_role = ANY (ARRAY['PRIMARY'::text, 'GALLERY_IMAGE'::text, 'REFERENCE'::text, 'THUMBNAIL'::text]))
+}
+
+Table library.items {
+  id text [pk, not null]
+  owner_id text [not null]
+  folder_id text [null]
+  category_code text [not null]
+  kind text [not null]
+  item_type text [not null, default: `'NODE'::text`]
+  name text [not null]
+  asset_id text [null]
+  model_asset_id text [null]
+  text_content text [null]
+  node_content jsonb [not null, default: `'{}'::jsonb`]
+  revision bigint [not null, default: `1`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '建议首期新增；kind、item_type NODE/ROLE_GALLERY/SCENE_GALLERY、asset/model/text、完整 node_content。'
+  indexes {
+    (id, owner_id) [name: 'items_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX items_id_owner_id_key ON library.items USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX items_folder_idx ON library.items USING btree (owner_id, folder_id, kind, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // Conditional/expression index: CREATE INDEX items_type_idx ON library.items USING btree (owner_id, item_type, category_code, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // items_category_code_check: CHECK (category_code = ANY (ARRAY['USER_CHARACTER'::text, 'USER_SCENE'::text, 'USER_THING'::text, 'USER_STYLE'::text, 'USER_PRODUCT'::text, 'USER_OTHER'::text]))
+  // items_check: CHECK (item_type <> 'NODE'::text AND kind = 'IMAGE'::text AND asset_id IS NULL AND model_asset_id IS NULL AND text_content IS NULL OR item_type = 'NODE'::text AND ((kind = ANY (ARRAY['IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text])) AND asset_id IS NOT NULL AND model_asset_id IS NULL AND text_content IS NULL OR kind = 'TEXT'::text AND text_content IS NOT NULL AND asset_id IS NULL AND model_asset_id IS NULL OR kind = 'MODEL_3D'::text AND model_asset_id IS NOT NULL AND asset_id IS NULL AND text_content IS NULL))
+  // items_item_type_check: CHECK (item_type = ANY (ARRAY['NODE'::text, 'ROLE_GALLERY'::text, 'SCENE_GALLERY'::text]))
+  // items_kind_check: CHECK (kind = ANY (ARRAY['IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text, 'TEXT'::text, 'MODEL_3D'::text]))
+  // items_name_check: CHECK (char_length(name) >= 1 AND char_length(name) <= 255)
+  // items_node_content_check: CHECK (jsonb_typeof(node_content) = 'object'::text)
+  // items_revision_check: CHECK (revision > 0)
+  // SQL trigger: CREATE TRIGGER items_owner_guard BEFORE UPDATE ON library.items FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'kind', 'item_type')
+}
+
+Table execution.attempts {
+  id text [pk, not null]
+  plan_id text [not null]
+  task_id text [not null]
+  owner_id text [not null]
+  attempt_no integer [not null]
+  fence bigint [not null]
+  provider_key text [not null]
+  provider_task_id text [null]
+  state text [not null, default: `'PREPARED'::text`]
+  request_snapshot jsonb [not null, default: `'{}'::jsonb`]
+  response_metadata jsonb [not null, default: `'{}'::jsonb`]
+  error jsonb [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  started_at "timestamp with time zone" [null]
+  finished_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；提供方尝试：attempt_no/fence、provider_task_id、请求快照、状态/响应元信息。'
+  indexes {
+    (id, plan_id, task_id, owner_id) [name: 'attempts_id_plan_id_task_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX attempts_id_plan_id_task_id_owner_id_key ON execution.attempts USING btree (id, plan_id, task_id, owner_id)']
+    (plan_id, attempt_no) [name: 'attempts_plan_id_attempt_no_key', unique, type: btree, note: 'CREATE UNIQUE INDEX attempts_plan_id_attempt_no_key ON execution.attempts USING btree (plan_id, attempt_no)']
+  }
+  // Conditional/expression index: CREATE UNIQUE INDEX attempts_provider_task_uq ON execution.attempts USING btree (provider_key, provider_task_id) WHERE (provider_task_id IS NOT NULL)
+  // Conditional/expression index: CREATE INDEX attempts_unknown_idx ON execution.attempts USING btree (created_at, id) WHERE (state = 'UNKNOWN'::text)
+  // attempts_attempt_no_check: CHECK (attempt_no > 0)
+  // attempts_error_check: CHECK (error IS NULL OR jsonb_typeof(error) = 'object'::text)
+  // attempts_fence_check: CHECK (fence > 0)
+  // attempts_request_snapshot_check: CHECK (jsonb_typeof(request_snapshot) = 'object'::text)
+  // attempts_response_metadata_check: CHECK (jsonb_typeof(response_metadata) = 'object'::text)
+  // attempts_state_check: CHECK (state = ANY (ARRAY['PREPARED'::text, 'SUBMITTED'::text, 'RUNNING'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'CANCELED'::text, 'UNKNOWN'::text]))
+}
+
+Table execution.dependencies {
+  task_id text [not null]
+  owner_id text [not null]
+  plan_id text [not null]
+  depends_on_plan_id text [not null]
+  Note: '完整蓝图，建议后续；plan→依赖 plan。'
+  indexes {
+    (plan_id, depends_on_plan_id) [name: 'dependencies_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX dependencies_pkey ON execution.dependencies USING btree (plan_id, depends_on_plan_id)']
+    (depends_on_plan_id, plan_id) [name: 'dependencies_reverse_idx', type: btree, note: 'CREATE INDEX dependencies_reverse_idx ON execution.dependencies USING btree (depends_on_plan_id, plan_id)']
+  }
+  // dependencies_check: CHECK (plan_id <> depends_on_plan_id)
+}
+
+Table execution.events {
+  task_id text [not null]
+  owner_id text [not null]
+  sequence bigint [not null]
+  event_type text [not null]
+  schema_version integer [not null, default: `1`]
+  payload jsonb [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；任务状态公开流：sequence/type/schema_version/payload/time。'
+  indexes {
+    (task_id, sequence) [name: 'events_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX events_pkey ON execution.events USING btree (task_id, sequence)']
+  }
+  // events_payload_check: CHECK (jsonb_typeof(payload) = 'object'::text)
+  // events_schema_version_check: CHECK (schema_version > 0)
+  // events_sequence_check: CHECK (sequence > 0)
+}
+
+Table execution.history_entries {
+  id text [pk, not null]
+  head_id text [not null]
+  owner_id text [not null]
+  project_id text [not null]
+  output_id text [not null]
+  plan_id text [not null]
+  position integer [not null, default: `0`]
+  visible_node boolean [not null, default: `true`]
+  visible_global boolean [not null, default: `true`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；output 可见性、head/plan、node/global 标记与软删除。'
+  indexes {
+    (head_id, output_id) [name: 'history_entries_head_id_output_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX history_entries_head_id_output_id_key ON execution.history_entries USING btree (head_id, output_id)']
+  }
+  // Conditional/expression index: CREATE INDEX history_global_page_idx ON execution.history_entries USING btree (owner_id, created_at DESC, id) WHERE (visible_global AND (deleted_at IS NULL))
+  // Conditional/expression index: CREATE INDEX history_node_page_idx ON execution.history_entries USING btree (head_id, created_at DESC, id) WHERE (visible_node AND (deleted_at IS NULL))
+  // history_entries_position_check: CHECK ("position" >= 0)
+}
+
+Table execution.history_heads {
+  id text [pk, not null]
+  owner_id text [not null]
+  project_id text [not null]
+  node_id text [not null]
+  revision bigint [not null, default: `1`]
+  result_count bigint [not null, default: `0`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；node 远端历史 revision/result_count。'
+  indexes {
+    (id, owner_id, project_id) [name: 'history_heads_id_owner_id_project_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX history_heads_id_owner_id_project_id_key ON execution.history_heads USING btree (id, owner_id, project_id)']
+    (project_id, node_id) [name: 'history_heads_project_id_node_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX history_heads_project_id_node_id_key ON execution.history_heads USING btree (project_id, node_id)']
+  }
+  // history_heads_result_count_check: CHECK (result_count >= 0)
+  // history_heads_revision_check: CHECK (revision > 0)
+}
+
+Table execution.outputs {
+  id text [pk, not null]
+  task_id text [not null]
+  plan_id text [not null]
+  attempt_id text [null]
+  owner_id text [not null]
+  project_id text [not null]
+  output_index integer [not null]
+  output_type text [not null]
+  state text [not null]
+  asset_id text [null]
+  model_asset_id text [null]
+  blob_id text [null]
+  text_content text [null]
+  structured_content jsonb [null]
+  metadata jsonb [not null, default: `'{}'::jsonb`]
+  error jsonb [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；输出类别、成功失败、asset/model/blob/text/structured XOR、metadata。'
+  indexes {
+    (id, owner_id, project_id) [name: 'outputs_id_owner_id_project_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX outputs_id_owner_id_project_id_key ON execution.outputs USING btree (id, owner_id, project_id)']
+    (id, owner_id, project_id, plan_id) [name: 'outputs_id_owner_id_project_id_plan_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX outputs_id_owner_id_project_id_plan_id_key ON execution.outputs USING btree (id, owner_id, project_id, plan_id)']
+    (owner_id, output_type, created_at, id) [name: 'outputs_owner_type_idx', type: btree, note: 'CREATE INDEX outputs_owner_type_idx ON execution.outputs USING btree (owner_id, output_type, created_at DESC, id)']
+    (plan_id, output_index) [name: 'outputs_plan_id_output_index_key', unique, type: btree, note: 'CREATE UNIQUE INDEX outputs_plan_id_output_index_key ON execution.outputs USING btree (plan_id, output_index)']
+  }
+  // Conditional/expression index: CREATE INDEX outputs_asset_idx ON execution.outputs USING btree (asset_id) WHERE (asset_id IS NOT NULL)
+  // Conditional/expression index: CREATE INDEX outputs_model_idx ON execution.outputs USING btree (model_asset_id) WHERE (model_asset_id IS NOT NULL)
+  // outputs_check: CHECK (state = 'FAILED'::text AND error IS NOT NULL AND num_nonnulls(asset_id, model_asset_id, blob_id, text_content, structured_content) = 0 OR state = 'SUCCEEDED'::text AND error IS NULL AND num_nonnulls(asset_id, model_asset_id, blob_id, text_content, structured_content) = 1 AND ((output_type = ANY (ARRAY['IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text])) AND asset_id IS NOT NULL OR output_type = 'MODEL_3D'::text AND model_asset_id IS NOT NULL OR output_type = 'WORLD_3D'::text AND blob_id IS NOT NULL OR output_type = 'TEXT'::text AND text_content IS NOT NULL OR (output_type = ANY (ARRAY['SCRIPT'::text, 'STORYBOARD'::text])) AND structured_content IS NOT NULL))
+  // outputs_error_check: CHECK (error IS NULL OR jsonb_typeof(error) = 'object'::text)
+  // outputs_metadata_check: CHECK (jsonb_typeof(metadata) = 'object'::text)
+  // outputs_output_index_check: CHECK (output_index >= 0)
+  // outputs_output_type_check: CHECK (output_type = ANY (ARRAY['TEXT'::text, 'IMAGE'::text, 'VIDEO'::text, 'AUDIO'::text, 'MODEL_3D'::text, 'WORLD_3D'::text, 'SCRIPT'::text, 'STORYBOARD'::text]))
+  // outputs_state_check: CHECK (state = ANY (ARRAY['SUCCEEDED'::text, 'FAILED'::text]))
+  // SQL trigger: CREATE TRIGGER outputs_immutable BEFORE DELETE OR UPDATE ON execution.outputs FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table execution.plans {
+  id text [pk, not null]
+  task_id text [not null]
+  owner_id text [not null]
+  project_id text [not null]
+  node_id text [not null]
+  position integer [not null]
+  capability_id text [null]
+  capability_version text [null]
+  invocation_type text [not null]
+  executor_spec jsonb [not null, default: `'{}'::jsonb`]
+  params_snapshot jsonb [not null, default: `'{}'::jsonb`]
+  node_config_snapshot jsonb [not null, default: `'{}'::jsonb`]
+  attachments_snapshot jsonb [not null, default: `'[]'::jsonb`]
+  output_count integer [not null, default: `1`]
+  state text [not null, default: `'QUEUED'::text`]
+  revision bigint [not null, default: `1`]
+  available_at "timestamp with time zone" [not null, default: `now()`]
+  lease_owner text [null]
+  lease_until "timestamp with time zone" [null]
+  fence bigint [not null, default: `0`]
+  error jsonb [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  finished_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；节点计划：固定能力版本、params/config/attachments/spec、输出数、state、lease/fence。'
+  indexes {
+    (id, task_id, owner_id) [name: 'plans_id_task_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX plans_id_task_id_owner_id_key ON execution.plans USING btree (id, task_id, owner_id)']
+    (id, task_id, owner_id, project_id) [name: 'plans_id_task_id_owner_id_project_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX plans_id_task_id_owner_id_project_id_key ON execution.plans USING btree (id, task_id, owner_id, project_id)']
+    (task_id, node_id, "position") [name: 'plans_task_id_node_id_position_key', unique, type: btree, note: 'CREATE UNIQUE INDEX plans_task_id_node_id_position_key ON execution.plans USING btree (task_id, node_id, "position")']
+  }
+  // Conditional/expression index: CREATE INDEX plans_dispatch_idx ON execution.plans USING btree (available_at, id) WHERE (state = ANY (ARRAY['QUEUED'::text, 'RUNNING'::text]))
+  // Conditional/expression index: CREATE INDEX plans_lease_idx ON execution.plans USING btree (lease_until, id) WHERE (lease_until IS NOT NULL)
+  // plans_attachments_snapshot_check: CHECK (jsonb_typeof(attachments_snapshot) = 'array'::text)
+  // plans_check: CHECK ((lease_owner IS NULL) = (lease_until IS NULL))
+  // plans_error_check: CHECK (error IS NULL OR jsonb_typeof(error) = 'object'::text)
+  // plans_executor_spec_check: CHECK (jsonb_typeof(executor_spec) = 'object'::text)
+  // plans_fence_check: CHECK (fence >= 0)
+  // plans_node_config_snapshot_check: CHECK (jsonb_typeof(node_config_snapshot) = 'object'::text)
+  // plans_output_count_check: CHECK (output_count >= 1 AND output_count <= 256)
+  // plans_params_snapshot_check: CHECK (jsonb_typeof(params_snapshot) = 'object'::text)
+  // plans_position_check: CHECK ("position" >= 0)
+  // plans_revision_check: CHECK (revision > 0)
+  // plans_state_check: CHECK (state = ANY (ARRAY['QUEUED'::text, 'RUNNING'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'CANCELED'::text, 'SKIPPED'::text]))
+  // SQL trigger: CREATE TRIGGER plans_snapshot_guard BEFORE UPDATE ON execution.plans FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('task_id', 'owner_id', 'project_id', 'node_id', 'capability_id', 'capability_version', 'invocation_type', 'executor_spec', 'params_snapshot', 'node_config_snapshot', 'attachments_snapshot', 'output_count')
+}
+
+Table execution.tasks {
+  id text [pk, not null]
+  owner_id text [not null]
+  project_id text [not null]
+  project_revision bigint [not null]
+  target_type text [not null]
+  target_id text [not null]
+  executor_kind text [not null]
+  task_kind text [not null]
+  graph_snapshot jsonb [not null]
+  source_app_id text [null]
+  source_app_version text [null]
+  source_app_owner_key text [null]
+  state text [not null, default: `'QUEUED'::text`]
+  revision bigint [not null, default: `1`]
+  progress numeric(7,6) [null]
+  phase text [null]
+  execution_key text [null]
+  request_hash text [not null]
+  error jsonb [null]
+  cancel_requested_at "timestamp with time zone" [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  finished_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；画布/修订/target、executor、graph_snapshot、state/revision、execution_key/hash、可选 App 版本。'
+  indexes {
+    (id, owner_id) [name: 'tasks_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX tasks_id_owner_id_key ON execution.tasks USING btree (id, owner_id)']
+    (id, owner_id, project_id) [name: 'tasks_id_owner_id_project_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX tasks_id_owner_id_project_id_key ON execution.tasks USING btree (id, owner_id, project_id)']
+    (owner_id, state, created_at, id) [name: 'tasks_owner_state_idx', type: btree, note: 'CREATE INDEX tasks_owner_state_idx ON execution.tasks USING btree (owner_id, state, created_at DESC, id)']
+    (project_id, created_at, id) [name: 'tasks_project_created_idx', type: btree, note: 'CREATE INDEX tasks_project_created_idx ON execution.tasks USING btree (project_id, created_at DESC, id)']
+  }
+  // Conditional/expression index: CREATE UNIQUE INDEX tasks_execution_key_uq ON execution.tasks USING btree (owner_id, project_id, execution_key) WHERE (execution_key IS NOT NULL)
+  // tasks_check: CHECK (source_app_owner_key IS NULL OR source_app_owner_key = owner_id OR source_app_owner_key = '@catalog'::text)
+  // tasks_error_check: CHECK (error IS NULL OR jsonb_typeof(error) = 'object'::text)
+  // tasks_executor_kind_check: CHECK (executor_kind = ANY (ARRAY['MODEL'::text, 'FFMPEG'::text, 'SKETCHBOARD'::text]))
+  // tasks_graph_snapshot_check: CHECK (jsonb_typeof(graph_snapshot) = 'object'::text)
+  // tasks_progress_check: CHECK (progress >= 0::numeric AND progress <= 1::numeric)
+  // tasks_project_revision_check: CHECK (project_revision > 0)
+  // tasks_request_hash_check: CHECK (request_hash ~ '^[a-f0-9]{64}$'::text)
+  // tasks_revision_check: CHECK (revision > 0)
+  // tasks_state_check: CHECK (state = ANY (ARRAY['QUEUED'::text, 'PLANNING'::text, 'AWAITING_CONFIRMATION'::text, 'RUNNING'::text, 'CANCEL_REQUESTED'::text, 'SUCCEEDED'::text, 'PARTIALLY_SUCCEEDED'::text, 'FAILED'::text, 'CANCELED'::text]))
+  // tasks_target_type_check: CHECK (target_type = ANY (ARRAY['NODE'::text, 'GROUP'::text, 'CANVAS'::text]))
+  // SQL trigger: CREATE TRIGGER tasks_snapshot_guard BEFORE UPDATE ON execution.tasks FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'project_id', 'project_revision', 'target_type', 'target_id', 'executor_kind', 'task_kind', 'graph_snapshot', 'source_app_id', 'source_app_version', 'source_app_owner_key', 'request_hash', 'execution_key')
+}
+
+Table assistant.conversations {
+  id text [pk, not null]
+  owner_id text [not null]
+  business text [not null]
+  canvas_project_id text [null]
+  hf_project_id text [null]
+  title text [not null, default: `''::text`]
+  revision bigint [not null, default: `1`]
+  next_message_sequence bigint [not null, default: `1`]
+  status text [not null, default: `'ACTIVE'::text`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；business、可选 Canvas/HF 根、title、revision/message sequence、状态。'
+  indexes {
+    (id, owner_id) [name: 'conversations_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX conversations_id_owner_id_key ON assistant.conversations USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX conversations_canvas_idx ON assistant.conversations USING btree (owner_id, canvas_project_id, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // Conditional/expression index: CREATE INDEX conversations_hf_idx ON assistant.conversations USING btree (owner_id, hf_project_id, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // conversations_business_check: CHECK (business = ANY (ARRAY['CANVAS'::text, 'HYPERFRAMES'::text]))
+  // conversations_check: CHECK (business = 'CANVAS'::text AND canvas_project_id IS NOT NULL AND hf_project_id IS NULL OR business = 'HYPERFRAMES'::text AND canvas_project_id IS NULL)
+  // conversations_next_message_sequence_check: CHECK (next_message_sequence > 0)
+  // conversations_revision_check: CHECK (revision > 0)
+  // conversations_status_check: CHECK (status = ANY (ARRAY['ACTIVE'::text, 'ARCHIVED'::text]))
+  // conversations_title_check: CHECK (char_length(title) <= 120)
+  // SQL trigger: CREATE TRIGGER conversations_hf_binding_guard BEFORE UPDATE ON assistant.conversations FOR EACH ROW EXECUTE FUNCTION assistant.guard_hf_first_binding()
+  // SQL trigger: CREATE TRIGGER conversations_owner_guard BEFORE UPDATE ON assistant.conversations FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'business', 'canvas_project_id')
+}
+
+Table assistant.events {
+  run_id text [not null]
+  conversation_id text [not null]
+  owner_id text [not null]
+  sequence bigint [not null]
+  event_type text [not null]
+  schema_version integer [not null, default: `1`]
+  payload jsonb [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；run 的持久文本/工具/状态流 sequence/type/schema_version/payload。'
+  indexes {
+    (run_id, sequence) [name: 'events_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX events_pkey ON assistant.events USING btree (run_id, sequence)']
+  }
+  // events_payload_check: CHECK (jsonb_typeof(payload) = 'object'::text)
+  // events_schema_version_check: CHECK (schema_version > 0)
+  // events_sequence_check: CHECK (sequence > 0)
+}
+
+Table assistant.messages {
+  id text [pk, not null]
+  conversation_id text [not null]
+  owner_id text [not null]
+  sequence bigint [not null]
+  role text [not null]
+  content jsonb [not null]
+  attachments_snapshot jsonb [not null, default: `'[]'::jsonb`]
+  run_id text [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；sequence/role/content、附件快照、run_id。'
+  indexes {
+    (conversation_id, sequence) [name: 'messages_conversation_id_sequence_key', unique, type: btree, note: 'CREATE UNIQUE INDEX messages_conversation_id_sequence_key ON assistant.messages USING btree (conversation_id, sequence)']
+    (id, conversation_id, owner_id) [name: 'messages_id_conversation_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX messages_id_conversation_id_owner_id_key ON assistant.messages USING btree (id, conversation_id, owner_id)']
+  }
+  // messages_attachments_snapshot_check: CHECK (jsonb_typeof(attachments_snapshot) = 'array'::text)
+  // messages_content_check: CHECK (jsonb_typeof(content) = ANY (ARRAY['array'::text, 'object'::text]))
+  // messages_role_check: CHECK (role = ANY (ARRAY['SYSTEM'::text, 'USER'::text, 'ASSISTANT'::text, 'TOOL'::text]))
+  // messages_sequence_check: CHECK (sequence > 0)
+}
+
+Table assistant.runs {
+  id text [pk, not null]
+  conversation_id text [not null]
+  owner_id text [not null]
+  input_message_id text [not null]
+  agent_key text [not null]
+  capability_id text [not null]
+  capability_version text [not null]
+  interaction_mode text [not null, default: `'ASK'::text`]
+  skill_versions_snapshot jsonb [not null, default: `'[]'::jsonb`]
+  provider_response_id text [null]
+  state text [not null, default: `'QUEUED'::text`]
+  revision bigint [not null, default: `1`]
+  lease_owner text [null]
+  lease_until "timestamp with time zone" [null]
+  fence bigint [not null, default: `0`]
+  error jsonb [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  finished_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；固定模型 capability/version、Skill snapshot、interaction_mode ASK/AUTO、state/lease/fence。'
+  indexes {
+    (id, conversation_id, owner_id) [name: 'runs_id_conversation_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX runs_id_conversation_id_owner_id_key ON assistant.runs USING btree (id, conversation_id, owner_id)']
+  }
+  // Conditional/expression index: CREATE UNIQUE INDEX runs_one_active_uq ON assistant.runs USING btree (conversation_id) WHERE (state = ANY (ARRAY['QUEUED'::text, 'RUNNING'::text, 'WAITING_TOOL'::text, 'CANCEL_REQUESTED'::text]))
+  // runs_check: CHECK ((lease_owner IS NULL) = (lease_until IS NULL))
+  // runs_error_check: CHECK (error IS NULL OR jsonb_typeof(error) = 'object'::text)
+  // runs_fence_check: CHECK (fence >= 0)
+  // runs_interaction_mode_check: CHECK (interaction_mode = ANY (ARRAY['ASK'::text, 'AUTO'::text]))
+  // runs_revision_check: CHECK (revision > 0)
+  // runs_skill_versions_snapshot_check: CHECK (jsonb_typeof(skill_versions_snapshot) = 'array'::text)
+  // runs_state_check: CHECK (state = ANY (ARRAY['QUEUED'::text, 'RUNNING'::text, 'WAITING_TOOL'::text, 'CANCEL_REQUESTED'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'CANCELED'::text]))
+  // SQL trigger: CREATE TRIGGER assistant_runs_snapshot_guard BEFORE UPDATE ON assistant.runs FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('conversation_id', 'owner_id', 'input_message_id', 'agent_key', 'capability_id', 'capability_version', 'interaction_mode', 'skill_versions_snapshot')
+}
+
+Table assistant.tool_calls {
+  id text [pk, not null]
+  run_id text [not null]
+  conversation_id text [not null]
+  owner_id text [not null]
+  call_id text [not null]
+  tool_name text [not null]
+  arguments jsonb [not null]
+  state text [not null, default: `'PENDING'::text`]
+  requires_confirmation boolean [not null, default: `false`]
+  deadline_at "timestamp with time zone" [null]
+  result jsonb [null]
+  expected_project_revision bigint [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；call_id、tool_name/arguments、state/result、requires_confirmation/deadline、预期画布版本。'
+  indexes {
+    (run_id, call_id) [name: 'tool_calls_run_id_call_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX tool_calls_run_id_call_id_key ON assistant.tool_calls USING btree (run_id, call_id)']
+  }
+  // tool_calls_arguments_check: CHECK (jsonb_typeof(arguments) = 'object'::text)
+  // tool_calls_state_check: CHECK (state = ANY (ARRAY['PENDING'::text, 'RUNNING'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'CANCELED'::text]))
+}
+
+Table studio.director_models {
+  id text [pk, not null]
+  owner_id text [null]
+  owner_key text [null, note: 'GENERATED ALWAYS AS (COALESCE(owner_id, \'@catalog\'::text)) STORED']
+  scope text [not null]
+  kind text [not null]
+  category_id text [null]
+  name_localized jsonb [not null]
+  model_asset_id text [null]
+  catalog_media_id text [null]
+  preview_media_id text [null]
+  preview_asset_id text [null]
+  metadata jsonb [not null, default: `'{}'::jsonb`]
+  revision bigint [not null, default: `1`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；PRIVATE/CURATED 模型、角色、场景或动作：category/name、model/catalog media、preview、revision。'
+  // Conditional/expression index: CREATE INDEX director_models_catalog_idx ON studio.director_models USING btree (scope, kind, category_id, id) WHERE (deleted_at IS NULL)
+  // Conditional/expression index: CREATE INDEX director_models_owner_idx ON studio.director_models USING btree (owner_key, created_at DESC, id) WHERE (deleted_at IS NULL)
+  // director_models_check: CHECK (scope = 'PRIVATE'::text AND owner_id IS NOT NULL OR scope = 'CURATED'::text AND owner_id IS NULL)
+  // director_models_check1: CHECK (num_nonnulls(model_asset_id, catalog_media_id) = 1)
+  // director_models_check2: CHECK (num_nonnulls(preview_media_id, preview_asset_id) <= 1)
+  // director_models_kind_check: CHECK (kind = ANY (ARRAY['PROP'::text, 'ACTOR'::text, 'SCENE'::text, 'ANIMATION'::text]))
+  // director_models_metadata_check: CHECK (jsonb_typeof(metadata) = 'object'::text)
+  // director_models_name_localized_check: CHECK (jsonb_typeof(name_localized) = 'object'::text)
+  // director_models_revision_check: CHECK (revision > 0)
+  // director_models_scope_check: CHECK (scope = ANY (ARRAY['PRIVATE'::text, 'CURATED'::text]))
+  // SQL trigger: CREATE TRIGGER director_models_owner_guard BEFORE UPDATE ON studio.director_models FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'scope', 'kind')
+}
+
+Table studio.director_projects {
+  id text [pk, not null]
+  owner_id text [not null]
+  kind text [not null]
+  name text [not null]
+  content jsonb [not null, default: `'{}'::jsonb`]
+  thumbnail_asset_id text [null]
+  revision bigint [not null, default: `1`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；独立 2D/3D 工程：name/content/thumbnail、revision。'
+  indexes {
+    (id, owner_id) [name: 'director_projects_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX director_projects_id_owner_id_key ON studio.director_projects USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX director_projects_owner_kind_idx ON studio.director_projects USING btree (owner_id, kind, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // director_projects_content_check: CHECK (jsonb_typeof(content) = 'object'::text)
+  // director_projects_kind_check: CHECK (kind = ANY (ARRAY['2D'::text, '3D'::text]))
+  // director_projects_name_check: CHECK (char_length(name) >= 1 AND char_length(name) <= 120)
+  // director_projects_revision_check: CHECK (revision > 0)
+  // SQL trigger: CREATE TRIGGER director_projects_owner_guard BEFORE UPDATE ON studio.director_projects FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id', 'kind')
+}
+
+Table studio.hf_events {
+  project_id text [not null]
+  owner_id text [not null]
+  sequence bigint [not null, increment]
+  project_revision bigint [not null]
+  event_type text [not null]
+  schema_version integer [not null, default: `1`]
+  payload jsonb [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；file-change 等持久事件：sequence、project_revision、schema_version/payload。'
+  indexes {
+    (project_id, sequence) [name: 'hf_events_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX hf_events_pkey ON studio.hf_events USING btree (project_id, sequence)']
+  }
+  // hf_events_payload_check: CHECK (jsonb_typeof(payload) = 'object'::text)
+  // hf_events_project_revision_check: CHECK (project_revision > 0)
+  // hf_events_schema_version_check: CHECK (schema_version > 0)
+}
+
+Table studio.hf_files {
+  id text [pk, not null]
+  project_id text [not null]
+  owner_id text [not null]
+  path text [not null]
+  mime_type text [not null]
+  content_text text [null]
+  blob_id text [null]
+  checksum_sha256 text [not null]
+  revision bigint [not null, default: `1`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  upload_id text [null]
+  Note: '完整蓝图，建议后续；归一化 path、MIME、content_text 或 blob、checksum/revision/upload_id。'
+  indexes {
+    (id, owner_id) [name: 'hf_files_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX hf_files_id_owner_id_key ON studio.hf_files USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX hf_files_blob_idx ON studio.hf_files USING btree (blob_id) WHERE (blob_id IS NOT NULL)
+  // Conditional/expression index: CREATE UNIQUE INDEX hf_files_path_uq ON studio.hf_files USING btree (project_id, path) WHERE (deleted_at IS NULL)
+  // hf_files_check: CHECK (num_nonnulls(content_text, blob_id) = 1)
+  // hf_files_checksum_sha256_check: CHECK (checksum_sha256 ~ '^[a-f0-9]{64}$'::text)
+  // hf_files_path_check: CHECK (platform.valid_relative_path(path))
+  // hf_files_revision_check: CHECK (revision > 0)
+  // SQL trigger: CREATE TRIGGER hf_files_owner_guard BEFORE UPDATE ON studio.hf_files FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('project_id', 'owner_id')
+}
+
+Table studio.hf_projects {
+  id text [pk, not null]
+  owner_id text [not null]
+  name text [not null]
+  revision bigint [not null, default: `1`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；本人 HF 工程：name/revision、时间/软删。'
+  indexes {
+    (id, owner_id) [name: 'hf_projects_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX hf_projects_id_owner_id_key ON studio.hf_projects USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX hf_projects_owner_updated_idx ON studio.hf_projects USING btree (owner_id, updated_at DESC, id) WHERE (deleted_at IS NULL)
+  // hf_projects_name_check: CHECK (char_length(name) >= 1 AND char_length(name) <= 120)
+  // hf_projects_revision_check: CHECK (revision > 0)
+  // SQL trigger: CREATE TRIGGER hf_projects_owner_guard BEFORE UPDATE ON studio.hf_projects FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('owner_id')
+}
+
+Table studio.hf_renders {
+  id text [pk, not null]
+  project_id text [not null]
+  project_revision bigint [not null]
+  owner_id text [not null]
+  settings jsonb [not null]
+  state text [not null, default: `'QUEUED'::text`]
+  revision bigint [not null, default: `1`]
+  progress numeric(7,6) [null]
+  output_blob_id text [null]
+  imported_asset_id text [null]
+  lease_owner text [null]
+  lease_until "timestamp with time zone" [null]
+  fence bigint [not null, default: `0`]
+  error jsonb [null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null, default: `now()`]
+  finished_at "timestamp with time zone" [null]
+  deleted_at "timestamp with time zone" [null]
+  Note: '完整蓝图，建议后续；固定工程修订/settings、state/progress、lease/fence、输出 Blob/导入 asset。'
+  indexes {
+    (id, owner_id) [name: 'hf_renders_id_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX hf_renders_id_owner_id_key ON studio.hf_renders USING btree (id, owner_id)']
+  }
+  // Conditional/expression index: CREATE INDEX hf_renders_dispatch_idx ON studio.hf_renders USING btree (created_at, id) WHERE (state = ANY (ARRAY['QUEUED'::text, 'RUNNING'::text]))
+  // Conditional/expression index: CREATE INDEX hf_renders_project_idx ON studio.hf_renders USING btree (owner_id, project_id, created_at DESC, id) WHERE (deleted_at IS NULL)
+  // hf_renders_check: CHECK ((lease_owner IS NULL) = (lease_until IS NULL))
+  // hf_renders_check1: CHECK (state <> 'SUCCEEDED'::text OR output_blob_id IS NOT NULL)
+  // hf_renders_error_check: CHECK (error IS NULL OR jsonb_typeof(error) = 'object'::text)
+  // hf_renders_fence_check: CHECK (fence >= 0)
+  // hf_renders_progress_check: CHECK (progress >= 0::numeric AND progress <= 1::numeric)
+  // hf_renders_revision_check: CHECK (revision > 0)
+  // hf_renders_settings_check: CHECK (jsonb_typeof(settings) = 'object'::text)
+  // hf_renders_state_check: CHECK (state = ANY (ARRAY['QUEUED'::text, 'RUNNING'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'CANCEL_REQUESTED'::text, 'CANCELED'::text]))
+  // SQL trigger: CREATE TRIGGER hf_renders_snapshot_guard BEFORE UPDATE ON studio.hf_renders FOR EACH ROW EXECUTE FUNCTION platform.guard_immutable_columns('project_id', 'owner_id', 'project_revision', 'settings')
+}
+
+Table studio.hf_revision_files {
+  project_id text [not null]
+  project_revision bigint [not null]
+  owner_id text [not null]
+  path text [not null]
+  mime_type text [not null]
+  content_text text [null]
+  blob_id text [null]
+  checksum_sha256 text [not null]
+  Note: '完整蓝图，建议后续；快照内 path/content 或 blob/checksum。'
+  indexes {
+    (project_id, project_revision, path) [name: 'hf_revision_files_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX hf_revision_files_pkey ON studio.hf_revision_files USING btree (project_id, project_revision, path)']
+  }
+  // Conditional/expression index: CREATE INDEX hf_revision_files_blob_idx ON studio.hf_revision_files USING btree (blob_id) WHERE (blob_id IS NOT NULL)
+  // hf_revision_files_check: CHECK (num_nonnulls(content_text, blob_id) = 1)
+  // hf_revision_files_checksum_sha256_check: CHECK (checksum_sha256 ~ '^[a-f0-9]{64}$'::text)
+  // hf_revision_files_path_check: CHECK (platform.valid_relative_path(path))
+  // SQL trigger: CREATE TRIGGER hf_revision_files_immutable BEFORE DELETE OR UPDATE ON studio.hf_revision_files FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table studio.hf_revisions {
+  project_id text [not null]
+  owner_id text [not null]
+  revision bigint [not null]
+  manifest_sha256 text [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  Note: '完整蓝图，建议后续；不可变渲染快照头：revision/manifest_sha256。'
+  indexes {
+    (project_id, revision) [name: 'hf_revisions_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX hf_revisions_pkey ON studio.hf_revisions USING btree (project_id, revision)']
+    (project_id, revision, owner_id) [name: 'hf_revisions_project_id_revision_owner_id_key', unique, type: btree, note: 'CREATE UNIQUE INDEX hf_revisions_project_id_revision_owner_id_key ON studio.hf_revisions USING btree (project_id, revision, owner_id)']
+  }
+  // hf_revisions_manifest_sha256_check: CHECK (manifest_sha256 ~ '^[a-f0-9]{64}$'::text)
+  // hf_revisions_revision_check: CHECK (revision > 0)
+  // SQL trigger: CREATE TRIGGER hf_revisions_immutable BEFORE DELETE OR UPDATE ON studio.hf_revisions FOR EACH ROW EXECUTE FUNCTION platform.reject_version_update()
+}
+
+Table platform.inbox {
+  source text [not null]
+  event_id text [not null]
+  payload_hash text [not null]
+  state text [not null, default: `'RECEIVED'::text`]
+  received_at "timestamp with time zone" [not null, default: `now()`]
+  processed_at "timestamp with time zone" [null]
+  result_code text [null]
+  Note: '完整蓝图，建议后续；已认证提供方/内部回执去重：source/event_id、payload_hash、state/result。'
+  indexes {
+    (source, event_id) [name: 'inbox_pkey', pk, type: btree, note: 'CREATE UNIQUE INDEX inbox_pkey ON platform.inbox USING btree (source, event_id)']
+  }
+  // Conditional/expression index: CREATE INDEX inbox_pending_idx ON platform.inbox USING btree (received_at, source, event_id) WHERE (state = 'RECEIVED'::text)
+  // inbox_payload_hash_check: CHECK (payload_hash ~ '^[a-f0-9]{64}$'::text)
+  // inbox_state_check: CHECK (state = ANY (ARRAY['RECEIVED'::text, 'PROCESSED'::text, 'REJECTED'::text]))
+}
+
+Table platform.outbox {
+  id text [pk, not null]
+  aggregate_type text [not null]
+  aggregate_id text [not null]
+  event_type text [not null]
+  payload jsonb [not null]
+  available_at "timestamp with time zone" [not null, default: `now()`]
+  attempt_count integer [not null, default: `0`]
+  lease_owner text [null]
+  lease_until "timestamp with time zone" [null]
+  fence bigint [not null, default: `0`]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  processed_at "timestamp with time zone" [null]
+  last_error_code text [null]
+  Note: '完整蓝图，建议后续；事务领域事件的可靠投递：aggregate/event/payload、available、attempts、lease/fence、processed。'
+  // Conditional/expression index: CREATE INDEX outbox_dispatch_idx ON platform.outbox USING btree (available_at, id) WHERE (processed_at IS NULL)
+  // outbox_attempt_count_check: CHECK (attempt_count >= 0)
+  // outbox_check: CHECK ((lease_owner IS NULL) = (lease_until IS NULL))
+  // outbox_fence_check: CHECK (fence >= 0)
+  // outbox_payload_check: CHECK (jsonb_typeof(payload) = 'object'::text)
+}
+
+// FOREIGN KEY (canvas_project_id, owner_id) REFERENCES projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_1: assistant.conversations.(canvas_project_id, owner_id) > public.projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (hf_project_id, owner_id) REFERENCES studio.hf_projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_2: assistant.conversations.(hf_project_id, owner_id) > studio.hf_projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_3: assistant.conversations.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (run_id, conversation_id, owner_id) REFERENCES assistant.runs(id, conversation_id, owner_id) ON DELETE RESTRICT
+Ref fk_4: assistant.events.(run_id, conversation_id, owner_id) > assistant.runs.(id, conversation_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (conversation_id, owner_id) REFERENCES assistant.conversations(id, owner_id) ON DELETE RESTRICT
+Ref fk_5: assistant.messages.(conversation_id, owner_id) > assistant.conversations.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (run_id, conversation_id, owner_id) REFERENCES assistant.runs(id, conversation_id, owner_id) ON DELETE RESTRICT
+Ref fk_6: assistant.messages.(run_id, conversation_id, owner_id) > assistant.runs.(id, conversation_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (capability_id, capability_version) REFERENCES catalog.model_versions(capability_id, version) ON DELETE RESTRICT
+Ref fk_7: assistant.runs.(capability_id, capability_version) > catalog.model_versions.(capability_id, version) [delete: restrict, update: no action]
+// FOREIGN KEY (conversation_id, owner_id) REFERENCES assistant.conversations(id, owner_id) ON DELETE RESTRICT
+Ref fk_8: assistant.runs.(conversation_id, owner_id) > assistant.conversations.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (input_message_id, conversation_id, owner_id) REFERENCES assistant.messages(id, conversation_id, owner_id) ON DELETE RESTRICT
+Ref fk_9: assistant.runs.(input_message_id, conversation_id, owner_id) > assistant.messages.(id, conversation_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (run_id, conversation_id, owner_id) REFERENCES assistant.runs(id, conversation_id, owner_id) ON DELETE RESTRICT
+Ref fk_10: assistant.tool_calls.(run_id, conversation_id, owner_id) > assistant.runs.(id, conversation_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_11: canvas.media_refs.(asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (model_asset_id, owner_id) REFERENCES media.model_assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_12: canvas.media_refs.(model_asset_id, owner_id) > media.model_assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_13: canvas.media_refs.(project_id, owner_id) > public.projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_14: public.users.id - canvas.tag_sets.owner_id [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES canvas.tag_sets(owner_id) ON DELETE RESTRICT
+Ref fk_15: canvas.tags.owner_id > canvas.tag_sets.owner_id [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id, owner_key, resource_kind) REFERENCES catalog.resources(id, owner_key, kind) ON DELETE RESTRICT
+Ref fk_16: catalog.app_versions.(resource_id, owner_key, resource_kind) > catalog.resources.(id, owner_key, kind) [delete: restrict, update: no action]
+// FOREIGN KEY (workflow_id, workflow_version, workflow_owner_key) REFERENCES catalog.workflow_versions(resource_id, version, owner_key) ON DELETE RESTRICT
+Ref fk_17: catalog.app_versions.(workflow_id, workflow_version, workflow_owner_key) > catalog.workflow_versions.(resource_id, version, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (parent_id, namespace) REFERENCES catalog.categories(id, namespace) ON DELETE RESTRICT
+Ref fk_18: catalog.categories.(parent_id, namespace) > catalog.categories.(id, namespace) [delete: restrict, update: no action]
+// FOREIGN KEY (category_id, option_code) REFERENCES catalog.filter_options(category_id, code) ON DELETE RESTRICT
+Ref fk_19: catalog.character_attributes.(category_id, option_code) > catalog.filter_options.(category_id, code) [delete: restrict, update: no action]
+// FOREIGN KEY (character_id, character_owner_key) REFERENCES catalog.characters(id, owner_key) ON DELETE RESTRICT
+Ref fk_20: catalog.character_attributes.(character_id, character_owner_key) > catalog.characters.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (character_id, character_owner_key) REFERENCES catalog.characters(id, owner_key) ON DELETE RESTRICT
+Ref fk_21: catalog.character_favorites.(character_id, character_owner_key) > catalog.characters.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_22: catalog.character_favorites.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (asset_id, character_owner_key) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_23: catalog.character_images.(asset_id, character_owner_key) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (catalog_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_24: catalog.character_images.catalog_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (character_id, character_owner_key) REFERENCES catalog.characters(id, owner_key) ON DELETE RESTRICT
+Ref fk_25: catalog.character_images.(character_id, character_owner_key) > catalog.characters.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_26: catalog.characters.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (category_id, category_namespace, category_node_role) REFERENCES catalog.categories(id, namespace, node_role) ON DELETE RESTRICT
+Ref fk_27: catalog.filter_options.(category_id, category_namespace, category_node_role) > catalog.categories.(id, namespace, node_role) [delete: restrict, update: no action]
+// FOREIGN KEY (blob_id, blob_owner_key) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_28: catalog.media.(blob_id, blob_owner_key) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (id, active_version) REFERENCES catalog.model_versions(capability_id, version) DEFERRABLE INITIALLY DEFERRED
+Ref fk_29: catalog.model_versions.(capability_id, version) - catalog.model_capabilities.(id, active_version) [delete: no action, update: no action]
+// FOREIGN KEY (model_id) REFERENCES catalog.models(id) ON DELETE RESTRICT
+Ref fk_30: catalog.model_capabilities.model_id > catalog.models.id [delete: restrict, update: no action]
+// FOREIGN KEY (capability_id) REFERENCES catalog.model_capabilities(id) ON DELETE RESTRICT
+Ref fk_31: catalog.model_group_members.capability_id > catalog.model_capabilities.id [delete: restrict, update: no action]
+// FOREIGN KEY (group_id) REFERENCES catalog.model_groups(id) ON DELETE RESTRICT
+Ref fk_32: catalog.model_group_members.group_id > catalog.model_groups.id [delete: restrict, update: no action]
+// FOREIGN KEY (icon_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_33: catalog.model_groups.icon_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (parent_id) REFERENCES catalog.model_groups(id) ON DELETE RESTRICT
+Ref fk_34: catalog.model_groups.parent_id > catalog.model_groups.id [delete: restrict, update: no action]
+// FOREIGN KEY (capability_id) REFERENCES catalog.model_capabilities(id) ON DELETE RESTRICT
+Ref fk_35: catalog.model_versions.capability_id > catalog.model_capabilities.id [delete: restrict, update: no action]
+// FOREIGN KEY (icon_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_36: catalog.models.icon_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (reference_asset_id, owner_key) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_37: catalog.prompt_versions.(reference_asset_id, owner_key) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (reference_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_38: catalog.prompt_versions.reference_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id, owner_key, resource_kind) REFERENCES catalog.resources(id, owner_key, kind) ON DELETE RESTRICT
+Ref fk_39: catalog.prompt_versions.(resource_id, owner_key, resource_kind) > catalog.resources.(id, owner_key, kind) [delete: restrict, update: no action]
+// FOREIGN KEY (category_id) REFERENCES catalog.categories(id) ON DELETE RESTRICT
+Ref fk_40: catalog.resource_category_links.category_id > catalog.categories.id [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id) REFERENCES catalog.resources(id) ON DELETE RESTRICT
+Ref fk_41: catalog.resource_category_links.resource_id > catalog.resources.id [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_42: catalog.resource_user_states.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id, resource_owner_key) REFERENCES catalog.resources(id, owner_key) ON DELETE RESTRICT
+Ref fk_43: catalog.resource_user_states.(resource_id, resource_owner_key) > catalog.resources.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (category_id) REFERENCES catalog.categories(id) ON DELETE RESTRICT
+Ref fk_44: catalog.resources.category_id > catalog.categories.id [delete: restrict, update: no action]
+// FOREIGN KEY (cover_asset_id, owner_key) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_45: catalog.resources.(cover_asset_id, owner_key) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (cover_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_46: catalog.resources.cover_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_47: catalog.resources.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (blob_id, owner_key) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_48: catalog.skill_files.(blob_id, owner_key) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (skill_id, skill_version, owner_key) REFERENCES catalog.skill_versions(resource_id, version, owner_key) ON DELETE RESTRICT
+Ref fk_49: catalog.skill_files.(skill_id, skill_version, owner_key) > catalog.skill_versions.(resource_id, version, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (upload_id, owner_key, blob_id) REFERENCES media.blob_uploads(id, owner_id, blob_id) ON DELETE RESTRICT
+Ref fk_50: catalog.skill_files.(upload_id, owner_key, blob_id) > media.blob_uploads.(id, owner_id, blob_id) [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id, owner_key, resource_kind) REFERENCES catalog.resources(id, owner_key, kind) ON DELETE RESTRICT
+Ref fk_51: catalog.skill_versions.(resource_id, owner_key, resource_kind) > catalog.resources.(id, owner_key, kind) [delete: restrict, update: no action]
+// FOREIGN KEY (capability_id) REFERENCES catalog.model_capabilities(id) ON DELETE RESTRICT
+Ref fk_52: catalog.voice_versions.capability_id > catalog.model_capabilities.id [delete: restrict, update: no action]
+// FOREIGN KEY (preview_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_53: catalog.voice_versions.preview_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id, owner_key, resource_kind) REFERENCES catalog.resources(id, owner_key, kind) ON DELETE RESTRICT
+Ref fk_54: catalog.voice_versions.(resource_id, owner_key, resource_kind) > catalog.resources.(id, owner_key, kind) [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id, owner_key, resource_kind) REFERENCES catalog.resources(id, owner_key, kind) ON DELETE RESTRICT
+Ref fk_55: catalog.workflow_versions.(resource_id, owner_key, resource_kind) > catalog.resources.(id, owner_key, kind) [delete: restrict, update: no action]
+// FOREIGN KEY (plan_id, task_id, owner_id) REFERENCES execution.plans(id, task_id, owner_id) ON DELETE RESTRICT
+Ref fk_56: execution.attempts.(plan_id, task_id, owner_id) > execution.plans.(id, task_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (depends_on_plan_id, task_id, owner_id) REFERENCES execution.plans(id, task_id, owner_id) ON DELETE RESTRICT
+Ref fk_57: execution.dependencies.(depends_on_plan_id, task_id, owner_id) > execution.plans.(id, task_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (plan_id, task_id, owner_id) REFERENCES execution.plans(id, task_id, owner_id) ON DELETE RESTRICT
+Ref fk_58: execution.dependencies.(plan_id, task_id, owner_id) > execution.plans.(id, task_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (task_id, owner_id) REFERENCES execution.tasks(id, owner_id) ON DELETE RESTRICT
+Ref fk_59: execution.events.(task_id, owner_id) > execution.tasks.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (head_id, owner_id, project_id) REFERENCES execution.history_heads(id, owner_id, project_id) ON DELETE RESTRICT
+Ref fk_60: execution.history_entries.(head_id, owner_id, project_id) > execution.history_heads.(id, owner_id, project_id) [delete: restrict, update: no action]
+// FOREIGN KEY (output_id, owner_id, project_id, plan_id) REFERENCES execution.outputs(id, owner_id, project_id, plan_id) ON DELETE RESTRICT
+Ref fk_61: execution.history_entries.(output_id, owner_id, project_id, plan_id) > execution.outputs.(id, owner_id, project_id, plan_id) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_62: execution.history_heads.(project_id, owner_id) > public.projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_63: execution.outputs.(asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (attempt_id, plan_id, task_id, owner_id) REFERENCES execution.attempts(id, plan_id, task_id, owner_id) ON DELETE RESTRICT
+Ref fk_64: execution.outputs.(attempt_id, plan_id, task_id, owner_id) > execution.attempts.(id, plan_id, task_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (blob_id, owner_id) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_65: execution.outputs.(blob_id, owner_id) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (model_asset_id, owner_id) REFERENCES media.model_assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_66: execution.outputs.(model_asset_id, owner_id) > media.model_assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (plan_id, task_id, owner_id, project_id) REFERENCES execution.plans(id, task_id, owner_id, project_id) ON DELETE RESTRICT
+Ref fk_67: execution.outputs.(plan_id, task_id, owner_id, project_id) > execution.plans.(id, task_id, owner_id, project_id) [delete: restrict, update: no action]
+// FOREIGN KEY (capability_id, capability_version) REFERENCES catalog.model_versions(capability_id, version) MATCH FULL ON DELETE RESTRICT
+Ref fk_68: execution.plans.(capability_id, capability_version) > catalog.model_versions.(capability_id, version) [delete: restrict, update: no action]
+// FOREIGN KEY (task_id, owner_id, project_id) REFERENCES execution.tasks(id, owner_id, project_id) ON DELETE RESTRICT
+Ref fk_69: execution.plans.(task_id, owner_id, project_id) > execution.tasks.(id, owner_id, project_id) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_70: execution.tasks.(project_id, owner_id) > public.projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (source_app_id, source_app_version, source_app_owner_key) REFERENCES catalog.app_versions(resource_id, version, owner_key) MATCH FULL ON DELETE RESTRICT
+Ref fk_71: execution.tasks.(source_app_id, source_app_version, source_app_owner_key) > catalog.app_versions.(resource_id, version, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_72: public.users.id - library.collections.owner_id [delete: restrict, update: no action]
+// FOREIGN KEY (asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_73: library.folder_media_refs.(asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (folder_id, owner_id) REFERENCES library.folders(id, owner_id) ON DELETE RESTRICT
+Ref fk_74: library.folder_media_refs.(folder_id, owner_id) > library.folders.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES library.collections(owner_id) ON DELETE RESTRICT
+Ref fk_75: library.folders.owner_id > library.collections.owner_id [delete: restrict, update: no action]
+// FOREIGN KEY (parent_id, owner_id) REFERENCES library.folders(id, owner_id) ON DELETE RESTRICT
+Ref fk_76: library.folders.(parent_id, owner_id) > library.folders.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_77: library.item_media_refs.(asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (item_id, owner_id) REFERENCES library.items(id, owner_id) ON DELETE RESTRICT
+Ref fk_78: library.item_media_refs.(item_id, owner_id) > library.items.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (model_asset_id, owner_id) REFERENCES media.model_assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_79: library.item_media_refs.(model_asset_id, owner_id) > media.model_assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_80: library.items.(asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (folder_id, owner_id) REFERENCES library.folders(id, owner_id) ON DELETE RESTRICT
+Ref fk_81: library.items.(folder_id, owner_id) > library.folders.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (model_asset_id, owner_id) REFERENCES media.model_assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_82: library.items.(model_asset_id, owner_id) > media.model_assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES library.collections(owner_id) ON DELETE RESTRICT
+Ref fk_83: library.items.owner_id > library.collections.owner_id [delete: restrict, update: no action]
+// FOREIGN KEY (blob_id, owner_id) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_84: media.blob_uploads.(blob_id, owner_id) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (hf_project_id, owner_id) REFERENCES studio.hf_projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_85: media.blob_uploads.(hf_project_id, owner_id) > studio.hf_projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_86: media.blob_uploads.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (resource_id, resource_owner_key, resource_kind) REFERENCES catalog.resources(id, owner_key, kind) MATCH FULL ON DELETE RESTRICT
+Ref fk_87: media.blob_uploads.(resource_id, resource_owner_key, resource_kind) > catalog.resources.(id, owner_key, kind) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_88: media.blobs.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_89: media.model_assets.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (preview_asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_90: media.model_assets.(preview_asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_91: media.model_assets.(project_id, owner_id) > public.projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (blob_id, owner_id) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_92: media.model_files.(blob_id, owner_id) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (model_asset_id, owner_id) REFERENCES media.model_assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_93: media.model_files.(model_asset_id, owner_id) > media.model_assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (model_asset_id, owner_id) REFERENCES media.model_assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_94: media.model_assets.(id, owner_id) - media.model_uploads.(model_asset_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (asset_id) REFERENCES assets(id)
+Ref fk_95: public.assets.id - public.asset_uploads.asset_id [delete: no action, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id)
+Ref fk_96: public.asset_uploads.owner_id > public.users.id [delete: no action, update: no action]
+// FOREIGN KEY (asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_97: public.assets.(id, owner_id) - public.asset_uploads.(asset_id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id)
+Ref fk_98: public.assets.owner_id > public.users.id [delete: no action, update: no action]
+// FOREIGN KEY (project_id) REFERENCES projects(id)
+Ref fk_99: public.assets.project_id > public.projects.id [delete: no action, update: no action]
+// FOREIGN KEY (blob_id, owner_id) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_100: public.assets.(blob_id, owner_id) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_101: public.assets.(project_id, owner_id) > public.projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (user_id) REFERENCES users(id)
+Ref fk_102: public.federated_identities.user_id > public.users.id [delete: no action, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id)
+Ref fk_103: public.idempotency_keys.owner_id > public.users.id [delete: no action, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id)
+Ref fk_104: public.projects.owner_id > public.users.id [delete: no action, update: no action]
+// FOREIGN KEY (workspace_id) REFERENCES ipac_workspaces(id)
+Ref fk_105: public.projects.workspace_id > public.ipac_workspaces.id [delete: no action, update: no action]
+// FOREIGN KEY (session_id) REFERENCES sessions(id)
+Ref fk_106: public.refresh_tokens.session_id > public.sessions.id [delete: no action, update: no action]
+// FOREIGN KEY (user_id) REFERENCES users(id)
+Ref fk_107: public.sessions.user_id > public.users.id [delete: no action, update: no action]
+// FOREIGN KEY (catalog_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_108: studio.director_models.catalog_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (category_id) REFERENCES catalog.categories(id) ON DELETE RESTRICT
+Ref fk_109: studio.director_models.category_id > catalog.categories.id [delete: restrict, update: no action]
+// FOREIGN KEY (model_asset_id, owner_key) REFERENCES media.model_assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_110: studio.director_models.(model_asset_id, owner_key) > media.model_assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_111: studio.director_models.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (preview_asset_id, owner_key) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_112: studio.director_models.(preview_asset_id, owner_key) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (preview_media_id) REFERENCES catalog.media(id) ON DELETE RESTRICT
+Ref fk_113: studio.director_models.preview_media_id > catalog.media.id [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_114: studio.director_projects.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (thumbnail_asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_115: studio.director_projects.(thumbnail_asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES studio.hf_projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_116: studio.hf_events.(project_id, owner_id) > studio.hf_projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (blob_id, owner_id) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_117: studio.hf_files.(blob_id, owner_id) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES studio.hf_projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_118: studio.hf_files.(project_id, owner_id) > studio.hf_projects.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (upload_id, owner_id, blob_id) REFERENCES media.blob_uploads(id, owner_id, blob_id) ON DELETE RESTRICT
+Ref fk_119: studio.hf_files.(upload_id, owner_id, blob_id) > media.blob_uploads.(id, owner_id, blob_id) [delete: restrict, update: no action]
+// FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
+Ref fk_120: studio.hf_projects.owner_id > public.users.id [delete: restrict, update: no action]
+// FOREIGN KEY (imported_asset_id, owner_id) REFERENCES assets(id, owner_id) ON DELETE RESTRICT
+Ref fk_121: studio.hf_renders.(imported_asset_id, owner_id) > public.assets.(id, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (output_blob_id, owner_id) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_122: studio.hf_renders.(output_blob_id, owner_id) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, project_revision, owner_id) REFERENCES studio.hf_revisions(project_id, revision, owner_id) ON DELETE RESTRICT
+Ref fk_123: studio.hf_renders.(project_id, project_revision, owner_id) > studio.hf_revisions.(project_id, revision, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (blob_id, owner_id) REFERENCES media.blobs(id, owner_key) ON DELETE RESTRICT
+Ref fk_124: studio.hf_revision_files.(blob_id, owner_id) > media.blobs.(id, owner_key) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, project_revision, owner_id) REFERENCES studio.hf_revisions(project_id, revision, owner_id) ON DELETE RESTRICT
+Ref fk_125: studio.hf_revision_files.(project_id, project_revision, owner_id) > studio.hf_revisions.(project_id, revision, owner_id) [delete: restrict, update: no action]
+// FOREIGN KEY (project_id, owner_id) REFERENCES studio.hf_projects(id, owner_id) ON DELETE RESTRICT
+Ref fk_126: studio.hf_revisions.(project_id, owner_id) > studio.hf_projects.(id, owner_id) [delete: restrict, update: no action]
+
+TableGroup public_tables {
+  public.asset_uploads
+  public.assets
+  public.federated_identities
+  public.idempotency_keys
+  public.ipac_workspaces
+  public.oidc_login_transactions
+  public.projects
+  public.refresh_tokens
+  public.sessions
+  public.users
+}
+
+TableGroup media_tables {
+  media.blob_uploads
+  media.blobs
+  media.model_assets
+  media.model_files
+  media.model_uploads
+}
+
+TableGroup canvas_tables {
+  canvas.media_refs
+  canvas.tag_sets
+  canvas.tags
+}
+
+TableGroup catalog_tables {
+  catalog.app_versions
+  catalog.categories
+  catalog.character_attributes
+  catalog.character_favorites
+  catalog.character_images
+  catalog.characters
+  catalog.filter_options
+  catalog.media
+  catalog.model_capabilities
+  catalog.model_group_members
+  catalog.model_groups
+  catalog.model_versions
+  catalog.models
+  catalog.prompt_versions
+  catalog.resource_category_links
+  catalog.resource_user_states
+  catalog.resources
+  catalog.skill_files
+  catalog.skill_versions
+  catalog.voice_versions
+  catalog.workflow_versions
+}
+
+TableGroup library_tables {
+  library.collections
+  library.folder_media_refs
+  library.folders
+  library.item_media_refs
+  library.items
+}
+
+TableGroup execution_tables {
+  execution.attempts
+  execution.dependencies
+  execution.events
+  execution.history_entries
+  execution.history_heads
+  execution.outputs
+  execution.plans
+  execution.tasks
+}
+
+TableGroup assistant_tables {
+  assistant.conversations
+  assistant.events
+  assistant.messages
+  assistant.runs
+  assistant.tool_calls
+}
+
+TableGroup studio_tables {
+  studio.director_models
+  studio.director_projects
+  studio.hf_events
+  studio.hf_files
+  studio.hf_projects
+  studio.hf_renders
+  studio.hf_revision_files
+  studio.hf_revisions
+}
+
+TableGroup platform_tables {
+  platform.inbox
+  platform.outbox
+}
+

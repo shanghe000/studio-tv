@@ -1,0 +1,557 @@
+{
+  "sourceEvidence": "native-storyboard-fresh-h3-drama-submit.json",
+  "baseline": {
+    "nodes": [
+      {
+        "id": "node_1792642529381_4400n6b",
+        "type": "rh-script",
+        "position": {
+          "x": 1326.6388588783082,
+          "y": 1098.5
+        },
+        "data": {
+          "label": "脚本生成台",
+          "title": "脚本生成台",
+          "status": "finished",
+          "width": 380,
+          "height": 220,
+          "output": {
+            "characters": [
+              {
+                "desc": "成年中国女性，短发，身穿白衬衫、黑长裤。",
+                "id": "lin_yao",
+                "name": "林遥"
+              },
+              {
+                "desc": "成年中国男性，短黑发，身穿蓝衬衫、黑长裤。",
+                "id": "zhou_ning",
+                "name": "周宁"
+              }
+            ],
+            "globalStyles": "电影写实",
+            "outputScene": "film",
+            "products": [],
+            "props": [],
+            "rows": [
+              {
+                "char_desc": "林遥：成年中国女性，短发，身穿白衬衫、黑长裤。",
+                "character": "林遥",
+                "character_img": "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf",
+                "characters": [
+                  {
+                    "名称": "林遥",
+                    "描述": "成年中国女性，短发，身穿白衬衫、黑长裤。",
+                    "角色图": "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+                  }
+                ],
+                "description": "固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+                "duration": "5",
+                "film_style": "电影写实",
+                "id": "studio-shot-1",
+                "product": "",
+                "product_desc": "",
+                "product_img": "",
+                "products": [],
+                "prop": "",
+                "prop_desc": "",
+                "prop_img": "",
+                "props": [],
+                "scene": {
+                  "名称": "",
+                  "场景图": "",
+                  "描述": ""
+                },
+                "scene_desc": "",
+                "scene_img": "",
+                "scene_loc": "",
+                "shot": "1",
+                "sound_effect": "",
+                "storyboard_prompt": "电影写实风格，明亮白色摄影棚，成年短发中国女性林遥身穿白衬衫、黑长裤，低头用右手整理左侧袖口。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与棉质衣料纹理，高端商业摄影，精致克制的色彩分级。仅林遥一人入镜，无其他人物，无文字。",
+                "video_prompt": "5秒写实电影镜头。明亮白色摄影棚内，成年短发中国女性林遥身穿白衬衫、黑长裤，站姿放松。固定机位中景，画面覆盖头部至大腿，全程无推拉摇移、无变焦、无切换。柔和自然光照亮面部与衣料。林遥先低头看向左侧袖口，再用右手轻轻拉正袖口并抚平褶皱，最后自然放下双手，动作细微连贯。cinematic realism, natural light, high-end commercial photography, refined color grading。仅林遥一人入镜，无其他人物。无台词、无音乐，仅保留轻微衣料摩擦声与摄影棚自然环境底噪。"
+              },
+              {
+                "char_desc": "周宁：成年中国男性，短黑发，身穿蓝衬衫、黑长裤。",
+                "character": "周宁",
+                "character_img": "",
+                "characters": [
+                  {
+                    "名称": "周宁",
+                    "描述": "成年中国男性，短黑发，身穿蓝衬衫、黑长裤。",
+                    "角色图": ""
+                  }
+                ],
+                "description": "固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+                "duration": "5",
+                "film_style": "电影写实",
+                "id": "studio-shot-2",
+                "product": "",
+                "product_desc": "",
+                "product_img": "",
+                "products": [],
+                "prop": "",
+                "prop_desc": "",
+                "prop_img": "",
+                "props": [],
+                "scene": {
+                  "名称": "",
+                  "场景图": "",
+                  "描述": ""
+                },
+                "scene_desc": "",
+                "scene_img": "",
+                "scene_loc": "",
+                "shot": "2",
+                "sound_effect": "",
+                "storyboard_prompt": "电影写实风格，明亮白色摄影棚，成年中国男性周宁，短黑发，身穿蓝衬衫、黑长裤，身体侧背向镜头，回头露出自然微笑。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与衣料纹理，高端商业摄影，精致克制的色彩分级，与上一镜保持一致的白色背景和光线质感。仅周宁一人入镜，无其他人物，无文字。",
+                "video_prompt": "5秒写实电影镜头。明亮白色摄影棚内，成年中国男性周宁留短黑发，身穿蓝衬衫、黑长裤，起初身体侧背向镜头，双臂自然垂落。固定机位中景，画面覆盖头部至大腿，全程无推拉摇移、无变焦、无切换。柔和自然光照亮人物，白色背景明亮且保留层次。周宁自然转动头部，肩膀轻微跟随，回头看向镜头方向，逐渐露出轻松温和的微笑，最后保持微笑短暂停留。cinematic realism, natural light, high-end commercial photography, refined color grading。仅周宁一人入镜，无其他人物。无台词、无音乐，仅保留轻微衣料摩擦声与摄影棚自然环境底噪。"
+              }
+            ],
+            "scenes": [],
+            "shots": [
+              {
+                "action": "固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+                "characters": [
+                  "lin_yao"
+                ],
+                "duration_seconds": 5,
+                "image_prompt": "电影写实风格，明亮白色摄影棚，成年短发中国女性林遥身穿白衬衫、黑长裤，低头用右手整理左侧袖口。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与棉质衣料纹理，高端商业摄影，精致克制的色彩分级。仅林遥一人入镜，无其他人物，无文字。",
+                "video_prompt": "5秒写实电影镜头。明亮白色摄影棚内，成年短发中国女性林遥身穿白衬衫、黑长裤，站姿放松。固定机位中景，画面覆盖头部至大腿，全程无推拉摇移、无变焦、无切换。柔和自然光照亮面部与衣料。林遥先低头看向左侧袖口，再用右手轻轻拉正袖口并抚平褶皱，最后自然放下双手，动作细微连贯。cinematic realism, natural light, high-end commercial photography, refined color grading。仅林遥一人入镜，无其他人物。无台词、无音乐，仅保留轻微衣料摩擦声与摄影棚自然环境底噪。"
+              },
+              {
+                "action": "固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+                "characters": [
+                  "zhou_ning"
+                ],
+                "duration_seconds": 5,
+                "image_prompt": "电影写实风格，明亮白色摄影棚，成年中国男性周宁，短黑发，身穿蓝衬衫、黑长裤，身体侧背向镜头，回头露出自然微笑。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与衣料纹理，高端商业摄影，精致克制的色彩分级，与上一镜保持一致的白色背景和光线质感。仅周宁一人入镜，无其他人物，无文字。",
+                "video_prompt": "5秒写实电影镜头。明亮白色摄影棚内，成年中国男性周宁留短黑发，身穿蓝衬衫、黑长裤，起初身体侧背向镜头，双臂自然垂落。固定机位中景，画面覆盖头部至大腿，全程无推拉摇移、无变焦、无切换。柔和自然光照亮人物，白色背景明亮且保留层次。周宁自然转动头部，肩膀轻微跟随，回头看向镜头方向，逐渐露出轻松温和的微笑，最后保持微笑短暂停留。cinematic realism, natural light, high-end commercial photography, refined color grading。仅周宁一人入镜，无其他人物。无台词、无音乐，仅保留轻微衣料摩擦声与摄影棚自然环境底噪。"
+              }
+            ],
+            "storyboardEntities": {
+              "characters": [
+                {
+                  "desc": "成年中国女性，短发，身穿白衬衫、黑长裤。",
+                  "id": "lin_yao",
+                  "imageUrl": "rhtv-asset:ast_09a8778c9425082add6efe90e9f019c00d5cbb02f0aad77f",
+                  "name": "林遥"
+                },
+                {
+                  "desc": "成年中国男性，短黑发，穿蓝衬衫与黑长裤。",
+                  "id": "zhou_ning",
+                  "imageUrl": "rhtv-asset:ast_b1ac988ac8a8811a07d3e222e0c7384d339f457edbb8e66a",
+                  "name": "周宁"
+                }
+              ],
+              "products": [],
+              "props": [],
+              "scenes": []
+            },
+            "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading"
+          },
+          "params": {
+            "prompt": "生成写实电影的两镜分镜，每镜5秒。仅两名成年角色：林遥，短发中国女性，白衬衫黑长裤；周宁，中国男性，短黑发蓝衬衫黑长裤。地点为明亮白色摄影棚。第一镜林遥整理袖口；第二镜周宁回头微笑。无台词，无音乐，只保留自然环境声。顶层characters只列这两名角色，每项含唯一id、name、desc；scenes、props、products为空数组。shots恰好2项，每项含action、image_prompt、video_prompt、duration_seconds=5、characters角色id数组，不要scene字段。两个视频提示词应是完整独立描述，含对应角色衣着、自然动作、固定镜头和自然光。",
+            "reasoning_effort": "low",
+            "scene": "film"
+          },
+          "modelCode": "codex-6-1-text-v1",
+          "generateNum": 1,
+          "subType": "multimodal-storyboard",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_c6909d5d27214a4b8bd3ce3065e013a9",
+          "estimateTaskId": "tsk_c6909d5d27214a4b8bd3ce3065e013a9",
+          "generationStartedAt": 1792643150033,
+          "errorMsg": "",
+          "historyStorage": {
+            "historyId": "exe_2b0ba7cd496e4ae1a2392253afcd41f2",
+            "resultCount": 1,
+            "revision": "6",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [
+            {
+              "coverUrl": "rhtv-asset:fixture-remap-5fbc2fd9f36f",
+              "id": "cinematic_realism",
+              "key": "styleLibrary",
+              "label": "电影写实",
+              "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+              "referenceImageUrl": "rhtv-asset:fixture-remap-5fbc2fd9f36f"
+            }
+          ],
+          "globalStyles": "电影写实",
+          "styleName": "film::电影写实",
+          "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "stylesPrompts": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "storyboardTableViewTab": "board",
+          "storyboardAspectRatio": "16:9",
+          "storyboardBoardPromptGroups": [
+            {
+              "key": "board-group-0",
+              "promptText": "【镜号】1\n【画面描述】：固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+              "rangeLabel": "分镜1"
+            },
+            {
+              "key": "board-group-1",
+              "promptText": "【镜号】2\n【画面描述】：固定中景，周宁站在同一明亮白色摄影棚内，起初侧背向镜头，随后自然回头看向镜头方向，露出轻松微笑并短暂停留。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+              "rangeLabel": "分镜2"
+            }
+          ],
+          "storyboardEntityImageModel": "codex-image-edit-v1",
+          "storyboardMergeCount": 1,
+          "storyboardDurationMode": "standard",
+          "storyboardComposeMode": "merge-1"
+        },
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true
+      },
+      {
+        "id": "node_1792645305533_o0eefds",
+        "type": "rh-image",
+        "position": {
+          "x": 3266.6388588783084,
+          "y": 1028.5
+        },
+        "data": {
+          "label": "分镜1",
+          "title": "分镜1",
+          "status": "finished",
+          "width": 360,
+          "height": 203,
+          "prompt": "电影写实风格，明亮白色摄影棚，成年短发中国女性林遥身穿白衬衫、黑长裤，低头用右手整理左侧袖口。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与棉质衣料纹理，高端商业摄影，精致克制的色彩分级。仅林遥一人入镜，无其他人物，无文字。\n【角色图】@图片1",
+          "groupColor": "rgba(163, 159, 159, 0.21)",
+          "groupId": "group-1792645305534",
+          "output": [
+            {
+              "assetId": "ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+              "height": 941,
+              "historyOutputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+              "mediaId": "ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+              "mimeType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+              "outputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+              "outputType": "image/png",
+              "testMode": false,
+              "thumbnailUrl": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+              "url": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+              "width": 1672
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2"
+          ],
+          "imageUrl": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+          "toolsType": "image-image",
+          "toolsSourceUrl": "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf",
+          "aspectRatio": "16:9",
+          "params": {
+            "aspectRatio": "16:9",
+            "imageUrls": [
+              "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+            ],
+            "prompt": "电影写实风格，明亮白色摄影棚，成年短发中国女性林遥身穿白衬衫、黑长裤，低头用右手整理左侧袖口。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与棉质衣料纹理，高端商业摄影，精致克制的色彩分级。仅林遥一人入镜，无其他人物，无文字。\n【角色图】@图片1",
+            "rhModel": "codex-image-edit-v1",
+            "transparentBackground": false
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "subType": "image-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_5cc233fa347743a7b47936e10aff3e79",
+          "errorMsg": "",
+          "sceneCode": "storyboard-prompt-board",
+          "historyStorage": {
+            "historyId": "exe_cff63e49a78948b5bf7ce774c2a8c6de",
+            "imageBatchOrigin": {
+              "count": 1,
+              "executionId": "exe_cff63e49a78948b5bf7ce774c2a8c6de",
+              "index": 0,
+              "outputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+              "sourceNodeId": "node_1792645305533_o0eefds",
+              "taskId": "tsk_5cc233fa347743a7b47936e10aff3e79"
+            },
+            "resultCount": 1,
+            "revision": "5",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "selectedHistoryBatchId": "",
+          "selectedHistoryOutputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+          "selectedOutputHistoryIndex": 0,
+          "styleName": "film::电影写实",
+          "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "isStoryboard": true,
+          "storyboardIndex": 1,
+          "storyboardRowId": "studio-shot-1__merge_studio-shot-1",
+          "storyboardShot": "1",
+          "storyboardRange": "分镜1",
+          "storyboardRowIds": [
+            "studio-shot-1"
+          ],
+          "addNewGroup": true
+        },
+        "style": {
+          "height": 214,
+          "width": 380
+        },
+        "selectable": true
+      },
+      {
+        "id": "node_1792648080806_yqezi4k",
+        "type": "rh-video",
+        "position": {
+          "x": 4204.638858878308,
+          "y": 1349.5
+        },
+        "selectable": true,
+        "data": {
+          "label": "分镜视频1",
+          "title": "分镜视频1",
+          "status": "idle",
+          "width": 380,
+          "height": 214,
+          "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "groupColor": "rgba(163, 159, 159, 0.21)",
+          "groupId": "group-1792648080809",
+          "toolsType": "multimodal-video",
+          "toolsSourceUrl": [
+            "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+            "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+          ],
+          "aspectRatio": "16:9",
+          "params": {
+            "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": [
+              "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+              "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+            ],
+            "audioUrls": "",
+            "videoUrls": "",
+            "aspectRatio": "16:9",
+            "rhModel": "h3-drama-reference-v1"
+          },
+          "modelCode": "h3-drama-reference-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "styleName": "film::电影写实",
+          "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "storyboardVideoSyncedPrompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+          "isStoryboard": true,
+          "storyboardIndex": 1,
+          "storyboardRowId": "studio-shot-1__merge_studio-shot-1",
+          "storyboardShot": "1",
+          "addNewGroup": true
+        },
+        "style": {
+          "width": 380,
+          "height": 214
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-node_1792642529381_4400n6b-node_1792645305533_o0eefds",
+        "source": "node_1792642529381_4400n6b",
+        "target": "node_1792645305533_o0eefds",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      },
+      {
+        "id": "e-node_1792645305533_o0eefds-node_1792648080806_yqezi4k",
+        "source": "node_1792645305533_o0eefds",
+        "target": "node_1792648080806_yqezi4k",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "command": {
+    "canvasId": "prj_b75bd2a7-2acb-4cf7-bccc-59c93e3ae986",
+    "targetType": "NODE",
+    "targetId": "node_1792648080806_yqezi4k",
+    "canvas": {
+      "nodes": [
+        {
+          "id": "node_1792648080806_yqezi4k",
+          "type": "rh-video",
+          "position": {
+            "x": 4204.638858878308,
+            "y": 1349.5
+          },
+          "data": {
+            "label": "分镜视频1",
+            "title": "分镜视频1",
+            "status": "idle",
+            "width": 380,
+            "height": 214,
+            "groupColor": "rgba(163, 159, 159, 0.21)",
+            "groupId": "group-1792648080809",
+            "toolsType": "multimodal-video",
+            "toolsSourceUrl": [
+              "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+              "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+            ],
+            "aspectRatio": "16:9",
+            "params": {
+              "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+              "outputPreset": "landscape-480p-5s",
+              "imageUrls": [
+                "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+                "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+              ],
+              "audioUrls": [],
+              "videoUrls": [],
+              "text": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading"
+            },
+            "modelCode": "h3-drama-reference-v1",
+            "generateNum": 1,
+            "subType": "multimodal-video",
+            "styleName": "film::电影写实",
+            "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "storyboardVideoSyncedPrompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。",
+            "isStoryboard": true,
+            "storyboardIndex": 1,
+            "storyboardRowId": "studio-shot-1__merge_studio-shot-1",
+            "storyboardShot": "1",
+            "addNewGroup": true,
+            "userPromptSnapshot": {
+              "paramName": "prompt",
+              "value": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading"
+            },
+            "modelType": "OPENAPI",
+            "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "presetSelections": [],
+            "nodeOutputHistory": []
+          },
+          "style": {
+            "width": 380,
+            "height": 214
+          },
+          "selectable": true,
+          "hidden": false
+        },
+        {
+          "id": "node_1792645305533_o0eefds",
+          "type": "rh-image",
+          "position": {
+            "x": 3266.6388588783084,
+            "y": 1028.5
+          },
+          "data": {
+            "label": "分镜1",
+            "title": "分镜1",
+            "status": "finished",
+            "width": 360,
+            "height": 203,
+            "prompt": "电影写实风格，明亮白色摄影棚，成年短发中国女性林遥身穿白衬衫、黑长裤，低头用右手整理左侧袖口。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与棉质衣料纹理，高端商业摄影，精致克制的色彩分级。仅林遥一人入镜，无其他人物，无文字。\n【角色图】@图片1",
+            "groupColor": "rgba(163, 159, 159, 0.21)",
+            "groupId": "group-1792645305534",
+            "output": [
+              {
+                "assetId": "ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+                "height": 941,
+                "historyOutputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+                "mediaId": "ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+                "mimeType": "image/png",
+                "originalUrl": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+                "outputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+                "outputType": "image/png",
+                "testMode": false,
+                "thumbnailUrl": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+                "url": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+                "width": 1672
+              }
+            ],
+            "sourceObjects": [
+              "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2"
+            ],
+            "imageUrl": "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+            "toolsType": "image-image",
+            "toolsSourceUrl": "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf",
+            "aspectRatio": "16:9",
+            "params": {
+              "aspectRatio": "16:9",
+              "imageUrls": [
+                "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+              ],
+              "prompt": "电影写实风格，明亮白色摄影棚，成年短发中国女性林遥身穿白衬衫、黑长裤，低头用右手整理左侧袖口。固定机位中景，画面覆盖头部至大腿，柔和自然光，真实皮肤与棉质衣料纹理，高端商业摄影，精致克制的色彩分级。仅林遥一人入镜，无其他人物，无文字。\n【角色图】@图片1",
+              "rhModel": "codex-image-edit-v1",
+              "transparentBackground": false
+            },
+            "modelCode": "codex-image-edit-v1",
+            "generateNum": 1,
+            "subType": "image-image",
+            "maxConnect": {
+              "image": null,
+              "text": null,
+              "video": null
+            },
+            "taskId": "tsk_5cc233fa347743a7b47936e10aff3e79",
+            "errorMsg": "",
+            "sceneCode": "storyboard-prompt-board",
+            "historyStorage": {
+              "historyId": "exe_cff63e49a78948b5bf7ce774c2a8c6de",
+              "imageBatchOrigin": {
+                "count": 1,
+                "executionId": "exe_cff63e49a78948b5bf7ce774c2a8c6de",
+                "index": 0,
+                "outputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+                "sourceNodeId": "node_1792645305533_o0eefds",
+                "taskId": "tsk_5cc233fa347743a7b47936e10aff3e79"
+              },
+              "resultCount": 1,
+              "revision": "5",
+              "schemaVersion": 1,
+              "source": "remote"
+            },
+            "selectedHistoryBatchId": "",
+            "selectedHistoryOutputId": "out_1b8e3fbec466090d5fd70873fd1acc3288ad5100",
+            "selectedOutputHistoryIndex": 0,
+            "styleName": "film::电影写实",
+            "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "isStoryboard": true,
+            "storyboardIndex": 1,
+            "storyboardRowId": "studio-shot-1__merge_studio-shot-1",
+            "storyboardShot": "1",
+            "storyboardRange": "分镜1",
+            "storyboardRowIds": [
+              "studio-shot-1"
+            ],
+            "addNewGroup": true
+          },
+          "style": {
+            "height": 203,
+            "width": 360
+          },
+          "selectable": true,
+          "hidden": false
+        }
+      ],
+      "edges": [
+        {
+          "source": "node_1792645305533_o0eefds",
+          "target": "node_1792648080806_yqezi4k"
+        }
+      ]
+    },
+    "name": "跨入口验收 · 2026-10-22"
+  }
+}

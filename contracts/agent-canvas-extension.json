@@ -1,0 +1,3435 @@
+{
+  "openapi": "3.1.1",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Studio TV Agent API and live canvas design",
+    "version": "0.1.0-design",
+    "description": "DESIGN / RESERVED full target contract. This file does not register routes or enable inference. A limited ordinary-node command/receipt slice is separately implemented in canvas-commands-implemented-extension.json; its exact supported operations and errors govern current runtime. Other unregistered target paths remain404. Existing v1 and text runs are unchanged. All business calls use the currently signed-in STUDIO user Bearer through normal live authentication/authorization."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "x-implementation-stage": "RESERVED",
+  "x-design-only": true,
+  "x-related-design": "../docs/agent-api-and-live-canvas-design.md",
+  "x-existing-apis-reused": [
+    "/api/v1/projects/{projectId}/snapshot",
+    "/api/v2/tasks/{id}",
+    "/api/v2/tasks/{id}/events",
+    "/api/v2/tasks/{id}/cancel",
+    "/api/v2/history",
+    "/api/v1/assets/{assetId}",
+    "/api/v2/model-capabilities",
+    "/api/v2/model-requirements"
+  ],
+  "paths": {
+    "/api/v2/conversations/{conversationId}/agent-runs": {
+      "post": {
+        "operationId": "createCanvasAgentRun",
+        "summary": "当前用户创建Agent工作流",
+        "description": "If-Match为conversation revision；持久USER消息必须属此conversation，画布修订在body；当前用户Bearer由可信executor私下持有，不进入模型。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConversationId"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentRunCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{runId}": {
+      "get": {
+        "operationId": "getCanvasAgentRun",
+        "summary": "读取本人Agent run",
+        "description": "",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{runId}/cancel": {
+      "post": {
+        "operationId": "cancelCanvasAgentRun",
+        "summary": "停止新工具并收尾已提交操作",
+        "description": "取消不回滚已提交操作；当前本人可取消自己的旧session run。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelAgentRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{runId}/auth-context": {
+      "put": {
+        "operationId": "updateAgentAuthContext",
+        "summary": "更新同一登录会话的私有Bearer凭证",
+        "description": "空body；新access只在Authorization。If-Match是credentialEpoch。必须同owner+parentSessionId；不消费refresh Cookie，不延长登录期限。 拒绝verified iat/exp倒退，旧凭证不能读取新epoch后覆盖；相同token幂等。expiresAt为token/session/run有效截止时间的较早值。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthContextUpdateResponse"
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        }
+      }
+    },
+    "/api/v2/agent-runs/{runId}/events": {
+      "get": {
+        "operationId": "getCanvasAgentRunEvents",
+        "summary": "本人Agent事件流与JSON补发",
+        "description": " 服务端在冻结的Bearer exp/session截止时间强制关闭，重连接续补发；不依赖客户端主动重连。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RunId"
+          },
+          {
+            "$ref": "#/components/parameters/After"
+          },
+          {
+            "$ref": "#/components/parameters/LastEventId"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunEventPageResponse"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string",
+                  "description": "id=sequence，event=type，data=对应Event JSON。持久事件至少一次/有序补发；心跳comment无id。已建流错误不能再修改HTTP status，发送无id stream.error后关闭并通过新HTTP请求重认证。"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "x-event-schema": {
+          "$ref": "#/components/schemas/RunEvent"
+        }
+      }
+    },
+    "/api/v2/agent/tools": {
+      "get": {
+        "operationId": "getCanvasAgentTools",
+        "summary": "读取固定工具及节点输入schema",
+        "description": "必须提供本人runId；只广告真实已实现可用工具。没有万能HTTP/调用代理。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolDirectoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{projectId}/live-snapshot": {
+      "get": {
+        "operationId": "getAgentLiveSnapshot",
+        "summary": "原子读取图、节点状态和事件游标",
+        "description": "一致性快照；响应ETag=graphRevision。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LiveSnapshotResponse"
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{projectId}/canvas-commands": {
+      "post": {
+        "operationId": "submitCanvasCommand",
+        "summary": "提交typed画布命令并持久记录回执",
+        "description": "当前用户认证和实时tv.access；If-Match为graph revision。保存、revision、回执、项目事件同事务；不等于已实现undo。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandReceiptResponse"
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CanvasCommand"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{projectId}/canvas-commands/{commandId}": {
+      "get": {
+        "operationId": "getCanvasCommandReceipt",
+        "summary": "读取本人已提交命令回执",
+        "description": "同owner/project；回执是历史修订，非当前graph head。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/CommandId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandReceiptResponse"
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{projectId}/canvas-executions": {
+      "post": {
+        "operationId": "createCanvasExecutionFromState",
+        "summary": "从服务器画布排队生成",
+        "description": "If-Match为graph revision；服务器冻结节点型号参数及功能PromptSpec。不可直接提交graph/output。202不是模型成功。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/IfMatch"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CanvasExecutionReceiptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CanvasExecutionCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{projectId}/events": {
+      "get": {
+        "operationId": "getAgentProjectEvents",
+        "summary": "画布节点连线与执行事件",
+        "description": " 服务端在冻结的Bearer exp/session截止时间强制关闭，重连接续补发；不依赖客户端主动重连。",
+        "x-implementation-stage": "RESERVED",
+        "x-design-only": true,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/After"
+          },
+          {
+            "$ref": "#/components/parameters/LastEventId"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Future success shape; DESIGN only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectEventPageResponse"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string",
+                  "description": "id=sequence，event=type，data=对应Event JSON。持久事件至少一次/有序补发；心跳comment无id。已建流错误不能再修改HTTP status，发送无id stream.error后关闭并通过新HTTP请求重认证。"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error409"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error410"
+          },
+          "412": {
+            "$ref": "#/components/responses/Error412"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error415"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error422"
+          },
+          "428": {
+            "$ref": "#/components/responses/Error428"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error429"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error501"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error503"
+          }
+        },
+        "x-event-schema": {
+          "$ref": "#/components/schemas/ProjectEvent"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "STUDIO access JWT",
+        "description": "当前PF用户access；与Web相同身份。禁止service token替代、token URL或owner参数赋权。"
+      }
+    },
+    "parameters": {
+      "ConversationId": {
+        "name": "conversationId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      "ProjectId": {
+        "name": "projectId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      "RunId": {
+        "name": "runId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      "CommandId": {
+        "name": "commandId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      "IfMatch": {
+        "name": "If-Match",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^\"[1-9][0-9]*\"$"
+        },
+        "description": "一个正整数强ETag。分别指conversation、graph或auth-context，操作说明明确资源。"
+      },
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "UUID；请求摘要包括If-Match；重试保留原key和前提。"
+      },
+      "After": {
+        "name": "after",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Cursor"
+        },
+        "description": "必须与Last-Event-ID一致（两者均存在时）；两者都省略视为0，不静默跳到head。"
+      },
+      "LastEventId": {
+        "name": "Last-Event-ID",
+        "in": "header",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Cursor"
+        }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 100
+        },
+        "description": "JSON回放页大小；SSE固定按有界批次补发。"
+      }
+    },
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$"
+      },
+      "Revision": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "Cursor": {
+        "type": "string",
+        "pattern": "^(0|[1-9][0-9]*)$",
+        "maxLength": 19,
+        "description": "十进制事件序号；按project或run分区，不是graph revision。"
+      },
+      "Position": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ],
+        "additionalProperties": false
+      },
+      "ErrorDetail": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "code",
+          "message"
+        ],
+        "additionalProperties": false
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "message": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetail"
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "retryable",
+          "details"
+        ],
+        "additionalProperties": false
+      },
+      "CapabilitySelection": {
+        "type": "object",
+        "properties": {
+          "capabilityRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "capabilityVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "parameterSchemaVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "capabilityRef",
+          "capabilityVersion",
+          "parameterSchemaVersion"
+        ],
+        "additionalProperties": false
+      },
+      "Parameters": {
+        "type": "object",
+        "description": "仅模型参数；二次按精确capability/schema版本验证，不接收原生config/权限/系统提示词。",
+        "x-validated-by": "server capabilityRef + capabilityVersion + parameterSchemaVersion"
+      },
+      "AgentContext": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "toolCallId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "runId",
+          "toolCallId"
+        ],
+        "additionalProperties": false,
+        "description": "首次执行验证已登记pending call的owner/session/target/冻结hash；完成后仅匹配已存回执重放/查询，不执行新副作用；不赋权。"
+      },
+      "AuthContext": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "WAITING_FOR_AUTH",
+              "REVOKED"
+            ]
+          },
+          "credentialEpoch": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "expiresAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "有效截止时间=min(已验证JWT exp, parent session到期, run deadline)；不延长token。"
+          }
+        },
+        "required": [
+          "state",
+          "credentialEpoch",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "AgentRunCreate": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "messageId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "expectedGraphRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "selection": {
+            "$ref": "#/components/schemas/CapabilitySelection"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Parameters"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "messageId",
+          "selection",
+          "parameters"
+        ],
+        "additionalProperties": false,
+        "description": "If-Match来自conversation修订。CANVAS会话project由服务器解析；显式project必须本人且与CANVAS父级一致；有画布上下文时expectedGraphRevision必填。"
+      },
+      "AgentRun": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "conversationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "projectId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "WAITING_FOR_AUTH",
+              "CANCEL_REQUESTED",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELED"
+            ]
+          },
+          "revision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "selection": {
+            "$ref": "#/components/schemas/CapabilitySelection"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Parameters"
+          },
+          "toolSchemaVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "auth": {
+            "$ref": "#/components/schemas/AuthContext"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "conversationId",
+          "projectId",
+          "state",
+          "revision",
+          "selection",
+          "parameters",
+          "toolSchemaVersion",
+          "auth",
+          "createdAt",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "CancelAgentRequest": {
+        "type": "object",
+        "maxProperties": 0,
+        "additionalProperties": false
+      },
+      "AuthContextUpdate": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "auth": {
+            "$ref": "#/components/schemas/AuthContext"
+          }
+        },
+        "required": [
+          "runId",
+          "auth"
+        ],
+        "additionalProperties": false
+      },
+      "ToolDescriptor": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "operationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "inputSchema": {
+            "type": "object"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "implementationStage": {
+            "type": "string",
+            "enum": [
+              "IMPLEMENTED",
+              "RESERVED"
+            ]
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "operationId",
+          "inputSchema",
+          "schemaVersion",
+          "implementationStage",
+          "available",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "NodeInputSchema": {
+        "type": "object",
+        "properties": {
+          "nodeType": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "inputSchema": {
+            "type": "object"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "nodeType",
+          "version",
+          "inputSchema",
+          "available",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "ToolDirectory": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "toolSchemaVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolDescriptor"
+            },
+            "maxItems": 100
+          },
+          "nodeInputSchemas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NodeInputSchema"
+            },
+            "maxItems": 200
+          }
+        },
+        "required": [
+          "runId",
+          "toolSchemaVersion",
+          "tools",
+          "nodeInputSchemas"
+        ],
+        "additionalProperties": false
+      },
+      "NodeInputs": {
+        "type": "object",
+        "description": "依据nodeType+inputSchemaVersion提供的不可变输入schema严格验证；只接受可编辑输入。禁止owner/status/task/output/执行标记、任意native扩展、系统提示词和凭据。OpenAPI对象类型不是业务字段授权。",
+        "x-validated-by": "server nodeType + inputSchemaVersion registry"
+      },
+      "NewNode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "nodeType": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "inputSchemaVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          },
+          "inputs": {
+            "$ref": "#/components/schemas/NodeInputs"
+          }
+        },
+        "required": [
+          "id",
+          "nodeType",
+          "inputSchemaVersion",
+          "position",
+          "inputs"
+        ],
+        "additionalProperties": false
+      },
+      "Edge": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "target": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sourceHandle": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 200
+          },
+          "targetHandle": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "target",
+          "sourceHandle",
+          "targetHandle"
+        ],
+        "additionalProperties": false,
+        "description": "服务器按端口/节点类型校验；存储的图与执行依赖DAG规则不能混为一谈。"
+      },
+      "AssetBinding": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "assetId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "slot",
+          "assetId"
+        ],
+        "additionalProperties": false
+      },
+      "NodeCreate": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "node.create"
+          },
+          "node": {
+            "$ref": "#/components/schemas/NewNode"
+          }
+        },
+        "required": [
+          "type",
+          "node"
+        ],
+        "additionalProperties": false
+      },
+      "NodeUpdateInputs": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "node.updateInputs"
+          },
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "inputSchemaVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "inputs": {
+            "$ref": "#/components/schemas/NodeInputs"
+          }
+        },
+        "required": [
+          "type",
+          "nodeId",
+          "inputSchemaVersion",
+          "inputs"
+        ],
+        "additionalProperties": false
+      },
+      "NodeMove": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "node.move"
+          },
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          }
+        },
+        "required": [
+          "type",
+          "nodeId",
+          "position"
+        ],
+        "additionalProperties": false
+      },
+      "NodeDelete": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "node.delete"
+          },
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "type",
+          "nodeId"
+        ],
+        "additionalProperties": false
+      },
+      "NodeSelectCapability": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "node.selectCapability"
+          },
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "selection": {
+            "$ref": "#/components/schemas/CapabilitySelection"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Parameters"
+          }
+        },
+        "required": [
+          "type",
+          "nodeId",
+          "selection",
+          "parameters"
+        ],
+        "additionalProperties": false
+      },
+      "NodeSetParameters": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "node.setParameters"
+          },
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "selection": {
+            "$ref": "#/components/schemas/CapabilitySelection"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Parameters"
+          }
+        },
+        "required": [
+          "type",
+          "nodeId",
+          "selection",
+          "parameters"
+        ],
+        "additionalProperties": false
+      },
+      "NodeBindAssets": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "node.bindAssets"
+          },
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "bindings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetBinding"
+            },
+            "maxItems": 32
+          }
+        },
+        "required": [
+          "type",
+          "nodeId",
+          "bindings"
+        ],
+        "additionalProperties": false
+      },
+      "EdgeCreate": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "edge.create"
+          },
+          "edge": {
+            "$ref": "#/components/schemas/Edge"
+          }
+        },
+        "required": [
+          "type",
+          "edge"
+        ],
+        "additionalProperties": false
+      },
+      "EdgeDelete": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "edge.delete"
+          },
+          "edgeId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "type",
+          "edgeId"
+        ],
+        "additionalProperties": false
+      },
+      "GroupCreate": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "group.create"
+          },
+          "groupId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          },
+          "memberIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "type",
+          "groupId",
+          "title",
+          "position",
+          "memberIds"
+        ],
+        "additionalProperties": false
+      },
+      "GroupSetMembers": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "group.setMembers"
+          },
+          "groupId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "memberIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "type",
+          "groupId",
+          "memberIds"
+        ],
+        "additionalProperties": false
+      },
+      "GroupDissolve": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "group.dissolve"
+          },
+          "groupId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "type",
+          "groupId"
+        ],
+        "additionalProperties": false
+      },
+      "CanvasOperation": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/NodeCreate"
+          },
+          {
+            "$ref": "#/components/schemas/NodeUpdateInputs"
+          },
+          {
+            "$ref": "#/components/schemas/NodeMove"
+          },
+          {
+            "$ref": "#/components/schemas/NodeDelete"
+          },
+          {
+            "$ref": "#/components/schemas/NodeSelectCapability"
+          },
+          {
+            "$ref": "#/components/schemas/NodeSetParameters"
+          },
+          {
+            "$ref": "#/components/schemas/NodeBindAssets"
+          },
+          {
+            "$ref": "#/components/schemas/EdgeCreate"
+          },
+          {
+            "$ref": "#/components/schemas/EdgeDelete"
+          },
+          {
+            "$ref": "#/components/schemas/GroupCreate"
+          },
+          {
+            "$ref": "#/components/schemas/GroupSetMembers"
+          },
+          {
+            "$ref": "#/components/schemas/GroupDissolve"
+          },
+          {
+            "$ref": "#/components/schemas/ViewportSet"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "node.create": "#/components/schemas/NodeCreate",
+            "node.updateInputs": "#/components/schemas/NodeUpdateInputs",
+            "node.move": "#/components/schemas/NodeMove",
+            "node.delete": "#/components/schemas/NodeDelete",
+            "node.selectCapability": "#/components/schemas/NodeSelectCapability",
+            "node.setParameters": "#/components/schemas/NodeSetParameters",
+            "node.bindAssets": "#/components/schemas/NodeBindAssets",
+            "edge.create": "#/components/schemas/EdgeCreate",
+            "edge.delete": "#/components/schemas/EdgeDelete",
+            "group.create": "#/components/schemas/GroupCreate",
+            "group.setMembers": "#/components/schemas/GroupSetMembers",
+            "group.dissolve": "#/components/schemas/GroupDissolve",
+            "viewport.set": "#/components/schemas/ViewportSet"
+          }
+        }
+      },
+      "CanvasCommand": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "operations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CanvasOperation"
+            },
+            "maxItems": 100,
+            "minItems": 1
+          },
+          "agentContext": {
+            "$ref": "#/components/schemas/AgentContext"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "operations"
+        ],
+        "additionalProperties": false
+      },
+      "GraphDelta": {
+        "type": "object",
+        "properties": {
+          "nodesUpsert": {
+            "type": "array",
+            "items": {
+              "$ref": "./openapi.json#/components/schemas/GraphNode"
+            }
+          },
+          "nodesRemoved": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "edgesUpsert": {
+            "type": "array",
+            "items": {
+              "$ref": "./openapi.json#/components/schemas/GraphEdge"
+            }
+          },
+          "edgesRemoved": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "viewport": {
+            "$ref": "./openapi.json#/components/schemas/ProjectGraph/properties/viewport"
+          }
+        },
+        "required": [
+          "nodesUpsert",
+          "nodesRemoved",
+          "edgesUpsert",
+          "edgesRemoved"
+        ],
+        "additionalProperties": false,
+        "description": "只读，服务器归一化后的真正变更；可以包含保留meta，客户端不能借写命令直接构造它。 顶层viewport变化也必须表达；接收端更新base并保留本tab相机。"
+      },
+      "CommandReceipt": {
+        "type": "object",
+        "properties": {
+          "commandId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "state": {
+            "const": "COMMITTED"
+          },
+          "baseRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "graphRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "eventCursor": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/GraphDelta"
+          },
+          "committedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "commandId",
+          "projectId",
+          "state",
+          "baseRevision",
+          "graphRevision",
+          "eventCursor",
+          "delta",
+          "committedAt"
+        ],
+        "additionalProperties": false,
+        "description": "200证明事务已提交；幂等重放返回原回执，不代表现在的项目head仍等于此revision。"
+      },
+      "NodeState": {
+        "type": "object",
+        "properties": {
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "incarnation": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "executionId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "taskRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELED"
+            ]
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "RECONCILING",
+              "TERMINAL"
+            ]
+          },
+          "cancelRequested": {
+            "type": "boolean"
+          },
+          "progress": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "outputIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "assetIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "resultApplyState": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "PENDING",
+              "APPLIED",
+              "NOT_APPLIED"
+            ]
+          }
+        },
+        "required": [
+          "nodeId",
+          "incarnation",
+          "taskId",
+          "executionId",
+          "taskRevision",
+          "state",
+          "phase",
+          "cancelRequested",
+          "progress",
+          "outputIds",
+          "assetIds",
+          "errorCode",
+          "resultApplyState"
+        ],
+        "additionalProperties": false
+      },
+      "LiveSnapshot": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "graphRevision": {
+            "$ref": "#/components/schemas/Revision",
+            "description": "现projects.revision的CAS别名，作品移动等非graph writer也需推进project事件。"
+          },
+          "eventCursor": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "graph": {
+            "$ref": "./openapi.json#/components/schemas/ProjectGraph"
+          },
+          "nodeStates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NodeState"
+            }
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "projectId",
+          "graphRevision",
+          "eventCursor",
+          "graph",
+          "nodeStates",
+          "observedAt"
+        ],
+        "additionalProperties": false,
+        "description": "graph、nodeStates和eventCursor来自同一一致性快照，不拼接尚未投影的task head。"
+      },
+      "NodeTarget": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "NODE"
+          },
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "GroupTarget": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "GROUP"
+          },
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "CanvasTarget": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "CANVAS"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionTarget": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/NodeTarget"
+          },
+          {
+            "$ref": "#/components/schemas/GroupTarget"
+          },
+          {
+            "$ref": "#/components/schemas/CanvasTarget"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "CanvasExecutionCreate": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "target": {
+            "$ref": "#/components/schemas/ExecutionTarget"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          },
+          "agentContext": {
+            "$ref": "#/components/schemas/AgentContext"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "target"
+        ],
+        "additionalProperties": false,
+        "description": "If-Match为graph revision；不接收graph、outputs或任意系统提示词。选择来自服务器节点，临时选择应先通过typed command冻结到节点。"
+      },
+      "ExecutionBinding": {
+        "type": "object",
+        "properties": {
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "incarnation": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "executionId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "nodeId",
+          "incarnation",
+          "executionId"
+        ],
+        "additionalProperties": false
+      },
+      "CanvasExecutionReceipt": {
+        "type": "object",
+        "properties": {
+          "commandId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "state": {
+            "const": "QUEUED"
+          },
+          "sourceGraphRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "graphRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "eventCursor": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "bindings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExecutionBinding"
+            }
+          },
+          "acceptedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "commandId",
+          "projectId",
+          "taskId",
+          "state",
+          "sourceGraphRevision",
+          "graphRevision",
+          "eventCursor",
+          "bindings",
+          "acceptedAt"
+        ],
+        "additionalProperties": false,
+        "description": "202仅证明任务已接受；execution binding若只更新状态投影，graphRevision可以等于sourceGraphRevision，eventCursor仍增加。"
+      },
+      "EventSource": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "WEB",
+              "API",
+              "AGENT",
+              "SYSTEM"
+            ]
+          },
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "toolCallId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "additionalProperties": false,
+        "description": "服务器解析实际触发用例/已登记tool call，不能由调用者直接赋值。"
+      },
+      "ProjectEventBase": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EventSource"
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "data": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "sequence",
+          "occurredAt",
+          "source",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "GraphEventData": {
+        "type": "object",
+        "properties": {
+          "commandId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "baseRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "graphRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/GraphDelta"
+          }
+        },
+        "required": [
+          "commandId",
+          "baseRevision",
+          "graphRevision",
+          "delta"
+        ],
+        "additionalProperties": false
+      },
+      "GraphInvalidatedData": {
+        "type": "object",
+        "properties": {
+          "commandId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "baseRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "graphRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "DELTA_TOO_LARGE",
+              "REVISION_ONLY",
+              "UNREPRESENTABLE_CHANGE"
+            ]
+          }
+        },
+        "required": [
+          "commandId",
+          "baseRevision",
+          "graphRevision",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "ResultAppliedData": {
+        "type": "object",
+        "properties": {
+          "commandId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "baseRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "graphRevision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/GraphDelta"
+          },
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "incarnation": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "executionId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "outputIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "assetIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        },
+        "required": [
+          "commandId",
+          "baseRevision",
+          "graphRevision",
+          "delta",
+          "nodeId",
+          "incarnation",
+          "taskId",
+          "executionId",
+          "outputIds",
+          "assetIds"
+        ],
+        "additionalProperties": false
+      },
+      "ResultNotAppliedData": {
+        "type": "object",
+        "properties": {
+          "nodeId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "incarnation": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "executionId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "INPUT_CHANGED",
+              "NODE_DELETED",
+              "EXECUTION_SUPERSEDED",
+              "ACCESS_REVOKED"
+            ]
+          },
+          "outputIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "assetIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        },
+        "required": [
+          "nodeId",
+          "incarnation",
+          "taskId",
+          "executionId",
+          "reason",
+          "outputIds",
+          "assetIds"
+        ],
+        "additionalProperties": false
+      },
+      "CanvasChanged": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EventSource"
+          },
+          "type": {
+            "const": "canvas.changed"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GraphEventData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "sequence",
+          "occurredAt",
+          "source",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "CanvasInvalidated": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EventSource"
+          },
+          "type": {
+            "const": "canvas.invalidated"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GraphInvalidatedData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "sequence",
+          "occurredAt",
+          "source",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "NodeExecutionChanged": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EventSource"
+          },
+          "type": {
+            "const": "node.execution.changed"
+          },
+          "data": {
+            "$ref": "#/components/schemas/NodeState"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "sequence",
+          "occurredAt",
+          "source",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "NodeResultApplied": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EventSource"
+          },
+          "type": {
+            "const": "node.result.applied"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ResultAppliedData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "sequence",
+          "occurredAt",
+          "source",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "NodeResultNotApplied": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EventSource"
+          },
+          "type": {
+            "const": "node.result.not-applied"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ResultNotAppliedData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "projectId",
+          "sequence",
+          "occurredAt",
+          "source",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectEvent": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/CanvasChanged"
+          },
+          {
+            "$ref": "#/components/schemas/CanvasInvalidated"
+          },
+          {
+            "$ref": "#/components/schemas/NodeExecutionChanged"
+          },
+          {
+            "$ref": "#/components/schemas/NodeResultApplied"
+          },
+          {
+            "$ref": "#/components/schemas/NodeResultNotApplied"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "RunStateChangedData": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "WAITING_FOR_AUTH",
+              "CANCEL_REQUESTED",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELED"
+            ]
+          },
+          "revision": {
+            "$ref": "#/components/schemas/Revision"
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "state",
+          "revision",
+          "errorCode"
+        ],
+        "additionalProperties": false
+      },
+      "MessageDeltaData": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "partIndex": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "delta": {
+            "type": "string",
+            "maxLength": 65536
+          }
+        },
+        "required": [
+          "messageId",
+          "partIndex",
+          "delta"
+        ],
+        "additionalProperties": false
+      },
+      "ToolStartedData": {
+        "type": "object",
+        "properties": {
+          "toolCallId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "toolCallId",
+          "tool"
+        ],
+        "additionalProperties": false
+      },
+      "ToolCompletedData": {
+        "type": "object",
+        "properties": {
+          "toolCallId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "commandId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "toolCallId",
+          "success"
+        ],
+        "additionalProperties": false
+      },
+      "TaskLinkedData": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "projectId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "executionIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        },
+        "required": [
+          "taskId",
+          "projectId",
+          "executionIds"
+        ],
+        "additionalProperties": false
+      },
+      "RunStateChanged": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "const": "run.state.changed"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RunStateChangedData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "runId",
+          "sequence",
+          "occurredAt",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "MessageDelta": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "const": "message.delta"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MessageDeltaData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "runId",
+          "sequence",
+          "occurredAt",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "ToolStarted": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "const": "tool.started"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ToolStartedData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "runId",
+          "sequence",
+          "occurredAt",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "ToolCompleted": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "const": "tool.completed"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ToolCompletedData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "runId",
+          "sequence",
+          "occurredAt",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "TaskLinked": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "runId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "const": "task.linked"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TaskLinkedData"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "runId",
+          "sequence",
+          "occurredAt",
+          "type",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "RunEvent": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/RunStateChanged"
+          },
+          {
+            "$ref": "#/components/schemas/MessageDelta"
+          },
+          {
+            "$ref": "#/components/schemas/ToolStarted"
+          },
+          {
+            "$ref": "#/components/schemas/ToolCompleted"
+          },
+          {
+            "$ref": "#/components/schemas/TaskLinked"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "ProjectEventPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectEvent"
+            },
+            "maxItems": 100
+          },
+          "nextCursor": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor",
+          "hasMore"
+        ],
+        "additionalProperties": false
+      },
+      "RunEventPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunEvent"
+            },
+            "maxItems": 100
+          },
+          "nextCursor": {
+            "$ref": "#/components/schemas/Cursor"
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor",
+          "hasMore"
+        ],
+        "additionalProperties": false
+      },
+      "AgentRunResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/AgentRun"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "AuthContextUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/AuthContextUpdate"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "ToolDirectoryResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/ToolDirectory"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "CommandReceiptResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/CommandReceipt"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "LiveSnapshotResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/LiveSnapshot"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "CanvasExecutionReceiptResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/CanvasExecutionReceipt"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectEventPageResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProjectEventPage"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "RunEventPageResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "const": 0
+          },
+          "message": {
+            "const": "OK"
+          },
+          "requestId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "data": {
+            "$ref": "#/components/schemas/RunEventPage"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "requestId",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "ViewportSet": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "const": "viewport.set"
+          },
+          "viewport": {
+            "$ref": "./openapi.json#/components/schemas/ProjectGraph/properties/viewport"
+          }
+        },
+        "required": [
+          "type",
+          "viewport"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "responses": {
+      "Error400": {
+        "description": "VALIDATION_FAILED, UNKNOWN_FIELD, EVENT_CURSOR_INVALID",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error401": {
+        "description": "UNAUTHENTICATED, IPAC_SESSION_STALE",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error403": {
+        "description": "IPAC_PERMISSION_DENIED",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error404": {
+        "description": "RESOURCE_NOT_FOUND",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error409": {
+        "description": "IDEMPOTENCY_CONFLICT, CONVERSATION_BUSY, RUN_TERMINAL, RUN_SESSION_MISMATCH, CREDENTIAL_SUPERSEDED",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error410": {
+        "description": "EVENT_CURSOR_EXPIRED",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error412": {
+        "description": "VERSION_CONFLICT",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error413": {
+        "description": "PAYLOAD_TOO_LARGE",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error415": {
+        "description": "CONTENT_TYPE_UNSUPPORTED",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error422": {
+        "description": "INVALID_GRAPH_OPERATION, ASSET_UNAVAILABLE, CAPABILITY_UNAVAILABLE",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error428": {
+        "description": "IF_MATCH_REQUIRED",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error429": {
+        "description": "RUN_LIMIT_EXCEEDED",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error501": {
+        "description": "NOT_IMPLEMENTED, TOOL_UNAVAILABLE, MODEL_EXECUTION_DISABLED",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error503": {
+        "description": "AUTH_BACKEND_UNAVAILABLE, IPAC_AUTHORIZATION_UNAVAILABLE, MODEL_BACKEND_UNAVAILABLE",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

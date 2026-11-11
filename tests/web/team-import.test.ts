@@ -1,0 +1,17 @@
+import {readFileSync} from 'node:fs';
+import {expect,it,vi} from 'vitest';
+import {importedTeamNode,importTeamIntoProject} from '../../apps/web/src/service/team-import';
+import {encodeGraph} from '../../apps/web/src/service/graph';
+const imported=(node:any,type='rh-image',mime='image/png'):any=>({targetProjectId:'p',entry:{id:'e',teamId:'t',name:'Shared',kind:'NODE',revision:1,content:{nodeType:type,primaryAssetId:'copy'},assets:[{id:'copy',mimeType:mime}]},node,assets:[{id:'copy'}],assetIdMap:{source:'copy'}});
+it('projects remapped images into the actual native sourceObjects field without preserving source execution or selection',()=>{
+ const result=imported({id:'new',type:'rh-image',position:{x:0,y:0},data:{url:'rhtv-asset:copy',taskId:'old',estimateTaskId:'old',executionId:'old',generating:true,status:'running',groupId:'old',outputHistory:['old']}}),before=structuredClone(result),node=importedTeamNode(result,[],'independent');expect(node).toEqual({id:'independent',type:'rh-image',position:{x:100,y:100},data:{sourceObjects:['rhtv-asset:copy'],title:'Shared',status:'idle'}});expect(result).toEqual(before);
+});
+it('retains server-shaped GLB references and uses the exact frozen model output discriminator for extensionless signed URLs',()=>{
+ const result=imported({id:'node_copy',type:'rh-3d',data:{url:'rhtv-asset:copy',title:'Mesh'}},'rh-3d','model/gltf-binary'),node=importedTeamNode(result,[]);expect(node.data.output).toEqual([{url:'rhtv-asset:copy',outputType:'glb',name:'Shared'}]);expect(encodeGraph({nodes:[node],edges:[]}).nodes[0].data.output[0].url).toBe('rhtv-asset:copy');
+ const compiled=readFileSync(new URL('../../apps/web/public/project/assets/index-DeyN_Phq.js',import.meta.url),'utf8'),start=compiled.indexOf('function p2('),end=compiled.indexOf('function m2(',start),body=compiled.slice(start,end);expect(body).toContain('t.outputType');expect(body).toContain('t.url,t.modelUrl,t.glbUrl,t.fileUrl,t.outputUrl');
+});
+it('supports a saved uppercase TEXT library item with no material assets',()=>{const result=imported({data:{text:'Written by colleague'}},'TEXT');result.assets=[];const node=importedTeamNode(result,[]);expect(node.type).toBe('rh-text');expect(node.data.text).toBe('Written by colleague');});
+it.each(['rh-unknown','custom-widget','group','FOLDER'])('rejects unsupported %s renderers rather than saving an empty placeholder',type=>{expect(()=>importedTeamNode(imported({type,data:{}},type),[])).toThrow('尚不支持');});
+it('saves the independent copy with current target access and leaves no graph write on revocation after import',async()=>{
+ let revoked=false;const storage:any={wait:vi.fn(async()=>{}),loadProject:vi.fn(async()=>{}),requirePermission:vi.fn(()=>{if(revoked)throw new Error('只读');}),isBlocked:()=>false,resolveAsset:vi.fn(async()=>({id:'copy'})),fixture:()=>({nodes:[],edges:[]}),save:vi.fn(async()=>{})},collaboration:any={importEntry:vi.fn(async()=>imported({type:'rh-text',data:{text:'Shared'}}))};const result=await importTeamIntoProject(collaboration,storage,'t','e','p');expect(result.projectId).toBe('p');expect(storage.save.mock.calls[0][1].nodes[0].data.text).toBe('Shared');storage.save.mockClear();collaboration.importEntry.mockImplementation(async()=>{revoked=true;return imported({type:'rh-text',data:{text:'Shared'}});});await expect(importTeamIntoProject(collaboration,storage,'t','e','p')).rejects.toThrow('只读');expect(storage.save).not.toHaveBeenCalled();
+});

@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 5s
+  evaluation_interval: 15s
+  external_labels:
+    service: studio-tv
+    environment: deployment-host
+rule_files:
+  - /etc/prometheus/studiotv-infra/observability/alerts.yml
+scrape_configs:
+  - job_name: studiotv-api
+    metrics_path: /metrics
+    static_configs:
+      - targets: [api:9090]
+        labels:
+          service: studio-tv
+          environment: deployment-host
+  - job_name: prometheus
+    static_configs:
+      - targets: [localhost:9090]
+  - job_name: generation-exporter
+    metrics_path: /metrics
+    static_configs:
+      - targets: [host.docker.internal:18885]
+        labels:
+          environment: deployment-host

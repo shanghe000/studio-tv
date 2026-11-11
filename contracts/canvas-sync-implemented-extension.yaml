@@ -1,0 +1,649 @@
+openapi: 3.1.1
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Studio TV canvas synchronization foundation
+  version: 0.3.0
+  description: 'IMPLEMENTED: consistent owner-scoped graph and current server node-binding
+    snapshot, finite JSON event replay and bounded authenticated SSE. Atomic invalidation
+    for graph, revision, deletion and managed node execution updates. Server result writeback
+    is limited to opt-in single basic text/image/video/audio nodes; the Agent tool loop remains
+    unavailable.'
+servers:
+- url: /
+x-implementation-stage: IMPLEMENTED
+x-related-design: ../docs/agent-api-and-live-canvas-design.md
+x-implemented-subset:
+  transport: 'Finite authenticated JSON reads plus explicit Accept: text/event-stream SSE;
+    each replay page is gated by current Bearer/session/IPAC tv.access immediately before
+    publishing. Connections end at the earliest frozen JWT/session expiry or 30 seconds, 1024
+    delivered events or 8 MiB event frames.'
+  writers: Typed commands plus existing graph, revision and soft-deletion updates. Managed
+    node binding, execution state and result application advance the project revision and
+    cursor atomically, including state-only invalidations. Revision-neutral metadata-only
+    writes (rename, pin, cover) do not emit events.
+  history: Existing command events retained; older legacy graph writes not backfilled. No
+    retention or cursor expiry.
+  nodeExecutionAvailable: true
+  streamLimits:
+    lifetimeSeconds: 30
+    pollIntervalSeconds: 1
+    heartbeatIntervalSeconds: 10
+    operationTimeoutSeconds: 5
+    maxConnectionsPerUser: 8
+    maxConnectionsPerProcess: 128
+    maxDeliveredEvents: 1024
+    maxEventFrameBytes: 8388608
+    cleanup: Canceled operations retain their admission lease until driver/auth cleanup completes;
+      no unbounded per-client message queue.
+  nodeExecutionScope: Opt-in CANVAS targetType NODE with one basic rh-text/rh-image/rh-video/rh-audio
+    plan. Latest binding must match the current present node incarnation. Graph status/task/output
+    fields never supply execution authority. Other canvas execution targets retain their existing
+    explicit path.
+paths:
+  /api/v2/projects/{projectId}/live-snapshot:
+    get:
+      operationId: getCanvasLiveSnapshot
+      summary: 读取一致画布快照与项目事件游标
+      description: A single database snapshot supplies graph, graphRevision, updatedAt, eventCursor
+        and nodeStates. Only the latest owner/project-scoped server binding with matching
+        task/plan evidence and the current present node incarnation is projected. nodeExecutionAvailable
+        is true for the implemented opt-in single basic-node writeback capability; an empty
+        nodeStates list does not imply graph task/status/output fields are authoritative.
+        No query parameters accepted. Full authorized persisted graph, not Agent prompt context.
+        Consumers may still accept an older service response with nodeExecutionAvailable false
+        and an empty nodeStates list.
+      x-implementation-stage: IMPLEMENTED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      responses:
+        '200':
+          description: 'Owner-scoped consistent read. Cache-Control: no-store.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveSnapshotResponse'
+          headers:
+            ETag:
+              description: Strong graph revision ETag.
+              schema:
+                type: string
+                pattern: ^"[1-9][0-9]*"$
+        '400':
+          description: 'VALIDATION_FAILED: invalid, unknown or repeated query/header value.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Current user authentication required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Live tv.access denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'PROJECT_NOT_FOUND: missing, foreign, deleted or internal project.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: 'PROJECT_EVENTS_UNAVAILABLE: storage temporarily unavailable.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/projects/{projectId}/events:
+    get:
+      operationId: listCanvasProjectEvents
+      summary: 按项目游标补读或订阅持久画布事件
+      description: 'JSON replay remains bounded to 100 events and 2 MiB event payload per
+        page (individual events at most 1 MiB). Explicit Accept: text/event-stream opens a
+        bounded SSE replay/tail; mixed JSON/SSE Accept selects JSON. Cursor authority is shared:
+        after and Last-Event-ID must match if both provided, repeated headers rejected. Each
+        page reads current owner/project in one repeatable-read transaction, then reauthenticates
+        the original verified Bearer, local/IPAC session and live tv.access before publishing,
+        including empty pages/heartbeats. This is an uncached gate once per page; 1 second
+        is the empty-page poll interval, not a guaranteed revocation latency or 1-second end-to-end
+        SLA (database/external authorization delays apply). A stream closes at the earliest
+        frozen access JWT or local/IPAC session deadline, or after 30 seconds, 1024 delivered
+        events or 8 MiB event frames. Read/auth/write operations are bounded to 5 seconds
+        and the credential deadline; canceled work retains capacity until cleanup finishes.
+        No retention or 410 cursor-expiry policy. Resume from last actually processed event
+        sequence after EOF/transport failure, never from the unconsumed page head. SSE id
+        is the decimal sequence, event is canvas.changed or canvas.invalidated, data is the
+        complete ProjectEvent JSON; heartbeat/connected comments have no id. After headers,
+        a safe stream.error control frame with no id or sequence reports failure and closes;
+        before headers, ordinary HTTP errors apply. New requests after logout/revocation/expiry
+        fail normal authentication; clients stop on 401/403 and back off on 503. Managed node
+        execution updates use the same canvas.invalidated event family and atomically advance
+        graphRevision even when graph content is unchanged. Read nodeStates from a fresh live-snapshot;
+        no additional public task/execution event family or Agent tool loop is enabled.'
+      x-implementation-stage: IMPLEMENTED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: Last-Event-ID
+        in: header
+        description: Optional JSON/SSE recovery cursor. If after is also supplied both must
+          match; repeated headers rejected.
+        schema:
+          $ref: '#/components/schemas/Cursor'
+      - name: after
+        in: query
+        schema:
+          $ref: '#/components/schemas/Cursor'
+          default: '0'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 100
+      - name: Accept
+        in: header
+        description: Use text/event-stream explicitly for bounded SSE. JSON/default or an
+          acceptable mixed JSON/SSE list uses finite JSON.
+        schema:
+          type: string
+          examples:
+          - application/json
+          - text/event-stream
+      responses:
+        '200':
+          description: 'Owner-scoped consistent replay or bounded SSE. Cache-Control: no-store;
+            SSE sets X-Accel-Buffering: no.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectEventPageResponse'
+            text/event-stream:
+              schema:
+                type: string
+                description: SSE UTF-8 frames. Project frames have id:<decimal string>, event:<canvas
+                  type>, and data:<ProjectEvent JSON>. Connected/heartbeat comments and stream.error
+                  control have no id.
+              examples:
+                invalidation:
+                  value: 'id: 1
+
+                    event: canvas.invalidated
+
+                    data: {"schemaVersion":"1","projectId":"project_a","sequence":"1","occurredAt":"2026-10-06T12:00:00Z","source":{"kind":"API"},"type":"canvas.invalidated","data":{"baseRevision":1,"graphRevision":2,"reason":"LEGACY_GRAPH_WRITE"}}
+
+
+                    '
+                streamError:
+                  value: 'event: stream.error
+
+                    data: {"status":403,"code":"IPAC_PERMISSION_DENIED","message":"当前账号没有使用权限。","requestId":"req_a","retryable":false,"details":[]}
+
+
+                    '
+        '400':
+          description: 'VALIDATION_FAILED: invalid, unknown or repeated query/header value.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Current user authentication required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Live tv.access denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'PROJECT_NOT_FOUND: missing, foreign, deleted or internal project.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: 'PROJECT_EVENTS_UNAVAILABLE: storage temporarily unavailable.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: 'EVENT_CURSOR_AHEAD: after is newer than this owned project event head.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: 'EVENT_STREAM_LIMIT: at most 8 concurrent streams per user and 128
+            per process, including unfinished canceled operation cleanup. Retry-After: 5;
+            no headers committed.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '501':
+          description: 'EVENT_STREAM_AUTH_UNAVAILABLE or EVENT_STREAM_TRANSPORT_UNAVAILABLE:
+            missing trusted revalidation/verified deadlines or bounded flush/write support.
+            Fails closed before private reads.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Id:
+      type: string
+      minLength: 1
+      maxLength: 64
+      pattern: ^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$
+    Cursor:
+      type: string
+      pattern: ^(0|[1-9][0-9]{0,18})$
+      description: Canonical nonnegative decimal int64 string; maximum 9223372036854775807.
+        Never a JavaScript number.
+    Revision:
+      type: integer
+      minimum: 1
+      maximum: 9007199254740991
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 200
+        message:
+          type: string
+        requestId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        retryable:
+          type: boolean
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - code
+      - message
+      - requestId
+      - retryable
+      - details
+      additionalProperties: false
+    ErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+          minLength: 1
+          maxLength: 200
+        message:
+          type: string
+      required:
+      - field
+      - code
+      - message
+      additionalProperties: false
+    GraphDelta:
+      type: object
+      properties:
+        nodesUpsert:
+          type: array
+          items:
+            $ref: ./openapi.json#/components/schemas/GraphNode
+        nodesRemoved:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        edgesUpsert:
+          type: array
+          items:
+            $ref: ./openapi.json#/components/schemas/GraphEdge
+        edgesRemoved:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        viewport:
+          $ref: ./openapi.json#/components/schemas/ProjectGraph/properties/viewport
+      required:
+      - nodesUpsert
+      - nodesRemoved
+      - edgesUpsert
+      - edgesRemoved
+      additionalProperties: false
+      description: 只读，服务器归一化后的真正变更；可以包含保留meta，客户端不能借写命令直接构造它。 顶层viewport变化也必须表达；接收端更新base并保留本tab相机。
+    EventSequence:
+      type: string
+      pattern: ^[1-9][0-9]{0,18}$
+      description: Canonical nonnegative decimal int64 string; maximum 9223372036854775807.
+        Never a JavaScript number.
+    Graph:
+      $ref: ./openapi.json#/components/schemas/ProjectGraph
+    LiveSnapshot:
+      type: object
+      additionalProperties: false
+      properties:
+        schemaVersion:
+          const: '1'
+        projectId:
+          $ref: '#/components/schemas/Id'
+        graph:
+          $ref: '#/components/schemas/Graph'
+        graphRevision:
+          $ref: '#/components/schemas/Revision'
+        eventCursor:
+          $ref: '#/components/schemas/Cursor'
+        updatedAt:
+          type: string
+          format: date-time
+        nodeStates:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/NodeExecutionState'
+          description: Current server bindings only, sorted by nodeId and with unique nodeId
+            values. Every entry refers to a node present in graph.
+        nodeExecutionAvailable:
+          type: boolean
+          description: True when the implemented opt-in single basic-node writeback capability
+            is available. False is accepted only with an empty nodeStates list for older service
+            compatibility.
+      required:
+      - schemaVersion
+      - projectId
+      - graph
+      - graphRevision
+      - eventCursor
+      - updatedAt
+      - nodeStates
+      - nodeExecutionAvailable
+      allOf:
+      - if:
+          properties:
+            nodeExecutionAvailable:
+              const: false
+          required:
+          - nodeExecutionAvailable
+        then:
+          properties:
+            nodeStates:
+              maxItems: 0
+    ChangedData:
+      type: object
+      additionalProperties: false
+      properties:
+        commandId:
+          $ref: '#/components/schemas/Id'
+        baseRevision:
+          $ref: '#/components/schemas/Revision'
+        graphRevision:
+          $ref: '#/components/schemas/Revision'
+        delta:
+          $ref: '#/components/schemas/GraphDelta'
+      required:
+      - commandId
+      - baseRevision
+      - graphRevision
+      - delta
+    InvalidatedData:
+      type: object
+      additionalProperties: false
+      properties:
+        baseRevision:
+          $ref: '#/components/schemas/Revision'
+        graphRevision:
+          $ref: '#/components/schemas/Revision'
+        reason:
+          enum:
+          - LEGACY_GRAPH_WRITE
+          - REVISION_ONLY
+          - PROJECT_DELETED
+          - UNREPRESENTABLE_CHANGE
+          - DELTA_TOO_LARGE
+        commandId:
+          $ref: '#/components/schemas/Id'
+      required:
+      - baseRevision
+      - graphRevision
+      - reason
+    ChangedEvent:
+      type: object
+      additionalProperties: false
+      properties:
+        schemaVersion:
+          const: '1'
+        projectId:
+          $ref: '#/components/schemas/Id'
+        sequence:
+          $ref: '#/components/schemas/EventSequence'
+        occurredAt:
+          type: string
+          format: date-time
+        source:
+          type: object
+          additionalProperties: false
+          properties:
+            kind:
+              const: API
+          required:
+          - kind
+        type:
+          const: canvas.changed
+        data:
+          $ref: '#/components/schemas/ChangedData'
+      required:
+      - schemaVersion
+      - projectId
+      - sequence
+      - occurredAt
+      - source
+      - type
+      - data
+    InvalidatedEvent:
+      type: object
+      additionalProperties: false
+      properties:
+        schemaVersion:
+          const: '1'
+        projectId:
+          $ref: '#/components/schemas/Id'
+        sequence:
+          $ref: '#/components/schemas/EventSequence'
+        occurredAt:
+          type: string
+          format: date-time
+        source:
+          type: object
+          additionalProperties: false
+          properties:
+            kind:
+              const: API
+          required:
+          - kind
+        type:
+          const: canvas.invalidated
+        data:
+          $ref: '#/components/schemas/InvalidatedData'
+      required:
+      - schemaVersion
+      - projectId
+      - sequence
+      - occurredAt
+      - source
+      - type
+      - data
+    ProjectEvent:
+      oneOf:
+      - $ref: '#/components/schemas/ChangedEvent'
+      - $ref: '#/components/schemas/InvalidatedEvent'
+    ProjectEventPage:
+      type: object
+      additionalProperties: false
+      properties:
+        projectId:
+          $ref: '#/components/schemas/Id'
+        events:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/ProjectEvent'
+        nextCursor:
+          $ref: '#/components/schemas/Cursor'
+        hasMore:
+          type: boolean
+        eventCursor:
+          $ref: '#/components/schemas/Cursor'
+      required:
+      - projectId
+      - events
+      - nextCursor
+      - hasMore
+      - eventCursor
+    LiveSnapshotResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          const: 0
+        message:
+          const: OK
+        requestId:
+          type: string
+        data:
+          $ref: '#/components/schemas/LiveSnapshot'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+    ProjectEventPageResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          const: 0
+        message:
+          const: OK
+        requestId:
+          type: string
+        data:
+          $ref: '#/components/schemas/ProjectEventPage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+    StreamError:
+      type: object
+      additionalProperties: false
+      description: Only data for a stream.error control event, never persisted project evidence.
+        No id, sequence or project cursor. Sent only after stream headers then connection
+        closes.
+      properties:
+        status:
+          type: integer
+          enum:
+          - 400
+          - 401
+          - 403
+          - 404
+          - 409
+          - 429
+          - 500
+          - 501
+          - 503
+        code:
+          type: string
+          minLength: 1
+          maxLength: 200
+        message:
+          type: string
+        requestId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        retryable:
+          type: boolean
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+      required:
+      - status
+      - code
+      - message
+      - requestId
+      - retryable
+      - details
+    NodeExecutionState:
+      type: object
+      additionalProperties: false
+      description: Read-only latest server binding for one current node incarnation. A stale,
+        deleted or recreated node binding is omitted. No prompts, provider URLs or private
+        invocation data are exposed. At most one entry per nodeId in a snapshot.
+      properties:
+        nodeId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        executionId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        state:
+          enum:
+          - QUEUED
+          - RUNNING
+          - SUCCEEDED
+          - FAILED
+          - CANCELED
+        applicationState:
+          enum:
+          - PENDING
+          - APPLIED
+          - DETACHED
+          description: PENDING awaits application, APPLIED means the server applied the resulting
+            node state or output, and DETACHED preserves execution history without overwriting
+            current graph content.
+        reason:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Safe application reason code; excludes private provider responses.
+      required:
+      - nodeId
+      - taskId
+      - executionId
+      - state
+      - applicationState

@@ -1,0 +1,174 @@
+{
+  "h3-drama-reference-v1": {
+    "capabilityRef": "h3-drama-reference-v1",
+    "version": "1",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "1",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "portrait-768p-10s",
+            "landscape-736p-10s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-480p-5s": "864×480 · 约5秒 · 24fps",
+            "landscape-736p-10s": "1280×736 · 约10秒 · 24fps",
+            "portrait-768p-10s": "768×1376 · 约10秒 · 24fps"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 0,
+        "max_images": 9,
+        "max_audios": 3,
+        "min_videos": 0,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 12
+      },
+      "x-media-limits": {
+        "AUDIO": 3,
+        "IMAGE": 9,
+        "VIDEO": 1
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "864×480 · 约5秒 · 24fps",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-10s",
+          "title": "768×1376 · 约10秒 · 24fps",
+          "width": 768,
+          "height": 1376,
+          "aspectRatio": "24:43",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-736p-10s",
+          "title": "1280×736 · 约10秒 · 24fps",
+          "width": 1280,
+          "height": 736,
+          "aspectRatio": "40:23",
+          "durationSeconds": 10,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "AUDIO",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": null,
+    "title": "MiniMax H3 · Cobijada Hybrid INT8 · 单采极速文戏",
+    "testMode": false,
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3 · Cobijada Hybrid INT8 · 单采极速文戏",
+      "version": "1"
+    }
+  },
+  "h3-action-reference-v1": {
+    "capabilityRef": "h3-action-reference-v1",
+    "version": "1",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "1",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-480p-5s": "864×480 · 约5秒 · 24fps"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 0,
+        "max_images": 9,
+        "max_audios": 3,
+        "min_videos": 0,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 12
+      },
+      "x-media-limits": {
+        "AUDIO": 3,
+        "IMAGE": 9,
+        "VIDEO": 1
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "864×480 · 约5秒 · 24fps",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "AUDIO",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": null,
+    "title": "MiniMax H3 · Cobijada Hybrid INT8 · 最强武戏",
+    "testMode": false,
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3 · Cobijada Hybrid INT8 · 最强武戏",
+      "version": "1"
+    }
+  }
+}

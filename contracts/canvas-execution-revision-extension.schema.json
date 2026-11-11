@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://studiotv.local/contracts/canvas-execution-revision-extension.schema.json",
+  "title": "Canvas execution input revision boundary — IMPLEMENTED",
+  "description": "Additive acceptance semantics for existing expectedRevision on opt-in single-node managed CANVAS/MEDIA execution. Snapshot PUT retains full-project If-Match CAS. Private database revision evidence is never supplied by clients or returned in graph JSON.",
+  "x-implementation-status": "IMPLEMENTED",
+  "x-endpoints": ["POST /api/v2/canvas-runs", "POST /api/v2/media-jobs"],
+  "x-acceptance-invariant": {
+    "revision": "1 <= expectedRevision <= current project revision",
+    "inputs": "Requested and current complete CanvasGuard must match exactly. Every present target/input-closure node must have last_changed_project_revision <= expectedRevision.",
+    "ordering": "Private last_node_order_changed_revision <= expectedRevision. Reordering existing nodes, including a subsequent undo, conservatively invalidates older receipts project-wide; unrelated node additions/deletions preserve survivor order.",
+    "consumption": "A successful managed task claim stamps its target at the acceptance revision without changing its input version; another new task cannot reuse a receipt from before that claim. Existing idempotent task replay retains its existing authorization checks.",
+    "unchanged": "Authentication, project permissions, leases, history/asset authorization, snapshot CAS, lifecycle versions and result-writeback guards remain required."
+  },
+  "type": "object",
+  "required": ["expectedRevision"],
+  "properties": {
+    "expectedRevision": {"type": "integer", "minimum": 1}
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "targetId": "node_1792633716520_i2l8jpo",
+  "baseline": {
+    "id": "node_1792633716520_i2l8jpo",
+    "type": "rh-image",
+    "position": {
+      "x": 800,
+      "y": 1800
+    },
+    "data": {
+      "label": "图片",
+      "title": "图片",
+      "status": "idle",
+      "width": 380,
+      "height": 220,
+      "prompt": "写实电影剧照风格，一位成年中国女侦探身穿深色风衣，独自站在雨夜的书店门前。单人半身构图，视线望向画面外，神情冷静而警觉；发梢与风衣肩部沾有细密雨珠，皮肤纹理自然真实。书店橱窗透出柔和暖光，与街头冷色霓虹形成冷暖对比，侧光勾勒面部与肩部轮廓。浅景深，人物清晰，背景为朦胧的书店陈设与霓虹散景，细密雨丝在逆光中若隐若现。整体呈现克制、神秘的都市悬疑氛围，电影级光影，细腻胶片颗粒，无其他人物、无水印。",
+      "aspectRatio": "16:9",
+      "params": {
+        "imageUrls": "",
+        "outputPreset": "1024-square",
+        "prompt": "写实电影剧照风格，一位成年中国女侦探身穿深色风衣，独自站在雨夜的书店门前。单人半身构图，视线望向画面外，神情冷静而警觉；发梢与风衣肩部沾有细密雨珠，皮肤纹理自然真实。书店橱窗透出柔和暖光，与街头冷色霓虹形成冷暖对比，侧光勾勒面部与肩部轮廓。浅景深，人物清晰，背景为朦胧的书店陈设与霓虹散景，细密雨丝在逆光中若隐若现。整体呈现克制、神秘的都市悬疑氛围，电影级光影，细腻胶片颗粒，无其他人物、无水印。",
+        "transparentBackground": false
+      },
+      "modelCode": "codex-image-edit-v1",
+      "generateNum": 1,
+      "subType": "image-image",
+      "maxConnect": {
+        "image": null,
+        "text": null,
+        "video": null
+      },
+      "presetSelections": [
+        {
+          "id": "studio-role-basic-woman-v1",
+          "key": "roleDesign:basic:presentation",
+          "label": "成年女性",
+          "prefix": "An adult woman.",
+          "prompt": "An adult woman.",
+          "promptCode": "studio-role-basic-woman-v1",
+          "promptType": "roleDesign"
+        },
+        {
+          "coverUrl": "https://assets.example.invalid/styles/hero-canvas.webp",
+          "id": "cinematic_realism",
+          "key": "styleLibrary",
+          "label": "电影写实",
+          "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "referenceImageUrl": "https://assets.example.invalid/styles/hero-canvas.webp"
+        },
+        {
+          "id": "kodak_film",
+          "key": "filter",
+          "label": "柯达胶片",
+          "prompt": "Kodak film look, warm highlights, soft grain, rich analog color"
+        }
+      ],
+      "cameraControl": {
+        "chunk": "Render the final image as a photograph captured using ARRI ALEXA 35 paired with a Zeiss Ultra Prime lens. Set the focal length to exactly 14 mm and the aperture to exactly f/4; make the resulting field of view, perspective compression, and depth of field clearly visible while keeping the main subject centered.",
+        "presetId": "default",
+        "selection": {
+          "aperture": 4,
+          "cameraId": "arri-alexa-35",
+          "focalLength": 14,
+          "lensId": "zeiss-ultra-prime",
+          "typeId": "DIGITAL"
+        }
+      },
+      "roleDesignSelection": {
+        "basic:presentation": [
+          "woman"
+        ]
+      },
+      "promptEnhanceUndo": null
+    },
+    "style": {
+      "height": 220,
+      "width": 380
+    },
+    "selectable": true
+  },
+  "command": {
+    "id": "node_1792633716520_i2l8jpo",
+    "type": "rh-image",
+    "position": {
+      "x": 800,
+      "y": 1800
+    },
+    "data": {
+      "label": "图片",
+      "title": "图片",
+      "status": "idle",
+      "width": 380,
+      "height": 220,
+      "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading\nKodak film look, warm highlights, soft grain, rich analog color\n写实电影剧照风格，一位成年中国女侦探身穿深色风衣，独自站在雨夜的书店门前。单人半身构图，视线望向画面外，神情冷静而警觉；发梢与风衣肩部沾有细密雨珠，皮肤纹理自然真实。书店橱窗透出柔和暖光，与街头冷色霓虹形成冷暖对比，侧光勾勒面部与肩部轮廓。浅景深，人物清晰，背景为朦胧的书店陈设与霓虹散景，细密雨丝在逆光中若隐若现。整体呈现克制、神秘的都市悬疑氛围，电影级光影，细腻胶片颗粒，无其他人物、无水印。\nRender the final image as a photograph captured using ARRI ALEXA 35 paired with a Zeiss Ultra Prime lens. Set the focal length to exactly 14 mm and the aperture to exactly f/4; make the resulting field of view, perspective compression, and depth of field clearly visible while keeping the main subject centered.",
+      "aspectRatio": "16:9",
+      "params": {
+        "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading\nKodak film look, warm highlights, soft grain, rich analog color\n写实电影剧照风格，一位成年中国女侦探身穿深色风衣，独自站在雨夜的书店门前。单人半身构图，视线望向画面外，神情冷静而警觉；发梢与风衣肩部沾有细密雨珠，皮肤纹理自然真实。书店橱窗透出柔和暖光，与街头冷色霓虹形成冷暖对比，侧光勾勒面部与肩部轮廓。浅景深，人物清晰，背景为朦胧的书店陈设与霓虹散景，细密雨丝在逆光中若隐若现。整体呈现克制、神秘的都市悬疑氛围，电影级光影，细腻胶片颗粒，无其他人物、无水印。\nRender the final image as a photograph captured using ARRI ALEXA 35 paired with a Zeiss Ultra Prime lens. Set the focal length to exactly 14 mm and the aperture to exactly f/4; make the resulting field of view, perspective compression, and depth of field clearly visible while keeping the main subject centered.",
+        "transparentBackground": false,
+        "imageUrls": [
+          "https://assets.example.invalid/styles/hero-canvas.webp"
+        ],
+        "text": "cinematic realism, natural light, high-end commercial photography, refined color grading\nKodak film look, warm highlights, soft grain, rich analog color\n写实电影剧照风格，一位成年中国女侦探身穿深色风衣，独自站在雨夜的书店门前。单人半身构图，视线望向画面外，神情冷静而警觉；发梢与风衣肩部沾有细密雨珠，皮肤纹理自然真实。书店橱窗透出柔和暖光，与街头冷色霓虹形成冷暖对比，侧光勾勒面部与肩部轮廓。浅景深，人物清晰，背景为朦胧的书店陈设与霓虹散景，细密雨丝在逆光中若隐若现。整体呈现克制、神秘的都市悬疑氛围，电影级光影，细腻胶片颗粒，无其他人物、无水印。\nRender the final image as a photograph captured using ARRI ALEXA 35 paired with a Zeiss Ultra Prime lens. Set the focal length to exactly 14 mm and the aperture to exactly f/4; make the resulting field of view, perspective compression, and depth of field clearly visible while keeping the main subject centered."
+      },
+      "modelCode": "codex-image-edit-v1",
+      "generateNum": 1,
+      "subType": "image-image",
+      "maxConnect": {
+        "image": null,
+        "text": null,
+        "video": null
+      },
+      "presetSelections": [
+        {
+          "id": "studio-role-basic-woman-v1",
+          "key": "roleDesign:basic:presentation",
+          "label": "成年女性",
+          "prefix": "An adult woman.",
+          "prompt": "An adult woman.",
+          "promptCode": "studio-role-basic-woman-v1",
+          "promptType": "roleDesign"
+        },
+        {
+          "coverUrl": "https://assets.example.invalid/styles/hero-canvas.webp",
+          "id": "cinematic_realism",
+          "key": "styleLibrary",
+          "label": "电影写实",
+          "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "referenceImageUrl": "https://assets.example.invalid/styles/hero-canvas.webp"
+        },
+        {
+          "id": "kodak_film",
+          "key": "filter",
+          "label": "柯达胶片",
+          "prompt": "Kodak film look, warm highlights, soft grain, rich analog color"
+        }
+      ],
+      "cameraControl": {
+        "chunk": "Render the final image as a photograph captured using ARRI ALEXA 35 paired with a Zeiss Ultra Prime lens. Set the focal length to exactly 14 mm and the aperture to exactly f/4; make the resulting field of view, perspective compression, and depth of field clearly visible while keeping the main subject centered.",
+        "presetId": "default",
+        "selection": {
+          "aperture": 4,
+          "cameraId": "arri-alexa-35",
+          "focalLength": 14,
+          "lensId": "zeiss-ultra-prime",
+          "typeId": "DIGITAL"
+        }
+      },
+      "roleDesignSelection": {
+        "basic:presentation": [
+          "woman"
+        ]
+      },
+      "promptEnhanceUndo": null,
+      "promptCodes": [
+        "studio-role-basic-woman-v1"
+      ],
+      "userPromptSnapshot": {
+        "paramName": "prompt",
+        "value": "写实电影剧照风格，一位成年中国女侦探身穿深色风衣，独自站在雨夜的书店门前。单人半身构图，视线望向画面外，神情冷静而警觉；发梢与风衣肩部沾有细密雨珠，皮肤纹理自然真实。书店橱窗透出柔和暖光，与街头冷色霓虹形成冷暖对比，侧光勾勒面部与肩部轮廓。浅景深，人物清晰，背景为朦胧的书店陈设与霓虹散景，细密雨丝在逆光中若隐若现。整体呈现克制、神秘的都市悬疑氛围，电影级光影，细腻胶片颗粒，无其他人物、无水印。"
+      },
+      "modelType": "OPENAPI",
+      "nodeOutputHistory": []
+    },
+    "style": {
+      "height": 220,
+      "width": 380
+    },
+    "selectable": true,
+    "hidden": false
+  }
+}

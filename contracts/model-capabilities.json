@@ -1,0 +1,419 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.rhtv.local/model-capabilities.json",
+  "title": "Reserved model capability descriptors",
+  "type": "object",
+  "properties": {
+    "stage": {
+      "const": "RESERVED"
+    },
+    "connected": {
+      "const": false
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CapabilityDescriptor"
+      },
+      "maxItems": 4
+    }
+  },
+  "required": [
+    "stage",
+    "connected",
+    "capabilities"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "CapabilityDescriptor": {
+      "type": "object",
+      "properties": {
+        "capability": {
+          "type": "string",
+          "enum": [
+            "LLM",
+            "TEXT_TO_IMAGE",
+            "IMAGE_TO_VIDEO",
+            "OMNI_REFERENCE"
+          ]
+        },
+        "connected": {
+          "const": false
+        },
+        "stage": {
+          "const": "RESERVED"
+        },
+        "adapterId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inputContract": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "HTTP_JSON",
+              "SSE",
+              "ASYNC_CALLBACK",
+              "POLLING"
+            ]
+          },
+          "maxItems": 4
+        },
+        "nativeSchemaVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "capability",
+        "connected",
+        "stage",
+        "adapterId",
+        "inputContract",
+        "transports",
+        "nativeSchemaVersion"
+      ],
+      "additionalProperties": false
+    },
+    "AssetReference": {
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "assetId",
+        "role"
+      ],
+      "additionalProperties": false
+    },
+    "TextPart": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "TEXT"
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 32000
+        }
+      },
+      "required": [
+        "type",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "AssetPart": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "ASSET"
+        },
+        "assetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "type",
+        "assetId",
+        "role"
+      ],
+      "additionalProperties": false
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "SYSTEM",
+            "USER",
+            "ASSISTANT",
+            "TOOL"
+          ]
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextPart"
+              },
+              {
+                "$ref": "#/$defs/AssetPart"
+              }
+            ]
+          },
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "role",
+        "parts"
+      ],
+      "additionalProperties": false
+    },
+    "LLMInput": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Message"
+          },
+          "maxItems": 1000
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "messages",
+        "parameters"
+      ],
+      "additionalProperties": false
+    },
+    "TextToImageInput": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "maxLength": 32000
+        },
+        "outputCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "prompt",
+        "outputCount",
+        "parameters"
+      ],
+      "additionalProperties": false
+    },
+    "ImageToVideoInput": {
+      "type": "object",
+      "properties": {
+        "sourceAssetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt": {
+          "type": "string",
+          "maxLength": 32000
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "sourceAssetId",
+        "prompt",
+        "parameters"
+      ],
+      "additionalProperties": false
+    },
+    "OmniReferenceInput": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "maxLength": 32000
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AssetReference"
+          },
+          "maxItems": 32
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "prompt",
+        "references",
+        "parameters"
+      ],
+      "additionalProperties": false
+    },
+    "NativeRequest": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "body": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "AdapterInvocation": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capability": {
+          "type": "string",
+          "enum": [
+            "LLM",
+            "TEXT_TO_IMAGE",
+            "IMAGE_TO_VIDEO",
+            "OMNI_REFERENCE"
+          ]
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilityVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "invocationType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input": {
+          "type": "object"
+        },
+        "nativeRequest": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NativeRequest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "requestId",
+        "capability",
+        "modelId",
+        "capabilityVersion",
+        "invocationType",
+        "input",
+        "nativeRequest"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "capability": {
+                "const": "LLM"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "input": {
+                "$ref": "#/$defs/LLMInput"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "capability": {
+                "const": "TEXT_TO_IMAGE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "input": {
+                "$ref": "#/$defs/TextToImageInput"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "capability": {
+                "const": "IMAGE_TO_VIDEO"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "input": {
+                "$ref": "#/$defs/ImageToVideoInput"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "capability": {
+                "const": "OMNI_REFERENCE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "input": {
+                "$ref": "#/$defs/OmniReferenceInput"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

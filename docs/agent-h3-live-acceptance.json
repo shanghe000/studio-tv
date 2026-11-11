@@ -1,0 +1,108 @@
+{
+  "checkedAt": "2026-10-08T03:15:45.305Z",
+  "webCommit": "d05a85d",
+  "projectId": "prj_529e0e09-723b-46da-aa7b-c99ba860ea76",
+  "afterReload": true,
+  "nodeCount": 21,
+  "conflict": false,
+  "tasks": [
+    {
+      "id": "tsk_101003b1220540e0b519de94f43a629c",
+      "state": "SUCCEEDED",
+      "createdAt": "2026-10-08T03:08:20.34Z",
+      "updatedAt": "2026-10-08T03:10:53.396Z",
+      "plans": [
+        {
+          "nodeId": "studio-video-e151291e-c272-49b0-9aab-0f32f29b8508",
+          "state": "SUCCEEDED",
+          "capabilityRef": "h3-first-last-frame-v1",
+          "outputs": [
+            {
+              "assetId": "ast_53c2eecca428b3ed2cbfd2314c70d0a0e52e57cc0a0e3bae",
+              "type": "ASSET",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 5167,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_a715860fa368439b971e65e465662f50",
+      "state": "SUCCEEDED",
+      "createdAt": "2026-10-08T03:10:29.334Z",
+      "updatedAt": "2026-10-08T03:14:37.56Z",
+      "plans": [
+        {
+          "nodeId": "studio-video-7d4720a8-6f6a-487c-bafc-bab5f437bef3",
+          "state": "SUCCEEDED",
+          "capabilityRef": "h3-video-reference-v1",
+          "outputs": [
+            {
+              "assetId": "ast_dc47c1d7382432f356026cbda0b095dd2d95c0842a814337",
+              "type": "ASSET",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 5167,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "studio-video-e151291e-c272-49b0-9aab-0f32f29b8508",
+      "status": "finished",
+      "taskId": "tsk_101003b1220540e0b519de94f43a629c",
+      "hasVideo": true,
+      "history": {
+        "historyId": "exe_e610a5377a45412d8e1e0325a5b01ff8",
+        "resultCount": 1,
+        "revision": "5",
+        "schemaVersion": 1,
+        "source": "remote"
+      }
+    },
+    {
+      "id": "studio-video-7d4720a8-6f6a-487c-bafc-bab5f437bef3",
+      "status": "finished",
+      "taskId": "tsk_a715860fa368439b971e65e465662f50",
+      "hasVideo": true,
+      "history": {
+        "historyId": "exe_09285a0a3daa42318ab60ea81c592e80",
+        "resultCount": 1,
+        "revision": "5",
+        "schemaVersion": 1,
+        "source": "remote"
+      }
+    }
+  ],
+  "browserMediaMetadata": [
+    {
+      "nodeId": "studio-video-e151291e-c272-49b0-9aab-0f32f29b8508",
+      "ok": true,
+      "width": 864,
+      "height": 480,
+      "duration": 5.167
+    },
+    {
+      "nodeId": "studio-video-7d4720a8-6f6a-487c-bafc-bab5f437bef3",
+      "ok": true,
+      "width": 864,
+      "height": 480,
+      "duration": 5.166667
+    }
+  ]
+}

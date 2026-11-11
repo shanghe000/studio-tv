@@ -1,0 +1,383 @@
+{
+  "checkedAt": "2026-10-07T16:11:27.176Z",
+  "projectId": "prj_529e0e09-723b-46da-aa7b-c99ba860ea76",
+  "afterReload": true,
+  "conflict": false,
+  "tasks": [
+    {
+      "id": "tsk_7b0c63d530ae4c889220e11d6733d356",
+      "state": "SUCCEEDED",
+      "kind": "CANVAS",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T15:39:43.249Z",
+      "updatedAt": "2026-10-07T15:42:20.876Z",
+      "plans": [
+        {
+          "nodeId": "node_1791386592643_vrv8bk2_video",
+          "state": "SUCCEEDED",
+          "capabilityRef": "h3-first-last-frame-v1",
+          "outputs": [
+            {
+              "id": "out_54e8b2b6c2dc725d2636695491ed0d6b59b9356dd98bf097bf293f97d23725d6",
+              "type": "ASSET",
+              "assetId": "ast_40eaa64e343d9f86386cdf8a8374193bce3373c1b2c59dea",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 5167,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_58dd045fa48447fb974427a2b78ebfee",
+      "state": "SUCCEEDED",
+      "kind": "CANVAS",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T15:47:45.05Z",
+      "updatedAt": "2026-10-07T15:50:12.486Z",
+      "plans": [
+        {
+          "nodeId": "h3-first-live",
+          "state": "SUCCEEDED",
+          "capabilityRef": "h3-first-frame-v1",
+          "outputs": [
+            {
+              "id": "out_dcd7511402a06f5744f2b83458e09de67cf76cd6fbccc5ef3e5a99404fcf1993",
+              "type": "ASSET",
+              "assetId": "ast_f49cbf3976f906c46aba4cadc92bc4e14b218030c334baac",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 5167,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_105e9b93bc6b4c9fb2acd767fef90fad",
+      "state": "SUCCEEDED",
+      "kind": "CANVAS",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T15:48:43.261Z",
+      "updatedAt": "2026-10-07T15:52:09.89Z",
+      "plans": [
+        {
+          "nodeId": "h3-omni-live",
+          "state": "SUCCEEDED",
+          "capabilityRef": "h3-reference-v1",
+          "outputs": [
+            {
+              "id": "out_92f3346bea68db15e39576152f27087a94b30a88483c5a42a1f50a091a2aef26",
+              "type": "ASSET",
+              "assetId": "ast_fcbcd44436f559ca79edd1a2aa9483c64aeb3fff8c5a7cf8",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 5167,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_9d201e037db34adc8519cd38733a17f7",
+      "state": "SUCCEEDED",
+      "kind": "CANVAS",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T16:04:26.709Z",
+      "updatedAt": "2026-10-07T16:08:16.606Z",
+      "plans": [
+        {
+          "nodeId": "h3-video-ref-live",
+          "state": "SUCCEEDED",
+          "capabilityRef": "h3-video-reference-v1",
+          "outputs": [
+            {
+              "id": "out_333d6d28a36654e085e9fac9745e4e91ead5ff43f41311784d955c1cc7c46ae1",
+              "type": "ASSET",
+              "assetId": "ast_591e52d97c05f5588c06ece50889ee36fc341bc5d8324f37",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 5167,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_4d6dd45f-3fb6-428b-8419-5047b486c5c9",
+      "state": "SUCCEEDED",
+      "kind": "MEDIA",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T15:49:21.115373Z",
+      "updatedAt": "2026-10-07T15:58:11.505Z",
+      "plans": [
+        {
+          "nodeId": "audio_sep_1791388160508_07p4ctt",
+          "state": "SUCCEEDED",
+          "capabilityRef": "local-ffmpeg",
+          "outputs": [
+            {
+              "id": "out_exe_24abbaaa-bbf6-490d-95f2-a6f6b6f06b7e",
+              "type": "ARTIFACT",
+              "assetId": "ast_a2b35064dfd3af7789a17ff40820bf5f90846e9e6eabab71",
+              "mimeType": "audio/wav",
+              "durationMs": 5184,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_a7fba7b0-ea9e-4cf5-b819-a240b984ce27",
+      "state": "SUCCEEDED",
+      "kind": "MEDIA",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T16:02:13.955363Z",
+      "updatedAt": "2026-10-07T16:02:14.82Z",
+      "plans": [
+        {
+          "nodeId": "video_transform_1791388933400_r0r5pfr",
+          "state": "SUCCEEDED",
+          "capabilityRef": "local-ffmpeg",
+          "outputs": [
+            {
+              "id": "out_exe_a9f73419-96ef-45c9-835a-c07e523c41ac",
+              "type": "ARTIFACT",
+              "assetId": "ast_eff5d09b0170d9d061ef8dc515ef2b71267c1c267e45c25a",
+              "mimeType": "video/mp4",
+              "width": 480,
+              "height": 864,
+              "durationMs": 5209,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_78ce6e1c-d9ae-4347-83d9-1326c6939a89",
+      "state": "SUCCEEDED",
+      "kind": "MEDIA",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T16:05:32.310889Z",
+      "updatedAt": "2026-10-07T16:08:17.219Z",
+      "plans": [
+        {
+          "nodeId": "video_speed_1791389131694_iva2nnu",
+          "state": "SUCCEEDED",
+          "capabilityRef": "local-ffmpeg",
+          "outputs": [
+            {
+              "id": "out_exe_271dd37b-a3cc-4f63-b11a-1eeede6a89ff",
+              "type": "ARTIFACT",
+              "assetId": "ast_78ff970e8133a4fbc1a5d2afd11a0d722c91292438bd17df",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 2625,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_30979520-b04e-438b-b13a-9faf7fef3510",
+      "state": "SUCCEEDED",
+      "kind": "MEDIA",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T16:06:04.54655Z",
+      "updatedAt": "2026-10-07T16:08:17.833Z",
+      "plans": [
+        {
+          "nodeId": "video_crop_1791389163789_jz0hppx",
+          "state": "SUCCEEDED",
+          "capabilityRef": "local-ffmpeg",
+          "outputs": [
+            {
+              "id": "out_exe_4742c3a9-54e7-4094-a96c-813b7a9bc6ed",
+              "type": "ARTIFACT",
+              "assetId": "ast_af2974ecbd9d12dbd616df000cb6383140cd15e039374f9e",
+              "mimeType": "video/mp4",
+              "width": 480,
+              "height": 480,
+              "durationMs": 5209,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tsk_ad20f6e1-2bf1-4bdd-87e1-2ddfa4c75f34",
+      "state": "SUCCEEDED",
+      "kind": "MEDIA",
+      "canvasManaged": true,
+      "createdAt": "2026-10-07T16:06:07.807752Z",
+      "updatedAt": "2026-10-07T16:08:18.581Z",
+      "plans": [
+        {
+          "nodeId": "video_reverse_1791389166812_upivyti",
+          "state": "SUCCEEDED",
+          "capabilityRef": "local-ffmpeg",
+          "outputs": [
+            {
+              "id": "out_exe_162a78a5-f494-4693-a744-f159169c31d4",
+              "type": "ARTIFACT",
+              "assetId": "ast_9a38967e766aa13a9d5375280eaa2276780b3c0b41e927ca",
+              "mimeType": "video/mp4",
+              "width": 864,
+              "height": 480,
+              "durationMs": 5209,
+              "testMode": false
+            }
+          ],
+          "binding": {
+            "applicationState": "APPLIED"
+          }
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "node_1791386592643_3ll8x0g_first",
+      "label": "首帧",
+      "type": "rh-image",
+      "asset": "rhtv-asset:ast_be3b188d01ee41d8b9112543b42db74f",
+      "history": null
+    },
+    {
+      "id": "node_1791386592643_q753zvx_last",
+      "label": "尾帧",
+      "type": "rh-image",
+      "asset": "rhtv-asset:ast_ac262cd6c25b4cdd935b5049a0e75adb",
+      "history": null
+    },
+    {
+      "id": "node_1791386592643_vrv8bk2_video",
+      "label": "视频",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_40eaa64e343d9f86386cdf8a8374193bce3373c1b2c59dea",
+      "history": "exe_877ff28227b041a9917161c152b33332"
+    },
+    {
+      "id": "h3-first-live",
+      "label": "H3 首帧验收",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_f49cbf3976f906c46aba4cadc92bc4e14b218030c334baac",
+      "history": "exe_9b8f43caccee4a7ebd1946469cdf5b91"
+    },
+    {
+      "id": "h3-audio-reference",
+      "label": "音频参考 · 3秒",
+      "type": "rh-audio",
+      "asset": "rhtv-asset:ast_2fbb6f2c33d74387b2dea80282ddd340",
+      "history": null
+    },
+    {
+      "id": "h3-omni-live",
+      "label": "H3 图片音频参考验收",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_fcbcd44436f559ca79edd1a2aa9483c64aeb3fff8c5a7cf8",
+      "history": "exe_1a32f3bc6236499a95d2ef5e34d8decd"
+    },
+    {
+      "id": "audio_sep_1791388160508_07p4ctt",
+      "label": "音频分离",
+      "type": "rh-audio",
+      "asset": "rhtv-asset:ast_a2b35064dfd3af7789a17ff40820bf5f90846e9e6eabab71",
+      "history": "exe_24abbaaa-bbf6-490d-95f2-a6f6b6f06b7e"
+    },
+    {
+      "id": "h3-video-ref-live",
+      "label": "H3 视频参考验收",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_591e52d97c05f5588c06ece50889ee36fc341bc5d8324f37",
+      "history": "exe_3485faf12102451aaee3abec0a15cad9"
+    },
+    {
+      "id": "video_speed_1791388645837_y87w5kc",
+      "label": "2.00x",
+      "type": "rh-video",
+      "asset": null,
+      "history": null
+    },
+    {
+      "id": "video_transform_1791388933400_r0r5pfr",
+      "label": "旋转",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_eff5d09b0170d9d061ef8dc515ef2b71267c1c267e45c25a",
+      "history": "exe_a9f73419-96ef-45c9-835a-c07e523c41ac"
+    },
+    {
+      "id": "video_speed_1791389131694_iva2nnu",
+      "label": "2.00x",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_78ff970e8133a4fbc1a5d2afd11a0d722c91292438bd17df",
+      "history": "exe_271dd37b-a3cc-4f63-b11a-1eeede6a89ff"
+    },
+    {
+      "id": "video_crop_1791389163789_jz0hppx",
+      "label": "裁剪",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_af2974ecbd9d12dbd616df000cb6383140cd15e039374f9e",
+      "history": "exe_4742c3a9-54e7-4094-a96c-813b7a9bc6ed"
+    },
+    {
+      "id": "video_reverse_1791389166812_upivyti",
+      "label": "倒放",
+      "type": "rh-video",
+      "asset": "rhtv-asset:ast_9a38967e766aa13a9d5375280eaa2276780b3c0b41e927ca",
+      "history": "exe_162a78a5-f494-4693-a744-f159169c31d4"
+    },
+    {
+      "id": "node_1791389258263_bf5n8pv",
+      "label": "frame_0.png",
+      "type": "rh-image",
+      "asset": "rhtv-asset:ast_57fa6c75f36b4ddd995db1c2bc5c06d0",
+      "history": null
+    },
+    {
+      "id": "node_1791389258264_73iz0n3",
+      "label": "frame_5117.png",
+      "type": "rh-image",
+      "asset": "rhtv-asset:ast_061ad7392d0643f7bf8977d53a46f3a4",
+      "history": null
+    }
+  ]
+}

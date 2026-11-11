@@ -1,0 +1,383 @@
+{
+  "node": {
+    "id": "node_1791255871109_0zlv2m6",
+    "type": "rh-script",
+    "position": {
+      "x": 690.3290505961807,
+      "y": 167.6603615986297
+    },
+    "data": {
+      "label": "脚本生成台",
+      "title": "脚本生成台",
+      "status": "finished",
+      "width": 380,
+      "height": 220,
+      "output": [
+        {
+          "outputId": "out_f657ae36b3fb97d4d7ffe01e2f4bdb844eb3e8a9",
+          "outputType": "structured",
+          "schemaVersion": "1",
+          "data": {
+            "props": [
+              {
+                "id": "paper_crane",
+                "name": "纸鹤",
+                "appearance": "白色折纸鹤，清晰折痕，左翼尖略微翘起；两镜头保持一致。"
+              }
+            ],
+            "shots": [
+              {
+                "id": "shot_01",
+                "props": [
+                  "paper_crane"
+                ],
+                "scene": "moonlit_courtyard",
+                "sound": {
+                  "foley": "轻微脚步声与纸张窸窣声。",
+                  "ambience": "微风、稀疏虫鸣。",
+                  "dialogue": "小焰轻声：怎么会在这里？"
+                },
+                "action": "小焰走到庭院石台旁，发现月光照亮的一只白色纸鹤。小焰停下脚步，俯身凝视，伸出手却停在纸鹤前；纸鹤的翼尖轻轻颤动。",
+                "camera": "中景缓慢推近至小焰与纸鹤的近景，平视，浅景深，2.39:1电影画幅。",
+                "characters": [
+                  "xiaoyan"
+                ],
+                "image_prompt": "电影写实，月光下的庭院石台，短黑发、穿米白色外套的小焰俯身看向白色折纸鹤，手指停在纸鹤前，纸鹤左翼尖略翘，真实纸张纹理与肌肤质感，自然月光，冷色阴影与克制高光，高端商业摄影，精致调色，浅景深，2.39:1。 supplied style reference仅用于视觉风格，不借用人物或地点。",
+                "video_prompt": "6秒电影镜头，中景缓慢推近；小焰走近石台、停步、俯身发现白色纸鹤，伸手后停住，最后纸鹤翼尖轻颤。保持短黑发、米白色外套和纸鹤折痕一致；自然月光照明，电影写实，高端商业摄影，精致调色，动作细腻，无跳切。",
+                "duration_seconds": 6
+              },
+              {
+                "id": "shot_02",
+                "props": [
+                  "paper_crane"
+                ],
+                "scene": "moonlit_courtyard",
+                "sound": {
+                  "foley": "纸翼轻振声，随后渐远。",
+                  "ambience": "延续庭院风声与虫鸣，随镜头仰起，虫鸣渐弱。",
+                  "dialogue": "无对白。"
+                },
+                "action": "承接翼尖颤动，纸鹤轻轻展开双翼，从石台离开，越过小焰停住的手，旋转着飞向月亮旁的天空。小焰直起身，抬头目送；纸鹤渐渐成为夜空中的白色小点。",
+                "camera": "从石台近景开始，随纸鹤升起缓慢仰摇至天空远景；小焰留在画面下缘，2.39:1电影画幅。",
+                "characters": [
+                  "xiaoyan"
+                ],
+                "image_prompt": "同一月光庭院，白色折纸鹤飞向月亮旁的开阔夜空，保留清晰折痕与略翘左翼尖；画面下缘的小焰保持短黑发、米白色外套，仰头目送。自然月光，真实纸张质感，克制的奇幻事件、写实摄影呈现，cinematic realism, natural light, high-end commercial photography, refined color grading，2.39:1，无额外发光特效。",
+                "video_prompt": "7秒连续电影镜头，接上一镜纸鹤翼尖颤动；白色纸鹤轻振双翼，从同一石台起飞，掠过小焰的手后缓慢盘旋上升。摄影机平滑仰摇跟随，小焰直起身抬头，最终纸鹤缩成月亮旁的小白点。保持角色、服装、庭院空间及纸鹤造型一致，自然月光，电影写实，精致调色，无跳切、无新增角色。",
+                "duration_seconds": 7
+              }
+            ],
+            "scenes": [
+              {
+                "id": "moonlit_courtyard",
+                "name": "月光下的庭院",
+                "style": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+                "reference": {
+                  "url": "https://assets.example.invalid/styles/hero-canvas.webp",
+                  "role": "仅作风格参考，不作为角色或地点身份参考。"
+                },
+                "description": "夜晚，庭院石台与开阔天空；自然月光照亮石面，背景树影轻晃。"
+              }
+            ],
+            "characters": [
+              {
+                "id": "xiaoyan",
+                "name": "小焰",
+                "appearance": "短黑发，米白色外套；两镜头保持同一外貌与服装。"
+              }
+            ]
+          },
+          "testMode": false
+        }
+      ],
+      "params": {
+        "prompt": "[接入验收] 写一个2镜头的短片分镜：小焰在月光下发现纸鹤，然后纸鹤飞向天空。请包含角色、地点、动作、声音和时长，不生成图片或视频。",
+        "scene": "film"
+      },
+      "modelCode": "codex-text-v1",
+      "generateNum": 1,
+      "subType": "multimodal-storyboard",
+      "maxConnect": {
+        "image": null,
+        "text": null,
+        "video": null
+      },
+      "taskId": "tsk_880bfda11b7e4c609e9de3355d0dea61",
+      "estimateTaskId": "tsk_880bfda11b7e4c609e9de3355d0dea61",
+      "generationStartedAt": 1791256554863,
+      "errorMsg": "",
+      "historyStorage": {
+        "source": "remote",
+        "schemaVersion": 1,
+        "historyId": "exe_b642620feada49c78984aae573820649",
+        "revision": "6",
+        "resultCount": 1
+      },
+      "selectedOutputHistoryId": "",
+      "selectedOutputHistoryIndex": 0,
+      "presetSelections": [
+        {
+          "coverUrl": "https://assets.example.invalid/styles/hero-canvas.webp",
+          "id": "cinematic_realism",
+          "key": "styleLibrary",
+          "label": "电影写实",
+          "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "referenceImageUrl": "https://assets.example.invalid/styles/hero-canvas.webp"
+        }
+      ],
+      "globalStyles": "电影写实",
+      "styleName": "film::电影写实",
+      "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+      "stylesPrompts": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+      "errorMessage": ""
+    },
+    "style": {
+      "height": 220,
+      "width": 380
+    },
+    "selectable": true
+  },
+  "task": {
+    "id": "tsk_880bfda11b7e4c609e9de3355d0dea61",
+    "projectId": "prj_ace25e5d-ab99-462d-b7d8-63797d868472",
+    "kind": "CANVAS",
+    "targetType": "NODE",
+    "targetId": "node_1791255871109_0zlv2m6",
+    "name": "Untitled-脚本生成台",
+    "state": "SUCCEEDED",
+    "revision": 6,
+    "plans": [
+      {
+        "nodeId": "node_1791255871109_0zlv2m6",
+        "executionId": "exe_b642620feada49c78984aae573820649",
+        "state": "SUCCEEDED",
+        "capabilityRef": "codex-text-v1",
+        "capabilityVersion": "1",
+        "parameters": {},
+        "outputs": [
+          {
+            "id": "out_f657ae36b3fb97d4d7ffe01e2f4bdb844eb3e8a9",
+            "type": "STRUCTURED",
+            "schemaVersion": "1",
+            "data": {
+              "props": [
+                {
+                  "id": "paper_crane",
+                  "name": "纸鹤",
+                  "appearance": "白色折纸鹤，清晰折痕，左翼尖略微翘起；两镜头保持一致。"
+                }
+              ],
+              "shots": [
+                {
+                  "id": "shot_01",
+                  "props": [
+                    "paper_crane"
+                  ],
+                  "scene": "moonlit_courtyard",
+                  "sound": {
+                    "foley": "轻微脚步声与纸张窸窣声。",
+                    "ambience": "微风、稀疏虫鸣。",
+                    "dialogue": "小焰轻声：怎么会在这里？"
+                  },
+                  "action": "小焰走到庭院石台旁，发现月光照亮的一只白色纸鹤。小焰停下脚步，俯身凝视，伸出手却停在纸鹤前；纸鹤的翼尖轻轻颤动。",
+                  "camera": "中景缓慢推近至小焰与纸鹤的近景，平视，浅景深，2.39:1电影画幅。",
+                  "characters": [
+                    "xiaoyan"
+                  ],
+                  "image_prompt": "电影写实，月光下的庭院石台，短黑发、穿米白色外套的小焰俯身看向白色折纸鹤，手指停在纸鹤前，纸鹤左翼尖略翘，真实纸张纹理与肌肤质感，自然月光，冷色阴影与克制高光，高端商业摄影，精致调色，浅景深，2.39:1。 supplied style reference仅用于视觉风格，不借用人物或地点。",
+                  "video_prompt": "6秒电影镜头，中景缓慢推近；小焰走近石台、停步、俯身发现白色纸鹤，伸手后停住，最后纸鹤翼尖轻颤。保持短黑发、米白色外套和纸鹤折痕一致；自然月光照明，电影写实，高端商业摄影，精致调色，动作细腻，无跳切。",
+                  "duration_seconds": 6
+                },
+                {
+                  "id": "shot_02",
+                  "props": [
+                    "paper_crane"
+                  ],
+                  "scene": "moonlit_courtyard",
+                  "sound": {
+                    "foley": "纸翼轻振声，随后渐远。",
+                    "ambience": "延续庭院风声与虫鸣，随镜头仰起，虫鸣渐弱。",
+                    "dialogue": "无对白。"
+                  },
+                  "action": "承接翼尖颤动，纸鹤轻轻展开双翼，从石台离开，越过小焰停住的手，旋转着飞向月亮旁的天空。小焰直起身，抬头目送；纸鹤渐渐成为夜空中的白色小点。",
+                  "camera": "从石台近景开始，随纸鹤升起缓慢仰摇至天空远景；小焰留在画面下缘，2.39:1电影画幅。",
+                  "characters": [
+                    "xiaoyan"
+                  ],
+                  "image_prompt": "同一月光庭院，白色折纸鹤飞向月亮旁的开阔夜空，保留清晰折痕与略翘左翼尖；画面下缘的小焰保持短黑发、米白色外套，仰头目送。自然月光，真实纸张质感，克制的奇幻事件、写实摄影呈现，cinematic realism, natural light, high-end commercial photography, refined color grading，2.39:1，无额外发光特效。",
+                  "video_prompt": "7秒连续电影镜头，接上一镜纸鹤翼尖颤动；白色纸鹤轻振双翼，从同一石台起飞，掠过小焰的手后缓慢盘旋上升。摄影机平滑仰摇跟随，小焰直起身抬头，最终纸鹤缩成月亮旁的小白点。保持角色、服装、庭院空间及纸鹤造型一致，自然月光，电影写实，精致调色，无跳切、无新增角色。",
+                  "duration_seconds": 7
+                }
+              ],
+              "scenes": [
+                {
+                  "id": "moonlit_courtyard",
+                  "name": "月光下的庭院",
+                  "style": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+                  "reference": {
+                    "url": "https://assets.example.invalid/styles/hero-canvas.webp",
+                    "role": "仅作风格参考，不作为角色或地点身份参考。"
+                  },
+                  "description": "夜晚，庭院石台与开阔天空；自然月光照亮石面，背景树影轻晃。"
+                }
+              ],
+              "characters": [
+                {
+                  "id": "xiaoyan",
+                  "name": "小焰",
+                  "appearance": "短黑发，米白色外套；两镜头保持同一外貌与服装。"
+                }
+              ]
+            },
+            "testMode": false
+          }
+        ],
+        "nodeSnapshot": {
+          "id": "node_1791255871109_0zlv2m6",
+          "data": {
+            "label": "脚本生成台",
+            "title": "脚本生成台",
+            "width": 380,
+            "height": 220,
+            "output": null,
+            "params": {
+              "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading\n[接入验收] 写一个2镜头的短片分镜：小焰在月光下发现纸鹤，然后纸鹤飞向天空。请包含角色、地点、动作、声音和时长，不生成图片或视频。"
+            },
+            "status": "idle",
+            "subType": "multimodal-storyboard",
+            "errorMsg": "",
+            "testMode": false,
+            "modelCode": "codex-text-v1",
+            "modelType": "LLM",
+            "sceneCode": "storyboard-prompt-film",
+            "styleName": "film::电影写实",
+            "maxConnect": {
+              "text": null,
+              "image": null,
+              "video": null
+            },
+            "generateNum": 1,
+            "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "errorMessage": "",
+            "globalStyles": "电影写实",
+            "capabilityRef": "codex-text-v1",
+            "stylesPrompts": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "presetSelections": [
+              {
+                "id": "cinematic_realism",
+                "key": "styleLibrary",
+                "label": "电影写实",
+                "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+                "coverUrl": "https://assets.example.invalid/styles/hero-canvas.webp",
+                "referenceImageUrl": "https://assets.example.invalid/styles/hero-canvas.webp"
+              }
+            ],
+            "routerParameters": {},
+            "capabilityVersion": "1",
+            "parameterSchemaVersion": "1",
+            "selectedOutputHistoryId": "",
+            "selectedOutputHistoryIndex": 0
+          },
+          "type": "rh-script",
+          "style": {
+            "width": 380,
+            "height": 220
+          },
+          "hidden": false,
+          "position": {
+            "x": 690.3290505961807,
+            "y": 167.6603615986297
+          },
+          "selectable": true
+        },
+        "testMode": false
+      }
+    ],
+    "testMode": false,
+    "snapshot": {
+      "edges": [],
+      "nodes": [
+        {
+          "id": "node_1791255871109_0zlv2m6",
+          "data": {
+            "label": "脚本生成台",
+            "title": "脚本生成台",
+            "width": 380,
+            "height": 220,
+            "output": null,
+            "params": {
+              "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading\n[接入验收] 写一个2镜头的短片分镜：小焰在月光下发现纸鹤，然后纸鹤飞向天空。请包含角色、地点、动作、声音和时长，不生成图片或视频。"
+            },
+            "status": "idle",
+            "subType": "multimodal-storyboard",
+            "errorMsg": "",
+            "testMode": false,
+            "modelCode": "codex-text-v1",
+            "modelType": "LLM",
+            "sceneCode": "storyboard-prompt-film",
+            "styleName": "film::电影写实",
+            "maxConnect": {
+              "text": null,
+              "image": null,
+              "video": null
+            },
+            "generateNum": 1,
+            "stylePrompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "errorMessage": "",
+            "globalStyles": "电影写实",
+            "capabilityRef": "codex-text-v1",
+            "stylesPrompts": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+            "presetSelections": [
+              {
+                "id": "cinematic_realism",
+                "key": "styleLibrary",
+                "label": "电影写实",
+                "prompt": "cinematic realism, natural light, high-end commercial photography, refined color grading",
+                "coverUrl": "https://assets.example.invalid/styles/hero-canvas.webp",
+                "referenceImageUrl": "https://assets.example.invalid/styles/hero-canvas.webp"
+              }
+            ],
+            "routerParameters": {},
+            "capabilityVersion": "1",
+            "parameterSchemaVersion": "1",
+            "selectedOutputHistoryId": "",
+            "selectedOutputHistoryIndex": 0
+          },
+          "type": "rh-script",
+          "style": {
+            "width": 380,
+            "height": 220
+          },
+          "hidden": false,
+          "position": {
+            "x": 690.3290505961807,
+            "y": 167.6603615986297
+          },
+          "selectable": true
+        }
+      ]
+    },
+    "runtimeMetadata": {
+      "usage": null,
+      "context": {
+        "observedAt": "2026-10-06T03:16:29.785235869Z",
+        "usedTokens": null,
+        "measurement": "REPORTED",
+        "windowTokens": 258400,
+        "compactionCount": null,
+        "reservedOutputTokens": null,
+        "remainingTokensEstimate": null
+      },
+      "testMode": false,
+      "execution": {
+        "agentRef": null,
+        "modelRef": null,
+        "capabilityRef": "codex-text-v1",
+        "executionKind": "AGENT",
+        "capabilityVersion": "1"
+      }
+    },
+    "createdAt": "2026-10-06T03:15:55.254Z",
+    "updatedAt": "2026-10-06T03:16:29.958Z"
+  }
+}

@@ -1,0 +1,1 @@
+function r(r,t){const n=t.trim();return{sortType:r,...n?{keyword:n}:{}}}function t(){let r=0;return{begin:()=>(r+=1,r),isCurrent:t=>t===r}}export{r as buildCampListFilterParams,t as createCampListRequestGuard};

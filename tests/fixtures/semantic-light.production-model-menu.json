@@ -1,0 +1,217 @@
+[
+  {
+    "id": "codex-image-edit-v1",
+    "modelCode": "codex-image-edit-v1",
+    "kind": "IMAGE_TO_IMAGE",
+    "modelName": "Codex 图像工具（宿主 gpt-6.1-sol） · 参考图编辑 · 光照参考编辑",
+    "modelNameEn": "Codex 图像工具（宿主 gpt-6.1-sol） · 参考图编辑 · 光照参考编辑",
+    "modelType": "OPENAPI",
+    "description": "按灯光方向、强度与颜色意图重新生成，结果不保证精确光学模拟或像素保持。",
+    "descriptionEn": "按灯光方向、强度与颜色意图重新生成，结果不保证精确光学模拟或像素保持。",
+    "generateNum": [
+      1
+    ],
+    "config": [
+      {
+        "paramName": "imageUrls",
+        "title": "参考图片",
+        "titleEn": "Reference image",
+        "type": "imageUrls",
+        "paramDataType": "arrayString",
+        "display": true,
+        "required": true,
+        "maxNum": 1
+      },
+      {
+        "paramName": "light_azimuth",
+        "title": "光源方位",
+        "titleEn": "Light azimuth",
+        "paramValue": 0,
+        "min": 0,
+        "max": 360,
+        "type": "int",
+        "step": 1,
+        "paramDataType": "int",
+        "display": true,
+        "required": true
+      },
+      {
+        "paramName": "light_elevation",
+        "title": "光源高度",
+        "titleEn": "Light elevation",
+        "paramValue": 30,
+        "min": -90,
+        "max": 90,
+        "type": "int",
+        "step": 1,
+        "paramDataType": "int",
+        "display": true,
+        "required": true
+      },
+      {
+        "paramName": "light_intensity",
+        "title": "光照强度",
+        "titleEn": "Light intensity",
+        "paramValue": 50,
+        "min": 0,
+        "max": 100,
+        "type": "float",
+        "step": 1,
+        "paramDataType": "float",
+        "display": true,
+        "required": true
+      },
+      {
+        "paramName": "light_color_hex",
+        "title": "光源颜色",
+        "titleEn": "Light color",
+        "type": "colorHex",
+        "paramDataType": "string",
+        "paramValue": "#FFFFFF",
+        "display": true,
+        "required": true
+      }
+    ],
+    "available": true,
+    "capabilityRef": "codex-image-edit-v1",
+    "capabilityVersion": "3",
+    "parameterSchemaVersion": "3",
+    "testMode": false,
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE"
+    ],
+    "outputKinds": [
+      "IMAGE"
+    ],
+    "model": {
+      "providerRef": "codex",
+      "modelRef": "codex-image",
+      "title": "Codex 图像工具（宿主 gpt-6.1-sol）",
+      "version": "1"
+    },
+    "params": {
+      "light_azimuth": 0,
+      "light_elevation": 30,
+      "light_intensity": 50,
+      "light_color_hex": "#FFFFFF"
+    }
+  },
+  {
+    "id": "qwen-image-edit-2511-v1",
+    "modelCode": "qwen-image-edit-2511-v1",
+    "kind": "IMAGE_TO_IMAGE",
+    "modelName": "Qwen-Image-Edit-2511 · Lightning 4步 · 光照参考编辑",
+    "modelNameEn": "Qwen-Image-Edit-2511 · Lightning 4步 · 光照参考编辑",
+    "modelType": "OPENAPI",
+    "description": "按灯光方向、强度与颜色意图重新生成，结果不保证精确光学模拟或像素保持。",
+    "descriptionEn": "按灯光方向、强度与颜色意图重新生成，结果不保证精确光学模拟或像素保持。",
+    "generateNum": [
+      1
+    ],
+    "config": [
+      {
+        "paramName": "imageUrls",
+        "title": "参考图片",
+        "titleEn": "Reference image",
+        "type": "imageUrls",
+        "paramDataType": "arrayString",
+        "display": true,
+        "required": true,
+        "maxNum": 1
+      },
+      {
+        "paramName": "outputPreset",
+        "paramDataType": "string",
+        "type": "list",
+        "title": "输出规格",
+        "titleEn": "输出规格",
+        "display": true,
+        "required": false,
+        "paramValue": "1024-square",
+        "optionValue": [
+          {
+            "value": "1024-square",
+            "labelCn": "1024×1024",
+            "labelEn": "1024×1024"
+          }
+        ]
+      },
+      {
+        "paramName": "light_azimuth",
+        "title": "光源方位",
+        "titleEn": "Light azimuth",
+        "paramValue": 0,
+        "min": 0,
+        "max": 360,
+        "type": "int",
+        "step": 1,
+        "paramDataType": "int",
+        "display": true,
+        "required": true
+      },
+      {
+        "paramName": "light_elevation",
+        "title": "光源高度",
+        "titleEn": "Light elevation",
+        "paramValue": 30,
+        "min": -90,
+        "max": 90,
+        "type": "int",
+        "step": 1,
+        "paramDataType": "int",
+        "display": true,
+        "required": true
+      },
+      {
+        "paramName": "light_intensity",
+        "title": "光照强度",
+        "titleEn": "Light intensity",
+        "paramValue": 50,
+        "min": 0,
+        "max": 100,
+        "type": "float",
+        "step": 1,
+        "paramDataType": "float",
+        "display": true,
+        "required": true
+      },
+      {
+        "paramName": "light_color_hex",
+        "title": "光源颜色",
+        "titleEn": "Light color",
+        "type": "colorHex",
+        "paramDataType": "string",
+        "paramValue": "#FFFFFF",
+        "display": true,
+        "required": true
+      }
+    ],
+    "available": true,
+    "capabilityRef": "qwen-image-edit-2511-v1",
+    "capabilityVersion": "1",
+    "parameterSchemaVersion": "1",
+    "testMode": false,
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE"
+    ],
+    "outputKinds": [
+      "IMAGE"
+    ],
+    "model": {
+      "providerRef": "comfy",
+      "modelRef": "qwen-image-edit-2511",
+      "title": "Qwen-Image-Edit-2511 · Lightning 4步",
+      "version": "1"
+    },
+    "params": {
+      "light_azimuth": 0,
+      "light_elevation": 30,
+      "light_intensity": 50,
+      "light_color_hex": "#FFFFFF"
+    }
+  }
+]

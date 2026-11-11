@@ -1,0 +1,1448 @@
+[
+  {
+    "title": "H3 动作迁移",
+    "model": {
+      "providerRef": "comfy",
+      "modelRef": "h3",
+      "title": "H3 动作迁移",
+      "version": "1"
+    },
+    "capabilityRef": "h3-motion-transfer-v1",
+    "version": "1",
+    "kind": "VIDEO_TO_VIDEO",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "1",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "portrait-480p-5s",
+            "square-480p-5s",
+            "standard-480p-5s",
+            "standard-portrait-480p-5s",
+            "ultrawide-480p-5s",
+            "landscape-768p-5s",
+            "portrait-768p-5s",
+            "square-768p-5s",
+            "standard-768p-5s",
+            "standard-portrait-768p-5s",
+            "ultrawide-768p-5s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-480p-5s": "480P · 9:5 · 约5秒",
+            "landscape-768p-5s": "768P · 7:4 · 约5秒",
+            "portrait-480p-5s": "480P · 5:9 · 约5秒",
+            "portrait-768p-5s": "768P · 4:7 · 约5秒",
+            "square-480p-5s": "480P · 1:1 · 约5秒",
+            "square-768p-5s": "768P · 1:1 · 约5秒",
+            "standard-480p-5s": "480P · 4:3 · 约5秒",
+            "standard-768p-5s": "768P · 4:3 · 约5秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 约5秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 约5秒",
+            "ultrawide-480p-5s": "480P · 7:3 · 约5秒",
+            "ultrawide-768p-5s": "768P · 7:3 · 约5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 1,
+        "max_images": 1,
+        "max_audios": 0,
+        "min_videos": 1,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 2
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 0,
+        "IMAGE": 1,
+        "VIDEO": 1
+      },
+      "x-media-roles": [
+        {
+          "description": "上传只包含一个清晰人物的参考图。",
+          "kind": "IMAGE",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "imageUrls",
+          "role": "REFERENCE_IMAGE",
+          "title": "人物参考图"
+        },
+        {
+          "description": "上传5.2至15秒视频；前约5秒提供动作，原声随输出保留。",
+          "kind": "VIDEO",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "videoUrls",
+          "role": "SOURCE_VIDEO",
+          "title": "动作源视频"
+        }
+      ],
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 9:5 · 约5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 5:9 · 约5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 约5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 约5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 约5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 7:3 · 约5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 7:4 · 约5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 4:7 · 约5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 约5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 约5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 约5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 7:3 · 约5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "ignored",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-subject-control": {
+        "indexBase": 0,
+        "mappingRequired": false,
+        "maskRequirement": "NOT_SUPPORTED",
+        "maskSemantics": "仅支持参考图和源视频各一个清晰人物；不支持人物索引、多人对应或mask。",
+        "maxSubjects": 1,
+        "mode": "SINGLE"
+      },
+      "x-temporal-alignment": {
+        "actualSeconds": 5.166666666666667,
+        "fps": 24,
+        "frameCount": 124,
+        "requestedSeconds": 5
+      },
+      "x-video-mode": "MOTION_TRANSFER",
+      "x-video-parameter-metadata": {
+        "presets": [
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "landscape-480p-5s",
+            "width": 864
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 864,
+            "resolution": "480p",
+            "value": "portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "square-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "standard-480p-5s",
+            "width": 640
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 640,
+            "resolution": "480p",
+            "value": "standard-portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "ultrawide-480p-5s",
+            "width": 1120
+          },
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "landscape-768p-5s",
+            "width": 1344
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1344,
+            "resolution": "768p",
+            "value": "portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "square-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "standard-768p-5s",
+            "width": 1024
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1024,
+            "resolution": "768p",
+            "value": "standard-portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "ultrawide-768p-5s",
+            "width": 1792
+          }
+        ],
+        "schemaVersion": "1"
+      }
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。"
+  },
+  {
+    "title": "Wan Animate2 动作迁移",
+    "model": {
+      "providerRef": "comfy",
+      "modelRef": "wan-animate2",
+      "title": "Wan Animate2 动作迁移",
+      "version": "1"
+    },
+    "capabilityRef": "wan-animate2-motion-transfer-v1",
+    "version": "1",
+    "kind": "VIDEO_TO_VIDEO",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "1",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "portrait-480p-5s",
+            "square-480p-5s",
+            "standard-480p-5s",
+            "standard-portrait-480p-5s",
+            "ultrawide-480p-5s",
+            "landscape-768p-5s",
+            "portrait-768p-5s",
+            "square-768p-5s",
+            "standard-768p-5s",
+            "standard-portrait-768p-5s",
+            "ultrawide-768p-5s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-480p-5s": "480P · 9:5 · 约5秒",
+            "landscape-768p-5s": "768P · 7:4 · 约5秒",
+            "portrait-480p-5s": "480P · 5:9 · 约5秒",
+            "portrait-768p-5s": "768P · 4:7 · 约5秒",
+            "square-480p-5s": "480P · 1:1 · 约5秒",
+            "square-768p-5s": "768P · 1:1 · 约5秒",
+            "standard-480p-5s": "480P · 4:3 · 约5秒",
+            "standard-768p-5s": "768P · 4:3 · 约5秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 约5秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 约5秒",
+            "ultrawide-480p-5s": "480P · 7:3 · 约5秒",
+            "ultrawide-768p-5s": "768P · 7:3 · 约5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 1,
+        "max_images": 1,
+        "max_audios": 0,
+        "min_videos": 1,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 2
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 0,
+        "IMAGE": 1,
+        "VIDEO": 1
+      },
+      "x-media-roles": [
+        {
+          "description": "上传只包含一个清晰人物的参考图。",
+          "kind": "IMAGE",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "imageUrls",
+          "role": "REFERENCE_IMAGE",
+          "title": "人物参考图"
+        },
+        {
+          "description": "上传5.2至15秒视频；前约5秒提供动作，原声随输出保留。",
+          "kind": "VIDEO",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "videoUrls",
+          "role": "SOURCE_VIDEO",
+          "title": "动作源视频"
+        }
+      ],
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 9:5 · 约5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 5:9 · 约5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 约5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 约5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 约5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 7:3 · 约5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 7:4 · 约5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 4:7 · 约5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 约5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 约5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 约5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 7:3 · 约5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-subject-control": {
+        "indexBase": 0,
+        "mappingRequired": false,
+        "maskRequirement": "NOT_SUPPORTED",
+        "maskSemantics": "仅支持参考图和源视频各一个清晰人物；不支持人物索引、多人对应或mask。",
+        "maxSubjects": 1,
+        "mode": "SINGLE"
+      },
+      "x-temporal-alignment": {
+        "actualSeconds": 5.041666666666667,
+        "fps": 24,
+        "frameCount": 121,
+        "requestedSeconds": 5
+      },
+      "x-video-mode": "MOTION_TRANSFER",
+      "x-video-parameter-metadata": {
+        "presets": [
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "landscape-480p-5s",
+            "width": 864
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 864,
+            "resolution": "480p",
+            "value": "portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "square-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "standard-480p-5s",
+            "width": 640
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 640,
+            "resolution": "480p",
+            "value": "standard-portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "ultrawide-480p-5s",
+            "width": 1120
+          },
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "landscape-768p-5s",
+            "width": 1344
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1344,
+            "resolution": "768p",
+            "value": "portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "square-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "standard-768p-5s",
+            "width": 1024
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1024,
+            "resolution": "768p",
+            "value": "standard-portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "ultrawide-768p-5s",
+            "width": 1792
+          }
+        ],
+        "schemaVersion": "1"
+      }
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。"
+  },
+  {
+    "title": "SCAIL2 动作迁移",
+    "model": {
+      "providerRef": "comfy",
+      "modelRef": "scail2",
+      "title": "SCAIL2 动作迁移",
+      "version": "1"
+    },
+    "capabilityRef": "scail2-motion-transfer-v1",
+    "version": "1",
+    "kind": "VIDEO_TO_VIDEO",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "1",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "portrait-480p-5s",
+            "square-480p-5s",
+            "standard-480p-5s",
+            "standard-portrait-480p-5s",
+            "ultrawide-480p-5s",
+            "landscape-768p-5s",
+            "portrait-768p-5s",
+            "square-768p-5s",
+            "standard-768p-5s",
+            "standard-portrait-768p-5s",
+            "ultrawide-768p-5s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-480p-5s": "480P · 9:5 · 约5秒",
+            "landscape-768p-5s": "768P · 7:4 · 约5秒",
+            "portrait-480p-5s": "480P · 5:9 · 约5秒",
+            "portrait-768p-5s": "768P · 4:7 · 约5秒",
+            "square-480p-5s": "480P · 1:1 · 约5秒",
+            "square-768p-5s": "768P · 1:1 · 约5秒",
+            "standard-480p-5s": "480P · 4:3 · 约5秒",
+            "standard-768p-5s": "768P · 4:3 · 约5秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 约5秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 约5秒",
+            "ultrawide-480p-5s": "480P · 7:3 · 约5秒",
+            "ultrawide-768p-5s": "768P · 7:3 · 约5秒"
+          }
+        },
+        "subjectMapping": {
+          "default": [
+            {
+              "referenceSubjectIndex": 0,
+              "sourceSubjectIndex": 0
+            }
+          ],
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "referenceSubjectIndex": {
+                "maximum": 4,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "sourceSubjectIndex": {
+                "maximum": 4,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "referenceSubjectIndex",
+              "sourceSubjectIndex"
+            ],
+            "type": "object"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "人物对应",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subjectMapping"
+      ],
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 1,
+        "max_images": 1,
+        "max_audios": 0,
+        "min_videos": 1,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 2
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 0,
+        "IMAGE": 1,
+        "VIDEO": 1
+      },
+      "x-media-roles": [
+        {
+          "description": "上传一张包含目标人物的图片；按从0开始的人物编号逐一对应动作视频。",
+          "kind": "IMAGE",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "imageUrls",
+          "role": "REFERENCE_IMAGE",
+          "title": "人物参考图"
+        },
+        {
+          "description": "上传5.2至15秒视频；前约5秒提供动作，原声随输出保留。",
+          "kind": "VIDEO",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "videoUrls",
+          "role": "SOURCE_VIDEO",
+          "title": "动作源视频"
+        }
+      ],
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 9:5 · 约5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 5:9 · 约5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 约5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 约5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 约5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 7:3 · 约5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 7:4 · 约5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 4:7 · 约5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 约5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 约5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 约5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 7:3 · 约5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-subject-control": {
+        "indexBase": 0,
+        "mappingRequired": true,
+        "maskRequirement": "AUTO_SAM3_REQUIRED",
+        "maskSemantics": "一张多人参考图与一个动作源视频；人物按首出现帧从左到右、从0开始编号。每组参考人物→视频人物按相同颜色自动配对；无须上传或手画mask。动作迁移：源视频mask黑底，参考图mask白底。",
+        "maxSubjects": 5,
+        "mode": "MULTI"
+      },
+      "x-temporal-alignment": {
+        "actualSeconds": 5.041666666666667,
+        "fps": 24,
+        "frameCount": 121,
+        "requestedSeconds": 5
+      },
+      "x-video-mode": "MOTION_TRANSFER",
+      "x-video-parameter-metadata": {
+        "presets": [
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "landscape-480p-5s",
+            "width": 864
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 864,
+            "resolution": "480p",
+            "value": "portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "square-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "standard-480p-5s",
+            "width": 640
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 640,
+            "resolution": "480p",
+            "value": "standard-portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "ultrawide-480p-5s",
+            "width": 1120
+          },
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "landscape-768p-5s",
+            "width": 1344
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1344,
+            "resolution": "768p",
+            "value": "portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "square-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "standard-768p-5s",
+            "width": 1024
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1024,
+            "resolution": "768p",
+            "value": "standard-portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "ultrawide-768p-5s",
+            "width": 1792
+          }
+        ],
+        "schemaVersion": "1"
+      }
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。"
+  },
+  {
+    "title": "SCAIL2 人物替换",
+    "model": {
+      "providerRef": "comfy",
+      "modelRef": "scail2",
+      "title": "SCAIL2 人物替换",
+      "version": "1"
+    },
+    "capabilityRef": "scail2-person-replacement-v1",
+    "version": "1",
+    "kind": "VIDEO_TO_VIDEO",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "1",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "portrait-480p-5s",
+            "square-480p-5s",
+            "standard-480p-5s",
+            "standard-portrait-480p-5s",
+            "ultrawide-480p-5s",
+            "landscape-768p-5s",
+            "portrait-768p-5s",
+            "square-768p-5s",
+            "standard-768p-5s",
+            "standard-portrait-768p-5s",
+            "ultrawide-768p-5s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-480p-5s": "480P · 9:5 · 约5秒",
+            "landscape-768p-5s": "768P · 7:4 · 约5秒",
+            "portrait-480p-5s": "480P · 5:9 · 约5秒",
+            "portrait-768p-5s": "768P · 4:7 · 约5秒",
+            "square-480p-5s": "480P · 1:1 · 约5秒",
+            "square-768p-5s": "768P · 1:1 · 约5秒",
+            "standard-480p-5s": "480P · 4:3 · 约5秒",
+            "standard-768p-5s": "768P · 4:3 · 约5秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 约5秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 约5秒",
+            "ultrawide-480p-5s": "480P · 7:3 · 约5秒",
+            "ultrawide-768p-5s": "768P · 7:3 · 约5秒"
+          }
+        },
+        "subjectMapping": {
+          "default": [
+            {
+              "referenceSubjectIndex": 0,
+              "sourceSubjectIndex": 0
+            }
+          ],
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "referenceSubjectIndex": {
+                "maximum": 4,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "sourceSubjectIndex": {
+                "maximum": 4,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "referenceSubjectIndex",
+              "sourceSubjectIndex"
+            ],
+            "type": "object"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "人物对应",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subjectMapping"
+      ],
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 1,
+        "max_images": 1,
+        "max_audios": 0,
+        "min_videos": 1,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 2
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 0,
+        "IMAGE": 1,
+        "VIDEO": 1
+      },
+      "x-media-roles": [
+        {
+          "description": "上传一张包含目标人物的图片；按从0开始的人物编号逐一对应动作视频。",
+          "kind": "IMAGE",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "imageUrls",
+          "role": "REFERENCE_IMAGE",
+          "title": "人物参考图"
+        },
+        {
+          "description": "上传5.2至15秒视频；前约5秒提供动作，原声随输出保留。",
+          "kind": "VIDEO",
+          "maxItems": 1,
+          "minItems": 1,
+          "paramName": "videoUrls",
+          "role": "SOURCE_VIDEO",
+          "title": "动作源视频"
+        }
+      ],
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 9:5 · 约5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 5:9 · 约5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 约5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 约5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 约5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 7:3 · 约5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 7:4 · 约5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 4:7 · 约5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 约5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 约5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 约5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 7:3 · 约5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-subject-control": {
+        "indexBase": 0,
+        "mappingRequired": true,
+        "maskRequirement": "AUTO_SAM3_REQUIRED",
+        "maskSemantics": "一张多人参考图与一个动作源视频；人物按首出现帧从左到右、从0开始编号。每组参考人物→视频人物按相同颜色自动配对；无须上传或手画mask。人物替换：源视频mask白底，参考图mask黑底。",
+        "maxSubjects": 5,
+        "mode": "MULTI"
+      },
+      "x-temporal-alignment": {
+        "actualSeconds": 5.041666666666667,
+        "fps": 24,
+        "frameCount": 121,
+        "requestedSeconds": 5
+      },
+      "x-video-mode": "MOTION_TRANSFER",
+      "x-video-parameter-metadata": {
+        "presets": [
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "landscape-480p-5s",
+            "width": 864
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 864,
+            "resolution": "480p",
+            "value": "portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "square-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "standard-480p-5s",
+            "width": 640
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 640,
+            "resolution": "480p",
+            "value": "standard-portrait-480p-5s",
+            "width": 480
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 480,
+            "resolution": "480p",
+            "value": "ultrawide-480p-5s",
+            "width": 1120
+          },
+          {
+            "aspectRatio": "16:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "landscape-768p-5s",
+            "width": 1344
+          },
+          {
+            "aspectRatio": "9:16",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1344,
+            "resolution": "768p",
+            "value": "portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "1:1",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "square-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "4:3",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "standard-768p-5s",
+            "width": 1024
+          },
+          {
+            "aspectRatio": "3:4",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 1024,
+            "resolution": "768p",
+            "value": "standard-portrait-768p-5s",
+            "width": 768
+          },
+          {
+            "aspectRatio": "21:9",
+            "durationSeconds": 5,
+            "fps": 24,
+            "height": 768,
+            "resolution": "768p",
+            "value": "ultrawide-768p-5s",
+            "width": 1792
+          }
+        ],
+        "schemaVersion": "1"
+      }
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "真实Comfy图接收及本次任务ID取消已通过；未验收成片质量，等待用户手动生成测试。"
+  }
+]

@@ -1,0 +1,4780 @@
+[
+  {
+    "title": "MiniMax H3 · 首帧视频",
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3",
+      "version": "1"
+    },
+    "capabilityRef": "h3-first-frame-v1",
+    "version": "4",
+    "kind": "IMAGE_TO_VIDEO",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "4",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "portrait-480p-5s",
+            "square-480p-5s",
+            "standard-480p-5s",
+            "standard-portrait-480p-5s",
+            "ultrawide-480p-5s",
+            "landscape-768p-5s",
+            "portrait-768p-5s",
+            "square-768p-5s",
+            "standard-768p-5s",
+            "standard-portrait-768p-5s",
+            "ultrawide-768p-5s",
+            "landscape-1080p-5s",
+            "portrait-1080p-5s",
+            "square-1080p-5s",
+            "standard-1080p-5s",
+            "standard-portrait-1080p-5s",
+            "ultrawide-1080p-5s",
+            "landscape-2k-5s",
+            "portrait-2k-5s",
+            "square-2k-5s",
+            "standard-2k-5s",
+            "standard-portrait-2k-5s",
+            "ultrawide-2k-5s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-5s": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+            "landscape-2k-5s": "2K · 16:9 · 2560×1440 · 5秒",
+            "landscape-480p-5s": "480P · 16:9 · 864×480 · 5秒",
+            "landscape-768p-5s": "768P · 16:9 · 1344×768 · 5秒",
+            "portrait-1080p-5s": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+            "portrait-2k-5s": "2K · 9:16 · 1440×2560 · 5秒",
+            "portrait-480p-5s": "480P · 9:16 · 480×864 · 5秒",
+            "portrait-768p-5s": "768P · 9:16 · 768×1344 · 5秒",
+            "square-1080p-5s": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+            "square-2k-5s": "2K · 1:1 · 1440×1440 · 5秒",
+            "square-480p-5s": "480P · 1:1 · 480×480 · 5秒",
+            "square-768p-5s": "768P · 1:1 · 768×768 · 5秒",
+            "standard-1080p-5s": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+            "standard-2k-5s": "2K · 4:3 · 1920×1440 · 5秒",
+            "standard-480p-5s": "480P · 4:3 · 640×480 · 5秒",
+            "standard-768p-5s": "768P · 4:3 · 1024×768 · 5秒",
+            "standard-portrait-1080p-5s": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+            "standard-portrait-2k-5s": "2K · 3:4 · 1440×1920 · 5秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 480×640 · 5秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 768×1024 · 5秒",
+            "ultrawide-1080p-5s": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+            "ultrawide-2k-5s": "2K · 21:9 · 3360×1440 · 5秒",
+            "ultrawide-480p-5s": "480P · 21:9 · 1120×480 · 5秒",
+            "ultrawide-768p-5s": "768P · 21:9 · 1792×768 · 5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 1,
+        "max_images": 1,
+        "max_audios": 0,
+        "min_videos": 0,
+        "max_videos": 0,
+        "require_visual": true,
+        "max_references": 1
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 0,
+        "IMAGE": 1,
+        "VIDEO": 0
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 16:9 · 864×480 · 5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 9:16 · 480×864 · 5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 480×480 · 5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 640×480 · 5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 480×640 · 5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 21:9 · 1120×480 · 5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 16:9 · 1344×768 · 5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 9:16 · 768×1344 · 5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 768×768 · 5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 1024×768 · 5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 768×1024 · 5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 21:9 · 1792×768 · 5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-5s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-5s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-5s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-5s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-5s",
+          "title": "2K · 16:9 · 2560×1440 · 5秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-5s",
+          "title": "2K · 9:16 · 1440×2560 · 5秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-5s",
+          "title": "2K · 1:1 · 1440×1440 · 5秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-5s",
+          "title": "2K · 4:3 · 1920×1440 · 5秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-5s",
+          "title": "2K · 3:4 · 1440×1920 · 5秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-5s",
+          "title": "2K · 21:9 · 3360×1440 · 5秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "FIRST_FRAME"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  },
+  {
+    "title": "MiniMax H3 · 首尾帧视频",
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3",
+      "version": "1"
+    },
+    "capabilityRef": "h3-first-last-frame-v1",
+    "version": "4",
+    "kind": "IMAGE_TO_VIDEO",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "4",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "landscape-480p-10s",
+            "landscape-480p-15s",
+            "portrait-480p-5s",
+            "portrait-480p-10s",
+            "portrait-480p-15s",
+            "square-480p-5s",
+            "square-480p-10s",
+            "square-480p-15s",
+            "standard-480p-5s",
+            "standard-480p-10s",
+            "standard-480p-15s",
+            "standard-portrait-480p-5s",
+            "standard-portrait-480p-10s",
+            "standard-portrait-480p-15s",
+            "ultrawide-480p-5s",
+            "ultrawide-480p-10s",
+            "ultrawide-480p-15s",
+            "landscape-768p-5s",
+            "landscape-768p-10s",
+            "landscape-768p-15s",
+            "portrait-768p-5s",
+            "portrait-768p-10s",
+            "portrait-768p-15s",
+            "square-768p-5s",
+            "square-768p-10s",
+            "square-768p-15s",
+            "standard-768p-5s",
+            "standard-768p-10s",
+            "standard-768p-15s",
+            "standard-portrait-768p-5s",
+            "standard-portrait-768p-10s",
+            "standard-portrait-768p-15s",
+            "ultrawide-768p-5s",
+            "ultrawide-768p-10s",
+            "ultrawide-768p-15s",
+            "landscape-1080p-5s",
+            "landscape-1080p-10s",
+            "landscape-1080p-15s",
+            "portrait-1080p-5s",
+            "portrait-1080p-10s",
+            "portrait-1080p-15s",
+            "square-1080p-5s",
+            "square-1080p-10s",
+            "square-1080p-15s",
+            "standard-1080p-5s",
+            "standard-1080p-10s",
+            "standard-1080p-15s",
+            "standard-portrait-1080p-5s",
+            "standard-portrait-1080p-10s",
+            "standard-portrait-1080p-15s",
+            "ultrawide-1080p-5s",
+            "ultrawide-1080p-10s",
+            "ultrawide-1080p-15s",
+            "landscape-2k-5s",
+            "landscape-2k-10s",
+            "landscape-2k-15s",
+            "portrait-2k-5s",
+            "portrait-2k-10s",
+            "portrait-2k-15s",
+            "square-2k-5s",
+            "square-2k-10s",
+            "square-2k-15s",
+            "standard-2k-5s",
+            "standard-2k-10s",
+            "standard-2k-15s",
+            "standard-portrait-2k-5s",
+            "standard-portrait-2k-10s",
+            "standard-portrait-2k-15s",
+            "ultrawide-2k-5s",
+            "ultrawide-2k-10s",
+            "ultrawide-2k-15s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-10s": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+            "landscape-1080p-15s": "1080P（1088对齐） · 16:9 · 1920×1088 · 15秒",
+            "landscape-1080p-5s": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+            "landscape-2k-10s": "2K · 16:9 · 2560×1440 · 10秒",
+            "landscape-2k-15s": "2K · 16:9 · 2560×1440 · 15秒",
+            "landscape-2k-5s": "2K · 16:9 · 2560×1440 · 5秒",
+            "landscape-480p-10s": "480P · 16:9 · 864×480 · 10秒",
+            "landscape-480p-15s": "480P · 16:9 · 864×480 · 15秒",
+            "landscape-480p-5s": "480P · 16:9 · 864×480 · 5秒",
+            "landscape-768p-10s": "768P · 16:9 · 1344×768 · 10秒",
+            "landscape-768p-15s": "768P · 16:9 · 1344×768 · 15秒",
+            "landscape-768p-5s": "768P · 16:9 · 1344×768 · 5秒",
+            "portrait-1080p-10s": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+            "portrait-1080p-15s": "1080P（1088对齐） · 9:16 · 1088×1920 · 15秒",
+            "portrait-1080p-5s": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+            "portrait-2k-10s": "2K · 9:16 · 1440×2560 · 10秒",
+            "portrait-2k-15s": "2K · 9:16 · 1440×2560 · 15秒",
+            "portrait-2k-5s": "2K · 9:16 · 1440×2560 · 5秒",
+            "portrait-480p-10s": "480P · 9:16 · 480×864 · 10秒",
+            "portrait-480p-15s": "480P · 9:16 · 480×864 · 15秒",
+            "portrait-480p-5s": "480P · 9:16 · 480×864 · 5秒",
+            "portrait-768p-10s": "768P · 9:16 · 768×1344 · 10秒",
+            "portrait-768p-15s": "768P · 9:16 · 768×1344 · 15秒",
+            "portrait-768p-5s": "768P · 9:16 · 768×1344 · 5秒",
+            "square-1080p-10s": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+            "square-1080p-15s": "1080P（1088对齐） · 1:1 · 1088×1088 · 15秒",
+            "square-1080p-5s": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+            "square-2k-10s": "2K · 1:1 · 1440×1440 · 10秒",
+            "square-2k-15s": "2K · 1:1 · 1440×1440 · 15秒",
+            "square-2k-5s": "2K · 1:1 · 1440×1440 · 5秒",
+            "square-480p-10s": "480P · 1:1 · 480×480 · 10秒",
+            "square-480p-15s": "480P · 1:1 · 480×480 · 15秒",
+            "square-480p-5s": "480P · 1:1 · 480×480 · 5秒",
+            "square-768p-10s": "768P · 1:1 · 768×768 · 10秒",
+            "square-768p-15s": "768P · 1:1 · 768×768 · 15秒",
+            "square-768p-5s": "768P · 1:1 · 768×768 · 5秒",
+            "standard-1080p-10s": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+            "standard-1080p-15s": "1080P（1088对齐） · 4:3 · 1440×1088 · 15秒",
+            "standard-1080p-5s": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+            "standard-2k-10s": "2K · 4:3 · 1920×1440 · 10秒",
+            "standard-2k-15s": "2K · 4:3 · 1920×1440 · 15秒",
+            "standard-2k-5s": "2K · 4:3 · 1920×1440 · 5秒",
+            "standard-480p-10s": "480P · 4:3 · 640×480 · 10秒",
+            "standard-480p-15s": "480P · 4:3 · 640×480 · 15秒",
+            "standard-480p-5s": "480P · 4:3 · 640×480 · 5秒",
+            "standard-768p-10s": "768P · 4:3 · 1024×768 · 10秒",
+            "standard-768p-15s": "768P · 4:3 · 1024×768 · 15秒",
+            "standard-768p-5s": "768P · 4:3 · 1024×768 · 5秒",
+            "standard-portrait-1080p-10s": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+            "standard-portrait-1080p-15s": "1080P（1088对齐） · 3:4 · 1088×1440 · 15秒",
+            "standard-portrait-1080p-5s": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+            "standard-portrait-2k-10s": "2K · 3:4 · 1440×1920 · 10秒",
+            "standard-portrait-2k-15s": "2K · 3:4 · 1440×1920 · 15秒",
+            "standard-portrait-2k-5s": "2K · 3:4 · 1440×1920 · 5秒",
+            "standard-portrait-480p-10s": "480P · 3:4 · 480×640 · 10秒",
+            "standard-portrait-480p-15s": "480P · 3:4 · 480×640 · 15秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 480×640 · 5秒",
+            "standard-portrait-768p-10s": "768P · 3:4 · 768×1024 · 10秒",
+            "standard-portrait-768p-15s": "768P · 3:4 · 768×1024 · 15秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 768×1024 · 5秒",
+            "ultrawide-1080p-10s": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+            "ultrawide-1080p-15s": "1080P（1088对齐） · 21:9 · 2528×1088 · 15秒",
+            "ultrawide-1080p-5s": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+            "ultrawide-2k-10s": "2K · 21:9 · 3360×1440 · 10秒",
+            "ultrawide-2k-15s": "2K · 21:9 · 3360×1440 · 15秒",
+            "ultrawide-2k-5s": "2K · 21:9 · 3360×1440 · 5秒",
+            "ultrawide-480p-10s": "480P · 21:9 · 1120×480 · 10秒",
+            "ultrawide-480p-15s": "480P · 21:9 · 1120×480 · 15秒",
+            "ultrawide-480p-5s": "480P · 21:9 · 1120×480 · 5秒",
+            "ultrawide-768p-10s": "768P · 21:9 · 1792×768 · 10秒",
+            "ultrawide-768p-15s": "768P · 21:9 · 1792×768 · 15秒",
+            "ultrawide-768p-5s": "768P · 21:9 · 1792×768 · 5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 2,
+        "max_images": 2,
+        "max_audios": 0,
+        "min_videos": 0,
+        "max_videos": 0,
+        "require_visual": true,
+        "max_references": 2
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 0,
+        "IMAGE": 2,
+        "VIDEO": 0
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 16:9 · 864×480 · 5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-10s",
+          "title": "480P · 16:9 · 864×480 · 10秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-15s",
+          "title": "480P · 16:9 · 864×480 · 15秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 9:16 · 480×864 · 5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-10s",
+          "title": "480P · 9:16 · 480×864 · 10秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-15s",
+          "title": "480P · 9:16 · 480×864 · 15秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 480×480 · 5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-10s",
+          "title": "480P · 1:1 · 480×480 · 10秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-15s",
+          "title": "480P · 1:1 · 480×480 · 15秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 640×480 · 5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-10s",
+          "title": "480P · 4:3 · 640×480 · 10秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-15s",
+          "title": "480P · 4:3 · 640×480 · 15秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 480×640 · 5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-10s",
+          "title": "480P · 3:4 · 480×640 · 10秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-15s",
+          "title": "480P · 3:4 · 480×640 · 15秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 21:9 · 1120×480 · 5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-10s",
+          "title": "480P · 21:9 · 1120×480 · 10秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-15s",
+          "title": "480P · 21:9 · 1120×480 · 15秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 16:9 · 1344×768 · 5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-10s",
+          "title": "768P · 16:9 · 1344×768 · 10秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-15s",
+          "title": "768P · 16:9 · 1344×768 · 15秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 9:16 · 768×1344 · 5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-10s",
+          "title": "768P · 9:16 · 768×1344 · 10秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-15s",
+          "title": "768P · 9:16 · 768×1344 · 15秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 768×768 · 5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-10s",
+          "title": "768P · 1:1 · 768×768 · 10秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-15s",
+          "title": "768P · 1:1 · 768×768 · 15秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 1024×768 · 5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-10s",
+          "title": "768P · 4:3 · 1024×768 · 10秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-15s",
+          "title": "768P · 4:3 · 1024×768 · 15秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 768×1024 · 5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-10s",
+          "title": "768P · 3:4 · 768×1024 · 10秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-15s",
+          "title": "768P · 3:4 · 768×1024 · 15秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 21:9 · 1792×768 · 5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-10s",
+          "title": "768P · 21:9 · 1792×768 · 10秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-15s",
+          "title": "768P · 21:9 · 1792×768 · 15秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-5s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-10s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-15s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 15秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-15s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 15秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-5s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-10s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-15s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 15秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-5s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-10s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-15s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 15秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-15s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 15秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-5s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-10s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-15s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 15秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-5s",
+          "title": "2K · 16:9 · 2560×1440 · 5秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-10s",
+          "title": "2K · 16:9 · 2560×1440 · 10秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-15s",
+          "title": "2K · 16:9 · 2560×1440 · 15秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-5s",
+          "title": "2K · 9:16 · 1440×2560 · 5秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-10s",
+          "title": "2K · 9:16 · 1440×2560 · 10秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-15s",
+          "title": "2K · 9:16 · 1440×2560 · 15秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-5s",
+          "title": "2K · 1:1 · 1440×1440 · 5秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-10s",
+          "title": "2K · 1:1 · 1440×1440 · 10秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-15s",
+          "title": "2K · 1:1 · 1440×1440 · 15秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-5s",
+          "title": "2K · 4:3 · 1920×1440 · 5秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-10s",
+          "title": "2K · 4:3 · 1920×1440 · 10秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-15s",
+          "title": "2K · 4:3 · 1920×1440 · 15秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-5s",
+          "title": "2K · 3:4 · 1440×1920 · 5秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-10s",
+          "title": "2K · 3:4 · 1440×1920 · 10秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-15s",
+          "title": "2K · 3:4 · 1440×1920 · 15秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-5s",
+          "title": "2K · 21:9 · 3360×1440 · 5秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-10s",
+          "title": "2K · 21:9 · 3360×1440 · 10秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-15s",
+          "title": "2K · 21:9 · 3360×1440 · 15秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "FIRST_LAST_FRAME"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  },
+  {
+    "title": "MiniMax H3 · 图片与音频参考",
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3",
+      "version": "1"
+    },
+    "capabilityRef": "h3-reference-v1",
+    "version": "4",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "4",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "landscape-480p-10s",
+            "landscape-480p-15s",
+            "portrait-480p-5s",
+            "portrait-480p-10s",
+            "portrait-480p-15s",
+            "square-480p-5s",
+            "square-480p-10s",
+            "square-480p-15s",
+            "standard-480p-5s",
+            "standard-480p-10s",
+            "standard-480p-15s",
+            "standard-portrait-480p-5s",
+            "standard-portrait-480p-10s",
+            "standard-portrait-480p-15s",
+            "ultrawide-480p-5s",
+            "ultrawide-480p-10s",
+            "ultrawide-480p-15s",
+            "landscape-768p-5s",
+            "landscape-768p-10s",
+            "landscape-768p-15s",
+            "portrait-768p-5s",
+            "portrait-768p-10s",
+            "portrait-768p-15s",
+            "square-768p-5s",
+            "square-768p-10s",
+            "square-768p-15s",
+            "standard-768p-5s",
+            "standard-768p-10s",
+            "standard-768p-15s",
+            "standard-portrait-768p-5s",
+            "standard-portrait-768p-10s",
+            "standard-portrait-768p-15s",
+            "ultrawide-768p-5s",
+            "ultrawide-768p-10s",
+            "ultrawide-768p-15s",
+            "landscape-1080p-5s",
+            "landscape-1080p-10s",
+            "landscape-1080p-15s",
+            "portrait-1080p-5s",
+            "portrait-1080p-10s",
+            "portrait-1080p-15s",
+            "square-1080p-5s",
+            "square-1080p-10s",
+            "square-1080p-15s",
+            "standard-1080p-5s",
+            "standard-1080p-10s",
+            "standard-1080p-15s",
+            "standard-portrait-1080p-5s",
+            "standard-portrait-1080p-10s",
+            "standard-portrait-1080p-15s",
+            "ultrawide-1080p-5s",
+            "ultrawide-1080p-10s",
+            "ultrawide-1080p-15s",
+            "landscape-2k-5s",
+            "landscape-2k-10s",
+            "landscape-2k-15s",
+            "portrait-2k-5s",
+            "portrait-2k-10s",
+            "portrait-2k-15s",
+            "square-2k-5s",
+            "square-2k-10s",
+            "square-2k-15s",
+            "standard-2k-5s",
+            "standard-2k-10s",
+            "standard-2k-15s",
+            "standard-portrait-2k-5s",
+            "standard-portrait-2k-10s",
+            "standard-portrait-2k-15s",
+            "ultrawide-2k-5s",
+            "ultrawide-2k-10s",
+            "ultrawide-2k-15s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-10s": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+            "landscape-1080p-15s": "1080P（1088对齐） · 16:9 · 1920×1088 · 15秒",
+            "landscape-1080p-5s": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+            "landscape-2k-10s": "2K · 16:9 · 2560×1440 · 10秒",
+            "landscape-2k-15s": "2K · 16:9 · 2560×1440 · 15秒",
+            "landscape-2k-5s": "2K · 16:9 · 2560×1440 · 5秒",
+            "landscape-480p-10s": "480P · 16:9 · 864×480 · 10秒",
+            "landscape-480p-15s": "480P · 16:9 · 864×480 · 15秒",
+            "landscape-480p-5s": "480P · 16:9 · 864×480 · 5秒",
+            "landscape-768p-10s": "768P · 16:9 · 1344×768 · 10秒",
+            "landscape-768p-15s": "768P · 16:9 · 1344×768 · 15秒",
+            "landscape-768p-5s": "768P · 16:9 · 1344×768 · 5秒",
+            "portrait-1080p-10s": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+            "portrait-1080p-15s": "1080P（1088对齐） · 9:16 · 1088×1920 · 15秒",
+            "portrait-1080p-5s": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+            "portrait-2k-10s": "2K · 9:16 · 1440×2560 · 10秒",
+            "portrait-2k-15s": "2K · 9:16 · 1440×2560 · 15秒",
+            "portrait-2k-5s": "2K · 9:16 · 1440×2560 · 5秒",
+            "portrait-480p-10s": "480P · 9:16 · 480×864 · 10秒",
+            "portrait-480p-15s": "480P · 9:16 · 480×864 · 15秒",
+            "portrait-480p-5s": "480P · 9:16 · 480×864 · 5秒",
+            "portrait-768p-10s": "768P · 9:16 · 768×1344 · 10秒",
+            "portrait-768p-15s": "768P · 9:16 · 768×1344 · 15秒",
+            "portrait-768p-5s": "768P · 9:16 · 768×1344 · 5秒",
+            "square-1080p-10s": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+            "square-1080p-15s": "1080P（1088对齐） · 1:1 · 1088×1088 · 15秒",
+            "square-1080p-5s": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+            "square-2k-10s": "2K · 1:1 · 1440×1440 · 10秒",
+            "square-2k-15s": "2K · 1:1 · 1440×1440 · 15秒",
+            "square-2k-5s": "2K · 1:1 · 1440×1440 · 5秒",
+            "square-480p-10s": "480P · 1:1 · 480×480 · 10秒",
+            "square-480p-15s": "480P · 1:1 · 480×480 · 15秒",
+            "square-480p-5s": "480P · 1:1 · 480×480 · 5秒",
+            "square-768p-10s": "768P · 1:1 · 768×768 · 10秒",
+            "square-768p-15s": "768P · 1:1 · 768×768 · 15秒",
+            "square-768p-5s": "768P · 1:1 · 768×768 · 5秒",
+            "standard-1080p-10s": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+            "standard-1080p-15s": "1080P（1088对齐） · 4:3 · 1440×1088 · 15秒",
+            "standard-1080p-5s": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+            "standard-2k-10s": "2K · 4:3 · 1920×1440 · 10秒",
+            "standard-2k-15s": "2K · 4:3 · 1920×1440 · 15秒",
+            "standard-2k-5s": "2K · 4:3 · 1920×1440 · 5秒",
+            "standard-480p-10s": "480P · 4:3 · 640×480 · 10秒",
+            "standard-480p-15s": "480P · 4:3 · 640×480 · 15秒",
+            "standard-480p-5s": "480P · 4:3 · 640×480 · 5秒",
+            "standard-768p-10s": "768P · 4:3 · 1024×768 · 10秒",
+            "standard-768p-15s": "768P · 4:3 · 1024×768 · 15秒",
+            "standard-768p-5s": "768P · 4:3 · 1024×768 · 5秒",
+            "standard-portrait-1080p-10s": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+            "standard-portrait-1080p-15s": "1080P（1088对齐） · 3:4 · 1088×1440 · 15秒",
+            "standard-portrait-1080p-5s": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+            "standard-portrait-2k-10s": "2K · 3:4 · 1440×1920 · 10秒",
+            "standard-portrait-2k-15s": "2K · 3:4 · 1440×1920 · 15秒",
+            "standard-portrait-2k-5s": "2K · 3:4 · 1440×1920 · 5秒",
+            "standard-portrait-480p-10s": "480P · 3:4 · 480×640 · 10秒",
+            "standard-portrait-480p-15s": "480P · 3:4 · 480×640 · 15秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 480×640 · 5秒",
+            "standard-portrait-768p-10s": "768P · 3:4 · 768×1024 · 10秒",
+            "standard-portrait-768p-15s": "768P · 3:4 · 768×1024 · 15秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 768×1024 · 5秒",
+            "ultrawide-1080p-10s": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+            "ultrawide-1080p-15s": "1080P（1088对齐） · 21:9 · 2528×1088 · 15秒",
+            "ultrawide-1080p-5s": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+            "ultrawide-2k-10s": "2K · 21:9 · 3360×1440 · 10秒",
+            "ultrawide-2k-15s": "2K · 21:9 · 3360×1440 · 15秒",
+            "ultrawide-2k-5s": "2K · 21:9 · 3360×1440 · 5秒",
+            "ultrawide-480p-10s": "480P · 21:9 · 1120×480 · 10秒",
+            "ultrawide-480p-15s": "480P · 21:9 · 1120×480 · 15秒",
+            "ultrawide-480p-5s": "480P · 21:9 · 1120×480 · 5秒",
+            "ultrawide-768p-10s": "768P · 21:9 · 1792×768 · 10秒",
+            "ultrawide-768p-15s": "768P · 21:9 · 1792×768 · 15秒",
+            "ultrawide-768p-5s": "768P · 21:9 · 1792×768 · 5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 1,
+        "max_images": 9,
+        "max_audios": 3,
+        "min_videos": 0,
+        "max_videos": 0,
+        "require_visual": true,
+        "max_references": 12
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 3,
+        "IMAGE": 9,
+        "VIDEO": 0
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 16:9 · 864×480 · 5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-10s",
+          "title": "480P · 16:9 · 864×480 · 10秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-15s",
+          "title": "480P · 16:9 · 864×480 · 15秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 9:16 · 480×864 · 5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-10s",
+          "title": "480P · 9:16 · 480×864 · 10秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-15s",
+          "title": "480P · 9:16 · 480×864 · 15秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 480×480 · 5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-10s",
+          "title": "480P · 1:1 · 480×480 · 10秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-15s",
+          "title": "480P · 1:1 · 480×480 · 15秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 640×480 · 5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-10s",
+          "title": "480P · 4:3 · 640×480 · 10秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-15s",
+          "title": "480P · 4:3 · 640×480 · 15秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 480×640 · 5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-10s",
+          "title": "480P · 3:4 · 480×640 · 10秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-15s",
+          "title": "480P · 3:4 · 480×640 · 15秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 21:9 · 1120×480 · 5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-10s",
+          "title": "480P · 21:9 · 1120×480 · 10秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-15s",
+          "title": "480P · 21:9 · 1120×480 · 15秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 16:9 · 1344×768 · 5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-10s",
+          "title": "768P · 16:9 · 1344×768 · 10秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-15s",
+          "title": "768P · 16:9 · 1344×768 · 15秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 9:16 · 768×1344 · 5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-10s",
+          "title": "768P · 9:16 · 768×1344 · 10秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-15s",
+          "title": "768P · 9:16 · 768×1344 · 15秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 768×768 · 5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-10s",
+          "title": "768P · 1:1 · 768×768 · 10秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-15s",
+          "title": "768P · 1:1 · 768×768 · 15秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 1024×768 · 5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-10s",
+          "title": "768P · 4:3 · 1024×768 · 10秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-15s",
+          "title": "768P · 4:3 · 1024×768 · 15秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 768×1024 · 5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-10s",
+          "title": "768P · 3:4 · 768×1024 · 10秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-15s",
+          "title": "768P · 3:4 · 768×1024 · 15秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 21:9 · 1792×768 · 5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-10s",
+          "title": "768P · 21:9 · 1792×768 · 10秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-15s",
+          "title": "768P · 21:9 · 1792×768 · 15秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-5s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-10s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-15s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 15秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-15s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 15秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-5s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-10s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-15s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 15秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-5s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-10s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-15s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 15秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-15s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 15秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-5s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-10s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-15s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 15秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-5s",
+          "title": "2K · 16:9 · 2560×1440 · 5秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-10s",
+          "title": "2K · 16:9 · 2560×1440 · 10秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-15s",
+          "title": "2K · 16:9 · 2560×1440 · 15秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-5s",
+          "title": "2K · 9:16 · 1440×2560 · 5秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-10s",
+          "title": "2K · 9:16 · 1440×2560 · 10秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-15s",
+          "title": "2K · 9:16 · 1440×2560 · 15秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-5s",
+          "title": "2K · 1:1 · 1440×1440 · 5秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-10s",
+          "title": "2K · 1:1 · 1440×1440 · 10秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-15s",
+          "title": "2K · 1:1 · 1440×1440 · 15秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-5s",
+          "title": "2K · 4:3 · 1920×1440 · 5秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-10s",
+          "title": "2K · 4:3 · 1920×1440 · 10秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-15s",
+          "title": "2K · 4:3 · 1920×1440 · 15秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-5s",
+          "title": "2K · 3:4 · 1440×1920 · 5秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-10s",
+          "title": "2K · 3:4 · 1440×1920 · 10秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-15s",
+          "title": "2K · 3:4 · 1440×1920 · 15秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-5s",
+          "title": "2K · 21:9 · 3360×1440 · 5秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-10s",
+          "title": "2K · 21:9 · 3360×1440 · 10秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-15s",
+          "title": "2K · 21:9 · 3360×1440 · 15秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "AUDIO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  },
+  {
+    "title": "MiniMax H3 · 全能参考（含视频）",
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3",
+      "version": "1"
+    },
+    "capabilityRef": "h3-video-reference-v1",
+    "version": "4",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "4",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "landscape-480p-10s",
+            "landscape-480p-15s",
+            "portrait-480p-5s",
+            "portrait-480p-10s",
+            "portrait-480p-15s",
+            "square-480p-5s",
+            "square-480p-10s",
+            "square-480p-15s",
+            "standard-480p-5s",
+            "standard-480p-10s",
+            "standard-480p-15s",
+            "standard-portrait-480p-5s",
+            "standard-portrait-480p-10s",
+            "standard-portrait-480p-15s",
+            "ultrawide-480p-5s",
+            "ultrawide-480p-10s",
+            "ultrawide-480p-15s",
+            "landscape-768p-5s",
+            "landscape-768p-10s",
+            "landscape-768p-15s",
+            "portrait-768p-5s",
+            "portrait-768p-10s",
+            "portrait-768p-15s",
+            "square-768p-5s",
+            "square-768p-10s",
+            "square-768p-15s",
+            "standard-768p-5s",
+            "standard-768p-10s",
+            "standard-768p-15s",
+            "standard-portrait-768p-5s",
+            "standard-portrait-768p-10s",
+            "standard-portrait-768p-15s",
+            "ultrawide-768p-5s",
+            "ultrawide-768p-10s",
+            "ultrawide-768p-15s",
+            "landscape-1080p-5s",
+            "landscape-1080p-10s",
+            "landscape-1080p-15s",
+            "portrait-1080p-5s",
+            "portrait-1080p-10s",
+            "portrait-1080p-15s",
+            "square-1080p-5s",
+            "square-1080p-10s",
+            "square-1080p-15s",
+            "standard-1080p-5s",
+            "standard-1080p-10s",
+            "standard-1080p-15s",
+            "standard-portrait-1080p-5s",
+            "standard-portrait-1080p-10s",
+            "standard-portrait-1080p-15s",
+            "ultrawide-1080p-5s",
+            "ultrawide-1080p-10s",
+            "ultrawide-1080p-15s",
+            "landscape-2k-5s",
+            "landscape-2k-10s",
+            "landscape-2k-15s",
+            "portrait-2k-5s",
+            "portrait-2k-10s",
+            "portrait-2k-15s",
+            "square-2k-5s",
+            "square-2k-10s",
+            "square-2k-15s",
+            "standard-2k-5s",
+            "standard-2k-10s",
+            "standard-2k-15s",
+            "standard-portrait-2k-5s",
+            "standard-portrait-2k-10s",
+            "standard-portrait-2k-15s",
+            "ultrawide-2k-5s",
+            "ultrawide-2k-10s",
+            "ultrawide-2k-15s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-10s": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+            "landscape-1080p-15s": "1080P（1088对齐） · 16:9 · 1920×1088 · 15秒",
+            "landscape-1080p-5s": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+            "landscape-2k-10s": "2K · 16:9 · 2560×1440 · 10秒",
+            "landscape-2k-15s": "2K · 16:9 · 2560×1440 · 15秒",
+            "landscape-2k-5s": "2K · 16:9 · 2560×1440 · 5秒",
+            "landscape-480p-10s": "480P · 16:9 · 864×480 · 10秒",
+            "landscape-480p-15s": "480P · 16:9 · 864×480 · 15秒",
+            "landscape-480p-5s": "480P · 16:9 · 864×480 · 5秒",
+            "landscape-768p-10s": "768P · 16:9 · 1344×768 · 10秒",
+            "landscape-768p-15s": "768P · 16:9 · 1344×768 · 15秒",
+            "landscape-768p-5s": "768P · 16:9 · 1344×768 · 5秒",
+            "portrait-1080p-10s": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+            "portrait-1080p-15s": "1080P（1088对齐） · 9:16 · 1088×1920 · 15秒",
+            "portrait-1080p-5s": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+            "portrait-2k-10s": "2K · 9:16 · 1440×2560 · 10秒",
+            "portrait-2k-15s": "2K · 9:16 · 1440×2560 · 15秒",
+            "portrait-2k-5s": "2K · 9:16 · 1440×2560 · 5秒",
+            "portrait-480p-10s": "480P · 9:16 · 480×864 · 10秒",
+            "portrait-480p-15s": "480P · 9:16 · 480×864 · 15秒",
+            "portrait-480p-5s": "480P · 9:16 · 480×864 · 5秒",
+            "portrait-768p-10s": "768P · 9:16 · 768×1344 · 10秒",
+            "portrait-768p-15s": "768P · 9:16 · 768×1344 · 15秒",
+            "portrait-768p-5s": "768P · 9:16 · 768×1344 · 5秒",
+            "square-1080p-10s": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+            "square-1080p-15s": "1080P（1088对齐） · 1:1 · 1088×1088 · 15秒",
+            "square-1080p-5s": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+            "square-2k-10s": "2K · 1:1 · 1440×1440 · 10秒",
+            "square-2k-15s": "2K · 1:1 · 1440×1440 · 15秒",
+            "square-2k-5s": "2K · 1:1 · 1440×1440 · 5秒",
+            "square-480p-10s": "480P · 1:1 · 480×480 · 10秒",
+            "square-480p-15s": "480P · 1:1 · 480×480 · 15秒",
+            "square-480p-5s": "480P · 1:1 · 480×480 · 5秒",
+            "square-768p-10s": "768P · 1:1 · 768×768 · 10秒",
+            "square-768p-15s": "768P · 1:1 · 768×768 · 15秒",
+            "square-768p-5s": "768P · 1:1 · 768×768 · 5秒",
+            "standard-1080p-10s": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+            "standard-1080p-15s": "1080P（1088对齐） · 4:3 · 1440×1088 · 15秒",
+            "standard-1080p-5s": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+            "standard-2k-10s": "2K · 4:3 · 1920×1440 · 10秒",
+            "standard-2k-15s": "2K · 4:3 · 1920×1440 · 15秒",
+            "standard-2k-5s": "2K · 4:3 · 1920×1440 · 5秒",
+            "standard-480p-10s": "480P · 4:3 · 640×480 · 10秒",
+            "standard-480p-15s": "480P · 4:3 · 640×480 · 15秒",
+            "standard-480p-5s": "480P · 4:3 · 640×480 · 5秒",
+            "standard-768p-10s": "768P · 4:3 · 1024×768 · 10秒",
+            "standard-768p-15s": "768P · 4:3 · 1024×768 · 15秒",
+            "standard-768p-5s": "768P · 4:3 · 1024×768 · 5秒",
+            "standard-portrait-1080p-10s": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+            "standard-portrait-1080p-15s": "1080P（1088对齐） · 3:4 · 1088×1440 · 15秒",
+            "standard-portrait-1080p-5s": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+            "standard-portrait-2k-10s": "2K · 3:4 · 1440×1920 · 10秒",
+            "standard-portrait-2k-15s": "2K · 3:4 · 1440×1920 · 15秒",
+            "standard-portrait-2k-5s": "2K · 3:4 · 1440×1920 · 5秒",
+            "standard-portrait-480p-10s": "480P · 3:4 · 480×640 · 10秒",
+            "standard-portrait-480p-15s": "480P · 3:4 · 480×640 · 15秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 480×640 · 5秒",
+            "standard-portrait-768p-10s": "768P · 3:4 · 768×1024 · 10秒",
+            "standard-portrait-768p-15s": "768P · 3:4 · 768×1024 · 15秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 768×1024 · 5秒",
+            "ultrawide-1080p-10s": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+            "ultrawide-1080p-15s": "1080P（1088对齐） · 21:9 · 2528×1088 · 15秒",
+            "ultrawide-1080p-5s": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+            "ultrawide-2k-10s": "2K · 21:9 · 3360×1440 · 10秒",
+            "ultrawide-2k-15s": "2K · 21:9 · 3360×1440 · 15秒",
+            "ultrawide-2k-5s": "2K · 21:9 · 3360×1440 · 5秒",
+            "ultrawide-480p-10s": "480P · 21:9 · 1120×480 · 10秒",
+            "ultrawide-480p-15s": "480P · 21:9 · 1120×480 · 15秒",
+            "ultrawide-480p-5s": "480P · 21:9 · 1120×480 · 5秒",
+            "ultrawide-768p-10s": "768P · 21:9 · 1792×768 · 10秒",
+            "ultrawide-768p-15s": "768P · 21:9 · 1792×768 · 15秒",
+            "ultrawide-768p-5s": "768P · 21:9 · 1792×768 · 5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 0,
+        "max_images": 9,
+        "max_audios": 3,
+        "min_videos": 0,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 12
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 3,
+        "IMAGE": 9,
+        "VIDEO": 1
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 16:9 · 864×480 · 5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-10s",
+          "title": "480P · 16:9 · 864×480 · 10秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-15s",
+          "title": "480P · 16:9 · 864×480 · 15秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 9:16 · 480×864 · 5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-10s",
+          "title": "480P · 9:16 · 480×864 · 10秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-15s",
+          "title": "480P · 9:16 · 480×864 · 15秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 480×480 · 5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-10s",
+          "title": "480P · 1:1 · 480×480 · 10秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-15s",
+          "title": "480P · 1:1 · 480×480 · 15秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 640×480 · 5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-10s",
+          "title": "480P · 4:3 · 640×480 · 10秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-15s",
+          "title": "480P · 4:3 · 640×480 · 15秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 480×640 · 5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-10s",
+          "title": "480P · 3:4 · 480×640 · 10秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-15s",
+          "title": "480P · 3:4 · 480×640 · 15秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 21:9 · 1120×480 · 5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-10s",
+          "title": "480P · 21:9 · 1120×480 · 10秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-15s",
+          "title": "480P · 21:9 · 1120×480 · 15秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 16:9 · 1344×768 · 5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-10s",
+          "title": "768P · 16:9 · 1344×768 · 10秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-15s",
+          "title": "768P · 16:9 · 1344×768 · 15秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 9:16 · 768×1344 · 5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-10s",
+          "title": "768P · 9:16 · 768×1344 · 10秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-15s",
+          "title": "768P · 9:16 · 768×1344 · 15秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 768×768 · 5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-10s",
+          "title": "768P · 1:1 · 768×768 · 10秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-15s",
+          "title": "768P · 1:1 · 768×768 · 15秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 1024×768 · 5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-10s",
+          "title": "768P · 4:3 · 1024×768 · 10秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-15s",
+          "title": "768P · 4:3 · 1024×768 · 15秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 768×1024 · 5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-10s",
+          "title": "768P · 3:4 · 768×1024 · 10秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-15s",
+          "title": "768P · 3:4 · 768×1024 · 15秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 21:9 · 1792×768 · 5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-10s",
+          "title": "768P · 21:9 · 1792×768 · 10秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-15s",
+          "title": "768P · 21:9 · 1792×768 · 15秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-5s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-10s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-15s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 15秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-15s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 15秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-5s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-10s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-15s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 15秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-5s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-10s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-15s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 15秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-15s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 15秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-5s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-10s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-15s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 15秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-5s",
+          "title": "2K · 16:9 · 2560×1440 · 5秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-10s",
+          "title": "2K · 16:9 · 2560×1440 · 10秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-15s",
+          "title": "2K · 16:9 · 2560×1440 · 15秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-5s",
+          "title": "2K · 9:16 · 1440×2560 · 5秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-10s",
+          "title": "2K · 9:16 · 1440×2560 · 10秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-15s",
+          "title": "2K · 9:16 · 1440×2560 · 15秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-5s",
+          "title": "2K · 1:1 · 1440×1440 · 5秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-10s",
+          "title": "2K · 1:1 · 1440×1440 · 10秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-15s",
+          "title": "2K · 1:1 · 1440×1440 · 15秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-5s",
+          "title": "2K · 4:3 · 1920×1440 · 5秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-10s",
+          "title": "2K · 4:3 · 1920×1440 · 10秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-15s",
+          "title": "2K · 4:3 · 1920×1440 · 15秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-5s",
+          "title": "2K · 3:4 · 1440×1920 · 5秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-10s",
+          "title": "2K · 3:4 · 1440×1920 · 10秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-15s",
+          "title": "2K · 3:4 · 1440×1920 · 15秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 15,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-5s",
+          "title": "2K · 21:9 · 3360×1440 · 5秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-10s",
+          "title": "2K · 21:9 · 3360×1440 · 10秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-15s",
+          "title": "2K · 21:9 · 3360×1440 · 15秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 15,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "AUDIO",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  },
+  {
+    "title": "MiniMax H3 · Cobijada Hybrid INT8 · 单采极速文戏",
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3 · Cobijada Hybrid INT8 · 单采极速文戏",
+      "version": "1"
+    },
+    "capabilityRef": "h3-drama-reference-v1",
+    "version": "3",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "3",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "landscape-480p-10s",
+            "portrait-480p-5s",
+            "portrait-480p-10s",
+            "square-480p-5s",
+            "square-480p-10s",
+            "standard-480p-5s",
+            "standard-480p-10s",
+            "standard-portrait-480p-5s",
+            "standard-portrait-480p-10s",
+            "ultrawide-480p-5s",
+            "ultrawide-480p-10s",
+            "landscape-768p-5s",
+            "landscape-768p-10s",
+            "portrait-768p-5s",
+            "portrait-768p-10s",
+            "square-768p-5s",
+            "square-768p-10s",
+            "standard-768p-5s",
+            "standard-768p-10s",
+            "standard-portrait-768p-5s",
+            "standard-portrait-768p-10s",
+            "ultrawide-768p-5s",
+            "ultrawide-768p-10s",
+            "landscape-1080p-5s",
+            "landscape-1080p-10s",
+            "portrait-1080p-5s",
+            "portrait-1080p-10s",
+            "square-1080p-5s",
+            "square-1080p-10s",
+            "standard-1080p-5s",
+            "standard-1080p-10s",
+            "standard-portrait-1080p-5s",
+            "standard-portrait-1080p-10s",
+            "ultrawide-1080p-5s",
+            "ultrawide-1080p-10s",
+            "landscape-2k-5s",
+            "landscape-2k-10s",
+            "portrait-2k-5s",
+            "portrait-2k-10s",
+            "square-2k-5s",
+            "square-2k-10s",
+            "standard-2k-5s",
+            "standard-2k-10s",
+            "standard-portrait-2k-5s",
+            "standard-portrait-2k-10s",
+            "ultrawide-2k-5s",
+            "ultrawide-2k-10s",
+            "legacy-portrait-768x1376-10s",
+            "landscape-736p-10s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-10s": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+            "landscape-1080p-5s": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+            "landscape-2k-10s": "2K · 16:9 · 2560×1440 · 10秒",
+            "landscape-2k-5s": "2K · 16:9 · 2560×1440 · 5秒",
+            "landscape-480p-10s": "480P · 16:9 · 864×480 · 10秒",
+            "landscape-480p-5s": "480P · 16:9 · 864×480 · 5秒",
+            "landscape-736p-10s": "原规格 · 1280×736 · 约10秒 · 24fps",
+            "landscape-768p-10s": "768P · 16:9 · 1344×768 · 10秒",
+            "landscape-768p-5s": "768P · 16:9 · 1344×768 · 5秒",
+            "legacy-portrait-768x1376-10s": "原规格 · 768×1376 · 约10秒 · 24fps",
+            "portrait-1080p-10s": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+            "portrait-1080p-5s": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+            "portrait-2k-10s": "2K · 9:16 · 1440×2560 · 10秒",
+            "portrait-2k-5s": "2K · 9:16 · 1440×2560 · 5秒",
+            "portrait-480p-10s": "480P · 9:16 · 480×864 · 10秒",
+            "portrait-480p-5s": "480P · 9:16 · 480×864 · 5秒",
+            "portrait-768p-10s": "768P · 9:16 · 768×1344 · 10秒",
+            "portrait-768p-5s": "768P · 9:16 · 768×1344 · 5秒",
+            "square-1080p-10s": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+            "square-1080p-5s": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+            "square-2k-10s": "2K · 1:1 · 1440×1440 · 10秒",
+            "square-2k-5s": "2K · 1:1 · 1440×1440 · 5秒",
+            "square-480p-10s": "480P · 1:1 · 480×480 · 10秒",
+            "square-480p-5s": "480P · 1:1 · 480×480 · 5秒",
+            "square-768p-10s": "768P · 1:1 · 768×768 · 10秒",
+            "square-768p-5s": "768P · 1:1 · 768×768 · 5秒",
+            "standard-1080p-10s": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+            "standard-1080p-5s": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+            "standard-2k-10s": "2K · 4:3 · 1920×1440 · 10秒",
+            "standard-2k-5s": "2K · 4:3 · 1920×1440 · 5秒",
+            "standard-480p-10s": "480P · 4:3 · 640×480 · 10秒",
+            "standard-480p-5s": "480P · 4:3 · 640×480 · 5秒",
+            "standard-768p-10s": "768P · 4:3 · 1024×768 · 10秒",
+            "standard-768p-5s": "768P · 4:3 · 1024×768 · 5秒",
+            "standard-portrait-1080p-10s": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+            "standard-portrait-1080p-5s": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+            "standard-portrait-2k-10s": "2K · 3:4 · 1440×1920 · 10秒",
+            "standard-portrait-2k-5s": "2K · 3:4 · 1440×1920 · 5秒",
+            "standard-portrait-480p-10s": "480P · 3:4 · 480×640 · 10秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 480×640 · 5秒",
+            "standard-portrait-768p-10s": "768P · 3:4 · 768×1024 · 10秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 768×1024 · 5秒",
+            "ultrawide-1080p-10s": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+            "ultrawide-1080p-5s": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+            "ultrawide-2k-10s": "2K · 21:9 · 3360×1440 · 10秒",
+            "ultrawide-2k-5s": "2K · 21:9 · 3360×1440 · 5秒",
+            "ultrawide-480p-10s": "480P · 21:9 · 1120×480 · 10秒",
+            "ultrawide-480p-5s": "480P · 21:9 · 1120×480 · 5秒",
+            "ultrawide-768p-10s": "768P · 21:9 · 1792×768 · 10秒",
+            "ultrawide-768p-5s": "768P · 21:9 · 1792×768 · 5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 0,
+        "max_images": 9,
+        "max_audios": 3,
+        "min_videos": 0,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 12
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 3,
+        "IMAGE": 9,
+        "VIDEO": 1
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 16:9 · 864×480 · 5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-10s",
+          "title": "480P · 16:9 · 864×480 · 10秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 9:16 · 480×864 · 5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-10s",
+          "title": "480P · 9:16 · 480×864 · 10秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 480×480 · 5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-10s",
+          "title": "480P · 1:1 · 480×480 · 10秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 640×480 · 5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-10s",
+          "title": "480P · 4:3 · 640×480 · 10秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 480×640 · 5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-10s",
+          "title": "480P · 3:4 · 480×640 · 10秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 21:9 · 1120×480 · 5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-10s",
+          "title": "480P · 21:9 · 1120×480 · 10秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 16:9 · 1344×768 · 5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-10s",
+          "title": "768P · 16:9 · 1344×768 · 10秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 9:16 · 768×1344 · 5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-10s",
+          "title": "768P · 9:16 · 768×1344 · 10秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 768×768 · 5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-10s",
+          "title": "768P · 1:1 · 768×768 · 10秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 1024×768 · 5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-10s",
+          "title": "768P · 4:3 · 1024×768 · 10秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 768×1024 · 5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-10s",
+          "title": "768P · 3:4 · 768×1024 · 10秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 21:9 · 1792×768 · 5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-10s",
+          "title": "768P · 21:9 · 1792×768 · 10秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-5s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-10s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 10秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 10秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-5s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-10s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 10秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-5s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-10s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 10秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-10s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 10秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-5s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-10s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 10秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-5s",
+          "title": "2K · 16:9 · 2560×1440 · 5秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-10s",
+          "title": "2K · 16:9 · 2560×1440 · 10秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-5s",
+          "title": "2K · 9:16 · 1440×2560 · 5秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-10s",
+          "title": "2K · 9:16 · 1440×2560 · 10秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-5s",
+          "title": "2K · 1:1 · 1440×1440 · 5秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-10s",
+          "title": "2K · 1:1 · 1440×1440 · 10秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-5s",
+          "title": "2K · 4:3 · 1920×1440 · 5秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-10s",
+          "title": "2K · 4:3 · 1920×1440 · 10秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-5s",
+          "title": "2K · 3:4 · 1440×1920 · 5秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-10s",
+          "title": "2K · 3:4 · 1440×1920 · 10秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-5s",
+          "title": "2K · 21:9 · 3360×1440 · 5秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-10s",
+          "title": "2K · 21:9 · 3360×1440 · 10秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "legacy-portrait-768x1376-10s",
+          "title": "原规格 · 768×1376 · 约10秒 · 24fps",
+          "width": 768,
+          "height": 1376,
+          "aspectRatio": "24:43",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-736p-10s",
+          "title": "原规格 · 1280×736 · 约10秒 · 24fps",
+          "width": 1280,
+          "height": 736,
+          "aspectRatio": "40:23",
+          "durationSeconds": 10,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "AUDIO",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  },
+  {
+    "title": "MiniMax H3 · Cobijada Hybrid INT8 · 最强武戏",
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "MiniMax H3 · Cobijada Hybrid INT8 · 最强武戏",
+      "version": "1"
+    },
+    "capabilityRef": "h3-action-reference-v1",
+    "version": "3",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "3",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-5s",
+          "enum": [
+            "landscape-480p-5s",
+            "portrait-480p-5s",
+            "square-480p-5s",
+            "standard-480p-5s",
+            "standard-portrait-480p-5s",
+            "ultrawide-480p-5s",
+            "landscape-768p-5s",
+            "portrait-768p-5s",
+            "square-768p-5s",
+            "standard-768p-5s",
+            "standard-portrait-768p-5s",
+            "ultrawide-768p-5s",
+            "landscape-1080p-5s",
+            "portrait-1080p-5s",
+            "square-1080p-5s",
+            "standard-1080p-5s",
+            "standard-portrait-1080p-5s",
+            "ultrawide-1080p-5s",
+            "landscape-2k-5s",
+            "portrait-2k-5s",
+            "square-2k-5s",
+            "standard-2k-5s",
+            "standard-portrait-2k-5s",
+            "ultrawide-2k-5s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-5s": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+            "landscape-2k-5s": "2K · 16:9 · 2560×1440 · 5秒",
+            "landscape-480p-5s": "480P · 16:9 · 864×480 · 5秒",
+            "landscape-768p-5s": "768P · 16:9 · 1344×768 · 5秒",
+            "portrait-1080p-5s": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+            "portrait-2k-5s": "2K · 9:16 · 1440×2560 · 5秒",
+            "portrait-480p-5s": "480P · 9:16 · 480×864 · 5秒",
+            "portrait-768p-5s": "768P · 9:16 · 768×1344 · 5秒",
+            "square-1080p-5s": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+            "square-2k-5s": "2K · 1:1 · 1440×1440 · 5秒",
+            "square-480p-5s": "480P · 1:1 · 480×480 · 5秒",
+            "square-768p-5s": "768P · 1:1 · 768×768 · 5秒",
+            "standard-1080p-5s": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+            "standard-2k-5s": "2K · 4:3 · 1920×1440 · 5秒",
+            "standard-480p-5s": "480P · 4:3 · 640×480 · 5秒",
+            "standard-768p-5s": "768P · 4:3 · 1024×768 · 5秒",
+            "standard-portrait-1080p-5s": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+            "standard-portrait-2k-5s": "2K · 3:4 · 1440×1920 · 5秒",
+            "standard-portrait-480p-5s": "480P · 3:4 · 480×640 · 5秒",
+            "standard-portrait-768p-5s": "768P · 3:4 · 768×1024 · 5秒",
+            "ultrawide-1080p-5s": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+            "ultrawide-2k-5s": "2K · 21:9 · 3360×1440 · 5秒",
+            "ultrawide-480p-5s": "480P · 21:9 · 1120×480 · 5秒",
+            "ultrawide-768p-5s": "768P · 21:9 · 1792×768 · 5秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 0,
+        "max_images": 9,
+        "max_audios": 3,
+        "min_videos": 0,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 12
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 3,
+        "IMAGE": 9,
+        "VIDEO": 1
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "480P · 16:9 · 864×480 · 5秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-5s",
+          "title": "480P · 9:16 · 480×864 · 5秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-5s",
+          "title": "480P · 1:1 · 480×480 · 5秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-5s",
+          "title": "480P · 4:3 · 640×480 · 5秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-5s",
+          "title": "480P · 3:4 · 480×640 · 5秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-5s",
+          "title": "480P · 21:9 · 1120×480 · 5秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-5s",
+          "title": "768P · 16:9 · 1344×768 · 5秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-5s",
+          "title": "768P · 9:16 · 768×1344 · 5秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-5s",
+          "title": "768P · 1:1 · 768×768 · 5秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-5s",
+          "title": "768P · 4:3 · 1024×768 · 5秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-5s",
+          "title": "768P · 3:4 · 768×1024 · 5秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-5s",
+          "title": "768P · 21:9 · 1792×768 · 5秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-5s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 5秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 5秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-5s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 5秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-5s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 5秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-5s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 5秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-5s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 5秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-5s",
+          "title": "2K · 16:9 · 2560×1440 · 5秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-5s",
+          "title": "2K · 9:16 · 1440×2560 · 5秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-5s",
+          "title": "2K · 1:1 · 1440×1440 · 5秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-5s",
+          "title": "2K · 4:3 · 1920×1440 · 5秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-5s",
+          "title": "2K · 3:4 · 1440×1920 · 5秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-5s",
+          "title": "2K · 21:9 · 3360×1440 · 5秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 5,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "AUDIO",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  },
+  {
+    "title": "MiniMax H3 · SGUN潜空间连续长片 · Hybrid INT8",
+    "model": {
+      "providerRef": "h3",
+      "modelRef": "h3",
+      "title": "MiniMax H3 · SGUN潜空间连续长片 · Hybrid INT8",
+      "version": "1"
+    },
+    "capabilityRef": "h3-sgun-long-reference-v1",
+    "version": "3",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "3",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-480p-20s",
+          "enum": [
+            "landscape-480p-20s",
+            "landscape-480p-30s",
+            "portrait-480p-20s",
+            "portrait-480p-30s",
+            "square-480p-20s",
+            "square-480p-30s",
+            "standard-480p-20s",
+            "standard-480p-30s",
+            "standard-portrait-480p-20s",
+            "standard-portrait-480p-30s",
+            "ultrawide-480p-20s",
+            "ultrawide-480p-30s",
+            "landscape-768p-20s",
+            "landscape-768p-30s",
+            "portrait-768p-20s",
+            "portrait-768p-30s",
+            "square-768p-20s",
+            "square-768p-30s",
+            "standard-768p-20s",
+            "standard-768p-30s",
+            "standard-portrait-768p-20s",
+            "standard-portrait-768p-30s",
+            "ultrawide-768p-20s",
+            "ultrawide-768p-30s",
+            "landscape-1080p-20s",
+            "landscape-1080p-30s",
+            "portrait-1080p-20s",
+            "portrait-1080p-30s",
+            "square-1080p-20s",
+            "square-1080p-30s",
+            "standard-1080p-20s",
+            "standard-1080p-30s",
+            "standard-portrait-1080p-20s",
+            "standard-portrait-1080p-30s",
+            "ultrawide-1080p-20s",
+            "ultrawide-1080p-30s",
+            "landscape-2k-20s",
+            "landscape-2k-30s",
+            "portrait-2k-20s",
+            "portrait-2k-30s",
+            "square-2k-20s",
+            "square-2k-30s",
+            "standard-2k-20s",
+            "standard-2k-30s",
+            "standard-portrait-2k-20s",
+            "standard-portrait-2k-30s",
+            "ultrawide-2k-20s",
+            "ultrawide-2k-30s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-20s": "1080P（1088对齐） · 16:9 · 1920×1088 · 20秒",
+            "landscape-1080p-30s": "1080P（1088对齐） · 16:9 · 1920×1088 · 30秒",
+            "landscape-2k-20s": "2K · 16:9 · 2560×1440 · 20秒",
+            "landscape-2k-30s": "2K · 16:9 · 2560×1440 · 30秒",
+            "landscape-480p-20s": "480P · 16:9 · 864×480 · 20秒",
+            "landscape-480p-30s": "480P · 16:9 · 864×480 · 30秒",
+            "landscape-768p-20s": "768P · 16:9 · 1344×768 · 20秒",
+            "landscape-768p-30s": "768P · 16:9 · 1344×768 · 30秒",
+            "portrait-1080p-20s": "1080P（1088对齐） · 9:16 · 1088×1920 · 20秒",
+            "portrait-1080p-30s": "1080P（1088对齐） · 9:16 · 1088×1920 · 30秒",
+            "portrait-2k-20s": "2K · 9:16 · 1440×2560 · 20秒",
+            "portrait-2k-30s": "2K · 9:16 · 1440×2560 · 30秒",
+            "portrait-480p-20s": "480P · 9:16 · 480×864 · 20秒",
+            "portrait-480p-30s": "480P · 9:16 · 480×864 · 30秒",
+            "portrait-768p-20s": "768P · 9:16 · 768×1344 · 20秒",
+            "portrait-768p-30s": "768P · 9:16 · 768×1344 · 30秒",
+            "square-1080p-20s": "1080P（1088对齐） · 1:1 · 1088×1088 · 20秒",
+            "square-1080p-30s": "1080P（1088对齐） · 1:1 · 1088×1088 · 30秒",
+            "square-2k-20s": "2K · 1:1 · 1440×1440 · 20秒",
+            "square-2k-30s": "2K · 1:1 · 1440×1440 · 30秒",
+            "square-480p-20s": "480P · 1:1 · 480×480 · 20秒",
+            "square-480p-30s": "480P · 1:1 · 480×480 · 30秒",
+            "square-768p-20s": "768P · 1:1 · 768×768 · 20秒",
+            "square-768p-30s": "768P · 1:1 · 768×768 · 30秒",
+            "standard-1080p-20s": "1080P（1088对齐） · 4:3 · 1440×1088 · 20秒",
+            "standard-1080p-30s": "1080P（1088对齐） · 4:3 · 1440×1088 · 30秒",
+            "standard-2k-20s": "2K · 4:3 · 1920×1440 · 20秒",
+            "standard-2k-30s": "2K · 4:3 · 1920×1440 · 30秒",
+            "standard-480p-20s": "480P · 4:3 · 640×480 · 20秒",
+            "standard-480p-30s": "480P · 4:3 · 640×480 · 30秒",
+            "standard-768p-20s": "768P · 4:3 · 1024×768 · 20秒",
+            "standard-768p-30s": "768P · 4:3 · 1024×768 · 30秒",
+            "standard-portrait-1080p-20s": "1080P（1088对齐） · 3:4 · 1088×1440 · 20秒",
+            "standard-portrait-1080p-30s": "1080P（1088对齐） · 3:4 · 1088×1440 · 30秒",
+            "standard-portrait-2k-20s": "2K · 3:4 · 1440×1920 · 20秒",
+            "standard-portrait-2k-30s": "2K · 3:4 · 1440×1920 · 30秒",
+            "standard-portrait-480p-20s": "480P · 3:4 · 480×640 · 20秒",
+            "standard-portrait-480p-30s": "480P · 3:4 · 480×640 · 30秒",
+            "standard-portrait-768p-20s": "768P · 3:4 · 768×1024 · 20秒",
+            "standard-portrait-768p-30s": "768P · 3:4 · 768×1024 · 30秒",
+            "ultrawide-1080p-20s": "1080P（1088对齐） · 21:9 · 2528×1088 · 20秒",
+            "ultrawide-1080p-30s": "1080P（1088对齐） · 21:9 · 2528×1088 · 30秒",
+            "ultrawide-2k-20s": "2K · 21:9 · 3360×1440 · 20秒",
+            "ultrawide-2k-30s": "2K · 21:9 · 3360×1440 · 30秒",
+            "ultrawide-480p-20s": "480P · 21:9 · 1120×480 · 20秒",
+            "ultrawide-480p-30s": "480P · 21:9 · 1120×480 · 30秒",
+            "ultrawide-768p-20s": "768P · 21:9 · 1792×768 · 20秒",
+            "ultrawide-768p-30s": "768P · 21:9 · 1792×768 · 30秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 0,
+        "max_images": 9,
+        "max_audios": 3,
+        "min_videos": 0,
+        "max_videos": 1,
+        "require_visual": true,
+        "max_references": 12
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 3,
+        "IMAGE": 9,
+        "VIDEO": 1
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-20s",
+          "title": "480P · 16:9 · 864×480 · 20秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "landscape-480p-30s",
+          "title": "480P · 16:9 · 864×480 · 30秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-20s",
+          "title": "480P · 9:16 · 480×864 · 20秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-30s",
+          "title": "480P · 9:16 · 480×864 · 30秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-20s",
+          "title": "480P · 1:1 · 480×480 · 20秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-30s",
+          "title": "480P · 1:1 · 480×480 · 30秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-20s",
+          "title": "480P · 4:3 · 640×480 · 20秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-30s",
+          "title": "480P · 4:3 · 640×480 · 30秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-20s",
+          "title": "480P · 3:4 · 480×640 · 20秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-30s",
+          "title": "480P · 3:4 · 480×640 · 30秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-20s",
+          "title": "480P · 21:9 · 1120×480 · 20秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-30s",
+          "title": "480P · 21:9 · 1120×480 · 30秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-20s",
+          "title": "768P · 16:9 · 1344×768 · 20秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-30s",
+          "title": "768P · 16:9 · 1344×768 · 30秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-20s",
+          "title": "768P · 9:16 · 768×1344 · 20秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-30s",
+          "title": "768P · 9:16 · 768×1344 · 30秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-20s",
+          "title": "768P · 1:1 · 768×768 · 20秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-30s",
+          "title": "768P · 1:1 · 768×768 · 30秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-20s",
+          "title": "768P · 4:3 · 1024×768 · 20秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-30s",
+          "title": "768P · 4:3 · 1024×768 · 30秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-20s",
+          "title": "768P · 3:4 · 768×1024 · 20秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-30s",
+          "title": "768P · 3:4 · 768×1024 · 30秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-20s",
+          "title": "768P · 21:9 · 1792×768 · 20秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-30s",
+          "title": "768P · 21:9 · 1792×768 · 30秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-20s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 20秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-30s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 30秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-20s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 20秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-30s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 30秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-20s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 20秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-30s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 30秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-20s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 20秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-30s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 30秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-20s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 20秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-30s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 30秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-20s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 20秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-30s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 30秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-20s",
+          "title": "2K · 16:9 · 2560×1440 · 20秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-30s",
+          "title": "2K · 16:9 · 2560×1440 · 30秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-20s",
+          "title": "2K · 9:16 · 1440×2560 · 20秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-30s",
+          "title": "2K · 9:16 · 1440×2560 · 30秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-20s",
+          "title": "2K · 1:1 · 1440×1440 · 20秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-30s",
+          "title": "2K · 1:1 · 1440×1440 · 30秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-20s",
+          "title": "2K · 4:3 · 1920×1440 · 20秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-30s",
+          "title": "2K · 4:3 · 1920×1440 · 30秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-20s",
+          "title": "2K · 3:4 · 1440×1920 · 20秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-30s",
+          "title": "2K · 3:4 · 1440×1920 · 30秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 30,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-20s",
+          "title": "2K · 21:9 · 3360×1440 · 20秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 20,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-30s",
+          "title": "2K · 21:9 · 3360×1440 · 30秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 30,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE",
+      "AUDIO",
+      "VIDEO"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  },
+  {
+    "title": "H3 · TR极速双采pika（修复网格·待手测）",
+    "model": {
+      "providerRef": "minimax",
+      "modelRef": "h3",
+      "title": "H3 · TR极速双采pika（修复网格·待手测）",
+      "version": "1"
+    },
+    "capabilityRef": "h3-tr-pika-twopass-ref-v1",
+    "version": "3",
+    "kind": "OMNI_REFERENCE",
+    "executionKind": "MODEL",
+    "parameterSchemaVersion": "3",
+    "parameterSchema": {
+      "additionalProperties": false,
+      "description": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。",
+      "properties": {
+        "outputPreset": {
+          "default": "landscape-1920x1088-8s",
+          "enum": [
+            "landscape-480p-8s",
+            "portrait-480p-8s",
+            "square-480p-8s",
+            "standard-480p-8s",
+            "standard-portrait-480p-8s",
+            "ultrawide-480p-8s",
+            "landscape-768p-8s",
+            "portrait-768p-8s",
+            "square-768p-8s",
+            "standard-768p-8s",
+            "standard-portrait-768p-8s",
+            "ultrawide-768p-8s",
+            "landscape-1080p-8s",
+            "portrait-1080p-8s",
+            "square-1080p-8s",
+            "standard-1080p-8s",
+            "standard-portrait-1080p-8s",
+            "ultrawide-1080p-8s",
+            "landscape-2k-8s",
+            "portrait-2k-8s",
+            "square-2k-8s",
+            "standard-2k-8s",
+            "standard-portrait-2k-8s",
+            "ultrawide-2k-8s",
+            "landscape-1920x1088-8s"
+          ],
+          "title": "输出规格",
+          "type": "string",
+          "x-enum-labels": {
+            "landscape-1080p-8s": "1080P（1088对齐） · 16:9 · 1920×1088 · 8秒",
+            "landscape-1920x1088-8s": "1920×1088 · 8秒 · TR双采 · 待手测",
+            "landscape-2k-8s": "2K · 16:9 · 2560×1440 · 8秒",
+            "landscape-480p-8s": "480P · 16:9 · 864×480 · 8秒",
+            "landscape-768p-8s": "768P · 16:9 · 1344×768 · 8秒",
+            "portrait-1080p-8s": "1080P（1088对齐） · 9:16 · 1088×1920 · 8秒",
+            "portrait-2k-8s": "2K · 9:16 · 1440×2560 · 8秒",
+            "portrait-480p-8s": "480P · 9:16 · 480×864 · 8秒",
+            "portrait-768p-8s": "768P · 9:16 · 768×1344 · 8秒",
+            "square-1080p-8s": "1080P（1088对齐） · 1:1 · 1088×1088 · 8秒",
+            "square-2k-8s": "2K · 1:1 · 1440×1440 · 8秒",
+            "square-480p-8s": "480P · 1:1 · 480×480 · 8秒",
+            "square-768p-8s": "768P · 1:1 · 768×768 · 8秒",
+            "standard-1080p-8s": "1080P（1088对齐） · 4:3 · 1440×1088 · 8秒",
+            "standard-2k-8s": "2K · 4:3 · 1920×1440 · 8秒",
+            "standard-480p-8s": "480P · 4:3 · 640×480 · 8秒",
+            "standard-768p-8s": "768P · 4:3 · 1024×768 · 8秒",
+            "standard-portrait-1080p-8s": "1080P（1088对齐） · 3:4 · 1088×1440 · 8秒",
+            "standard-portrait-2k-8s": "2K · 3:4 · 1440×1920 · 8秒",
+            "standard-portrait-480p-8s": "480P · 3:4 · 480×640 · 8秒",
+            "standard-portrait-768p-8s": "768P · 3:4 · 768×1024 · 8秒",
+            "ultrawide-1080p-8s": "1080P（1088对齐） · 21:9 · 2528×1088 · 8秒",
+            "ultrawide-2k-8s": "2K · 21:9 · 3360×1440 · 8秒",
+            "ultrawide-480p-8s": "480P · 21:9 · 1120×480 · 8秒",
+            "ultrawide-768p-8s": "768P · 21:9 · 1792×768 · 8秒"
+          }
+        }
+      },
+      "type": "object",
+      "x-input-constraints": {
+        "min_images": 1,
+        "max_images": 6,
+        "max_audios": 0,
+        "min_videos": 0,
+        "max_videos": 0,
+        "require_visual": true,
+        "max_references": 6
+      },
+      "x-manual-acceptance-required": true,
+      "x-media-limits": {
+        "AUDIO": 0,
+        "IMAGE": 6,
+        "VIDEO": 0
+      },
+      "x-output-presets": [
+        {
+          "value": "landscape-480p-8s",
+          "title": "480P · 16:9 · 864×480 · 8秒",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "portrait-480p-8s",
+          "title": "480P · 9:16 · 480×864 · 8秒",
+          "width": 480,
+          "height": 864,
+          "aspectRatio": "5:9",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "square-480p-8s",
+          "title": "480P · 1:1 · 480×480 · 8秒",
+          "width": 480,
+          "height": 480,
+          "aspectRatio": "1:1",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-480p-8s",
+          "title": "480P · 4:3 · 640×480 · 8秒",
+          "width": 640,
+          "height": 480,
+          "aspectRatio": "4:3",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-480p-8s",
+          "title": "480P · 3:4 · 480×640 · 8秒",
+          "width": 480,
+          "height": 640,
+          "aspectRatio": "3:4",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-480p-8s",
+          "title": "480P · 21:9 · 1120×480 · 8秒",
+          "width": 1120,
+          "height": 480,
+          "aspectRatio": "7:3",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "landscape-768p-8s",
+          "title": "768P · 16:9 · 1344×768 · 8秒",
+          "width": 1344,
+          "height": 768,
+          "aspectRatio": "7:4",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-8s",
+          "title": "768P · 9:16 · 768×1344 · 8秒",
+          "width": 768,
+          "height": 1344,
+          "aspectRatio": "4:7",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "square-768p-8s",
+          "title": "768P · 1:1 · 768×768 · 8秒",
+          "width": 768,
+          "height": 768,
+          "aspectRatio": "1:1",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-768p-8s",
+          "title": "768P · 4:3 · 1024×768 · 8秒",
+          "width": 1024,
+          "height": 768,
+          "aspectRatio": "4:3",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-768p-8s",
+          "title": "768P · 3:4 · 768×1024 · 8秒",
+          "width": 768,
+          "height": 1024,
+          "aspectRatio": "3:4",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-768p-8s",
+          "title": "768P · 21:9 · 1792×768 · 8秒",
+          "width": 1792,
+          "height": 768,
+          "aspectRatio": "7:3",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1080p-8s",
+          "title": "1080P（1088对齐） · 16:9 · 1920×1088 · 8秒",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "portrait-1080p-8s",
+          "title": "1080P（1088对齐） · 9:16 · 1088×1920 · 8秒",
+          "width": 1088,
+          "height": 1920,
+          "aspectRatio": "17:30",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "square-1080p-8s",
+          "title": "1080P（1088对齐） · 1:1 · 1088×1088 · 8秒",
+          "width": 1088,
+          "height": 1088,
+          "aspectRatio": "1:1",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-1080p-8s",
+          "title": "1080P（1088对齐） · 4:3 · 1440×1088 · 8秒",
+          "width": 1440,
+          "height": 1088,
+          "aspectRatio": "45:34",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-1080p-8s",
+          "title": "1080P（1088对齐） · 3:4 · 1088×1440 · 8秒",
+          "width": 1088,
+          "height": 1440,
+          "aspectRatio": "34:45",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-1080p-8s",
+          "title": "1080P（1088对齐） · 21:9 · 2528×1088 · 8秒",
+          "width": 2528,
+          "height": 1088,
+          "aspectRatio": "79:34",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "landscape-2k-8s",
+          "title": "2K · 16:9 · 2560×1440 · 8秒",
+          "width": 2560,
+          "height": 1440,
+          "aspectRatio": "16:9",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "portrait-2k-8s",
+          "title": "2K · 9:16 · 1440×2560 · 8秒",
+          "width": 1440,
+          "height": 2560,
+          "aspectRatio": "9:16",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "square-2k-8s",
+          "title": "2K · 1:1 · 1440×1440 · 8秒",
+          "width": 1440,
+          "height": 1440,
+          "aspectRatio": "1:1",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-2k-8s",
+          "title": "2K · 4:3 · 1920×1440 · 8秒",
+          "width": 1920,
+          "height": 1440,
+          "aspectRatio": "4:3",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "standard-portrait-2k-8s",
+          "title": "2K · 3:4 · 1440×1920 · 8秒",
+          "width": 1440,
+          "height": 1920,
+          "aspectRatio": "3:4",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "ultrawide-2k-8s",
+          "title": "2K · 21:9 · 3360×1440 · 8秒",
+          "width": 3360,
+          "height": 1440,
+          "aspectRatio": "7:3",
+          "durationSeconds": 8,
+          "fps": 24
+        },
+        {
+          "value": "landscape-1920x1088-8s",
+          "title": "1920×1088 · 8秒 · TR双采 · 待手测",
+          "width": 1920,
+          "height": 1088,
+          "aspectRatio": "30:17",
+          "durationSeconds": 8,
+          "fps": 24
+        }
+      ],
+      "x-prompt-policy": "required",
+      "x-runtime-validation": "MANUAL_TEST",
+      "x-video-mode": "OMNI_REFERENCE"
+    },
+    "inputKinds": [
+      "TEXT",
+      "STRUCTURED",
+      "IMAGE"
+    ],
+    "outputKinds": [
+      "VIDEO"
+    ],
+    "supportsSession": false,
+    "sessionMode": "NONE",
+    "supportsStream": false,
+    "supportsCancel": false,
+    "available": true,
+    "reason": "用户明确授权现有型号开放四档尺寸；1080P档实际短边1088并按32对齐。未执行新增GPU生成或画质验收，等待用户手动测试。"
+  }
+]

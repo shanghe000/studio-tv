@@ -1,0 +1,706 @@
+{
+  "projectId": "prj_90175dc9-de83-409d-ad30-c7797e0f39ef",
+  "targetId": "node_1792599115456_uozoxv3",
+  "base": {
+    "nodes": [
+      {
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true,
+        "id": "node_1792598553293_phzzvow",
+        "type": "rh-image",
+        "position": {
+          "x": 209.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图片",
+          "title": "图片",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+          "output": [
+            {
+              "assetId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "height": 1024,
+              "mediaId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mimeType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "outputId": "out_06f78d7d6ceafd0a9eb3d9b043566f26c95e25b1259e905a82e5c463af391177",
+              "outputType": "image/png",
+              "testMode": false,
+              "thumbnailUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "url": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "width": 1024
+            }
+          ],
+          "aspectRatio": "16:9",
+          "params": {
+            "outputPreset": "1024-square",
+            "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "text": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph."
+          },
+          "modelCode": "flux1-dev-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "estimateTaskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "generationStartedAt": 1792599046498,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_c740ddd1f02744c1afb598118fb2495b",
+            "resultCount": 1,
+            "revision": "8",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "progress": 100,
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          },
+          "capabilityRef": "flux1-dev-generate-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        }
+      },
+      {
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true,
+        "id": "node_1792599115456_uozoxv3",
+        "type": "rh-video",
+        "position": {
+          "x": 200.72418304584573,
+          "y": -49.11919787148406
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "finished",
+          "width": 360,
+          "height": 200,
+          "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+          "output": [
+            {
+              "url": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "width": 864,
+              "height": 480,
+              "assetId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mediaId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mimeType": "video/mp4",
+              "outputId": "out_bbfb9ed95de193c5c74c0b5b4bd34f9649d3f5f8f51d31afc15bbcdfd12c1da6",
+              "testMode": false,
+              "durationMs": 5167,
+              "outputType": "video/mp4",
+              "originalUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "thumbnailUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be"
+            }
+          ],
+          "videoUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+          "params": {
+            "audioUrls": [],
+            "imageUrls": [
+              "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+            ],
+            "outputPreset": "landscape-480p-5s",
+            "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "text": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "videoUrls": []
+          },
+          "modelCode": "h3-drama-reference-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "estimateTaskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "generationStartedAt": 1792599448831,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "source": "remote",
+            "revision": "10",
+            "historyId": "exe_c55a76065e3540e2b7ee3d48bd26ea10",
+            "resultCount": 1,
+            "schemaVersion": 1
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "progress": 100,
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          },
+          "capabilityRef": "h3-drama-reference-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "studio-acceptance-reference-edge",
+        "source": "node_1792598553293_phzzvow",
+        "target": "node_1792599115456_uozoxv3",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ],
+    "meta": {
+      "name": "Untitled",
+      "viewport": {
+        "x": 0,
+        "y": 0,
+        "zoom": 1
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  },
+  "local": {
+    "nodes": [
+      {
+        "id": "node_1792598553293_phzzvow",
+        "type": "rh-image",
+        "position": {
+          "x": 209.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图片",
+          "title": "图片",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+          "output": [
+            {
+              "assetId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "height": 1024,
+              "mediaId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mimeType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "outputId": "out_06f78d7d6ceafd0a9eb3d9b043566f26c95e25b1259e905a82e5c463af391177",
+              "outputType": "image/png",
+              "testMode": false,
+              "thumbnailUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "url": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "width": 1024
+            }
+          ],
+          "aspectRatio": "16:9",
+          "params": {
+            "outputPreset": "1024-square",
+            "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "text": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph."
+          },
+          "modelCode": "flux1-dev-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "estimateTaskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "generationStartedAt": 1792599046498,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_c740ddd1f02744c1afb598118fb2495b",
+            "resultCount": 1,
+            "revision": "8",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "progress": 100,
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          },
+          "capabilityRef": "flux1-dev-generate-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        },
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true
+      },
+      {
+        "id": "node_1792599115456_uozoxv3",
+        "type": "rh-video",
+        "position": {
+          "x": 200.72418304584573,
+          "y": -49.11919787148406
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "finished",
+          "width": 360,
+          "height": 200,
+          "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+          "output": [
+            {
+              "url": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "width": 864,
+              "height": 480,
+              "assetId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mediaId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mimeType": "video/mp4",
+              "outputId": "out_bbfb9ed95de193c5c74c0b5b4bd34f9649d3f5f8f51d31afc15bbcdfd12c1da6",
+              "testMode": false,
+              "durationMs": 5167,
+              "outputType": "video/mp4",
+              "originalUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "thumbnailUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be"
+            }
+          ],
+          "videoUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+          "params": {
+            "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": "",
+            "audioUrls": "",
+            "videoUrls": ""
+          },
+          "modelCode": "h3-action-reference-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "estimateTaskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "generationStartedAt": 1792599448831,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "source": "remote",
+            "revision": "10",
+            "historyId": "exe_c55a76065e3540e2b7ee3d48bd26ea10",
+            "resultCount": 1,
+            "schemaVersion": 1
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "progress": 100,
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          }
+        },
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true
+      }
+    ],
+    "edges": [
+      {
+        "id": "studio-acceptance-reference-edge",
+        "source": "node_1792598553293_phzzvow",
+        "target": "node_1792599115456_uozoxv3",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ],
+    "meta": {
+      "name": "Untitled"
+    }
+  },
+  "acknowledged": {
+    "nodes": [
+      {
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "selectable": true,
+        "id": "node_1792598553293_phzzvow",
+        "type": "rh-image",
+        "position": {
+          "x": 209.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图片",
+          "title": "图片",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "width": 1024,
+              "height": 1024,
+              "assetId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mediaId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mimeType": "image/png",
+              "outputId": "out_06f78d7d6ceafd0a9eb3d9b043566f26c95e25b1259e905a82e5c463af391177",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "thumbnailUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+            }
+          ],
+          "params": {
+            "text": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "outputPreset": "1024-square"
+          },
+          "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+          "status": "finished",
+          "taskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "subType": "text-image",
+          "errorMsg": "",
+          "progress": 100,
+          "testMode": false,
+          "modelCode": "flux1-dev-generate-v1",
+          "modelType": "OPENAPI",
+          "maxConnect": {
+            "text": null,
+            "image": null,
+            "video": null
+          },
+          "aspectRatio": "16:9",
+          "generateNum": 1,
+          "capabilityRef": "flux1-dev-generate-v1",
+          "estimateTaskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "historyStorage": {
+            "source": "remote",
+            "revision": "8",
+            "historyId": "exe_c740ddd1f02744c1afb598118fb2495b",
+            "resultCount": 1,
+            "schemaVersion": 1
+          },
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          },
+          "presetSelections": [],
+          "routerParameters": {
+            "outputPreset": "1024-square"
+          },
+          "capabilityVersion": "1",
+          "nodeOutputHistory": [],
+          "userPromptSnapshot": {
+            "value": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "paramName": "prompt"
+          },
+          "generationStartedAt": 1792599046498,
+          "parameterSchemaVersion": "1"
+        }
+      },
+      {
+        "style": {
+          "width": 380,
+          "height": 220
+        },
+        "selectable": true,
+        "id": "node_1792599115456_uozoxv3",
+        "type": "rh-video",
+        "position": {
+          "x": 200.72418304584573,
+          "y": -49.11919787148406
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "width": 360,
+          "height": 200,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "width": 864,
+              "height": 480,
+              "assetId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mediaId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mimeType": "video/mp4",
+              "outputId": "out_bbfb9ed95de193c5c74c0b5b4bd34f9649d3f5f8f51d31afc15bbcdfd12c1da6",
+              "testMode": false,
+              "durationMs": 5167,
+              "outputType": "video/mp4",
+              "originalUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "thumbnailUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be"
+            }
+          ],
+          "params": {
+            "text": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "audioUrls": [],
+            "imageUrls": [
+              "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+            ],
+            "videoUrls": [],
+            "outputPreset": "landscape-480p-5s"
+          },
+          "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+          "status": "finished",
+          "taskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "subType": "multimodal-video",
+          "errorMsg": "",
+          "progress": 100,
+          "testMode": false,
+          "videoUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+          "modelCode": "h3-drama-reference-v1",
+          "modelType": "OPENAPI",
+          "maxConnect": {
+            "text": null,
+            "image": null,
+            "video": null
+          },
+          "generateNum": 1,
+          "capabilityRef": "h3-drama-reference-v1",
+          "estimateTaskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "historyStorage": {
+            "source": "remote",
+            "revision": "10",
+            "historyId": "exe_c55a76065e3540e2b7ee3d48bd26ea10",
+            "resultCount": 1,
+            "schemaVersion": 1
+          },
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          },
+          "presetSelections": [],
+          "routerParameters": {
+            "outputPreset": "landscape-480p-5s"
+          },
+          "capabilityVersion": "1",
+          "nodeOutputHistory": [],
+          "userPromptSnapshot": {
+            "value": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "paramName": "prompt"
+          },
+          "generationStartedAt": 1792599448831,
+          "parameterSchemaVersion": "1"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "studio-acceptance-reference-edge",
+        "source": "node_1792598553293_phzzvow",
+        "target": "node_1792599115456_uozoxv3",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ],
+    "meta": {
+      "name": "Untitled",
+      "viewport": {
+        "x": 0,
+        "y": 0,
+        "zoom": 1
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  },
+  "observed": {
+    "nodes": [
+      {
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true,
+        "id": "node_1792598553293_phzzvow",
+        "type": "rh-image",
+        "position": {
+          "x": 209.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图片",
+          "title": "图片",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+          "output": [
+            {
+              "assetId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "height": 1024,
+              "mediaId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mimeType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "outputId": "out_06f78d7d6ceafd0a9eb3d9b043566f26c95e25b1259e905a82e5c463af391177",
+              "outputType": "image/png",
+              "testMode": false,
+              "thumbnailUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "url": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "width": 1024
+            }
+          ],
+          "aspectRatio": "16:9",
+          "params": {
+            "outputPreset": "1024-square",
+            "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "text": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph."
+          },
+          "modelCode": "flux1-dev-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "estimateTaskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "generationStartedAt": 1792599046498,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_c740ddd1f02744c1afb598118fb2495b",
+            "resultCount": 1,
+            "revision": "8",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "progress": 100,
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          },
+          "capabilityRef": "flux1-dev-generate-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        }
+      },
+      {
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true,
+        "id": "node_1792599115456_uozoxv3",
+        "type": "rh-video",
+        "position": {
+          "x": 200.72418304584573,
+          "y": -49.11919787148406
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "finished",
+          "width": 360,
+          "height": 200,
+          "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+          "output": [
+            {
+              "url": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "width": 864,
+              "height": 480,
+              "assetId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mediaId": "ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "mimeType": "video/mp4",
+              "outputId": "out_bbfb9ed95de193c5c74c0b5b4bd34f9649d3f5f8f51d31afc15bbcdfd12c1da6",
+              "testMode": false,
+              "durationMs": 5167,
+              "outputType": "video/mp4",
+              "originalUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+              "thumbnailUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be"
+            }
+          ],
+          "videoUrl": "rhtv-asset:ast_0c53c63f6b1c276041baa578f02c8c7cd55fea5afaf442be",
+          "params": {
+            "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "outputPreset": "landscape-480p-5s",
+            "imageUrls": "",
+            "audioUrls": "",
+            "videoUrls": ""
+          },
+          "modelCode": "h3-action-reference-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "estimateTaskId": "tsk_75bbd167c3ea48beaca41716ec110b5f",
+          "generationStartedAt": 1792599448831,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "source": "remote",
+            "revision": "10",
+            "historyId": "exe_c55a76065e3540e2b7ee3d48bd26ea10",
+            "resultCount": 1,
+            "schemaVersion": 1
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "progress": 100,
+          "progressDetail": {
+            "phase": "completed",
+            "scope": "TASK"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "type": "default",
+        "id": "studio-acceptance-reference-edge",
+        "source": "node_1792598553293_phzzvow",
+        "target": "node_1792599115456_uozoxv3",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ],
+    "meta": {
+      "name": "Untitled",
+      "viewport": {
+        "x": 0,
+        "y": 0,
+        "zoom": 1
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  }
+}

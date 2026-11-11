@@ -1,0 +1,1 @@
+const a=[{label:"cURL",value:"curl"},{label:"Python",value:"python"},{label:"JavaScript",value:"javascript"}],l=["curl","python","javascript"],c="curl";export{a as API_LANGUAGES,l as API_LANGUAGE_VALUES,c as DEFAULT_API_LANGUAGE};

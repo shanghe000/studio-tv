@@ -1,0 +1,278 @@
+{
+  "readOnlyPassthroughTap": true,
+  "originalValueNote": "URLs canonicalized without adding any item/patch fields; non-finite numeric paths listed separately because JSON serializes them as null",
+  "component": "S3r",
+  "targetBinding": {
+    "values": {
+      "modelCode": "h3-drama-reference-v1"
+    },
+    "missingKeys": [
+      "capabilityRef",
+      "capabilityVersion",
+      "parameterSchemaVersion",
+      "available",
+      "testMode",
+      "h3OutputPresets"
+    ],
+    "actualKeys": [
+      "label",
+      "title",
+      "status",
+      "width",
+      "height",
+      "text",
+      "content",
+      "prompt",
+      "groupName",
+      "groupColor",
+      "borderColor",
+      "groupId",
+      "tag",
+      "output",
+      "sourceObjects",
+      "sourceVideo",
+      "imageUrl",
+      "videoUrl",
+      "audioUrl",
+      "thumbnail",
+      "aiNodeOutputType",
+      "panorama",
+      "toolsType",
+      "suppressVideoInputs",
+      "toolsSourceUrl",
+      "sourceImageNodeId",
+      "opResize",
+      "imageDisplaySizeLocked",
+      "sourceClips",
+      "sourceVideoGroupId",
+      "outputVideoSize",
+      "composeScale",
+      "clipsCompositionKeyAtLastCompose",
+      "quickCutTracks",
+      "quickCutScale",
+      "quickCutSelectedItemId",
+      "quickCutPreviewVisible",
+      "quickCutCollapsed",
+      "fromVideoComposeExport",
+      "videoComposePending",
+      "videoComposeTaskId",
+      "videoComposeDownloadAfter",
+      "fromDirectorExport",
+      "directorSourceNodeId",
+      "directorExportMediaType",
+      "rows",
+      "cols",
+      "aspectRatio",
+      "cellWidth",
+      "cellHeight",
+      "collapsed",
+      "gridMode",
+      "aiApp",
+      "apiKeyMode",
+      "instanceType",
+      "priceInfo",
+      "runStartTime",
+      "labelLocked",
+      "_originalLabel",
+      "autoCreatedByAiApp",
+      "schema",
+      "directorThumbnail",
+      "modelCount",
+      "cameraCount",
+      "params",
+      "modelCode",
+      "generateNum",
+      "subType",
+      "maxConnect",
+      "styleName",
+      "stylePrompt",
+      "storyboardVideoSyncedPrompt",
+      "isStoryboard",
+      "storyboardIndex",
+      "storyboardRowId",
+      "storyboardShot",
+      "addNewGroup"
+    ]
+  },
+  "modelBinding": {
+    "values": {
+      "modelCode": "h3-drama-reference-v1",
+      "capabilityRef": "h3-drama-reference-v1",
+      "capabilityVersion": "1",
+      "parameterSchemaVersion": "1",
+      "available": true,
+      "testMode": false,
+      "h3OutputPresets": [
+        {
+          "value": "landscape-480p-5s",
+          "title": "864×480 · 约5秒 · 24fps",
+          "width": 864,
+          "height": 480,
+          "aspectRatio": "9:5",
+          "durationSeconds": 5,
+          "fps": 24
+        },
+        {
+          "value": "portrait-768p-10s",
+          "title": "768×1376 · 约10秒 · 24fps",
+          "width": 768,
+          "height": 1376,
+          "aspectRatio": "24:43",
+          "durationSeconds": 10,
+          "fps": 24
+        },
+        {
+          "value": "landscape-736p-10s",
+          "title": "1280×736 · 约10秒 · 24fps",
+          "width": 1280,
+          "height": 736,
+          "aspectRatio": "40:23",
+          "durationSeconds": 10,
+          "fps": 24
+        }
+      ]
+    },
+    "missingKeys": [],
+    "actualKeys": [
+      "id",
+      "modelCode",
+      "kind",
+      "modelName",
+      "modelNameEn",
+      "modelType",
+      "description",
+      "descriptionEn",
+      "generateNum",
+      "config",
+      "available",
+      "capabilityRef",
+      "capabilityVersion",
+      "parameterSchemaVersion",
+      "testMode",
+      "inputKinds",
+      "outputKinds",
+      "h3OutputPresets",
+      "model",
+      "params"
+    ]
+  },
+  "patches": [
+    {
+      "label": "portrait10",
+      "id": "node_1792645552964_zpuq7rx",
+      "patch": {
+        "modelCode": "h3-drama-reference-v1",
+        "generateNum": 1,
+        "params": {
+          "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "outputPreset": "portrait-768p-10s",
+          "imageUrls": [
+            "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+            "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+          ],
+          "audioUrls": "",
+          "videoUrls": "",
+          "aspectRatio": "16:9"
+        },
+        "maxConnect": {
+          "image": null,
+          "text": null,
+          "video": null
+        }
+      },
+      "actualPatchKeys": [
+        "modelCode",
+        "generateNum",
+        "params",
+        "maxConnect"
+      ],
+      "actualParamKeys": [
+        "prompt",
+        "outputPreset",
+        "imageUrls",
+        "audioUrls",
+        "videoUrls",
+        "aspectRatio"
+      ],
+      "nonFinitePaths": []
+    },
+    {
+      "label": "landscape10",
+      "id": "node_1792645552964_zpuq7rx",
+      "patch": {
+        "modelCode": "h3-drama-reference-v1",
+        "generateNum": 1,
+        "params": {
+          "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "outputPreset": "landscape-736p-10s",
+          "imageUrls": [
+            "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+            "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+          ],
+          "audioUrls": "",
+          "videoUrls": "",
+          "aspectRatio": "16:9"
+        },
+        "maxConnect": {
+          "image": null,
+          "text": null,
+          "video": null
+        }
+      },
+      "actualPatchKeys": [
+        "modelCode",
+        "generateNum",
+        "params",
+        "maxConnect"
+      ],
+      "actualParamKeys": [
+        "prompt",
+        "outputPreset",
+        "imageUrls",
+        "audioUrls",
+        "videoUrls",
+        "aspectRatio"
+      ],
+      "nonFinitePaths": []
+    },
+    {
+      "label": "restore5",
+      "id": "node_1792645552964_zpuq7rx",
+      "patch": {
+        "modelCode": "h3-drama-reference-v1",
+        "generateNum": 1,
+        "params": {
+          "prompt": "【分镜故事板】@图片1\n总时长：5s\n【镜号】1\n【时长】5s\n【角色名称】林遥@图片2\n【角色描述】成年中国女性，短发，身穿白衬衫、黑长裤。\n【画面描述】固定中景，林遥站在明亮白色摄影棚内，低头用右手轻轻整理左侧袖口，抚平褶皱后自然放下双手。无台词、无音乐，仅保留衣料摩擦声与轻微室内环境声。\n【风格】cinematic realism, natural light, high-end commercial photography, refined color grading",
+          "outputPreset": "landscape-480p-5s",
+          "imageUrls": [
+            "rhtv-asset:ast_0b5a093268a91711450ce30f70e6493cf0559c287a7d31e2",
+            "rhtv-asset:ast_44049526da174c82b6ec7557bf3253bf"
+          ],
+          "audioUrls": "",
+          "videoUrls": "",
+          "aspectRatio": "16:9"
+        },
+        "maxConnect": {
+          "image": null,
+          "text": null,
+          "video": null
+        }
+      },
+      "actualPatchKeys": [
+        "modelCode",
+        "generateNum",
+        "params",
+        "maxConnect"
+      ],
+      "actualParamKeys": [
+        "prompt",
+        "outputPreset",
+        "imageUrls",
+        "audioUrls",
+        "videoUrls",
+        "aspectRatio"
+      ],
+      "nonFinitePaths": []
+    }
+  ]
+}

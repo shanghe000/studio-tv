@@ -1,0 +1,14 @@
+# Backend-only integration. Use together with compose.yaml after creating the
+# shared private Docker network. Keys are mounted from an external 0700 directory.
+services:
+  api:
+    networks:
+      default: {}
+      models:
+        aliases: [studio-api]
+    volumes:
+      - ${MODELS_ROUTER_SECRETS_DIR:?Set external MODELS_ROUTER_SECRETS_DIR}:/run/router-secrets:ro
+networks:
+  models:
+    external: true
+    name: studio-models

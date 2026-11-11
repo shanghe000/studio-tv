@@ -1,0 +1,5251 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Models Router Service API",
+    "version": "1.4.0",
+    "description": "Supplier-neutral model metadata is additive on capability profiles. Requests still select only the frozen capabilityRef/version; native model IDs and execution configuration stay server-owned. Independent model/Agent infrastructure protocol for multiple products. Optional promptSpec is a separately versioned normalized instruction/message/conditioning/output-requirement envelope; frozen capability profiles and parameter schemas remain unchanged. Default unconfigured mode keeps an empty capability catalogue and honest 501 execution responses. Explicit ROUTER_ADAPTER_MODE=mock enables 20 clearly labeled test capabilities and durable fixture-only invocations/events/artifacts; all carry testMode=true, and usage/context/billing stay null. MOCK promptSpec acceptance is envelope-only; actual instruction/conditioning execution and schema-constrained generation remain RESERVED with real inference/Agent runtime and tool receipts. Legacy RESERVED schema examples describe future semantics, not executions. Product history stays in each product; Router owns actor scope, logical sessions and invocation receipts. No native thread IDs or upstream credentials cross this contract."
+  },
+  "x-protocol-version": "1",
+  "x-default-unknown-path-status": 404,
+  "x-response-headers": {
+    "Cache-Control": "no-store",
+    "X-Models-Router-Version": "1",
+    "X-Request-ID": "opaque server-generated diagnostic reference"
+  },
+  "x-actor-proof": {
+    "algorithm": "HMAC-SHA256",
+    "signatureEncoding": "v1= followed by unpadded base64url",
+    "signingKeyEncoding": "Secret configuration uses standard padded base64; decoded key length >=32 bytes. Separate from service bearer token.",
+    "canonicalEncoding": "UTF-8; fields joined by LF; no extra trailing LF (empty final Idempotency-Key field naturally leaves the preceding separator)",
+    "canonicalFields": [
+      "models-router.actor.v1",
+      "HTTP method uppercase",
+      "original escaped request target including original raw query",
+      "X-Router-Client-App",
+      "X-Router-Subject-Ref",
+      "X-Router-Actor-Timestamp canonical Unix seconds",
+      "X-Router-Actor-Nonce",
+      "SHA256 of exact raw body as lowercase hex (empty body hash for GET)",
+      "Idempotency-Key or empty string"
+    ],
+    "clockSkewSeconds": 300,
+    "nonceRetentionSeconds": 600,
+    "duplicates": "Authorization and every actor proof header must occur exactly once. Client app is bound to the verified service credential. Fresh proof nonce per HTTP retry or SSE reconnect; invocation idempotency key remains stable.",
+    "transport": "TLS or a trusted private transport is required outside local development. No CORS/browser credential use; keys and canonical signed strings must never be logged."
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "operationId": "health",
+        "summary": "Process liveness",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Process is alive",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "GET only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "operationId": "readiness",
+        "summary": "Router migration/storage readiness; does not claim model availability",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Router schema ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage/schema unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "GET only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sessions": {
+      "post": {
+        "operationId": "createSession",
+        "summary": "Create or restore an actor-scoped logical session",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created durable session; Location points to its logical ref",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Existing natural-key session; no timestamps or state are changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Expected application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSessionRequest"
+              }
+            }
+          }
+        },
+        "x-idempotency": {
+          "mode": "NATURAL_KEY",
+          "scope": [
+            "clientApp",
+            "subjectRef",
+            "conversationRef"
+          ],
+          "idempotencyKeyHeader": "REJECTED"
+        }
+      }
+    },
+    "/v1/sessions/{sessionRef}": {
+      "get": {
+        "operationId": "getSession",
+        "summary": "Read own logical session; other actor returns indistinguishable 404",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "$ref": "#/components/parameters/SessionRef"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Own persisted logical session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/capabilities": {
+      "get": {
+        "operationId": "listCapabilities",
+        "summary": "List registered capabilities; default empty or explicit labeled MOCK catalogue",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{0,63}$",
+              "examples": [
+                "LLM",
+                "TEXT_TO_IMAGE",
+                "IMAGE_TO_VIDEO",
+                "OMNI_REFERENCE"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 100
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^(|0|[1-9][0-9]*)$"
+            },
+            "description": "Decimal offset within the kind-filtered catalogue. Absent or empty starts at zero. Use returned nextCursor with the same filter; null means exhausted."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Default: empty catalogue. Explicit mock mode: paginated testMode=true capabilities, never live-provider availability.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityList"
+                },
+                "examples": {
+                  "UNCONFIGURED": {
+                    "summary": "Default unconfigured adapter: honest empty catalogue",
+                    "value": {
+                      "items": [],
+                      "nextCursor": null,
+                      "protocolVersion": "1"
+                    }
+                  },
+                  "MOCK_CATALOG": {
+                    "summary": "Explicit ROUTER_ADAPTER_MODE=mock only: 20 static-fixture test capabilities",
+                    "value": {
+                      "items": [
+                        {
+                          "title": "MOCK · LLM",
+                          "testMode": true,
+                          "capabilityRef": "mock-llm",
+                          "version": "1",
+                          "kind": "LLM",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "TEXT"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · TEXT_TO_IMAGE",
+                          "testMode": true,
+                          "capabilityRef": "mock-text-to-image",
+                          "version": "1",
+                          "kind": "TEXT_TO_IMAGE",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · IMAGE_TO_IMAGE",
+                          "testMode": true,
+                          "capabilityRef": "mock-image-to-image",
+                          "version": "1",
+                          "kind": "IMAGE_TO_IMAGE",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · TEXT_TO_VIDEO",
+                          "testMode": true,
+                          "capabilityRef": "mock-text-to-video",
+                          "version": "1",
+                          "kind": "TEXT_TO_VIDEO",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "VIDEO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · IMAGE_TO_VIDEO",
+                          "testMode": true,
+                          "capabilityRef": "mock-image-to-video",
+                          "version": "1",
+                          "kind": "IMAGE_TO_VIDEO",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "VIDEO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · OMNI_REFERENCE",
+                          "testMode": true,
+                          "capabilityRef": "mock-omni-reference",
+                          "version": "1",
+                          "kind": "OMNI_REFERENCE",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "VIDEO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · IMAGE_EDIT",
+                          "testMode": true,
+                          "capabilityRef": "mock-image-edit",
+                          "version": "1",
+                          "kind": "IMAGE_EDIT",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · IMAGE_CUTOUT",
+                          "testMode": true,
+                          "capabilityRef": "mock-image-cutout",
+                          "version": "1",
+                          "kind": "IMAGE_CUTOUT",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · IMAGE_LAYER_DECOMPOSITION",
+                          "testMode": true,
+                          "capabilityRef": "mock-image-layer-decomposition",
+                          "version": "1",
+                          "kind": "IMAGE_LAYER_DECOMPOSITION",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · IMAGE_ENHANCE",
+                          "testMode": true,
+                          "capabilityRef": "mock-image-enhance",
+                          "version": "1",
+                          "kind": "IMAGE_ENHANCE",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · IMAGE_VARIATION",
+                          "testMode": true,
+                          "capabilityRef": "mock-image-variation",
+                          "version": "1",
+                          "kind": "IMAGE_VARIATION",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · VIDEO_TO_VIDEO",
+                          "testMode": true,
+                          "capabilityRef": "mock-video-to-video",
+                          "version": "1",
+                          "kind": "VIDEO_TO_VIDEO",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "VIDEO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · VIDEO_ENHANCE",
+                          "testMode": true,
+                          "capabilityRef": "mock-video-enhance",
+                          "version": "1",
+                          "kind": "VIDEO_ENHANCE",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "VIDEO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · TEXT_TO_AUDIO",
+                          "testMode": true,
+                          "capabilityRef": "mock-text-to-audio",
+                          "version": "1",
+                          "kind": "TEXT_TO_AUDIO",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "AUDIO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · TEXT_TO_MUSIC",
+                          "testMode": true,
+                          "capabilityRef": "mock-text-to-music",
+                          "version": "1",
+                          "kind": "TEXT_TO_MUSIC",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "AUDIO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · AUDIO_TO_AUDIO",
+                          "testMode": true,
+                          "capabilityRef": "mock-audio-to-audio",
+                          "version": "1",
+                          "kind": "AUDIO_TO_AUDIO",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "AUDIO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · AUDIO_SEPARATION",
+                          "testMode": true,
+                          "capabilityRef": "mock-audio-separation",
+                          "version": "1",
+                          "kind": "AUDIO_SEPARATION",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "AUDIO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · VIDEO_DEPTH",
+                          "testMode": true,
+                          "capabilityRef": "mock-video-depth",
+                          "version": "1",
+                          "kind": "VIDEO_DEPTH",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "VIDEO"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · GENERATE_3D_MODEL",
+                          "testMode": true,
+                          "capabilityRef": "mock-generate-3d-model",
+                          "version": "1",
+                          "kind": "GENERATE_3D_MODEL",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "FILE",
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        },
+                        {
+                          "title": "MOCK · GENERATE_3D_WORLD",
+                          "testMode": true,
+                          "capabilityRef": "mock-generate-3d-world",
+                          "version": "1",
+                          "kind": "GENERATE_3D_WORLD",
+                          "executionKind": "MODEL",
+                          "parameterSchemaVersion": "1",
+                          "parameterSchema": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "scenario": {
+                                "type": "string",
+                                "enum": [
+                                  "success",
+                                  "fail"
+                                ]
+                              },
+                              "delayMilliseconds": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10000
+                              },
+                              "count": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 4
+                              }
+                            }
+                          },
+                          "inputKinds": [
+                            "TEXT",
+                            "IMAGE",
+                            "VIDEO",
+                            "AUDIO",
+                            "FILE",
+                            "STRUCTURED"
+                          ],
+                          "outputKinds": [
+                            "FILE",
+                            "IMAGE"
+                          ],
+                          "supportsSession": true,
+                          "sessionMode": "OPTIONAL",
+                          "supportsStream": false,
+                          "supportsCancel": true,
+                          "available": true,
+                          "reason": "MOCK test fixture adapter; no AI/model generation; media inputs are envelope-validated but never read"
+                        }
+                      ],
+                      "nextCursor": null,
+                      "protocolVersion": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/invocations": {
+      "post": {
+        "operationId": "submitInvocation",
+        "summary": "MOCK-only: persist or replay an actor-scoped idempotent invocation",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Without explicit ROUTER_ADAPTER_MODE=mock: ADAPTER_NOT_CONFIGURED on submission, NOT_IMPLEMENTED on other execution operations. Real runtime/tool-result operations remain RESERVED. No execution or output is created by an unconfigured adapter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Persisted current receipt, including terminal state on an idempotent replay; no duplicate test execution",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invocation"
+                },
+                "examples": {
+                  "LLM": {
+                    "summary": "RESERVED LLM normalized terminal result; no invocation was executed",
+                    "value": {
+                      "invocationRef": "inv_example_llm",
+                      "operationRef": "example/operation/llm",
+                      "sessionRef": null,
+                      "state": "SUCCEEDED",
+                      "progress": null,
+                      "normalizedError": null,
+                      "outputParts": [
+                        {
+                          "outputRef": "out_example_llm",
+                          "type": "TEXT",
+                          "text": "Air molecules scatter shorter wavelengths of sunlight more strongly."
+                        }
+                      ],
+                      "artifacts": [],
+                      "execution": {
+                        "executionKind": "MODEL",
+                        "capabilityRef": "example/llm",
+                        "capabilityVersion": "1",
+                        "modelRef": "example/model/llm",
+                        "agentRef": null
+                      },
+                      "usage": null,
+                      "context": null,
+                      "billing": null,
+                      "createdAt": "2026-10-05T00:00:00Z",
+                      "updatedAt": "2026-10-05T00:00:05Z"
+                    }
+                  },
+                  "TEXT_TO_IMAGE": {
+                    "summary": "RESERVED TEXT_TO_IMAGE normalized terminal result; no invocation was executed",
+                    "value": {
+                      "invocationRef": "inv_example_t2i",
+                      "operationRef": "example/operation/t2i",
+                      "sessionRef": null,
+                      "state": "SUCCEEDED",
+                      "progress": null,
+                      "normalizedError": null,
+                      "outputParts": [
+                        {
+                          "outputRef": "out_example_image",
+                          "type": "ARTIFACT",
+                          "artifactRef": "art_example_image"
+                        }
+                      ],
+                      "artifacts": [
+                        {
+                          "artifactRef": "art_example_image",
+                          "outputRef": "out_example_image",
+                          "kind": "IMAGE",
+                          "mediaType": "image/png",
+                          "sizeBytes": 1234,
+                          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                          "expiresAt": null
+                        }
+                      ],
+                      "execution": {
+                        "executionKind": "MODEL",
+                        "capabilityRef": "example/t2i",
+                        "capabilityVersion": "1",
+                        "modelRef": "example/model/t2i",
+                        "agentRef": null
+                      },
+                      "usage": {
+                        "scope": "INVOCATION",
+                        "source": "REPORTED",
+                        "coverage": "FULL",
+                        "inputTokens": null,
+                        "cachedInputTokens": null,
+                        "cacheWriteInputTokens": null,
+                        "outputTokens": null,
+                        "reasoningOutputTokens": null,
+                        "totalTokens": null,
+                        "status": "FINAL",
+                        "observedAt": "2026-10-05T00:00:00Z",
+                        "units": [
+                          {
+                            "unit": "IMAGE",
+                            "quantity": "1",
+                            "source": "REPORTED"
+                          }
+                        ]
+                      },
+                      "context": null,
+                      "billing": null,
+                      "createdAt": "2026-10-05T00:00:00Z",
+                      "updatedAt": "2026-10-05T00:00:05Z"
+                    }
+                  },
+                  "IMAGE_TO_VIDEO": {
+                    "summary": "RESERVED IMAGE_TO_VIDEO normalized terminal result; no invocation was executed",
+                    "value": {
+                      "invocationRef": "inv_example_i2v",
+                      "operationRef": "example/operation/i2v",
+                      "sessionRef": null,
+                      "state": "SUCCEEDED",
+                      "progress": null,
+                      "normalizedError": null,
+                      "outputParts": [
+                        {
+                          "outputRef": "out_example_video",
+                          "type": "ARTIFACT",
+                          "artifactRef": "art_example_video"
+                        }
+                      ],
+                      "artifacts": [
+                        {
+                          "artifactRef": "art_example_video",
+                          "outputRef": "out_example_video",
+                          "kind": "VIDEO",
+                          "mediaType": "video/mp4",
+                          "sizeBytes": 1234,
+                          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                          "expiresAt": null
+                        }
+                      ],
+                      "execution": {
+                        "executionKind": "MODEL",
+                        "capabilityRef": "example/i2v",
+                        "capabilityVersion": "1",
+                        "modelRef": "example/model/i2v",
+                        "agentRef": null
+                      },
+                      "usage": {
+                        "scope": "INVOCATION",
+                        "source": "REPORTED",
+                        "coverage": "FULL",
+                        "inputTokens": null,
+                        "cachedInputTokens": null,
+                        "cacheWriteInputTokens": null,
+                        "outputTokens": null,
+                        "reasoningOutputTokens": null,
+                        "totalTokens": null,
+                        "status": "FINAL",
+                        "observedAt": "2026-10-05T00:00:00Z",
+                        "units": [
+                          {
+                            "unit": "VIDEO_SECOND",
+                            "quantity": "5.5",
+                            "source": "REPORTED"
+                          }
+                        ]
+                      },
+                      "context": null,
+                      "billing": null,
+                      "createdAt": "2026-10-05T00:00:00Z",
+                      "updatedAt": "2026-10-05T00:00:05Z"
+                    }
+                  },
+                  "MOCK_QUEUED": {
+                    "summary": "MOCK queued test receipt; not a provider execution",
+                    "value": {
+                      "testMode": true,
+                      "invocationRef": "inv_mock_example_llm",
+                      "operationRef": "mock/operation/llm",
+                      "sessionRef": null,
+                      "state": "QUEUED",
+                      "progress": null,
+                      "normalizedError": null,
+                      "outputParts": [],
+                      "artifacts": [],
+                      "execution": {
+                        "testMode": true,
+                        "executionKind": "MODEL",
+                        "capabilityRef": "mock-llm",
+                        "capabilityVersion": "1",
+                        "modelRef": null,
+                        "agentRef": null
+                      },
+                      "usage": null,
+                      "context": null,
+                      "billing": null,
+                      "createdAt": "2026-10-05T00:00:00Z",
+                      "updatedAt": "2026-10-05T00:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Same actor/key or operationRef but different normalized immutable request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Expected application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-condition": "ROUTER_ADAPTER_MODE=mock",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvocationRequest"
+              },
+              "examples": {
+                "LLM": {
+                  "summary": "RESERVED LLM request; no invocation was executed",
+                  "value": {
+                    "schemaVersion": "1",
+                    "operationRef": "example/operation/llm",
+                    "capability": {
+                      "ref": "example/llm",
+                      "version": "1"
+                    },
+                    "input": [
+                      {
+                        "type": "TEXT",
+                        "text": "Explain why the sky looks blue."
+                      }
+                    ],
+                    "attachments": [],
+                    "parameters": {
+                      "maxOutputTokens": 256,
+                      "temperature": 0.2
+                    },
+                    "parameterSchemaVersion": "1"
+                  }
+                },
+                "TEXT_TO_IMAGE": {
+                  "summary": "RESERVED TEXT_TO_IMAGE request; no invocation was executed",
+                  "value": {
+                    "schemaVersion": "1",
+                    "operationRef": "example/operation/t2i",
+                    "capability": {
+                      "ref": "example/t2i",
+                      "version": "1"
+                    },
+                    "input": [
+                      {
+                        "type": "TEXT",
+                        "text": "A quiet lake at dawn."
+                      }
+                    ],
+                    "attachments": [],
+                    "parameters": {
+                      "width": 1024,
+                      "height": 1024,
+                      "count": 1
+                    },
+                    "parameterSchemaVersion": "1"
+                  }
+                },
+                "IMAGE_TO_VIDEO": {
+                  "summary": "RESERVED IMAGE_TO_VIDEO request; no invocation was executed",
+                  "value": {
+                    "schemaVersion": "1",
+                    "operationRef": "example/operation/i2v",
+                    "capability": {
+                      "ref": "example/i2v",
+                      "version": "1"
+                    },
+                    "input": [
+                      {
+                        "type": "TEXT",
+                        "text": "Gently move the camera forward."
+                      },
+                      {
+                        "type": "MEDIA",
+                        "attachmentRef": "example/input-image"
+                      }
+                    ],
+                    "attachments": [
+                      {
+                        "ref": "example/input-image",
+                        "sourceRef": "example/source-image",
+                        "kind": "IMAGE",
+                        "sourceVersion": "1",
+                        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "readGrantRef": "example/scoped-grant"
+                      }
+                    ],
+                    "parameters": {
+                      "width": 1280,
+                      "height": 720,
+                      "durationSeconds": 5.5,
+                      "fps": 24
+                    },
+                    "parameterSchemaVersion": "1",
+                    "sessionRef": null
+                  }
+                },
+                "MOCK_LLM": {
+                  "summary": "MOCK · LLM; requires ROUTER_ADAPTER_MODE=mock",
+                  "value": {
+                    "schemaVersion": "1",
+                    "operationRef": "mock/operation/llm",
+                    "capability": {
+                      "ref": "mock-llm",
+                      "version": "1"
+                    },
+                    "input": [
+                      {
+                        "type": "TEXT",
+                        "text": "MOCK integration test fixture"
+                      }
+                    ],
+                    "attachments": [],
+                    "parameters": {},
+                    "parameterSchemaVersion": "1"
+                  }
+                },
+                "MOCK_TEXT_TO_IMAGE": {
+                  "summary": "MOCK · TEXT_TO_IMAGE; requires ROUTER_ADAPTER_MODE=mock",
+                  "value": {
+                    "schemaVersion": "1",
+                    "operationRef": "mock/operation/text_to_image",
+                    "capability": {
+                      "ref": "mock-text-to-image",
+                      "version": "1"
+                    },
+                    "input": [
+                      {
+                        "type": "TEXT",
+                        "text": "MOCK integration test fixture"
+                      }
+                    ],
+                    "attachments": [],
+                    "parameters": {},
+                    "parameterSchemaVersion": "1"
+                  }
+                },
+                "MOCK_IMAGE_TO_VIDEO": {
+                  "summary": "MOCK · IMAGE_TO_VIDEO; requires ROUTER_ADAPTER_MODE=mock",
+                  "value": {
+                    "schemaVersion": "1",
+                    "operationRef": "mock/operation/image_to_video",
+                    "capability": {
+                      "ref": "mock-image-to-video",
+                      "version": "1"
+                    },
+                    "input": [
+                      {
+                        "type": "TEXT",
+                        "text": "MOCK integration test fixture"
+                      }
+                    ],
+                    "attachments": [],
+                    "parameters": {},
+                    "parameterSchemaVersion": "1"
+                  }
+                },
+                "MOCK_PROMPT_ENVELOPE": {
+                  "summary": "MOCK · normalized prompt receipt test; output remains a labeled static text fixture, not schema-conforming generation",
+                  "value": {
+                    "schemaVersion": "1",
+                    "operationRef": "mock/operation/llm",
+                    "capability": {
+                      "ref": "mock-llm",
+                      "version": "1"
+                    },
+                    "input": [
+                      {
+                        "type": "TEXT",
+                        "text": "MOCK integration test fixture"
+                      }
+                    ],
+                    "attachments": [],
+                    "parameters": {},
+                    "parameterSchemaVersion": "1",
+                    "promptSpec": {
+                      "schemaVersion": "1",
+                      "templateRef": "example/prompt-template",
+                      "templateVersion": "1",
+                      "templateSHA256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                      "instructions": [
+                        {
+                          "role": "SYSTEM",
+                          "text": "Return a concise structured explanation."
+                        }
+                      ],
+                      "messages": [
+                        {
+                          "role": "USER",
+                          "inputIndexes": [
+                            0
+                          ]
+                        }
+                      ],
+                      "conditioning": [],
+                      "outputContract": {
+                        "type": "JSON_SCHEMA",
+                        "schemaRef": "example/explanation",
+                        "schemaVersion": "1",
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "explanation": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "explanation"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "strict": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-idempotency": {
+          "mode": "NORMALIZED_IMMUTABLE_REQUEST",
+          "scope": [
+            "clientApp",
+            "subjectRef"
+          ],
+          "identities": [
+            "Idempotency-Key",
+            "operationRef"
+          ],
+          "excludedFields": [
+            "attachments[].readGrantRef"
+          ],
+          "replayStatus": 202,
+          "conflictStatus": 409
+        },
+        "x-prompt-envelope": {
+          "schemaVersion": "1",
+          "acceptance": "IMPLEMENTED in explicit MOCK mode only",
+          "instructionAndConditioningExecution": "RESERVED",
+          "schemaConstrainedGeneration": "RESERVED",
+          "frozenCapabilityProfiles": "All twenty MOCK version-1 profiles and parameter schemas remain unchanged. promptSpec is an independent request-envelope extension."
+        }
+      }
+    },
+    "/v1/invocations/{invocationRef}": {
+      "get": {
+        "operationId": "getInvocation",
+        "summary": "MOCK-only: query own durable invocation",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "$ref": "#/components/parameters/InvocationRef"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Without explicit ROUTER_ADAPTER_MODE=mock: ADAPTER_NOT_CONFIGURED on submission, NOT_IMPLEMENTED on other execution operations. Real runtime/tool-result operations remain RESERVED. No execution or output is created by an unconfigured adapter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Current actor-scoped persisted MOCK invocation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invocation"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-condition": "ROUTER_ADAPTER_MODE=mock"
+      }
+    },
+    "/v1/invocations/{invocationRef}/events": {
+      "get": {
+        "operationId": "invocationEvents",
+        "summary": "MOCK-only: finite JSON or SSE replay of persisted actor-scoped events",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "$ref": "#/components/parameters/InvocationRef"
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "description": "Return sequences strictly greater than after. Explicit after overrides Last-Event-ID."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 100
+            }
+          },
+          {
+            "name": "Last-Event-ID",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]+$"
+            },
+            "description": "Fallback replay sequence only when after is absent; scope is invocation plus verified actor."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Without explicit ROUTER_ADAPTER_MODE=mock: ADAPTER_NOT_CONFIGURED on submission, NOT_IMPLEMENTED on other execution operations. Real runtime/tool-result operations remain RESERVED. No execution or output is created by an unconfigured adapter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Default JSON EventPage. Accept: text/event-stream returns one finite page: id=<sequence>, event=<type>, data=<Event JSON>. Connection closes after replay; reconnect with a fresh signed proof and the last sequence. A terminal invocation may still have unread pages.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventPage"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-condition": "ROUTER_ADAPTER_MODE=mock"
+      }
+    },
+    "/v1/invocations/{invocationRef}/cancel": {
+      "post": {
+        "operationId": "cancelInvocation",
+        "summary": "MOCK-only: serialize cancellation with completion and preserve a single terminal result",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "$ref": "#/components/parameters/InvocationRef"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Without explicit ROUTER_ADAPTER_MODE=mock: ADAPTER_NOT_CONFIGURED on submission, NOT_IMPLEMENTED on other execution operations. Real runtime/tool-result operations remain RESERVED. No execution or output is created by an unconfigured adapter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Current persisted invocation after cancellation. Repeated cancel or cancel after completion returns its unchanged terminal state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invocation"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Expected application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-condition": "ROUTER_ADAPTER_MODE=mock",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/invocations/{invocationRef}/tool-results": {
+      "post": {
+        "operationId": "submitToolResults",
+        "summary": "RESERVED real runtime: business-tool receipts; MOCK does not request tools",
+        "x-implementation-status": "RESERVED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "$ref": "#/components/parameters/InvocationRef"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Without explicit ROUTER_ADAPTER_MODE=mock: ADAPTER_NOT_CONFIGURED on submission, NOT_IMPLEMENTED on other execution operations. Real runtime/tool-result operations remain RESERVED. No execution or output is created by an unconfigured adapter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "RESERVED: validated real-runtime tool result persisted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invocation"
+                }
+              }
+            },
+            "x-implementation-status": "RESERVED"
+          },
+          "409": {
+            "description": "Explicit mock mode, own existing MOCK invocation: TOOL_RESULT_NOT_EXPECTED; no tool receipt is created. Future real-runtime mismatched state/result also conflicts.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolResultRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/artifacts/{artifactRef}/content": {
+      "get": {
+        "operationId": "artifactContent",
+        "summary": "MOCK-only: return own actual stored fixture bytes",
+        "x-implementation-status": "IMPLEMENTED",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "ActorSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientApp"
+          },
+          {
+            "$ref": "#/components/parameters/SubjectRef"
+          },
+          {
+            "$ref": "#/components/parameters/ActorTimestamp"
+          },
+          {
+            "$ref": "#/components/parameters/ActorNonce"
+          },
+          {
+            "$ref": "#/components/parameters/ArtifactRef"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid request or unsupported Idempotency-Key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service/actor proof rejected or nonce replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource does not exist in this actor scope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed; Allow header declares the supported method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 1 MiB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Storage or persistent proof verification unavailable; fail closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Without explicit ROUTER_ADAPTER_MODE=mock: ADAPTER_NOT_CONFIGURED on submission, NOT_IMPLEMENTED on other execution operations. Real runtime/tool-result operations remain RESERVED. No execution or output is created by an unconfigured adapter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Actual fixture bytes persisted in Router PostgreSQL bytea. Content-Type/Content-Length match artifact mediaType/sizeBytes; Content-Digest is sha-256=:<base64 digest>:. Content-Disposition uses attachment and an explicit mock fixture filename.",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Artifact mediaType"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "Content-Digest": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "RFC 9530 sha-256=:<base64 of raw SHA256 digest>:"
+              },
+              "Content-Disposition": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "attachment; filename=\"mock-...\""
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "video/mp4": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "audio/wav": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "model/gltf-binary": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-condition": "ROUTER_ADAPTER_MODE=mock"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ServiceBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Private service token, >=32 characters; uniquely bound to one allowlisted clientApp."
+      },
+      "ActorSignature": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Router-Actor-Signature",
+        "description": "Trusted actor proof; see x-actor-proof and pkg/actorproof."
+      }
+    },
+    "parameters": {
+      "ClientApp": {
+        "name": "X-Router-Client-App",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+        },
+        "description": "Must equal the allowlisted clientApp bound to the verified service credential."
+      },
+      "SubjectRef": {
+        "name": "X-Router-Subject-Ref",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+        },
+        "description": "Stable local owner from the product server's verified login; never taken from browser-supplied actor headers."
+      },
+      "ActorTimestamp": {
+        "name": "X-Router-Actor-Timestamp",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "description": "Canonical decimal Unix seconds within plus or minus 300 seconds."
+      },
+      "ActorNonce": {
+        "name": "X-Router-Actor-Nonce",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{22,128}$"
+        },
+        "description": "Fresh random nonce per HTTP attempt; at least 128 bits of cryptographic entropy. Persistently unique per serviceRef while proof remains valid."
+      },
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,199}$"
+        },
+        "description": "Required for MOCK invocation acceptance. Identity is scoped by clientApp and subjectRef; either the same key or operationRef restores the existing receipt only when the normalized immutable request matches. A different immutable request is 409. Attachment readGrantRef is excluded from that hash; refreshing it does not create a job. Rotate the proof nonce per HTTP retry and reuse this key. Session and capability endpoints reject this header with 400."
+      },
+      "SessionRef": {
+        "name": "sessionRef",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^sess_[A-Za-z0-9_-]{32}$"
+        }
+      },
+      "InvocationRef": {
+        "name": "invocationRef",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "ArtifactRef": {
+        "name": "artifactRef",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/NormalizedError"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "protocolVersion": {
+            "type": "string",
+            "enum": [
+              "1"
+            ]
+          }
+        },
+        "required": [
+          "error",
+          "requestId",
+          "protocolVersion"
+        ]
+      },
+      "NormalizedError": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "retryable"
+        ]
+      },
+      "Health": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok"
+            ]
+          },
+          "protocolVersion": {
+            "type": "string",
+            "enum": [
+              "1"
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "protocolVersion"
+        ]
+      },
+      "CreateSessionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "conversationRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          }
+        },
+        "required": [
+          "conversationRef"
+        ],
+        "description": "Actor comes only from verified service proof. No user, clientApp or subject field is accepted here."
+      },
+      "Session": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sessionRef": {
+            "type": "string",
+            "pattern": "^sess_[A-Za-z0-9_-]{32}$"
+          },
+          "conversationRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contextCheckpoint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "runtimeMetadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RuntimeMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "sessionRef",
+          "conversationRef",
+          "state",
+          "createdAt",
+          "updatedAt",
+          "contextCheckpoint",
+          "runtimeMetadata"
+        ],
+        "description": "Persisted logical identity survives service restart and STUDIO login changes. Native thread/session IDs never appear. Current release returns null checkpoint and runtimeMetadata."
+      },
+      "RuntimeMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "usage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContextUsage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "billing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Billing"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "usage",
+          "context",
+          "billing"
+        ]
+      },
+      "Usage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": {
+            "type": "string",
+            "enum": [
+              "INVOCATION",
+              "SESSION"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "REPORTED",
+              "DERIVED",
+              "ESTIMATED",
+              "UNAVAILABLE"
+            ]
+          },
+          "coverage": {
+            "type": "string",
+            "enum": [
+              "PRIMARY_THREAD",
+              "FULL"
+            ]
+          },
+          "inputTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cachedInputTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cacheWriteInputTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outputTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reasoningOutputTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "totalTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "units": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageUnit"
+            }
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "PARTIAL",
+                  "FINAL",
+                  "UNAVAILABLE"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "observedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "scope",
+          "source",
+          "coverage",
+          "inputTokens",
+          "cachedInputTokens",
+          "cacheWriteInputTokens",
+          "outputTokens",
+          "reasoningOutputTokens",
+          "totalTokens"
+        ],
+        "description": "Unknown counts are null, never fabricated zero. Cached/reasoning counters can be subsets of reported totals; do not add them blindly. PRIMARY_THREAD does not imply child-agent coverage.",
+        "examples": [
+          {
+            "scope": "INVOCATION",
+            "source": "REPORTED",
+            "coverage": "FULL",
+            "inputTokens": null,
+            "cachedInputTokens": null,
+            "cacheWriteInputTokens": null,
+            "outputTokens": null,
+            "reasoningOutputTokens": null,
+            "totalTokens": null,
+            "status": "FINAL",
+            "observedAt": "2026-10-05T00:00:00Z",
+            "units": [
+              {
+                "unit": "VIDEO_SECOND",
+                "quantity": "5.5",
+                "source": "REPORTED"
+              }
+            ]
+          }
+        ]
+      },
+      "UsageUnit": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unit": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]{0,63}$",
+            "examples": [
+              "IMAGE",
+              "VIDEO_SECOND",
+              "GPU_SECOND"
+            ]
+          },
+          "quantity": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "REPORTED",
+              "DERIVED",
+              "ESTIMATED"
+            ]
+          }
+        },
+        "required": [
+          "unit",
+          "quantity",
+          "source"
+        ],
+        "description": "Optional non-token usage units for image/video/local compute. Unit count does not imply a price, and not every adapter reports every unit."
+      },
+      "ContextUsage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "windowTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "usedTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "remainingTokensEstimate": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reservedOutputTokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "measurement": {
+            "type": "string",
+            "enum": [
+              "REPORTED",
+              "ESTIMATED",
+              "UNAVAILABLE"
+            ]
+          },
+          "compactionCount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "observedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "windowTokens",
+          "usedTokens",
+          "remainingTokensEstimate",
+          "reservedOutputTokens",
+          "measurement",
+          "compactionCount",
+          "observedAt"
+        ],
+        "description": "Cumulative billing usage is not current context occupancy. remainingTokensEstimate is a best-effort estimate, not guaranteed balance; adapters preserve observation time and compaction facts."
+      },
+      "Billing": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "ACTUAL",
+              "ESTIMATED",
+              "INCLUDED",
+              "UNKNOWN"
+            ]
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "actualAmount": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "estimatedAmount": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pricingRevision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "mode",
+          "currency",
+          "actualAmount",
+          "estimatedAmount",
+          "pricingRevision"
+        ],
+        "description": "Decimal strings prevent floating point price loss. Actual charge requires authoritative billing evidence. Token usage alone is not a price; unknown fields stay null."
+      },
+      "Capability": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "testMode": {
+            "type": "boolean",
+            "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+          },
+          "capabilityRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "kind": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]{0,63}$",
+            "examples": [
+              "LLM",
+              "TEXT_TO_IMAGE",
+              "IMAGE_TO_VIDEO",
+              "OMNI_REFERENCE"
+            ]
+          },
+          "executionKind": {
+            "type": "string",
+            "enum": [
+              "MODEL",
+              "AGENT"
+            ]
+          },
+          "parameterSchemaVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "parameterSchema": {
+            "type": "object",
+            "description": "Immutable JSON Schema 2020-12 for the specific capability/version. Reject unsupported inputs explicitly."
+          },
+          "inputKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Semantic kinds such as TEXT, IMAGE, VIDEO, AUDIO, FILE or STRUCTURED; the fixed capability schema constrains actual combinations."
+          },
+          "outputKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "supportsSession": {
+            "type": "boolean",
+            "description": "Legacy session support projection. Absent sessionMode means OPTIONAL when true, otherwise NONE."
+          },
+          "sessionMode": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "OPTIONAL",
+              "REQUIRED"
+            ],
+            "description": "Optional additive field. NONE requires supportsSession=false; OPTIONAL/REQUIRED require true. NONE and OPTIONAL support independent requests without logical sessions."
+          },
+          "supportsStream": {
+            "type": "boolean",
+            "description": "Verified incremental output support. Persisted Router SSE state/progress events do not imply native token or media streaming."
+          },
+          "supportsCancel": {
+            "type": "boolean"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelDescriptor",
+            "description": "Optional public metadata. New model selectors use configured profiles with this metadata; absence preserves existing generic and MOCK capabilities. Determine text/image eligibility from kind and inputKinds, not model titles."
+          }
+        },
+        "required": [
+          "capabilityRef",
+          "version",
+          "kind",
+          "executionKind",
+          "parameterSchemaVersion",
+          "parameterSchema",
+          "inputKinds",
+          "outputKinds",
+          "supportsSession",
+          "supportsStream",
+          "supportsCancel",
+          "available",
+          "reason"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "sessionMode"
+              ],
+              "properties": {
+                "sessionMode": {
+                  "const": "NONE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "supportsSession": {
+                  "const": false
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "sessionMode"
+              ],
+              "properties": {
+                "sessionMode": {
+                  "const": "OPTIONAL"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "supportsSession": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "sessionMode"
+              ],
+              "properties": {
+                "sessionMode": {
+                  "const": "REQUIRED"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "supportsSession": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ],
+        "examples": [
+          {
+            "capabilityRef": "example/llm",
+            "version": "1",
+            "kind": "LLM",
+            "executionKind": "MODEL",
+            "parameterSchemaVersion": "1",
+            "parameterSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "maxOutputTokens": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4096
+                },
+                "temperature": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 2
+                }
+              },
+              "required": [
+                "maxOutputTokens"
+              ]
+            },
+            "inputKinds": [
+              "TEXT"
+            ],
+            "outputKinds": [
+              "TEXT"
+            ],
+            "supportsSession": true,
+            "sessionMode": "OPTIONAL",
+            "supportsStream": true,
+            "supportsCancel": false,
+            "available": false,
+            "reason": "RESERVED schema fixture; no runtime adapter or model is registered"
+          },
+          {
+            "capabilityRef": "example/t2i",
+            "version": "1",
+            "kind": "TEXT_TO_IMAGE",
+            "executionKind": "MODEL",
+            "parameterSchemaVersion": "1",
+            "parameterSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "enum": [
+                    512,
+                    1024
+                  ]
+                },
+                "height": {
+                  "type": "integer",
+                  "enum": [
+                    512,
+                    1024
+                  ]
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4
+                }
+              },
+              "required": [
+                "width",
+                "height",
+                "count"
+              ]
+            },
+            "inputKinds": [
+              "TEXT"
+            ],
+            "outputKinds": [
+              "IMAGE"
+            ],
+            "supportsSession": false,
+            "sessionMode": "NONE",
+            "supportsStream": false,
+            "supportsCancel": false,
+            "available": false,
+            "reason": "RESERVED schema fixture; no runtime adapter or model is registered"
+          },
+          {
+            "capabilityRef": "example/i2v",
+            "version": "1",
+            "kind": "IMAGE_TO_VIDEO",
+            "executionKind": "MODEL",
+            "parameterSchemaVersion": "1",
+            "parameterSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "enum": [
+                    1280
+                  ]
+                },
+                "height": {
+                  "type": "integer",
+                  "enum": [
+                    720
+                  ]
+                },
+                "durationSeconds": {
+                  "type": "number",
+                  "minimum": 1,
+                  "maximum": 10
+                },
+                "fps": {
+                  "type": "integer",
+                  "enum": [
+                    24
+                  ]
+                }
+              },
+              "required": [
+                "width",
+                "height",
+                "durationSeconds",
+                "fps"
+              ]
+            },
+            "inputKinds": [
+              "TEXT",
+              "IMAGE"
+            ],
+            "outputKinds": [
+              "VIDEO"
+            ],
+            "supportsSession": false,
+            "sessionMode": "NONE",
+            "supportsStream": false,
+            "supportsCancel": false,
+            "available": false,
+            "reason": "RESERVED schema fixture; no runtime adapter or model is registered"
+          }
+        ]
+      },
+      "CapabilityList": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Capability"
+            }
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "protocolVersion": {
+            "type": "string",
+            "enum": [
+              "1"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor",
+          "protocolVersion"
+        ],
+        "description": "Default unconfigured mode returns items=[] and nextCursor=null. Explicit ROUTER_ADAPTER_MODE=mock registers 20 test capabilities, all titled MOCK · KIND and marked testMode=true. kind filtering precedes cursor/limit pagination. nextCursor is the next decimal offset or null when exhausted."
+      },
+      "MockParameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scenario": {
+            "type": "string",
+            "enum": [
+              "success",
+              "fail"
+            ]
+          },
+          "delayMilliseconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          }
+        },
+        "required": [],
+        "description": "MOCK-only immutable parameter profile version 1. Empty {} is accepted. These parameters control test fixtures, not model generation settings. Unknown properties are rejected.",
+        "examples": [
+          {},
+          {
+            "scenario": "fail",
+            "delayMilliseconds": 500,
+            "count": 1
+          }
+        ]
+      },
+      "CapabilitySelection": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          }
+        },
+        "required": [
+          "ref",
+          "version"
+        ]
+      },
+      "InputPart": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "TEXT"
+                ]
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "type",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "MEDIA"
+                ]
+              },
+              "attachmentRef": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              }
+            },
+            "required": [
+              "type",
+              "attachmentRef"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "STRUCTURED"
+                ]
+              },
+              "schemaVersion": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              },
+              "data": {}
+            },
+            "required": [
+              "type",
+              "schemaVersion",
+              "data"
+            ]
+          }
+        ]
+      },
+      "Attachment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "sourceRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "FILE"
+            ]
+          },
+          "sourceVersion": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "readGrantRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          }
+        },
+        "required": [
+          "ref",
+          "sourceRef",
+          "kind",
+          "sourceVersion",
+          "sha256",
+          "readGrantRef"
+        ],
+        "description": "Media exchange authorization is RESERVED. An asset ID or arbitrary URL is not permission. Stable source/version/digest participates in request identity; rotating short-lived readGrantRef does not."
+      },
+      "PromptInstruction": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "SYSTEM",
+              "DEVELOPER"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 65536
+          }
+        },
+        "required": [
+          "role",
+          "text"
+        ],
+        "description": "Trusted text instructions compiled by the authenticated product service. Whitespace-only instructions are rejected. Total instruction UTF-8 bytes are at most 262144. No media or input references can occur in this instruction channel."
+      },
+      "PromptMessage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ASSISTANT"
+            ]
+          },
+          "inputIndexes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 99
+            }
+          }
+        },
+        "required": [
+          "role",
+          "inputIndexes"
+        ],
+        "description": "Ordered message referencing zero-based positions in the top-level typed input. Every input position appears exactly once across all messages, and at least one USER message is required. Product history cannot carry SYSTEM/DEVELOPER roles."
+      },
+      "PromptConditioning": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "attachmentRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "REFERENCE_IMAGE",
+              "SKETCH",
+              "MASK",
+              "FIRST_FRAME",
+              "LAST_FRAME",
+              "POSE",
+              "DEPTH",
+              "MOTION_REFERENCE",
+              "SOURCE_VIDEO",
+              "REFERENCE_AUDIO",
+              "VOICE",
+              "STYLE"
+            ]
+          },
+          "targetAttachmentRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          }
+        },
+        "required": [
+          "attachmentRef",
+          "role"
+        ],
+        "description": "Each reference must exist in this request's validated attachment/input set. REFERENCE_IMAGE/SKETCH/MASK/FIRST_FRAME/LAST_FRAME/POSE/DEPTH/STYLE require IMAGE; MOTION_REFERENCE/SOURCE_VIDEO require VIDEO; REFERENCE_AUDIO/VOICE require AUDIO. An optional target must be a different IMAGE or VIDEO attachment in the same request. Duplicate identical bindings are rejected. These annotations do not establish actual provider conditioning support."
+      },
+      "PromptOutputContract": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "TEXT",
+                  "MEDIA"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "description": "Declared result direction must match the capability output kinds. This is a request, not evidence of actual output conformance."
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "JSON_SCHEMA"
+                ]
+              },
+              "schemaRef": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              },
+              "schemaVersion": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              },
+              "schema": {
+                "type": "object",
+                "minProperties": 1
+              },
+              "strict": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "schemaRef",
+              "schemaVersion",
+              "schema"
+            ],
+            "description": "Requires a TEXT/STRUCTURED output capability. A nonempty JSON Schema document is envelope-checked (at most 65536 serialized UTF-8 bytes and 32 schema-node levels); only resolvable local JSON Pointer references are accepted. Schema keywords remain document data. Full schema validation and constrained real generation are RESERVED; MOCK does not emit claimed schema-conforming data."
+          }
+        ]
+      },
+      "PromptSpec": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "enum": [
+              "1"
+            ]
+          },
+          "templateRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "templateVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "templateSHA256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "instructions": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "$ref": "#/components/schemas/PromptInstruction"
+            }
+          },
+          "messages": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/PromptMessage"
+            }
+          },
+          "conditioning": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/PromptConditioning"
+            }
+          },
+          "outputContract": {
+            "$ref": "#/components/schemas/PromptOutputContract"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "instructions",
+          "messages",
+          "conditioning"
+        ],
+        "description": "Optional separately versioned normalized prompt envelope. Template audit fields are either all absent or all supplied; their digest is product provenance, not Router proof of upstream hidden preset content. All fields, ordered roles, references and schema data participate in immutable request identity. MOCK accepts/persists the envelope without executing its semantics or changing any frozen capability parameter profile. contextSnapshot is never promoted into instructions.",
+        "allOf": [
+          {
+            "if": {
+              "anyOf": [
+                {
+                  "required": [
+                    "templateRef"
+                  ]
+                },
+                {
+                  "required": [
+                    "templateVersion"
+                  ]
+                },
+                {
+                  "required": [
+                    "templateSHA256"
+                  ]
+                }
+              ]
+            },
+            "then": {
+              "required": [
+                "templateRef",
+                "templateVersion",
+                "templateSHA256"
+              ]
+            }
+          }
+        ]
+      },
+      "InvocationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "enum": [
+              "1"
+            ]
+          },
+          "operationRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "capability": {
+            "$ref": "#/components/schemas/CapabilitySelection"
+          },
+          "sessionRef": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sess_[A-Za-z0-9_-]{32}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "correlation": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "projectRef": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              },
+              "conversationRef": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              }
+            },
+            "required": []
+          },
+          "input": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/InputPart"
+            }
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Attachment"
+            }
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "parameterSchemaVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "contextSnapshot": {
+            "type": "object",
+            "description": "Immutable normalized authorized context, ordered message content, tools/skills versions, media digests and checkpoint. No native thread ID, credentials or arbitrary file paths."
+          },
+          "promptSpec": {
+            "$ref": "#/components/schemas/PromptSpec"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "operationRef",
+          "capability",
+          "input",
+          "attachments",
+          "parameters",
+          "parameterSchemaVersion"
+        ],
+        "description": "Version-1 request envelope with additive optional promptSpec in contract 1.3.0. Frozen capability versions and parameter schemas remain unchanged. sessionRef may be absent/null for independent execution unless the selected capability requires a session. Correlation and context are optional, never an implicit product conversation/thread dependency. Explicit MOCK acceptance validates and freezes the normalized request and persists its actor-scoped receipt before 202. Rotating attachment readGrantRef is excluded from immutable identity; source/version/digest and all promptSpec fields remain included. MOCK does not fetch or validate real media grants or execute prompt/schema semantics. Default unconfigured mode returns 501 ADAPTER_NOT_CONFIGURED without creating an invocation. Real adapter acceptance remains RESERVED.",
+        "examples": [
+          {
+            "schemaVersion": "1",
+            "operationRef": "example/operation/llm",
+            "capability": {
+              "ref": "example/llm",
+              "version": "1"
+            },
+            "input": [
+              {
+                "type": "TEXT",
+                "text": "Explain why the sky looks blue."
+              }
+            ],
+            "attachments": [],
+            "parameters": {
+              "maxOutputTokens": 256,
+              "temperature": 0.2
+            },
+            "parameterSchemaVersion": "1"
+          },
+          {
+            "schemaVersion": "1",
+            "operationRef": "example/operation/t2i",
+            "capability": {
+              "ref": "example/t2i",
+              "version": "1"
+            },
+            "input": [
+              {
+                "type": "TEXT",
+                "text": "A quiet lake at dawn."
+              }
+            ],
+            "attachments": [],
+            "parameters": {
+              "width": 1024,
+              "height": 1024,
+              "count": 1
+            },
+            "parameterSchemaVersion": "1"
+          },
+          {
+            "schemaVersion": "1",
+            "operationRef": "example/operation/i2v",
+            "capability": {
+              "ref": "example/i2v",
+              "version": "1"
+            },
+            "input": [
+              {
+                "type": "TEXT",
+                "text": "Gently move the camera forward."
+              },
+              {
+                "type": "MEDIA",
+                "attachmentRef": "example/input-image"
+              }
+            ],
+            "attachments": [
+              {
+                "ref": "example/input-image",
+                "sourceRef": "example/source-image",
+                "kind": "IMAGE",
+                "sourceVersion": "1",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "readGrantRef": "example/scoped-grant"
+              }
+            ],
+            "parameters": {
+              "width": 1280,
+              "height": 720,
+              "durationSeconds": 5.5,
+              "fps": 24
+            },
+            "parameterSchemaVersion": "1",
+            "sessionRef": null
+          }
+        ]
+      },
+      "Execution": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "testMode": {
+            "type": "boolean",
+            "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+          },
+          "executionKind": {
+            "type": "string",
+            "enum": [
+              "MODEL",
+              "AGENT"
+            ]
+          },
+          "capabilityRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "capabilityVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "modelRef": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "agentRef": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "executionKind",
+          "capabilityRef",
+          "capabilityVersion",
+          "modelRef",
+          "agentRef"
+        ],
+        "description": "Public logical descriptors only; native IDs, endpoints, account names, paths and credentials are private to Router. MOCK execution has testMode=true and never identifies a real provider execution."
+      },
+      "InvocationState": {
+        "type": "string",
+        "enum": [
+          "QUEUED",
+          "RUNNING",
+          "WAITING_TOOL",
+          "CANCEL_REQUESTED",
+          "SUCCEEDED",
+          "FAILED",
+          "CANCELED",
+          "UNKNOWN"
+        ]
+      },
+      "OutputPart": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "testMode": {
+                "type": "boolean",
+                "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+              },
+              "fixtureLabel": {
+                "type": "string",
+                "description": "Human-readable MOCK test-fixture label; not a provider/model result claim."
+              },
+              "outputRef": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "TEXT"
+                ]
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "outputRef",
+              "type",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "testMode": {
+                "type": "boolean",
+                "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+              },
+              "fixtureLabel": {
+                "type": "string",
+                "description": "Human-readable MOCK test-fixture label; not a provider/model result claim."
+              },
+              "outputRef": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "ARTIFACT"
+                ]
+              },
+              "artifactRef": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "outputRef",
+              "type",
+              "artifactRef"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "testMode": {
+                "type": "boolean",
+                "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+              },
+              "fixtureLabel": {
+                "type": "string",
+                "description": "Human-readable MOCK test-fixture label; not a provider/model result claim."
+              },
+              "outputRef": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "STRUCTURED"
+                ]
+              },
+              "schemaVersion": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+              },
+              "data": {}
+            },
+            "required": [
+              "outputRef",
+              "type",
+              "schemaVersion",
+              "data"
+            ]
+          }
+        ]
+      },
+      "Artifact": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "testMode": {
+            "type": "boolean",
+            "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+          },
+          "fixtureLabel": {
+            "type": "string",
+            "description": "Human-readable MOCK test-fixture label; not a provider/model result claim."
+          },
+          "artifactRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "outputRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "IMAGE",
+              "VIDEO",
+              "AUDIO",
+              "FILE"
+            ]
+          },
+          "mediaType": {
+            "type": "string"
+          },
+          "sizeBytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "artifactRef",
+          "outputRef",
+          "mediaType",
+          "sizeBytes",
+          "sha256",
+          "expiresAt"
+        ],
+        "description": "Temporary actor-scoped output with optional semantic kind. MOCK artifacts are labeled testMode=true with fixtureLabel and contain actual stored fixture bytes, never a fabricated supplier URL. Products import verified bytes into their own asset storage before permanent history. Real generation settings depend on the selected capability schema."
+      },
+      "Invocation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "testMode": {
+            "type": "boolean",
+            "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+          },
+          "invocationRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "operationRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "sessionRef": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^sess_[A-Za-z0-9_-]{32}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "$ref": "#/components/schemas/InvocationState"
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "normalizedError": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NormalizedError"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outputParts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OutputPart"
+            }
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artifact"
+            }
+          },
+          "execution": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Execution"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "usage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContextUsage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "billing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Billing"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "invocationRef",
+          "operationRef",
+          "sessionRef",
+          "state",
+          "progress",
+          "normalizedError",
+          "outputParts",
+          "artifacts",
+          "execution",
+          "usage",
+          "context",
+          "billing",
+          "createdAt",
+          "updatedAt"
+        ],
+        "description": "Explicit MOCK mode persists QUEUED/RUNNING/SUCCEEDED/FAILED/CANCELED receipts with testMode=true. MOCK usage, context and billing are always null. Terminal completion/cancellation is serialized and terminal states do not change. The broader enum reserves real-runtime states; UNKNOWN requires reconciliation, never automatic retry with a new provider or key.",
+        "examples": [
+          {
+            "invocationRef": "inv_example_llm",
+            "operationRef": "example/operation/llm",
+            "sessionRef": null,
+            "state": "SUCCEEDED",
+            "progress": null,
+            "normalizedError": null,
+            "outputParts": [
+              {
+                "outputRef": "out_example_llm",
+                "type": "TEXT",
+                "text": "Air molecules scatter shorter wavelengths of sunlight more strongly."
+              }
+            ],
+            "artifacts": [],
+            "execution": {
+              "executionKind": "MODEL",
+              "capabilityRef": "example/llm",
+              "capabilityVersion": "1",
+              "modelRef": "example/model/llm",
+              "agentRef": null
+            },
+            "usage": null,
+            "context": null,
+            "billing": null,
+            "createdAt": "2026-10-05T00:00:00Z",
+            "updatedAt": "2026-10-05T00:00:05Z"
+          },
+          {
+            "invocationRef": "inv_example_t2i",
+            "operationRef": "example/operation/t2i",
+            "sessionRef": null,
+            "state": "SUCCEEDED",
+            "progress": null,
+            "normalizedError": null,
+            "outputParts": [
+              {
+                "outputRef": "out_example_image",
+                "type": "ARTIFACT",
+                "artifactRef": "art_example_image"
+              }
+            ],
+            "artifacts": [
+              {
+                "artifactRef": "art_example_image",
+                "outputRef": "out_example_image",
+                "kind": "IMAGE",
+                "mediaType": "image/png",
+                "sizeBytes": 1234,
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "expiresAt": null
+              }
+            ],
+            "execution": {
+              "executionKind": "MODEL",
+              "capabilityRef": "example/t2i",
+              "capabilityVersion": "1",
+              "modelRef": "example/model/t2i",
+              "agentRef": null
+            },
+            "usage": {
+              "scope": "INVOCATION",
+              "source": "REPORTED",
+              "coverage": "FULL",
+              "inputTokens": null,
+              "cachedInputTokens": null,
+              "cacheWriteInputTokens": null,
+              "outputTokens": null,
+              "reasoningOutputTokens": null,
+              "totalTokens": null,
+              "status": "FINAL",
+              "observedAt": "2026-10-05T00:00:00Z",
+              "units": [
+                {
+                  "unit": "IMAGE",
+                  "quantity": "1",
+                  "source": "REPORTED"
+                }
+              ]
+            },
+            "context": null,
+            "billing": null,
+            "createdAt": "2026-10-05T00:00:00Z",
+            "updatedAt": "2026-10-05T00:00:05Z"
+          },
+          {
+            "invocationRef": "inv_example_i2v",
+            "operationRef": "example/operation/i2v",
+            "sessionRef": null,
+            "state": "SUCCEEDED",
+            "progress": null,
+            "normalizedError": null,
+            "outputParts": [
+              {
+                "outputRef": "out_example_video",
+                "type": "ARTIFACT",
+                "artifactRef": "art_example_video"
+              }
+            ],
+            "artifacts": [
+              {
+                "artifactRef": "art_example_video",
+                "outputRef": "out_example_video",
+                "kind": "VIDEO",
+                "mediaType": "video/mp4",
+                "sizeBytes": 1234,
+                "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "expiresAt": null
+              }
+            ],
+            "execution": {
+              "executionKind": "MODEL",
+              "capabilityRef": "example/i2v",
+              "capabilityVersion": "1",
+              "modelRef": "example/model/i2v",
+              "agentRef": null
+            },
+            "usage": {
+              "scope": "INVOCATION",
+              "source": "REPORTED",
+              "coverage": "FULL",
+              "inputTokens": null,
+              "cachedInputTokens": null,
+              "cacheWriteInputTokens": null,
+              "outputTokens": null,
+              "reasoningOutputTokens": null,
+              "totalTokens": null,
+              "status": "FINAL",
+              "observedAt": "2026-10-05T00:00:00Z",
+              "units": [
+                {
+                  "unit": "VIDEO_SECOND",
+                  "quantity": "5.5",
+                  "source": "REPORTED"
+                }
+              ]
+            },
+            "context": null,
+            "billing": null,
+            "createdAt": "2026-10-05T00:00:00Z",
+            "updatedAt": "2026-10-05T00:00:05Z"
+          }
+        ]
+      },
+      "CancelRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "required": []
+      },
+      "ToolResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "callRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "schemaVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "result": {},
+          "isError": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "callRef",
+          "schemaVersion",
+          "result",
+          "isError"
+        ]
+      },
+      "ToolResultRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "results": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/ToolResult"
+            }
+          }
+        },
+        "required": [
+          "results"
+        ],
+        "description": "RESERVED. Each callRef/result is scoped to a verified WAITING_TOOL invocation and must be idempotent; mismatched results return 409."
+      },
+      "Event": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "testMode": {
+            "type": "boolean",
+            "description": "Optional additive provenance flag. MOCK adapter results always set true; this is not evidence of real model execution."
+          },
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "invocationRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "text.delta",
+              "tool.requested",
+              "artifact.ready",
+              "state.changed",
+              "progress.updated",
+              "runtime.metadata.updated"
+            ]
+          },
+          "schemaVersion": {
+            "type": "string",
+            "enum": [
+              "1"
+            ]
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TextDeltaEvent"
+              },
+              {
+                "$ref": "#/components/schemas/ToolRequestedEvent"
+              },
+              {
+                "$ref": "#/components/schemas/ArtifactReadyEvent"
+              },
+              {
+                "$ref": "#/components/schemas/StateChangedEvent"
+              },
+              {
+                "$ref": "#/components/schemas/ProgressUpdatedEvent"
+              },
+              {
+                "$ref": "#/components/schemas/RuntimeMetadataEvent"
+              }
+            ]
+          }
+        },
+        "required": [
+          "sequence",
+          "invocationRef",
+          "type",
+          "schemaVersion",
+          "observedAt",
+          "data"
+        ],
+        "description": "Persistent monotonic per-invocation sequence, bound to the verified actor. MOCK events carry testMode=true. SSE id equals decimal sequence and data is this envelope. Event type selects its data schema. MOCK SSE replays one finite persisted page, closes, and requires a new signed request to continue; it is not native output streaming. Real verified callbacks remain RESERVED.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "text.delta"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/TextDeltaEvent"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "tool.requested"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/ToolRequestedEvent"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "artifact.ready"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/ArtifactReadyEvent"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "state.changed"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/StateChangedEvent"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "progress.updated"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/ProgressUpdatedEvent"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "runtime.metadata.updated"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/RuntimeMetadataEvent"
+                }
+              }
+            }
+          }
+        ],
+        "examples": [
+          {
+            "sequence": 1,
+            "invocationRef": "inv_example_i2v",
+            "type": "progress.updated",
+            "schemaVersion": "1",
+            "observedAt": "2026-10-05T00:00:03Z",
+            "data": {
+              "progress": 0.5
+            }
+          }
+        ]
+      },
+      "EventPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            }
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[1-9][0-9]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "terminal": {
+            "type": "boolean"
+          },
+          "protocolVersion": {
+            "type": "string",
+            "enum": [
+              "1"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor",
+          "terminal",
+          "protocolVersion"
+        ],
+        "description": "JSON event replay page. nextCursor is the last returned sequence as a decimal string, or null when items is empty; it does not mean no later event exists. terminal reports the current invocation terminal state. Resume after the last sequence until an empty terminal page is observed.",
+        "examples": [
+          {
+            "items": [
+              {
+                "testMode": true,
+                "sequence": 1,
+                "invocationRef": "inv_mock_example_llm",
+                "type": "state.changed",
+                "schemaVersion": "1",
+                "observedAt": "2026-10-05T00:00:00Z",
+                "data": {
+                  "state": "QUEUED",
+                  "normalizedError": null
+                }
+              }
+            ],
+            "nextCursor": "1",
+            "terminal": false,
+            "protocolVersion": "1"
+          },
+          {
+            "items": [],
+            "nextCursor": null,
+            "terminal": true,
+            "protocolVersion": "1"
+          }
+        ]
+      },
+      "TextDeltaEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "outputRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "delta": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "outputRef",
+          "delta"
+        ]
+      },
+      "ToolRequestedEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "callRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "arguments": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "callRef",
+          "name",
+          "schemaVersion",
+          "arguments"
+        ]
+      },
+      "ArtifactReadyEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "artifact": {
+            "$ref": "#/components/schemas/Artifact"
+          }
+        },
+        "required": [
+          "artifact"
+        ]
+      },
+      "StateChangedEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "$ref": "#/components/schemas/InvocationState"
+          },
+          "normalizedError": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NormalizedError"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "state",
+          "normalizedError"
+        ]
+      },
+      "ProgressUpdatedEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "progress": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "progress"
+        ],
+        "description": "Unknown progress remains null; never synthesize a percentage from an elapsed timer."
+      },
+      "RuntimeMetadataEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "execution": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Execution"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "usage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContextUsage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "billing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Billing"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "execution",
+          "usage",
+          "context",
+          "billing"
+        ]
+      },
+      "ModelDescriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "providerRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "modelRef": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,199}$"
+          }
+        },
+        "required": [
+          "providerRef",
+          "modelRef",
+          "title",
+          "version"
+        ],
+        "description": "Verified, configured public model metadata for choosing capability profiles. Public refs are stable supplier-neutral product identifiers, never native provider IDs, credentials or runtime configuration. Legacy profiles may omit this optional metadata; clients must preserve frozen legacy references on existing operations."
+      }
+    }
+  }
+}

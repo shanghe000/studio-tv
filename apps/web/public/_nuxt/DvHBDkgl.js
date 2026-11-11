@@ -1,0 +1,1 @@
+const n="runninghub-team",t=`/blog/authors/${n}`,e=new Set(["runninghub team","running hub team","runninghub团队"]);function r(n){const t=(n||"").trim().toLowerCase().replace(/\s+/g," ");return!t||e.has(t)}export{t as BLOG_AUTHOR_PATH,n as BLOG_AUTHOR_SLUG,r as isRunningHubTeamAuthor};

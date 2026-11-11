@@ -1,0 +1,1 @@
+const r=(r,e,t,s)=>{const i=[...new Set(t)].filter((r=>Number.isFinite(r)&&r>0)).sort(((r,e)=>r-e)).map((t=>({width:t,url:r(e,{width:t},{provider:"tencentCos"})})));return!i.length||i.every((r=>r.url===e))?{src:e}:{src:i[0].url,srcset:i.map((r=>`${r.url} ${r.width}w`)).join(", "),sizes:s}};export{r as g};

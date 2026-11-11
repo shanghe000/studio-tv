@@ -1,0 +1,1084 @@
+<!doctype html>
+<!-- Generated from docs/user-guide by scripts/build-user-guide.py. -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio TV 使用指南</title>
+<style>
+:root{color-scheme:light;--ink:#202528;--muted:#606b72;--line:#e0e4e4;--accent:#ffbd4b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f1f3f3;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;font-size:16px;line-height:1.75}
+header{max-width:1100px;margin:auto;padding:42px 40px 25px}
+h1{font-size:34px;letter-spacing:-1px;margin:0 0 16px}
+.header-title{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 20px}
+.back-link{color:var(--muted);font-size:14px;text-decoration:none}
+.back-link:hover{color:var(--ink);text-decoration:underline}
+.reading-tip{font-size:14px;color:var(--muted);margin:-4px 0 16px}
+nav{display:flex;flex-wrap:wrap;gap:8px 20px}
+nav a{color:var(--muted);font-size:14px;text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover{color:var(--ink);border-color:var(--ink)}
+main{max-width:1100px;margin:0 auto;padding:0 40px 48px}
+section{background:white;border:1px solid var(--line);border-radius:16px;padding:30px 32px 34px;margin:0 0 24px;scroll-margin-top:20px}
+.kicker{font-size:13px;font-weight:700;color:#8c681e;margin:0 0 2px}
+h2{font-size:27px;line-height:1.4;margin:0 0 10px}
+h3{font-size:20px;line-height:1.5;margin:28px 0 8px}
+.intro{color:var(--muted);margin:0 0 22px}
+.image-button{display:block;padding:0;border:0;background:none;cursor:zoom-in;width:100%;border-radius:9px;overflow:hidden}
+.image-button img{display:block;width:100%;height:auto}
+ol{padding:0;list-style:none;margin:20px 0 0;display:grid;gap:13px}
+li{display:flex;gap:12px;align-items:flex-start}
+.num{flex:0 0 26px;height:26px;line-height:26px;text-align:center;border-radius:50%;background:#ffdf9f;font-size:14px;font-weight:700;margin-top:2px}
+li strong{margin-right:12px}
+table{width:100%;border-collapse:collapse;background:#f4f6f6;margin:22px 0 0;font-size:15px}
+th,td{padding:10px 14px;border-bottom:2px solid white;text-align:left;vertical-align:top}
+th{width:160px;white-space:nowrap}
+.detail{font-size:15px;margin:18px 0 0}
+.detail strong{display:block;margin-bottom:3px}
+dialog{border:0;border-radius:8px;padding:0;background:#151515;max-width:96vw;max-height:96vh}
+dialog::backdrop{background:#000c}
+dialog img{display:block;max-width:94vw;max-height:88vh;object-fit:contain}
+dialog button{position:absolute;right:8px;top:8px;border:1px solid #999;border-radius:50%;width:32px;height:32px;background:#fff;color:#111;cursor:pointer;font-size:20px}
+button:focus-visible,a:focus-visible{outline:3px solid #d79015;outline-offset:4px}
+.guide-figure{min-width:0;margin:18px 0 0}
+.guide-figure .image-button{border:1px solid var(--line);background:#f4f6f6}
+.guide-figure figcaption{padding:10px 2px 0;font-size:14px;line-height:1.65;color:var(--muted)}
+.guide-figure figcaption>strong{display:block;font-size:15px;color:var(--ink)}
+.guide-figure__hint{display:block;margin-top:2px;font-size:12px;color:var(--muted)}
+.figure-steps{display:block;padding-left:21px;list-style:decimal;margin:8px 0 0}
+.figure-steps li{display:list-item;padding-left:2px;margin:4px 0}
+.guide-details{margin:16px 0 0;border:1px solid var(--line);border-radius:10px;background:#fafbfb;scroll-margin-top:20px}
+.guide-details>summary{display:flex;align-items:baseline;gap:10px;list-style:none;cursor:pointer;padding:13px 15px;font-size:15px;font-weight:600;line-height:1.5}
+.guide-details>summary::-webkit-details-marker{display:none}
+.guide-details>summary::before{content:'＋';flex:0 0 16px;font-weight:400;color:#8c681e}
+.guide-details[open]>summary::before{content:'−'}
+.guide-details>summary:focus-visible{outline:3px solid #d79015;outline-offset:3px;border-radius:10px}
+.guide-details__count{margin-left:auto;white-space:nowrap;font-size:12px;font-weight:400;color:var(--muted)}
+.guide-details__body{padding:0 15px 16px;border-top:1px solid var(--line)}
+.guide-gallery{display:grid;gap:18px;align-items:start}
+.guide-gallery--1{grid-template-columns:minmax(0,1fr)}
+.guide-gallery--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.screenshot-preview{overflow:auto}
+.screenshot-preview__heading{display:flex;align-items:flex-start;gap:8px;position:sticky;top:0;left:0;z-index:1;padding:10px 12px;background:#151515}
+.screenshot-preview__caption{flex:1;min-width:0;margin:0;color:#f4f4f4;font-size:14px;line-height:1.5}
+.screenshot-preview__heading button{position:static;flex:0 0 auto}
+.screenshot-preview__zoom{width:auto;padding:0 10px;border-radius:6px;font-size:13px}
+.screenshot-preview img{max-height:80vh;cursor:zoom-in}
+.screenshot-preview--original img{max-width:none;max-height:none;cursor:zoom-out}
+@media(max-width:600px){header{padding:26px 20px 20px}
+h1{font-size:28px}
+main{padding:0 12px 24px}
+section{padding:22px 18px}
+h2{font-size:23px}
+body{font-size:15px}
+th{width:105px;white-space:normal}
+li strong{display:block}
+.intro{font-size:14px}
+.guide-gallery--2{grid-template-columns:minmax(0,1fr)}
+.guide-details>summary{padding:12px;font-size:14px;gap:7px}
+.guide-details__body{padding:0 12px 14px}
+.guide-figure figcaption>strong{font-size:14px}
+}
+@media print{body{background:white}
+header{padding:0 0 20px}
+nav,.back-link{display:none}
+main{padding:0}
+section{border:0;padding:0;break-after:page}
+dialog{display:none}
+}
+
+.resolution-table{max-width:100%;overflow-x:auto;margin:22px 0 0;overscroll-behavior-x:contain}
+.resolution-table table{margin-top:0}
+.resolution-table:focus-visible{outline:2px solid #725e8f;outline-offset:3px}
+</style>
+</head>
+<body>
+<header><div class="header-title"><h1>Studio TV 使用指南</h1><a class="back-link" href="/projects/">返回工作台</a></div>
+<p class="reading-tip">展开功能图解，点击图片放大。</p>
+<nav aria-label="指南章节"><a href="#s1">01 进入与管理项目</a><a href="#s2">02 在画布中生成与编辑</a><a href="#s3">03 3D 导演台与画板</a><a href="#s4">04 剪辑与导出</a><a href="#s5">05 个人资产与团队资产</a></nav></header>
+<main>
+<section id="s1"><p class="kicker">01</p>
+<h2>进入与管理项目</h2>
+<p class="intro">访问 https://studio.example.invalid/，按页面提示完成飞书登录后进入工作台。</p>
+<figure class="guide-figure" id="figure-overview-projects">
+<button class="image-button" type="button" aria-label="放大：进入与管理项目：主要操作位置"><img src="images/01-projects.png.svg?v=f14cc8a01fccbe7b" alt="进入与管理项目，关键操作位置已用数字标记" width="1360" height="420" loading="lazy" decoding="async"></button>
+<figcaption><strong>进入与管理项目：主要操作位置</strong><span class="guide-figure__hint">点击图片放大</span></figcaption>
+</figure><ol><li><span class="num">1</span><div><strong>切换页面</strong><span>首页开始创作；项目管理自己的内容；与我共享查看获授权的项目；资产库整理素材。</span></div></li>
+<li><span class="num">2</span><div><strong>新建项目</strong><span>点击新建项目进入画布，点击画布左上角的项目名称可重命名。</span></div></li>
+<li><span class="num">3</span><div><strong>整理项目</strong><span>新建文件夹归类项目；点击项目卡片继续编辑，卡片的“更多”菜单提供管理操作。</span></div></li>
+<li><span class="num">4</span><div><strong>查找项目</strong><span>输入名称搜索，也可按类型筛选、按修改时间排序。</span></div></li></ol>
+<details class="guide-details" id="s1-projects">
+<summary>项目创建、查找与整理<span class="guide-details__count">5 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-home-start">
+<button class="image-button" type="button" aria-label="放大：首页：从想法或新项目开始"><img src="images/home-start.webp.svg?v=683fb5a846ae2bec" alt="首页：从想法或新项目开始" width="3200" height="1276" loading="lazy" decoding="async"></button>
+<figcaption><strong>首页：从想法或新项目开始</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在首页输入创作想法，选择当前可用的创作方式后提交。</li><li>也可点击“新建项目”，先进入空画布。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-project-find">
+<button class="image-button" type="button" aria-label="放大：查找项目：按名称搜索"><img src="images/project-find.webp.svg?v=2bf54bf877dabbdd" alt="项目页搜索" width="3200" height="842" loading="lazy" decoding="async"></button>
+<figcaption><strong>查找项目：按名称搜索</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开顶部“项目”。</li><li>在右侧搜索框输入项目名称，点击对应卡片进入。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-project-type">
+<button class="image-button" type="button" aria-label="放大：按类型筛选项目与文件夹"><img src="images/project-type.webp.svg?v=74d7e957baef294e" alt="按项目或文件夹筛选" width="388" height="496" loading="lazy" decoding="async"></button>
+<figcaption><strong>按类型筛选项目与文件夹</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>展开“全部类型”。</li><li>选择全部、仅项目或仅文件夹，缩小列表范围。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-project-sort">
+<button class="image-button" type="button" aria-label="放大：调整项目排序"><img src="images/project-sort.webp.svg?v=f214afd29e2fe165" alt="项目排序与顺序" width="452" height="894" loading="lazy" decoding="async"></button>
+<figcaption><strong>调整项目排序</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>展开排序菜单，选择最近修改、创建日期或文件大小。</li><li>再选择最新优先或最早优先。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-project-card-menu">
+<button class="image-button" type="button" aria-label="放大：项目卡片：重命名、移动与置顶"><img src="images/project-card-menu.webp.svg?v=acd448dd6c4601d4" alt="项目卡片更多菜单" width="660" height="724" loading="lazy" decoding="async"></button>
+<figcaption><strong>项目卡片：重命名、移动与置顶</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在项目卡片右下角点击“…”打开更多菜单。</li><li>按需要选择查看详情、重命名、移动至或置顶等操作。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>从首页开始</strong>在首页输入创作想法，按需上传参考图片或视频，再点击“开始创作”。已有项目可从最近项目中打开。</p>
+<p class="detail"><strong>与同事协作</strong>进入项目 → 项目成员 → 搜索同事 → 设置“只读”或“可编辑”。也可选择团队并授予项目权限。</p>
+<details class="guide-details" id="s1-sharing">
+<summary>项目成员与共享<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-project-members">
+<button class="image-button" type="button" aria-label="放大：项目成员：设置访问权限"><img src="images/project-members.webp.svg?v=69d83d029456a48c" alt="项目成员与共享权限" width="1432" height="1368" loading="lazy" decoding="async"></button>
+<figcaption><strong>项目成员：设置访问权限</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在画布右上打开“项目成员”。</li><li>搜索同事并设置只读或可编辑权限；按需要选择团队并授予权限。</li><li>内部项目地址仍需登录和成员权限，可复制给已有权限的同事。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-project-shared">
+<button class="image-button" type="button" aria-label="放大：查看“与我共享”的项目"><img src="images/project-shared.webp.svg?v=fa6b2304812f66ec" alt="查看与我共享的项目" width="3200" height="878" loading="lazy" decoding="async"></button>
+<figcaption><strong>查看“与我共享”的项目</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开顶部“与我共享”。</li><li>使用列表或搜索查找他人共享给你的项目；尚未被共享时会显示空列表。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>分享与返回</strong>复制内部项目地址发给已获授权的成员；对方也可从“与我共享”进入。画布左上角返回首页；页面间可使用浏览器前进、后退。</p>
+</section>
+<section id="s2">
+<p class="kicker">02</p>
+<h2>在画布中生成与编辑</h2>
+<p class="intro">选中节点后，下方会显示可用模型和参数。先生成初版，再针对满意的结果继续编辑。</p>
+<figure class="guide-figure" id="figure-overview-canvas">
+<button class="image-button" type="button" aria-label="放大：在画布中生成与编辑：主要操作位置"><img src="images/02-canvas.png.svg?v=6de677e68f7dff80" alt="在画布中生成与编辑，关键操作位置已用数字标记" width="1200" height="605" loading="lazy" decoding="async"></button>
+<figcaption><strong>在画布中生成与编辑：主要操作位置</strong><span class="guide-figure__hint">点击图片放大</span></figcaption>
+</figure>
+<ol>
+<li><span class="num">1</span><div><strong>添加内容</strong><span>点击左侧“＋”添加文本、图片、视频或脚本策划节点；已有文件可上传，也可从“资产”复用。</span></div></li>
+<li><span class="num">2</span><div><strong>需要参考时先连素材</strong><span>把上游素材节点右侧输出端连到生成节点左侧输入端，也可在下方素材区添加已上传文件。纯文字生图不需要参考。</span></div></li>
+<li><span class="num">3</span><div><strong>选模型、写描述</strong><span>按用途选择模式与可用模型，写清主体、场景、动作和希望保留的内容，再选择输出规格。H3动作迁移只使用人物图和动作视频，不需要提示词。</span></div></li>
+<li><span class="num">4</span><div><strong>生成与回看</strong><span>点击“开始生成”，在节点中查看结果。左侧“历史”可查看、下载和复用旧结果；满意后再继续编辑或加入剪辑。</span></div></li>
+</ol>
+<details class="guide-details" id="s2-canvas-basics">
+<summary>添加内容与选择工具<span class="guide-details__count">5 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-canvas-add-node">
+<button class="image-button" type="button" aria-label="放大：从“＋”添加节点"><img src="images/canvas-add-node.webp.svg?v=4291b1fbaca1279a" alt="画布添加节点菜单" width="496" height="1054" loading="lazy" decoding="async"></button>
+<figcaption><strong>从“＋”添加节点</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击画布左侧“＋”。</li><li>按用途添加文本、图片、视频或脚本策划；已有文件可从下方上传。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-canvas-upload">
+<button class="image-button" type="button" aria-label="放大：把本地素材加入画布"><img src="images/canvas-upload.webp.svg?v=f87f7b49066544ea" alt="添加节点与上传" width="1920" height="842" loading="lazy" decoding="async"></button>
+<figcaption><strong>把本地素材加入画布</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击左侧“＋”，展开“上传”。</li><li>选择文件或文件夹，等待素材出现在画布中。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-toolbar">
+<button class="image-button" type="button" aria-label="放大：选中图片，打开对应工具"><img src="images/image-toolbar.webp.svg?v=c27d697c1928d8c3" alt="图片工具栏" width="1920" height="842" loading="lazy" decoding="async"></button>
+<figcaption><strong>选中图片，打开对应工具</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>单击图片，显示上方工具栏。</li><li>选择解析、人物调节、分镜大师等功能；更多工具在“更多”中。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-text-editor">
+<button class="image-button" type="button" aria-label="放大：文本节点：编辑内容、选择文字模型"><img src="images/text-editor.webp.svg?v=ef9a94a07feb9a69" alt="文本节点：编辑内容、选择文字模型" width="1772" height="1858" loading="lazy" decoding="async"></button>
+<figcaption><strong>文本节点：编辑内容、选择文字模型</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>添加文本节点，双击正文可编辑文字和格式。</li><li>需要生成新文字时，在下方面板填写要求、选择文字模型，再点“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-text-selection-menu">
+<button class="image-button" type="button" aria-label="放大：选中文字，创建文生图节点"><img src="images/text-selection-menu.webp.svg?v=a43b6ae5c4930b34" alt="选中文字，创建文生图节点" width="1272" height="1144" loading="lazy" decoding="async"></button>
+<figcaption><strong>选中文字，创建文生图节点</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在文本正文中选中要使用的画面描述，打开“发送选中文字到”。</li><li>选择“文生图”，画布会创建摘录与图片生成节点。</li><li>选中新图片节点，确认模型和参数后再生成；文生视频需选择已配置的官方视频型号。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>上传图片时自动无损压缩</strong>选择、拖入或粘贴静态 PNG 时，画布会在浏览器中尝试缩小文件，保持原分辨率、透明度、色彩和方向。已充分压缩的图片可能几乎没有变化。JPEG、WebP、动图、视频和音频保留原文件。此流程适用于新上传的素材。</p>
+<p class="detail"><strong>看清是导入限制还是参考限制</strong>普通画布按无损处理后的文件大小检查，单张图片最多 50 MiB。用作生成参考时，页面按实际上传大小和所选模型分别检查。例如 H3 单张参考图最多 10 MiB；若仍超限，生成前会提示具体素材、实际大小和允许值，请换用符合限制的文件。</p>
+<h3>生成前先检查：看到原因、修正后再提交</h3>
+<p class="detail">选中节点或修改输入时会在后台检查模型、当前参数、连线和参考素材，不自动弹出问题面板。检查未完成或输入不符合要求时，生成按钮暂不可执行；将鼠标移到按钮或用键盘聚焦，可查看简短原因，点击“详情”或尝试生成时再展开具体问题。说明不会挤进模型和生成按钮所在的操作行。点击“查看输入”或“查看参考素材”可返回相关内容；点击画布其他位置会收起说明。修正后自动重查并恢复按钮，临时网络故障恢复后也会继续检查，无需删除节点或重新打开页面。</p>
+<p class="detail"><strong>连接与选模型</strong>不兼容的素材类型、超出当前模型允许数量、错误端口或循环连线会被拦住并说明原因。选模型时，不兼容的型号会灰显；可以先选择模型，再补齐参考素材。尚未上传完成或缺少有效时长、尺寸等必要信息的素材，需要先处理完再生成。</p>
+<p class="detail"><strong>新建后继续连接</strong>可以先新建图片或视频节点再接入素材，也可以从节点右侧加号拖出连线创建目标。取得画布编辑连接后可直接操作，无需先悬停或逐个节点等待权限。参考数量同时计算连线素材与明确添加的引用；生成结果作为新参考时，按当前选中的结果和排列顺序读取。</p>
+<figure class="guide-figure" id="figure-canvas-reconnect-native">
+<button class="image-button" type="button" aria-label="放大：原生画布示例：文字、图片和视频素材连接到新建节点，自动保存"><img src="images/canvas-reconnect-native.png.svg?v=ff8926bfbb33924f" alt="三个素材节点连接到新建的图片和视频节点，连线清楚可见，画布没有多人光标或草稿版本管理入口" width="1200" height="760" loading="lazy" decoding="async"></button>
+<figcaption><strong>原生画布示例：文字、图片和视频素材连接到新建节点，自动保存</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>可以先新建目标后连接素材，也可以从素材右侧加号拖到空白处创建目标。</li><li>选中目标，按所选模型的要求补齐参考并调整生成参数。</li><li>系统自动保存；断网时保留已输入内容，恢复编辑连接后继续同步。</li></ol></figcaption>
+</figure>
+<p class="detail"><strong>分组与批量</strong>先检查整批当前可确定的输入，再启动第一个任务；上传素材只作为输入，不会被当成生成节点；无关分支的问题不会阻止当前分组。依赖上游生成结果的节点按分组计划处理，实际结果产生后仍会检查其素材。普通节点单独生成时，不能借用另一按钮的未执行计划。</p>
+<p class="detail"><strong>断开、重连与再次生成</strong>生成完成后可断开原来的图片或文字连线，已有视频结果会保留。重新连接素材后，在同一个视频节点再次点击生成即可；当前连线和明确添加的引用决定这次输入，不沿用已断开的旧参考。图生视频缺少图片时会在提交前提示补齐，文生视频按当前描述和文字连线生成。编辑或连线仍在同步时，生成会先等待本次操作落地。</p>
+<p class="detail"><strong>复制节点后继续生成</strong>“复制节点／粘贴节点”、“创建副本”和拖拽复制会保留所选模型及参数、当前结果预览和参考顺序。在同一画布复制单个节点时保留输入连线；复制多个节点时也保留片段内部连线，不会给原有下游节点额外添加输入。副本使用新的节点和生成任务，不继承原任务的运行状态、进度或历史记录。粘贴后可直接修改描述再生成，保存后刷新仍保留这份配置。已生成图片的副本仍保留生成面板，不会因为保留结果预览而变成只有素材工具的节点。跨画布粘贴只保留复制片段内部可成立的连线，外部参考需重新连接。</p>
+<p class="detail"><strong>复制内容需要重新确认时</strong>旧剪贴板缺少来源信息时，请在画布中重新复制。对于以前已丢失模型版本的节点，需要明确重新选择模型后再继续，系统不会擅自换成最新版本。替换参考素材、调整顺序或切换模型后会重新检查兼容性；真实超限仍需移除多余素材或换用支持该数量的模型。</p>
+<p class="detail">使用 Ctrl/Cmd + Z 撤销，Ctrl/Cmd + Shift + Z 重做，节点与连线按同一次操作恢复。刷新后从服务端恢复已保存内容，刷新前的撤销记录不会跨页面保留。</p>
+<figure class="guide-figure" id="figure-canvas-node-copy">
+<button class="image-button" type="button" aria-label="放大：复制已生成节点后，保留参考连线并独立生成新结果"><img src="images/canvas-node-copy.png.svg?v=829237cce31ffa7b" alt="同一张参考图片分别连接原视频节点和复制的视频节点，两者均显示真实生成结果" width="1200" height="630" loading="lazy" decoding="async"></button>
+<figcaption><strong>复制已生成节点后，保留参考连线并独立生成新结果</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在已生成的视频节点菜单选择“复制节点”，再粘贴，或选择“创建副本”。</li><li>副本沿用模型、参数和输入连线；检查参考顺序并修改描述后，点击“开始生成”。</li><li>刷新后继续编辑；撤销或重做复制时，节点及其连线一起恢复。</li></ol></figcaption>
+</figure>
+<p class="detail"><strong>功能尚未接入时</strong>未开放的工具保持灰色，悬停可查看原因。仅选中视频节点不会因为尚未开放的分镜配音预设而弹出“视频重拍”错误。实际使用不可用功能时，提示会说明对应功能，便于准确反馈；这与模型参考数量超限、生成任务失败属于不同情况。</p>
+<p class="detail"><strong>“未提交”与“运行失败”</strong>输入校验不通过时不会进入生成队列，也不会清空已有结果或把原节点改成生成失败。明确点击生成而被拦截的记录会保留型号、版本和具体输入项，便于排查；自动检查不会反复发告警。模型服务超时、生成结果损坏等运行中的问题会按实际任务状态单独提示。</p>
+<figure class="guide-figure" id="figure-generation-readiness">
+<button class="image-button" type="button" aria-label="放大：需要时展开生成检查，修正输入后自动恢复"><img src="images/generation-readiness.png.svg?v=6189a3c961adbeba" alt="视频节点缺少首帧图片时，生成前检查显示具体型号与原因；说明在参数区外，提供查看输入及收起按钮" width="1500" height="745" loading="lazy" decoding="async"></button>
+<figcaption><strong>需要时展开生成检查，修正输入后自动恢复</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中或编辑节点时不会自动展开问题面板；在生成按钮上查看简短原因。</li><li>点击详情或尝试生成后查看具体问题，按“查看输入”补齐参考。</li><li>修改后自动重查；临时连接恢复后也会继续检查。</li></ol></figcaption>
+</figure>
+<h3>在多个页面打开同一张画布</h3>
+<p class="detail"><strong>在自己的标签页之间切换</strong>用同一账号在多个标签页、浏览器或电脑打开项目，每页都能编辑。任一页新增、移动或删除节点，其他联网的页面会跟着更新。刷新或关闭一页不会让其他页变成只读。新电脑登录后打开项目，就能看到服务器已保存的节点、连线和结果。</p>
+<p class="detail"><strong>交给同事编辑</strong>项目所有者可在“项目成员”给同事可编辑权限。看到同事正在编辑时，点击“申请编辑”。对方选择“保存并交接”后会留在原页查看，你会在当前页看到已保存的内容并开始编辑。申请可以取消，对方也可以选择“暂不交接”。只读成员请联系项目所有者授权。</p>
+<figure class="guide-figure" id="figure-canvas-handoff-approval">
+<button class="image-button" type="button" aria-label="放大：收到同事的编辑申请"><img src="images/canvas-handoff-approval.png.svg?v=3a0c77fdf088b857" alt="当前编辑者收到 Bob 的申请，可以保存并交接或暂不交接" width="771" height="257" loading="lazy" decoding="async"></button>
+<figcaption><strong>收到同事的编辑申请</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>申请人可以等待并继续查看画布。</li><li>点击“保存并交接”后，申请人会在当前页看到已保存的画布并开始编辑。</li><li>自己的多个标签页可以同时编辑；只有交给另一账号时才需要交接。</li></ol></figcaption>
+</figure>
+<p class="detail"><strong>掉线或关页</strong>关闭一页不会中断自己其他页面的编辑。向另一账号交接时，仍在线的页面先提交改动；已失联的页面在短时凭据到期后不再阻挡交接。设备完全离线时，画布暂时只读，已产生的待保存修改会保留，恢复联网后自动恢复编辑。另一台电脑只能看到已到达服务器的内容；恢复连接后可安全补传的改动会继续保存。在线页面同时改不同字段时，两处改动都会保留；改同一字段时，以服务器最后接受的那次修改为准。</p>
+<p class="detail"><strong>编辑与同步</strong>拖动节点时，自己的画布跟随鼠标。松手后，其他已打开的页面会显示最后落定的位置。新增节点、删除连线和调整参考顺序也会自动同步。连续输入会定期提交。网络繁忙时合并尚未提交的后续改动，临时网络或服务异常时，改动会留在本机并自动重试；离线期间暂停发送，恢复联网后自动继续保存，无需再改动一次来触发。持续异常时会提示一次正在等待自动保存，画布仍可操作；尚未保存的改动在其他设备上暂不可见。切换标签页时保持健康的同步连接；休眠唤醒、浏览器后退返回画布时，会检查连接并补齐未收到的更新。其他节点的进度和独立编辑不会仅因整张画布的更新而阻止当前节点生成。输入框保持焦点时，不相关节点仍可同步；当前输入节点、其顺序和连线变化会受到保护，结束输入后再补齐。</p>
+<p class="detail"><strong>打开较大的画布</strong>只要内容仍在持续加载，页面会继续等待，不因加载总时间较长而重新开始。临时连接或素材查询异常会自动重试；加载界面的“重试”只在尚未进入可编辑画布时重新连接。登录过期或编辑权限被取消时仍需按页面提示处理。</p>
+<h3>自动保存</h3>
+<p class="detail">网页只呈现编辑、画布占用和必要的同步状态。创建节点、连线、修改描述和重新生成的保存顺序由系统处理，无需管理版本或比较本地与服务器内容。同一账号可以在多个浏览器或标签页同时编辑。后台标签页重新打开时会自动接续；其他已连接页面仍可编辑。若久未关闭的旧网页提示更新，请保留原页，在同一浏览器的新标签页打开这张画布。系统会尝试接续旧页已记录的修改；同一处内容如果后来又被编辑，不会被旧页覆盖。网络恢复后会自动继续同步；若仍提示有内容未同步，可点击<strong>“重试同步”</strong>。保存未成功或设备存储不可用时，请保持页面打开并联系管理员，不要清理浏览器数据。</p>
+<p class="detail"><strong>修改后直接生成</strong>修改描述、参考素材或输出规格后，可以直接点击生成；系统会先保存当前编辑，无需等待自动保存计时结束。已有历史结果的视频节点也可继续修改描述、分辨率和时长后再次生成，无需删除或重建节点。</p>
+<p class="detail"><strong>文字与参考图片一起输入</strong>普通图片生成或参考编辑节点可以同时连接文字节点和参考图。上游文字的富文本、段落和表格会按编辑器的文字转换结果参与生成前校验，不必为了消除“描述不一致”而删除格式或重建节点。提交期间若又修改了文字或参考素材，系统会保留新编辑并停止旧命令，请确认当前内容后再提交。</p>
+<p class="detail"><strong>生成前校验与日志编号</strong>输入不符合所选模型要求时，页面会显示型号、版本、具体不支持的输入和调整方法。素材超限会指出第几项参考、实际大小或时长，以及允许的范围；请先移除不支持的素材或连线、补齐参考，或压缩裁剪后再提交。此时任务尚未进入生成队列。若问题仍在，请保留提示末尾的日志编号，反馈时可据此追查当次型号、版本与失败输入；分组生成会记录实际出错的子节点。机器人“提交未通过”详情也会显示对应原因。</p>
+<p class="detail">实际尝试提交并报错时，日志会保存当时的页面状态，包括所选节点、参考连线、同步进度和按钮状态。反馈时提供日志编号即可。诊断不包含描述正文或素材下载地址。机器人会分别提示同步检查、输入校验和任务自动重试。</p>
+<p class="detail"><strong>机器人状态提醒</strong>“任务自动重试”表示任务还会继续处理，请勿重复提交；“画布同步待完成”表示生成尚未提交，系统需要继续完成同步；“提交未通过”表示前置检查拒绝；只有终态失败或超时才使用“生成失败”。</p>
+<h3>怎样选模型与参考</h3>
+<p class="detail"><strong>全能参考视频的精确时长</strong>选择自部署“MiniMax H3 · 全能参考（含视频）”后，可在“选择视频生成时长”右侧下拉框选择5～15秒中的任意整数秒，也可以逐秒拖动滑条。例如参考视频是12秒，可直接选择12秒生成。系统会在编码前同步裁去模型帧数对齐多出的尾部画面和声音，不改变播放速度、不二次压缩。参考视频可为2～15秒，输入时长和生成时长分别校验；小于5秒的输出与小数秒暂未开放。已有节点可直接重新选择时长后再次生成，历史视频保持原样。</p>
+<table>
+<tr><th>纯文字生图</th><td>可选 MOSS-Image · 生图、Z-Image-Turbo、FLUX.1 [dev]、FLUX.2 [klein] 9B／4B、Codex 图像工具·生成。MOSS-Image 位于自部署模型中，无需个人 API Key。</td></tr>
+<tr><th>参考图编辑</th><td>可选 Qwen-Image-Edit-2511 或 Codex 图像工具·参考编辑。添加图片，写清“保留什么、修改什么”。</td></tr>
+<tr><th>视频模式</th><td>文生视频只写描述；首帧或尾帧放入1张对应图片；首尾帧需放入起点和终点2张图；全能参考按所选型号添加图片、视频或音频。某些型号仍要求视觉参考。参考顺序与用途以面板说明为准。</td></tr>
+<tr><th>H3 文戏／武戏</th><td>MiniMax H3“单采极速文戏”面向人物表演和细微动作，“最强武戏”面向动作场面；两项都在全能参考中选择。</td></tr>
+<tr><th>TR 极速双采（待手测）</th><td>全能参考中选择“H3 · TR极速双采pika（修复网格·待手测）”。添加1～6张参考图，可分别选择六种比例与480P／768P／1080P（1088对齐）／2K分辨率，时长固定8秒、24fps；另保留1920×1088原规格。不接受音频或视频参考，效果待用户手动确认。</td></tr>
+<tr><th>20／30秒长片</th><td>全能参考中可选“MiniMax H3 · SGUN潜空间连续长片 · Hybrid INT8”。保留24fps的约20秒／30秒，并分别选择比例与分辨率，合计24种尺寸；适合同一场景、连续镜头与小幅自然动作。</td></tr>
+</table>
+<p class="detail"><strong>MOSS-Image 怎样生图</strong>添加图片生成节点，在文生图模式选择“MOSS-Image · 生图”，填写必需的画面描述后生成。无需连接上游图片或视频；要根据已有图片修改内容，请改选参考图编辑模型。MOSS-Image 每次固定输出1张，可选的真实尺寸为1024×1024、1344×768、768×1344、1152×864、864×1152、1536×656。尺寸按模型的16像素网格对齐，横竖宽屏与常见比例略有差异，以菜单中的实际像素为准。</p>
+<p class="detail"><strong>空视频节点先看材料提示</strong>视频还没有结果时，节点内会说明需要什么参考、怎样连接，并显示已连接或仍缺少的素材。把图片／视频节点连到左侧输入端后，再从下方模型菜单选择可用入口；首尾帧需要2张图片，动作迁移需要人物图与动作视频。参数面板顶部的“生成所需素材”列出数量、时长和人物要求。H3完整动作时长版还会在生成区直接说明素材数量、是否已连接，以及无需提示词或遮罩。</p>
+<p class="detail"><strong>参数面板与连线</strong>视频参数面板会随窗口位置调整，并避开顶部项目标题和本节点的视频工具栏；可用高度不足时，可在面板内滚动查看材料、参数和生成按钮。失败卡片仍可从左右端口连线；重试前先补齐所选模型需要的材料。</p>
+<h3>在视频卡中制作 H3 分段长片</h3>
+<p class="detail">选中普通视频生成卡，在参数区展开<strong>“H3 分段长片”</strong>。展开后只显示长片编辑区，收起后恢复普通视频参数。共用描述、参考素材与各段剧情共同决定内容；参考图、视频和音频沿用当前视频卡的连线及排列顺序。断开旧连线或重新排列后，下次保存与生成会读取当前素材，不沿用断开的参考。</p>
+<figure class="guide-figure" id="figure-h3-segmented-longform">
+<button class="image-button" type="button" aria-label="放大：H3 分段长片：整片设置、当前参考与已采用分段"><img src="images/h3-segmented-longform.png.svg?v=ee0db80456530be4" alt="H3分段长片面板，三段计划12秒，实际864×480且同链尺寸锁定；显示全片共用描述、一张咖啡馆参考图、高级设置与三个已采用分段" width="887" height="788" loading="lazy" decoding="async"></button>
+<figcaption><strong>H3 分段长片：整片设置、当前参考与已采用分段</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>展开“H3 分段长片”，填写名称和全片共用描述。</li><li>先选比例与分辨率；已有生成结果后，同链尺寸锁定，以显示的实际像素为准。</li><li>核对“当前参考素材”，展开各段填写剧情、时长与种子。</li></ol></figcaption>
+</figure>
+<ol>
+<li><span class="num">1</span><div><strong>设定整片与分段</strong><span>填写长片名称、全片共用描述，并选择服务实际提供的比例和像素规模。逐段写画面描述、时长和种子；留空种子时由服务决定。面板显示计划总时长，生成后显示实际像素和帧数。</span></div></li>
+<li><span class="num">2</span><div><strong>保存并生成</strong><span>有效编辑会自动保存，也可点击“保存设置”；状态文字会区分待保存、已保存与提交失败。点击“生成全部分段”前会先保存本次编辑。生成时区分整项任务、当前段和处理阶段；“本段完成后停止”保留已完成结果，只停止本长片后续分段，不中断正在生成的段或其他任务。提交模型、等待确认和合片期间也会保持输入锁定。</span></div></li>
+<li><span class="num">3</span><div><strong>逐段回看、重抽和采用</strong><span>展开分段查看每次真实生成的结果、种子、帧数和尺寸。可预览或按原规格导出，选择“采用此结果”后用于后续续接和合片，也可“撤回采用”。“重抽本段”始终使用当前填写的本段描述、时长与种子，其余高级设置、参考素材和共用描述默认沿用原结果。需要一并换成当前设置时，勾选“重抽使用当前高级设置、参考素材与共用描述”。“从本段重做后续”用于前段改动后的重新续接；也可明确选择“保留后续旧片段”，但接缝、人物或道具可能不一致，需要回看确认。</span></div></li>
+<li><span class="num">4</span><div><strong>续拍与合片</strong><span>点击“添加续拍段”，填写新增剧情和时长后点击“续拍新增分段”，提交并生成后续剧情。新增段在提交续拍前只属于本页待提交输入，尚未保存到服务器。同一续接链的分辨率锁定；前段或参考改动使旧后段失效时，页面会提示需重做。每段采用一个与当前链一致的有效结果后，点击“合并已采用分段”，完成后可预览与原规格导出合片。单个输出文件同时受云端生成和平台归档限制，以面板显示的较小值为准；当前云端限制为512 MiB，不表示可以生成1 GiB文件。</span></div></li>
+</ol>
+<figure class="guide-figure" id="figure-h3-segmented-results">
+<button class="image-button" type="button" aria-label="放大：逐段比较候选，采用结果后续拍与合片"><img src="images/h3-segmented-results.png.svg?v=3c17b935b60fdde6" alt="分段下方有两个已完成候选，显示种子、864×480尺寸、102帧和实际4.25秒；第二个已采用，可预览、原规格导出或撤回采用，底部为续拍、合片与合片导出入口" width="887" height="511" loading="lazy" decoding="async"></button>
+<figcaption><strong>逐段比较候选，采用结果后续拍与合片</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>用“预览”比较候选，再选择“采用此结果”；需要更换时可“撤回采用”。</li><li>需要续拍时点击“添加续拍段”，填写新增剧情和时长，再点击“续拍新增分段”。</li><li>每段采用有效结果后点击“合并已采用分段”，完成后预览或“导出合片原规格”。</li></ol></figcaption>
+</figure>
+<p class="detail"><strong>高级采样与续接</strong>高级区域只列当前服务实际支持的控件，包括采样步数、采样器、调度器、降噪、SIGMAS、LoRA、注意力、上下文、动态掩码、防漂移与预览设置。选项以服务返回为准；不支持的组合会在提交前指出。自定义数组或对象需使用有效 JSON；更改 SIGMAS 时，实际采样步数以输入序列为准。“云端采样预览”控制云端工作流的预览开关；Studio TV 当前显示生成进度和完成后的分段视频，不显示采样中的实时画面。</p>
+<p class="detail"><strong>分辨率与实际时长</strong>可用480p／720p／768p／1080p预设按当前比例换算像素规模，按钮同时显示原生实际宽高；720p、1080p等会近似对齐到32像素网格，以保存后显示的像素为准。同一已生成续接链的尺寸锁定。当前最多100段，固定24fps；H3采用原生帧网格并裁去续接上下文，计划秒数不等于精确导出秒数。超过15秒的单段及各类高分辨率组合尚未逐项完成真实效果验证，请先用短段检查显存、耗时与画面，再决定是否继续。</p>
+<p class="detail"><strong>参考视频与配对音轨</strong>“当前参考素材”按输入顺序列出名称和类型。可连接最多9张图片、3段视频、3份独立音频，另为这3段视频分别配一份音轨，共最多18项参考。音频用途默认是“独立参考音频”；需要对应某段视频时，在该音频下拉菜单选择“参考视频1／2／3的音轨”。菜单仅列已连接的视频，每段最多配一份。重新排列视频后配对仍跟随原视频；断开原视频时会提示失配，请重新连接或改回独立参考，不会把音轨自动转给另一段视频。</p>
+<p class="detail"><strong>恢复任务</strong>关闭参数区、重新打开视频卡或刷新页面后，面板从服务读取该视频卡的长片与候选。提交时网络中断会显示待确认操作，使用“重试上次操作”确认原任务，不会换一个请求重复生成。仅收到提交回应不代表视频已完成，请以任务状态和可播放结果为准。</p>
+<p class="detail"><strong>模型灰显时怎么处理</strong>先查看悬停原因。“需要连接上游节点”表示应先补齐素材；“未配置 API Key”时，在“API 服务”分页点“配置 API Key”，进入个人账号抽屉保存对应厂商的 Key。若提示“暂未开放”，则该服务尚未开放。已选型号变为不可用时，生成按钮也会禁用，悬停可查看原因；描述、素材和参数仍可修改。模式标签可用于导航，能否提交仍以所选模型和材料要求为准。</p>
+<details class="guide-details" id="s2-video-inputs">
+<summary>视频素材准备与连线<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-video-empty-input-guidance">
+<button class="image-button" type="button" aria-label="放大：空视频节点：先连接素材，再选视频模式"><img src="images/video-empty-input-guidance.png.svg?v=fb83b038e2437e1e" alt="空视频节点内说明怎样连接左侧输入端、首尾帧需要两张图片、动作迁移需要人物图和动作视频" width="400" height="232" loading="lazy" decoding="async"></button>
+<figcaption><strong>空视频节点：先连接素材，再选视频模式</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>先将图片或动作视频加入画布。</li><li>从上游素材右侧输出端拖线到视频节点左侧输入端，也可在下方素材区添加。</li><li>参考齐全后选择可用模型，在参数顶部查看数量、时长和人物要求。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-reference-material-help">
+<button class="image-button" type="button" aria-label="放大：全能参考：先看材料要求，再选输出规格"><img src="images/video-reference-material-help.png.svg?v=ba95ccb7354afafe" alt="H3图片与音频参考的真实参数面板，顶部说明至少一张图片、最多九张图片及可选三段音频，下方为比例、分辨率和独立时长控件" width="320" height="531" loading="lazy" decoding="async"></button>
+<figcaption><strong>全能参考：先看材料要求，再选输出规格</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选择H3图片与音频参考，先查看顶部“生成所需素材”。</li><li>此型号需要1～9张图片，音频可选且最多3段；可添加已上传素材或连接上游节点。</li><li>再选比例、分辨率和时长。其它型号的素材类型、数量和时长以各自面板为准。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-models">
+<summary>模型、模式与参考<span class="guide-details__count">13 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-image-model-menu">
+<button class="image-button" type="button" aria-label="放大：文字生图：选择模型"><img src="images/image-model-menu.webp.svg?v=9dd59d62853d2cd4" alt="文生图模型菜单" width="634" height="500" loading="lazy" decoding="async"></button>
+<figcaption><strong>文字生图：选择模型</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>添加图片节点，选择文字生成模式。</li><li>展开模型菜单，选择 Codex、FLUX 或 Z-Image。</li><li>填写描述，确认规格和数量后点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-generation-params-complete">
+<button class="image-button" type="button" aria-label="放大：填写描述，确认模型、规格与数量"><img src="images/image-generation-params-complete.webp.svg?v=8d336bac038e0ac7" alt="图片生成：描述、模型、规格与数量" width="1830" height="552" loading="lazy" decoding="async"></button>
+<figcaption><strong>填写描述，确认模型、规格与数量</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>写清主体、场景、动作及希望保留的内容。</li><li>选择模型支持的规格和数量；图中的2x表示本次生成两张。</li><li>确认补充设置后，点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-canvas-reference-picker">
+<button class="image-button" type="button" aria-label="放大：从画布或我的资产选择参考"><img src="images/canvas-reference-picker.webp.svg?v=3191aab531e4c72a" alt="从画布或我的资产选择参考" width="2952" height="1794" loading="lazy" decoding="async"></button>
+<figcaption><strong>从画布或我的资产选择参考</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击生成面板中的“＋”，打开素材选择。</li><li>先按当前模型支持的类型筛选；本例选择已加载的图片，也可本地上传。</li><li>返回面板，检查参考顺序与提示词对应；视频素材可回原节点确认内容。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-keyframe-models">
+<button class="image-button" type="button" aria-label="放大：选择H3首帧或首尾帧模型"><img src="images/video-keyframe-models.webp.svg?v=6a13f4f5e7121286" alt="选择H3首帧或首尾帧模型" width="1830" height="632" loading="lazy" decoding="async"></button>
+<figcaption><strong>选择H3首帧或首尾帧模型</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中视频节点，打开左下模型菜单。</li><li>在“图生视频”中选择“MiniMax H3 · 首帧视频”或“首尾帧视频”。</li><li>返回面板，按所选模式补齐起始图或首尾两张图。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-reference-models">
+<button class="image-button" type="button" aria-label="放大：全能参考：文戏、武戏与连续长片"><img src="images/video-reference-models.webp.svg?v=6ae1969353b3fc33" alt="全能参考：文戏、武戏与连续长片" width="1830" height="790" loading="lazy" decoding="async"></button>
+<figcaption><strong>全能参考：文戏、武戏与连续长片</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开视频模型菜单，进入“全能参考”。</li><li>人物表演可选文戏，动作场面可选武戏；同场景连续小动作可选SGUN长片。</li><li>选择后重新检查参考素材与该模型提供的规格。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-first-frame">
+<button class="image-button" type="button" aria-label="放大：首帧模型内切换输入模式"><img src="images/video-first-frame.webp.svg?v=c225623b6ebbc105" alt="首帧模型内切换输入模式" width="1830" height="632" loading="lazy" decoding="async"></button>
+<figcaption><strong>首帧模型内切换输入模式</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选择“MiniMax H3 · 首帧视频”后，查看顶部模式切换。</li><li>图中当前为“多图参考”；需要起始关键帧时切到“首帧”并放入起始图。</li><li>填写动作描述，确认规格后点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-first-last">
+<button class="image-button" type="button" aria-label="放大：首尾帧：明确起点和终点"><img src="images/video-first-last.webp.svg?v=040c85ba411a8088" alt="首尾帧：明确起点和终点" width="1830" height="632" loading="lazy" decoding="async"></button>
+<figcaption><strong>首尾帧：明确起点和终点</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选择“MiniMax H3 · 首尾帧视频”。</li><li>分别添加首帧与尾帧，检查缩略图下的标记和顺序。</li><li>描述中间动作与过渡，确认可选时长后再生成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-action-params">
+<button class="image-button" type="button" aria-label="放大：全能参考：输入素材与生成设置"><img src="images/video-action-params.webp.svg?v=c0a88a24aa2fccf4" alt="全能参考：输入素材与生成设置" width="1830" height="632" loading="lazy" decoding="async"></button>
+<figcaption><strong>全能参考：输入素材与生成设置</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选择文戏或武戏模型，确认顶部为“全能参考”。</li><li>添加图片或视频参考，写清人物、动作和要保留的内容。</li><li>按规格菜单选择分辨率与时长，检查数量后点“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-drama-presets">
+<button class="image-button" type="button" aria-label="放大：文戏：分别选择比例、分辨率与时长"><img src="images/video-drama-parameters.png.svg?v=3d6e122772637763" alt="文戏参数控件，1080P实际1920×1088、时长10秒" width="1512" height="757" loading="lazy" decoding="async"></button>
+<figcaption><strong>文戏：分别选择比例、分辨率与时长</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开文戏的模型参数，分别点选比例与分辨率。</li><li>使用独立时长滑杆选择5秒或10秒；1080P档按32像素对齐，实际短边1088。</li><li>旧768×1376／1280×736尺寸仍可在“保留规格”选择；检查参考与描述后再生成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-long-presets">
+<button class="image-button" type="button" aria-label="放大：SGUN连续长片：独立切换20秒或30秒"><img src="images/video-long-parameters.png.svg?v=c252ba9030e4ae6b" alt="SGUN参数控件，六比例、四档分辨率与20／30秒独立滑杆" width="1512" height="757" loading="lazy" decoding="async"></button>
+<figcaption><strong>SGUN连续长片：独立切换20秒或30秒</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在全能参考中选择SGUN连续长片。</li><li>分别点选比例与480P／768P／1080P（1088对齐）／2K；时长滑杆可切换20秒或30秒。</li><li>检查同场景、小幅动作的参考与描述后再生成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-h3-grouped-parameters">
+<button class="image-button" type="button" aria-label="放大：H3参数控件：比例、分辨率与时长分开调整"><img src="images/h3-grouped-parameters.png.svg?v=8a9177b3e2c41d53" alt="H3参数控件，六个比例按钮、四档分辨率和独立时长滑杆" width="1512" height="757" loading="lazy" decoding="async"></button>
+<figcaption><strong>H3参数控件：比例、分辨率与时长分开调整</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>先选比例，再选分辨率；下方会显示实际输出像素。</li><li>拖动时长滑杆或用方向键，在该型号可用时长间切换；固定时长型号显示固定秒数。</li><li>已有节点保留旧规格；主动选择新增规格时才切换参数版。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-h3-exact-duration">
+<button class="image-button" type="button" aria-label="放大：全能参考（含视频）：按整秒选择生成时长"><img src="images/h3-exact-duration.png.svg?v=5ed062b85f389f94" alt="自部署全能参考视频参数面板，时长选择12秒，下方显示输出像素、12秒和24fps" width="700" height="700" loading="lazy" decoding="async"></button>
+<figcaption><strong>全能参考（含视频）：按整秒选择生成时长</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选择自部署“MiniMax H3 · 全能参考（含视频）”，接入参考图片或视频。</li><li>打开参数面板，在时长下拉框选择5～15秒中的任意整数秒，也可逐秒拖动滑条。</li><li>例如参考视频为12秒，选择12秒后检查下方输出尺寸与时长，再提交生成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-moss-image-model">
+<button class="image-button" type="button" aria-label="放大：MOSS-Image：在自部署图片模型中选择生图"><img src="images/moss-model-selector.png.svg?v=8be9e5e5849fb5b9" alt="图片模型选择器的自部署分页包含MOSS-Image生图入口" width="291" height="299" loading="lazy" decoding="async"></button>
+<figcaption><strong>MOSS-Image：在自部署图片模型中选择生图</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>添加普通图片节点，打开模型菜单，切换到“自部署”。</li><li>选择“MOSS-Image · 生图”，填写描述并选择输出尺寸；无需连接参考图片，固定生成一张。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<h3>官方视频 API：先看可用状态，再选模式</h3>
+<p class="detail">混合来源的模型菜单上方可切换<strong>“自部署”与“API 服务”</strong>；只有一种来源时可直接选模型。视频菜单的各分页仍按文生视频、图生视频、全能参考、视频编辑分类。切换分页只改变显示的目录，不会自动更换已选模型。自部署模型使用已部署的服务，无需个人 API Key。已接通的托管文字／图片服务沿用原有调用方式，只有标明需要个人 Key 的厂商才需要配置。</p>
+<p class="detail"><strong>模型列表操作</strong>型号较多时，在展开的型号列内滚动，可查看并选择最后几项。也可用 Tab 将焦点移到模型按钮，按 Enter 或空格打开模型列表。焦点在列表顶部的来源分页时，可用左右方向键切换“自部署／API 服务”；切换来源不会提交生成。</p>
+<p class="detail">官方目录包含36个按型号与功能区分的入口：4档 MiniMax H3 各有文生视频、首帧、首尾帧、尾帧、全能参考；4档 Seedance 各有文生视频、首帧、首尾帧、全能参考。<strong>个人账号未配置对应厂商 Key 时，相关入口为灰色，悬停可查看原因。</strong>从菜单的“配置 API Key”或右上角个人账号 →“模型 API Key”，保存 MiniMax 或 Seedance 的 Key；同厂商全部已接通型号会自动匹配，无需重复填写。MiniMax 需使用按量计费 API Key（Coding Plan Key 不适用），并选择所属的国际或中国大陆地区。</p>
+<p class="detail"><strong>保存与收费</strong>Key 仅用于当前账号的任务，保存成功后输入框会清空，页面只显示脱敏值；替换时输入新的 Key。保存不会发起生成，也不验证余额和调用权限。实际调用由厂商按账户计费；生成失败时，节点会显示余额不足、鉴权失败、额度限制、素材不符合要求等原因。按提示充值、修改 Key／地区或补齐素材后再重试。移除 Key 需要再次确认，并可能使相关未完成 API 任务无法继续查询。</p>
+<p class="detail"><strong>生成前查看费用</strong>选择 API 型号、分辨率、比例和时长，并连接或添加实际使用的参考素材后，在视频参数区、生成按钮上方查看“预估厂商费用”。改变规格或素材后，金额会重新计算；展开“计费规则与来源”可查看组成、限制和官方价格页面。查看预估不会提交生成，也不会查询或扣除厂商余额。</p>
+<p class="detail"><strong>币种与地区</strong>MiniMax 国际地区按 USD 显示，中国大陆地区按 CNY 显示，自动使用个人设置中已保存的 Key 所属地区，不做固定汇率换算。还没有配置 MiniMax Key 时，暂按国际地区 USD 公开价预估，并明确提示“地区未确认”；保存正确地区后会刷新。Seedance 按火山引擎的 CNY 公开价估算。</p>
+<p class="detail"><strong>MiniMax H3 怎样计费</strong>费用包含输出视频秒数、输入参考视频的实际总秒数，以及超过免费数量的参考图片。H3、Highspeed、Lite 每次前5张参考图片免费，Max 每次前2张免费；超出部分按所选型号的每张单价计入，输入音频免费。Max 的参考视频秒价与输出秒价不同，以面板列出的单价为准。首帧和尾帧图片也计入实际参考图片数量。</p>
+<p class="detail"><strong>Seedance 怎样计费</strong>按所选型号、分辨率和是否含输入视频，使用对应的每百万 token 单价。基础估算 token＝（输入参考视频总秒数＋输出秒数）×厂商公布的输出宽×高×24fps÷1024，因此分辨率、比例、时长和参考视频都会影响费用。MiniMax 的超额图片规则只适用于 MiniMax；Seedance 当前公开规则没有单列参考图、同步音频或返回尾帧的额外价格。含输入视频时还有最低计费 token 限制，当前完整下限表尚未核验，因此只显示基础估算起价，不承诺完整费用。</p>
+<p class="detail"><strong>怎样理解金额状态</strong>“预估”是当前已知规格的公开价计算；自动比例或智能时长未确定时，会显示估算范围；显示“起”时仅包含已知计费部分，实际可能更高，没有保证上限；素材未就绪或暂时无法报价时显示“费用未知”，不能视为免费。预估不代表账户优惠、资源包、免费额度或真实扣费，最终以厂商账单为准。自部署模型不显示厂商 API 费用预估。</p>
+<details class="guide-details" id="s2-provider-price">
+<summary>API 费用预估与计费规则<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-video-provider-price-rules">
+<button class="image-button" type="button" aria-label="放大：查看预估厂商费用与公开计费规则"><img src="images/video-provider-price-rules.png.svg?v=c3d0a1a1f029426f" alt="MiniMax H3费用预估区域显示0.40美元、尚未配置Key的地区未确认提示、公开价格核对日期与输出及参考素材计费规则" width="878" height="282" loading="lazy" decoding="async"></button>
+<figcaption><strong>查看预估厂商费用与公开计费规则</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选择 API 型号后调整分辨率、比例、时长和参考素材，费用会重新计算。</li><li>展开“计费规则与来源”，查看公开价格核对日期、单价组成和官方链接。</li><li>未配置 MiniMax Key 时先按国际地区美元价估算；确认个人设置地区，实际费用以厂商账单为准。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-provider-key-required">
+<button class="image-button" type="button" aria-label="放大：未配置 Key 时可查看预估，生成按钮禁用"><img src="images/video-provider-key-required.png.svg?v=d3be8b1f7416eaef" alt="MiniMax官方费用预估显示地区未确认，底部开始生成按钮为禁用状态" width="878" height="171" loading="lazy" decoding="async"></button>
+<figcaption><strong>未配置 Key 时可查看预估，生成按钮禁用</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>缺少对应厂商 Key 时，已选 API 型号的生成按钮禁用，悬停可查看配置原因。</li><li>比例、分辨率等参数仍可调整并更新费用；先到个人设置配置正确地区的 Key 后再生成。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-provider-keys">
+<summary>模型来源与个人 API Key<span class="guide-details__count">3 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-personal-api-key-settings">
+<button class="image-button" type="button" aria-label="放大：个人 API Key：保存后仅显示掩码（示例）"><img src="images/personal-api-key-settings.png.svg?v=5b936b73866f949a" alt="个人模型API Key设置，MiniMax中国大陆地区与已保存掩码、Seedance未配置；输入框已清空" width="405" height="694" loading="lazy" decoding="async"></button>
+<figcaption><strong>个人 API Key：保存后仅显示掩码（示例）</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从首页或画布右上角个人账号进入“模型 API Key”。</li><li>MiniMax 使用按量计费 Key，并选择对应的国际或中国大陆地区；Seedance 单独配置。</li><li>保存后只显示掩码，自动匹配同厂商已接通型号。保存不会验证余额或调用权限。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-model-sources-self-hosted">
+<button class="image-button" type="button" aria-label="放大：自部署：无需个人 Key，仍需补齐素材"><img src="images/video-model-sources-self-hosted.png.svg?v=9abfbb5a03a0291b" alt="自部署模型分页与全能参考型号列，滚动后可见长片和TR双采Pika等末尾型号" width="647" height="310" loading="lazy" decoding="async"></button>
+<figcaption><strong>自部署：无需个人 Key，仍需补齐素材</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在模型列表顶部切换“自部署”，无需配置个人 API Key。</li><li>展开对应模式，在型号列内滚动可查看最后几项。</li><li>灰显时查看缺少的参考材料；切换来源分页不会自动替换当前型号。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-model-sources-api">
+<button class="image-button" type="button" aria-label="放大：API 服务：未配置 Key 时保留灰显入口"><img src="images/video-model-sources-api.png.svg?v=66e026d7605553cf" alt="API服务分页与配置API Key快捷入口，滚动后的Seedance官方型号因未配置个人Key而灰显" width="581" height="311" loading="lazy" decoding="async"></button>
+<figcaption><strong>API 服务：未配置 Key 时保留灰显入口</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>切换“API 服务”，展开文生视频、图生视频或全能参考等模式。</li><li>在型号列内滚动查看所有入口；未配置对应厂商 Key 时仍能浏览灰显型号。</li><li>点“配置 API Key”进入个人设置；同厂商型号自动复用已保存配置。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<div class="resolution-table" role="region" aria-label="官方视频型号参数" tabindex="0"><table>
+<tr><th>型号</th><th>当前分辨率档</th><th>时长与比例</th></tr>
+<tr><th>MiniMax H3</th><td>768P／2K</td><td>5／10／15秒；文生视频与全能参考有六种比例，首帧、尾帧、首尾帧自动匹配参考素材。</td></tr>
+<tr><th>MiniMax H3 HighSpeed／Lite／Max</th><td>480P／768P</td><td>各档均为5／10／15秒；模式与比例规则同上。</td></tr>
+<tr><th>Seedance 2.5</th><td>480P／720P／1080P</td><td>文生视频有六种比例和5／10／15／30秒；首帧、首尾帧自动匹配参考素材，可选上述时长。全能参考采用智能比例与智能时长，显示“智能跟随”，不显示固定秒数滑杆。</td></tr>
+<tr><th>Seedance 2.0</th><td>480P／720P／1080P／4K</td><td>四种模式均提供六种比例与5／10／15秒。</td></tr>
+<tr><th>Seedance 2.0 Fast／Mini</th><td>480P／720P</td><td>四种模式均提供六种比例与5／10／15秒。</td></tr>
+</table></div>
+<p class="detail">六种比例为16:9、9:16、1:1、4:3、3:4、21:9。控件只显示当前型号实际提供的组合；切换比例或分辨率后，可选时长可能随之变化。官方 API 的费用按厂商公布的像素规则估算，实际输出尺寸以成片为准，不能套用下方 ComfyUI H3 的尺寸表。</p>
+<p class="detail">展开“计费规则与来源”可查看公开价格核对日期、公式与官方链接。视频参考的原封面不可用时，会显示静音首帧预览或播放占位；请在上游素材节点播放确认视频内容。</p>
+<p class="detail"><strong>准备参考</strong>首帧、尾帧均需1张图片；首尾帧按添加顺序使用2张不同的图片；两个节点若引用同一份图片，也不能分别充当首帧和尾帧。已配置个人 Key 的官方 MiniMax H3 与 Seedance 2.5 全能参考可只用音频：从音频节点的菜单选择“音频生视频”，再选对应的全能参考型号；Seedance 2.0 系列的全能参考仍需图片或视频。Seedance 2.5 全能参考的源视频须为4～15秒。各型号的素材数量和文件限制以面板为准。官方成片当前最多导入64 MiB；超过上限的文件不会导入 STUDIO，可降低分辨率或时长后重新生成。</p>
+<p class="detail"><strong>画布与助手使用同一规则</strong>画布视频节点和画布助手的视频模式均按所选型号展示参数。切换到文生视频后，请移除原来的参考素材与连线；首尾帧模式只保留需要的2张图片。面板提示素材不兼容时，先按提示移除或更换，不能沿用旧参考继续生成。</p>
+<details class="guide-details" id="s2-video-providers">
+<summary>官方视频参数与可用状态<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-video-provider-unconfigured">
+<button class="image-button" type="button" aria-label="放大：未配置的官方模型为灰色，可查看原因"><img src="images/video-provider-unconfigured.png.svg?v=e92a247f61b392dd" alt="灰色官方MiniMax H3型号及请先在个人设置配置对应厂商API Key的提示" width="505" height="52" loading="lazy" decoding="async"></button>
+<figcaption><strong>未配置的官方模型为灰色，可查看原因</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开视频模型菜单，切换到“API 服务”。</li><li>灰色入口不能提交；悬停查看原因，在个人账号的“模型 API Key”中配置对应厂商Key，保存后再选择。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-provider-parameters">
+<button class="image-button" type="button" aria-label="放大：只在型号实际支持的比例、分辨率与时长中选择"><img src="images/video-provider-parameters.png.svg?v=c1e264dcd52021e3" alt="视频参数控件，六种比例、720P和1080P，以及5秒10秒15秒离散时长" width="384" height="312" loading="lazy" decoding="async"></button>
+<figcaption><strong>只在型号实际支持的比例、分辨率与时长中选择</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选好型号和模式后，分别选择比例、分辨率与时长。</li><li>检查当前输出；可选组合以该型号为准。智能时长的型号显示智能跟随，不提供固定秒数滑杆。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<h3>动作迁移与人物替换</h3>
+<p class="detail">在视频模型菜单中按用途选择动作入口，添加<strong>1张人物参考图</strong>和<strong>1段 MP4 动作源视频</strong>；也可将两类素材的上游节点连到视频生成节点。人物图决定外观，视频决定动作。源视频须为H.264编码MP4，不超过64 MiB、2073600像素（如1920×1080）；其他编码或过大的文件请先转码或缩小后上传。单人参考图应只包含一个清楚的人物，构图尽量与源视频接近。分辨率可选480P或768P，均有六种比例；源视频时长限制因模型而异，见下表。菜单仍灰显时，查看配置原因后再操作。</p>
+<table>
+<tr><th>入口</th><th>人物与描述要求</th><th>动作时长</th></tr>
+<tr><th>H3 动作迁移</th><td>单人；无需填写描述、人物配对或遮罩。动作来自源视频。</td><td>新参数版接受2～30秒源视频，使用完整视频的动作，输出时长跟随视频；按24fps取整，可能相差约1帧。无需另设生成时长。</td></tr>
+<tr><th>Wan Animate2 动作迁移</th><td>单人；按面板填写描述。无需人物配对或上传遮罩。</td><td>源视频须为5.2～15秒，目前仅使用前约5秒，输出约5秒。</td></tr>
+<tr><th>SCAIL2 动作迁移</th><td>支持1～5组人物配对；填写描述，将参考图人物逐一对应到源视频人物。SAM3自动生成人物遮罩。</td><td>源视频须为5.2～15秒，目前仅使用前约5秒，输出约5秒。</td></tr>
+<tr><th>SCAIL2 人物替换</th><td>支持1～5组人物配对；填写描述，按替换用途对应人物。SAM3自动生成人物遮罩。</td><td>源视频须为5.2～15秒，目前仅使用前约5秒，输出约5秒。</td></tr>
+</table>
+<p class="detail"><strong>已有H3动作节点</strong>历史节点保留原有的前约5秒规则；要让时长跟随完整源视频，请主动选择当前“H3 动作迁移”入口并确认面板显示“跟随动作视频”。上传人物图或更改描述不会自动升级旧任务。源视频超出当前模型限制时，请先在本地剪成合适长度，再重新上传。</p>
+<p class="detail"><strong>提交前检查素材</strong>H3完整动作时长版的源视频须为2～30秒，人物参考图每张不超过10 MiB。点击生成时会按已上传素材的真实规格检查：超过30秒的视频会提示实际时长和裁剪要求，超过10 MiB的图片会提示实际大小和压缩要求；多项超限会一并说明，不进入生成队列。保留当前素材与参数，处理后重新上传或替换即可。旧版和其他模型按各自面板限制检查。</p>
+<p class="detail"><strong>模型为什么变灰</strong>如果已接入两张图，单参考图的视频型号会显示最多只支持一张；断开多余连线后即可重新选择。Qwen 编辑与 SeedVR2 放大一次只接一张图。Codex 的参考图需为 PNG、JPEG 或 WebP；每张至多 10 MiB，合计至多 16 MiB。官方视频还会检查素材的宽高、宽高比、文件格式和时长。例如 Seedance 2.5 全能参考的视频须为 4～15 秒；缺少个人 API Key 时，对应官方型号保持灰色。</p>
+<p class="detail"><strong>H3人物图怎样准备</strong>建议先从动作视频中捕捉一帧，用参考图编辑模型只修改人物外观，尽量保留原来的姿态、构图和背景，再把改好的人物图与源视频一起接入。直接使用姿态或场景差异很大的人物图，可能造成动作遗漏或背景变化。H3长片的分段衔接仍可能漂移，精确手势与背景连续性需要逐条检查，不能作为逐帧替换保证。</p>
+<p class="detail"><strong>怎样填写人物配对</strong>参考图从左到右以0开始编号；源视频按人物首次出现的画面从左到右以0开始编号。每行选择“参考图人物”和“动作视频人物”，例如0→3表示把参考图最左侧人物对应到视频中的3号人物。可添加或移除配对，最多5组；参考图一侧和视频一侧的编号均不能重复。人物未出现、无法识别或编号不存在时，需调整素材或编号后再试。</p>
+<p class="detail"><strong>遮罩如何处理</strong>SCAIL2的两种用途均由SAM3自动识别并匹配人物，不需要手画或上传遮罩。用户只需选择对应编号，无需在图片中写字、标号或涂色。原声是否保留及人物一致性，以完成的视频为准。</p>
+<p class="detail"><strong>验证状态</strong>2026年11月2日已从Studio TV网页实际完成一个25.0625秒单人视频的H3动作任务：480P、864×480、24fps，输出601帧、25.042秒，原声保留，网页回填和下载均成功。目标人物外观与部分动作跟随，但实测存在手势遗漏和后半段背景变化，不能把本例记为精准动作或长片连续性全部通过；其他尺寸、多人和其他动作入口也不由本例保证。历史回查的210条失败记录在ComfyUI中均对应执行中断，与此前提交后停止的链路验收方式一致；不能把这些记录当作210次节点异常，也不能据此认定历史成片效果合格。</p>
+<details class="guide-details" id="s2-video-motion">
+<summary>动作素材与人物配对<span class="guide-details__count">4 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-motion-source-materials">
+<button class="image-button" type="button" aria-label="放大：H3动作迁移：单人人物图与完整动作视频"><img src="images/motion-materials.png.svg?v=f58e66fb91d30413" alt="H3动作迁移素材说明及源视频截帧重绘建议，提示长片可能遗漏手势或改变背景" width="320" height="318" loading="lazy" decoding="async"></button>
+<figcaption><strong>H3动作迁移：单人人物图与完整动作视频</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>把人物图和动作视频连到视频节点的左侧输入端。</li><li>选择“H3 动作迁移”，在参数顶部检查单人素材要求；此型号不使用提示词。</li><li>参考图建议由源视频截帧重绘，保留姿态、构图和背景；长片手势与背景需逐条检查。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-motion-source-controls">
+<button class="image-button" type="button" aria-label="放大：H3动作时长跟随源视频，比例与分辨率单独选择"><img src="images/motion-source-controls.png.svg?v=c512071deec9f164" alt="H3动作迁移六种比例和480P、768P选择，时长显示跟随动作视频与二至三十秒限制" width="318" height="363" loading="lazy" decoding="async"></button>
+<figcaption><strong>H3动作时长跟随源视频，比例与分辨率单独选择</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在参数面板内向下滚动，选择比例及480P或768P。</li><li>时长显示“跟随动作视频”；需要更短的结果时，先裁剪源视频再上传。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-motion-subject-mapping">
+<button class="image-button" type="button" aria-label="放大：SCAIL2：按0开始的编号对应人物，自动生成人物遮罩"><img src="images/video-motion-subject-mapping.png.svg?v=687c9248f11a3e92" alt="人物参考图片、动作源视频要求，以及两组参考图人物到视频人物的配对下拉框" width="288" height="456" loading="lazy" decoding="async"></button>
+<figcaption><strong>SCAIL2：按0开始的编号对应人物，自动生成人物遮罩</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>添加1张人物参考图和1段5.2至15秒的动作视频。</li><li>按首次出现画面从左到右以0开始编号，在两列中逐一配对，最多5组。</li><li>检查每侧编号不重复；SAM3自动生成人物遮罩，无需上传。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-input-media-limits">
+<button class="image-button" type="button" aria-label="放大：H3素材规格：人物图不超过10 MiB，动作视频2～30秒"><img src="images/input-media-limits.png.svg?v=a5004b4d1fffe006" alt="H3动作生成素材提示，标明图片10 MiB上限、视频2至30秒及无需提示词或遮罩" width="320" height="136" loading="lazy" decoding="async"></button>
+<figcaption><strong>H3素材规格：人物图不超过10 MiB，动作视频2～30秒</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>上传或连接人物图与动作源视频前，确认图片大小和视频时长。</li><li>超限时先压缩图片或裁剪视频，再替换素材并重新提交。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>一次生成多张候选图</strong>普通画布文生图中，Z-Image-Turbo 可选 1／2／4／8 张，FLUX.2 [klein] 4B · FP8 可选 1／2／4 张；其他模型以实际菜单为准。数量表示一个任务输出几张，整批完成后再回填图片。</p>
+<p class="detail"><strong>生成前的补充设置</strong>图片面板里的角色设计、风格库、预设和摄像机控制，可补充人物、画风与镜头要求。旧画布使用已下线的系统预设时，生成按钮会说明是哪一项；移除该项或重新选择即可继续。“优化”可改写提示词，确认内容后再生成。</p>
+<details class="guide-details" id="s2-prompt-style">
+<summary>提示词、角色与风格<span class="guide-details__count">6 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-image-role-design">
+<button class="image-button" type="button" aria-label="放大：角色设计：补充人物特征"><img src="images/image-role-design.webp.svg?v=7c9b49ca1d597685" alt="角色设计" width="1872" height="1152" loading="lazy" decoding="async"></button>
+<figcaption><strong>角色设计：补充人物特征</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在图片生成面板打开“角色设计”。</li><li>按基础、穿搭、五官、体型、发型等分类选择标签。</li><li>点击“保存”，再确认提示词与参考素材是否一致。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-style-library">
+<button class="image-button" type="button" aria-label="放大：风格库：选择画风"><img src="images/image-style-library.webp.svg?v=ea19f47b67a26238" alt="风格库" width="1872" height="1152" loading="lazy" decoding="async"></button>
+<figcaption><strong>风格库：选择画风</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在图片生成面板打开“风格库”。</li><li>按动画与插画、写实等类别筛选，选择需要的风格。</li><li>回到生成面板检查描述；不需要的风格应取消后再生成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-style-extract-form">
+<button class="image-button" type="button" aria-label="放大：风格制作：手写描述，或用参考图提取"><img src="images/image-style-extract-form.webp.svg?v=617c7fad77b37e83" alt="风格制作：手写描述，或用参考图提取" width="1872" height="1152" loading="lazy" decoding="async"></button>
+<figcaption><strong>风格制作：手写描述，或用参考图提取</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在风格库进入“我的风格”，点击“创建风格”。</li><li>填写名称和不超过500字的风格描述；也可上传参考图后点击“提取风格描述词”。</li><li>确认描述后点击“下一步”；图中示例为手工填写，尚未提取。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-style-create-form">
+<button class="image-button" type="button" aria-label="放大：创建风格：补全封面后确认"><img src="images/image-style-create-form.webp.svg?v=e031f23ebc2a6b34" alt="创建风格：补全封面后确认" width="1872" height="1152" loading="lazy" decoding="async"></button>
+<figcaption><strong>创建风格：补全封面后确认</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>确认风格名称与描述。</li><li>上传封面图，再点击“创建风格”；返回生成面板后检查当前选用的风格。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-presets">
+<button class="image-button" type="button" aria-label="放大：预设：快速选择滤镜或功能描述"><img src="images/image-presets.webp.svg?v=f2b4e374e6bb0c9f" alt="图片预设选择" width="1592" height="990" loading="lazy" decoding="async"></button>
+<figcaption><strong>预设：快速选择滤镜或功能描述</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开生成面板中的“预设”。</li><li>按滤镜、功能、自定义分类查找，选择需要的预设。</li><li>回到面板检查提示词，再开始生成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-camera-control">
+<button class="image-button" type="button" aria-label="放大：摄像机控制：组合镜头要求"><img src="images/image-camera-control.webp.svg?v=a22141392e0a8d32" alt="摄像机组合控制" width="1112" height="1252" loading="lazy" decoding="async"></button>
+<figcaption><strong>摄像机控制：组合镜头要求</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在图片生成面板打开“摄像机控制”。</li><li>分别选择相机、镜头、焦距与光圈。</li><li>打开底部开关，将组合用于本次生成；上方示例图仅供参考。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>视频规格与声音</strong>分辨率、构图、时长和数量以当前型号实际开放的参数为准；已有节点保留原参数版。声音以成片为准；有明确台词或音色要求时，可另备音频素材，使用本地剪辑软件编排。</p>
+<p class="detail"><strong>原有 ComfyUI H3 工作流的尺寸</strong>以下尺寸表适用于原有首帧、首尾帧、图片与音频参考、全能参考（含视频）、文戏、武戏、SGUN长片和TR双采。打开模型参数，先选21:9、16:9、4:3、1:1、3:4或9:16，再选480P／768P／1080P（1088对齐）／2K；时长在下方独立滑杆调整。控件下方显示实际像素，生成尺寸以像素为准，部分比例按模型要求对齐。该链路1080P档的实际短边为1088像素，要求32像素对齐，未提供精确720P；这些限制不适用于上方独立列出的官方 API 型号。</p>
+<div class="resolution-table" role="region" aria-label="H3输出尺寸" tabindex="0">
+<table>
+<tr><th>构图</th><th>480P</th><th>768P</th><th>1080P（1088对齐）</th><th>2K</th></tr>
+<tr><th>宽屏 16:9</th><td>864×480</td><td>1344×768</td><td>1920×1088</td><td>2560×1440</td></tr>
+<tr><th>竖屏 9:16</th><td>480×864</td><td>768×1344</td><td>1088×1920</td><td>1440×2560</td></tr>
+<tr><th>方形 1:1</th><td>480×480</td><td>768×768</td><td>1088×1088</td><td>1440×1440</td></tr>
+<tr><th>横构图 4:3</th><td>640×480</td><td>1024×768</td><td>1440×1088</td><td>1920×1440</td></tr>
+<tr><th>竖构图 3:4</th><td>480×640</td><td>768×1024</td><td>1088×1440</td><td>1440×1920</td></tr>
+<tr><th>超宽屏 21:9</th><td>1120×480</td><td>1792×768</td><td>2528×1088</td><td>3360×1440</td></tr>
+</table>
+</div>
+<p class="detail"><strong>各型号的时长与参考</strong>首帧为5秒、1张图片；首尾帧为5／10／15秒、2张图片；图片与音频参考、含视频全能参考保留5／10／15秒；文戏保留5／10秒并另保留原10秒768×1376、1280×736；武戏为5秒；SGUN为20／30秒；TR为8秒、1～6张图片且不接受音频或视频参考。滑杆只在当前规格实际支持的时长之间切换，不能输入任意秒数；单时长型号显示固定时长。各型号原有音频／视频数量、参考顺序和时长限制继续适用。</p>
+<p class="detail"><strong>已有节点怎样使用新参数</strong>已有节点仍显示并使用原来的版本与规格，打开作品或修改提示词不会升级。旧的非标准尺寸保留在“保留规格”选项中。若希望在原节点使用扩展尺寸，主动切换到新比例或分辨率，确认下方实际尺寸后再生成；只有明确选择新规格才会绑定新参数版。原历史视频和已提交任务继续保留原规格，刷新不会重新生成。</p>
+<p class="detail"><strong>扩展规格的使用状态</strong>尺寸菜单可选、任务提交成功或接线验证通过，不代表每一项画质、声音、速度或显存占用均已手动验证；2K和长片所需资源更多，请按实际结果逐项确认。已有验证记录仍对应其当时的版本与规格。</p>
+<p class="detail"><strong>长片描述怎样分段</strong>SGUN 长片至少添加一个图片或视频参考。可用一段连续描述，也可用独占一行的 <code>---</code> 分段：20秒写2段，30秒写3段，逐段写清姿态和动作如何承接。同场景的小动作更适合；复杂打斗、快速运镜、跨场景和对白连贯性仍需另行尝试与审片。</p>
+<p class="detail"><strong>看懂生成进度</strong>“排队中”表示等待处理；普通任务的采样百分比只表示采样阶段，到采样 100% 后仍可能继续解码、保存。SGUN 长片显示“分段生成中”，中途不显示全片百分比；等完整成片保存后再查看。刷新后可从原项目与历史继续查看已生成结果。</p>
+<p class="detail"><strong>视频历史</strong>左侧“历史”中的“视频历史”显示已保存视频的封面，普通视频与分段长片都可回看。悬停可播放，点击“查看”打开预览；“使用”将旧结果带回画布，“复制提示词”复制该次描述，“下载”保存原视频。封面暂时无法加载时会在卡片内说明，不会把封面替代原视频或改变已有结果。历史窗口长时间打开时，视频链接会自动更新；网络恢复后会重新检查。链接暂不可用时，对应操作会暂时禁用并提供重试。画布暂不可编辑时，“使用”不会加入未保存的节点，恢复编辑后可继续操作。</p>
+<p class="detail"><strong>提交后能否停止</strong>模型标明不支持停止时，已提交任务的取消按钮将禁用并提示原因。请等待任务完成；关闭助手、离开画布或刷新页面不会终止已经接受的视频任务。</p>
+<details class="guide-details" id="s2-progress-history">
+<summary>生成进度与历史<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-canvas-image-history">
+<button class="image-button" type="button" aria-label="放大：图片历史：回看与复用已生成结果"><img src="images/canvas-image-history.webp.svg?v=c7d52a0a68b50fa8" alt="图片历史：回看与复用已生成结果" width="2888" height="1710" loading="lazy" decoding="async"></button>
+<figcaption><strong>图片历史：回看与复用已生成结果</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击画布左侧“历史”，切换到“图片历史”。</li><li>打开需要的结果查看，或进入“批量操作”整理。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-canvas-video-history">
+<button class="image-button" type="button" aria-label="放大：视频历史：查看封面、预览与再次使用"><img src="images/canvas-video-history.png.svg?v=cf3149e4b2a72b5d" alt="视频历史按日期显示普通视频与分段长片封面，悬停工具栏提供查看、使用、复制提示词及下载" width="1330" height="590" loading="lazy" decoding="async"></button>
+<figcaption><strong>视频历史：查看封面、预览与再次使用</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击画布左侧“历史”，切换到“视频历史”。</li><li>悬停卡片播放视频；使用卡片下方按钮预览、带回画布、复制提示词或下载原视频。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<h3>选中图片后，继续调整</h3>
+<table>
+<tr><th>解析</th><td>选图 →“解析”查看画面描述；局部识别先点“识别”，再点击图片中的位置选择元素，据此修改提示词。</td></tr>
+<tr><th>分镜大师</th><td>选图 →“分镜大师”→ 按用途选择多机位、剧情推演、布光、镜头意图、情绪、天气／效果、空间层次或三视图 → 检查出现的浮动条或面板中的描述，再点击生成。</td></tr>
+<tr><th>人物调节</th><td>选图 →“人物调节”→ 选择表情、视线、嘴形、姿态、形象或妆容 → 调整选项并生成。拖动结果图片可调整位置。点选结果后可修改参数并再次生成，首次提交被拒时也可在原节点重试。图片靠近视窗边缘时，参数面板会调整位置。姿态可结合骨架参考。</td></tr>
+<tr><th>角度与打光</th><td>“角度”中调左右、俯仰和远近；“打光”中调方向、高度、颜色与强度，再生成新图。</td></tr>
+<tr><th>区域与背景</th><td>重绘：标出区域、填写修改要求并生成；擦除：标出要去除的区域再生成。扩图：调整画布与原图位置，再生成。抠图、去文字、换背景按各自面板操作。</td></tr>
+<tr><th>画质与放大</th><td>“增强”会生成式重画细节；“高清”和“放大”共用 SeedVR2 的 2 倍放大。SeedVR2 输入图片长边须不超过 1024 像素，输出长边不超过 2048 像素。</td></tr>
+<tr><th>全景图</th><td>选图 →“全景图”→ 选择预设并生成；也可从图片生成面板使用文生全景。全景结果可拖动视角、调整视野并截屏回画布。</td></tr>
+<tr><th>本地整理</th><td>裁剪、镜像、旋转、调色和标注用于整理图片。选择“4宫格裁剪”中的“仅裁剪”会创建四张图片，可单独移动、连线或解组。组内只有素材时，“整组执行”呈灰色。选择“创建分镜格子”则可调整格子顺序并合成新图。</td></tr>
+</table>
+<details class="guide-details" id="s2-image-analysis">
+<summary>图片解析与局部识别<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-image-recognize-mode">
+<button class="image-button" type="button" aria-label="放大：局部识别：点击图片中的位置"><img src="images/image-recognize-mode.webp.svg?v=58e0eb78f5c5f604" alt="局部元素识别模式" width="1368" height="2076" loading="lazy" decoding="async"></button>
+<figcaption><strong>局部识别：点击图片中的位置</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片，进入“识别”的元素选择模式。</li><li>点击想了解的局部位置，等待识别结果；每次识别会发起任务。</li><li>用结果辅助修改描述，完成后点“退出”。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-image-storyboard">
+<summary>分镜大师<span class="guide-details__count">5 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-quick-master-menu">
+<button class="image-button" type="button" aria-label="放大：分镜大师：从一张图片继续创作"><img src="images/quick-master-menu.webp.svg?v=f0261989f658231b" alt="分镜大师主菜单" width="476" height="802" loading="lazy" decoding="async"></button>
+<figcaption><strong>分镜大师：从一张图片继续创作</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片，展开“分镜大师”。</li><li>按用途选择预设，检查出现的浮动条或面板中的描述。</li><li>确认后点击生成按钮。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-quick-lighting-menu">
+<button class="image-button" type="button" aria-label="放大：分镜大师：选择光影方向与风格"><img src="images/quick-lighting-menu.webp.svg?v=0b49f924bcaf4957" alt="分镜大师光影选项" width="778" height="1232" loading="lazy" decoding="async"></button>
+<figcaption><strong>分镜大师：选择光影方向与风格</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>展开“电影级光影校正”。</li><li>选择主光、逆光、伦勃朗布光等项目，检查出现的描述。</li><li>点击浮动条或面板中的生成按钮。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-quick-camera-menu">
+<button class="image-button" type="button" aria-label="放大：分镜大师：表达镜头意图"><img src="images/quick-camera-menu.webp.svg?v=222f83c29a2d52aa" alt="分镜大师运镜选项" width="778" height="1024" loading="lazy" decoding="async"></button>
+<figcaption><strong>分镜大师：表达镜头意图</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>展开“分镜大师”中的“运镜控制”。</li><li>选择推、拉、摇、移等镜头意图，检查出现的描述。</li><li>点击浮动条或面板中的生成按钮。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-quick-emotion-menu">
+<button class="image-button" type="button" aria-label="放大：分镜大师：重塑人物情绪"><img src="images/quick-emotion-menu.webp.svg?v=6dcc686df67c04cc" alt="分镜大师情绪选项" width="778" height="1088" loading="lazy" decoding="async"></button>
+<figcaption><strong>分镜大师：重塑人物情绪</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>展开“情绪重塑”。</li><li>选择微笑、思考、疑惑等情绪，检查出现的描述。</li><li>点击浮动条或面板中的生成按钮。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-quick-weather-menu">
+<button class="image-button" type="button" aria-label="放大：分镜大师：天气与动态场效"><img src="images/quick-weather-menu.webp.svg?v=978d27ab6df41c38" alt="分镜大师天气与场效" width="778" height="1100" loading="lazy" decoding="async"></button>
+<figcaption><strong>分镜大师：天气与动态场效</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>展开“动态场效（意境增强）”。</li><li>选择雨天、雪天、丁达尔效应等项目，检查出现的描述。</li><li>点击浮动条或面板中的生成按钮。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-image-portrait">
+<summary>人物调节<span class="guide-details__count">7 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-portrait-menu">
+<button class="image-button" type="button" aria-label="放大：人物调节的四个入口"><img src="images/portrait-menu.webp.svg?v=3470e8ed33caace2" alt="人物调节入口" width="1920" height="842" loading="lazy" decoding="async"></button>
+<figcaption><strong>人物调节的四个入口</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中含有人物的图片，展开“人物调节”。</li><li>面部控制含表情、视线、嘴形；姿态、形象与妆容分别进入对应面板。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-portrait-face">
+<button class="image-button" type="button" aria-label="放大：面部控制：调整人物表情"><img src="images/portrait-face.webp.svg?v=598389af10152758" alt="人物表情" width="1432" height="1260" loading="lazy" decoding="async"></button>
+<figcaption><strong>面部控制：调整人物表情</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开“面部控制”，选择“情绪控制”。</li><li>拖动情绪位置或选择预设，查看右侧预览。</li><li>确认本次调整后点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-portrait-gaze">
+<button class="image-button" type="button" aria-label="放大：面部控制：调整视线方向"><img src="images/portrait-gaze.webp.svg?v=6d222a719df7d649" alt="人物视线" width="1432" height="1260" loading="lazy" decoding="async"></button>
+<figcaption><strong>面部控制：调整视线方向</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在面部控制中切换到“视线方向”。</li><li>选择左上、正视等方向，确认预览后点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-portrait-mouth">
+<button class="image-button" type="button" aria-label="放大：面部控制：调整嘴巴形态"><img src="images/portrait-mouth.webp.svg?v=8a1792f5020a56d1" alt="人物嘴形" width="1432" height="1260" loading="lazy" decoding="async"></button>
+<figcaption><strong>面部控制：调整嘴巴形态</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在面部控制中切换到“嘴巴形态”。</li><li>选择微笑、张嘴等形态，再点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-portrait-pose">
+<button class="image-button" type="button" aria-label="放大：姿态调整：拖动骨架关节"><img src="images/portrait-pose.webp.svg?v=1d58f578ed12c184" alt="人物姿态" width="954" height="700" loading="lazy" decoding="async"></button>
+<figcaption><strong>姿态调整：拖动骨架关节</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从人物调节进入“姿态调整”。</li><li>拖动关节点调整姿态；需要时使用比例锁定或重置。</li><li>确认骨架后点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-portrait-appearance">
+<button class="image-button" type="button" aria-label="放大：形象设定：年龄、肤色、发型与体态"><img src="images/portrait-appearance.webp.svg?v=4ea6a2fd1ddf797a" alt="人物形象" width="635" height="561" loading="lazy" decoding="async"></button>
+<figcaption><strong>形象设定：年龄、肤色、发型与体态</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开“形象设定”，展开希望调整的类别。</li><li>选择所需项目，查看本次形象设定，再点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-portrait-makeup">
+<button class="image-button" type="button" aria-label="放大：妆容调节：选择妆容预设"><img src="images/portrait-makeup.webp.svg?v=8d48f7358ba5ec7b" alt="人物妆容" width="705" height="581" loading="lazy" decoding="async"></button>
+<figcaption><strong>妆容调节：选择妆容预设</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开“妆容调节”，切换顶部分类。</li><li>选择妆容，确认“当前所选妆容”后点击“开始生成”。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-image-angle-light">
+<summary>角度与打光<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-image-angle">
+<button class="image-button" type="button" aria-label="放大：角度：设置旋转、倾斜与远近意图"><img src="images/image-angle.webp.svg?v=abe8fc237f22f26a" alt="角度控制" width="1194" height="704" loading="lazy" decoding="async"></button>
+<figcaption><strong>角度：设置旋转、倾斜与远近意图</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片，打开“角度”。</li><li>拖动方块或滑块，调整旋转、倾斜和缩放意图。</li><li>点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-lighting">
+<button class="image-button" type="button" aria-label="放大：打光：调整方向、高度、强度与颜色"><img src="images/image-lighting.webp.svg?v=2abcf32453fe5189" alt="打光控制" width="1350" height="1104" loading="lazy" decoding="async"></button>
+<figcaption><strong>打光：调整方向、高度、强度与颜色</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片并打开“打光”。</li><li>选择主光源方向，调整方位、高度、强度与颜色。</li><li>点击“开始生成”，查看新的光照效果。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-image-regions">
+<summary>重绘、擦除与扩图<span class="guide-details__count">3 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-image-redraw">
+<button class="image-button" type="button" aria-label="放大：重绘：只描述希望修改的区域"><img src="images/image-redraw.webp.svg?v=5b6a1d86d3ca4500" alt="区域重绘：标记范围、描述与开始生成" width="1962" height="2328" loading="lazy" decoding="async"></button>
+<figcaption><strong>重绘：只描述希望修改的区域</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从“更多”进入“重绘”，用画笔或矩形标出区域。</li><li>填写修改要求，例如改变外套颜色并保留其他内容。</li><li>点击“开始生成”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-erase">
+<button class="image-button" type="button" aria-label="放大：擦除：去掉选定区域的内容"><img src="images/image-erase.webp.svg?v=dc28940e5da98ee7" alt="区域擦除：标记待移除范围与生成入口" width="1962" height="2366" loading="lazy" decoding="async"></button>
+<figcaption><strong>擦除：去掉选定区域的内容</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从“更多”进入“擦除”。</li><li>用画笔或矩形标出要去除的区域；可用橡皮修正范围。</li><li>点击“开始生成”，查看补全后的画面。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-expand">
+<button class="image-button" type="button" aria-label="放大：扩图：向原图四周补充画面"><img src="images/image-expand.webp.svg?v=95adca9eb29bbd15" alt="扩图：外框、参考画布和开始生成" width="1556" height="1664" loading="lazy" decoding="async"></button>
+<figcaption><strong>扩图：向原图四周补充画面</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从“更多”进入“扩图”。</li><li>拖动外框扩大范围，调整原图在新画布中的位置。</li><li>点击“开始生成”。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+
+<details class="guide-details" id="s2-image-quality">
+<summary>图像增强与放大<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-image-quality-menu">
+<button class="image-button" type="button" aria-label="放大：画质：生成式增强，或 SeedVR2 2倍放大"><img src="images/image-quality-menu.webp.svg?v=631644bf65d8294d" alt="画质菜单：增强、放大与高清入口" width="380" height="304" loading="lazy" decoding="async"></button>
+<figcaption><strong>画质：生成式增强，或 SeedVR2 2倍放大</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片并展开“画质”。</li><li>“增强”用于生成式重画细节；“高清”和“放大”共用 SeedVR2 2倍能力。</li><li>SeedVR2 输入长边不超过1024像素；先确认原图尺寸。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-image-panorama">
+<summary>全景生成与查看<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-image-panorama-menu">
+<button class="image-button" type="button" aria-label="放大：全景图：生成或进入查看器"><img src="images/image-panorama-menu.webp.svg?v=d7ad004a3418329d" alt="全景图菜单" width="458" height="228" loading="lazy" decoding="async"></button>
+<figcaption><strong>全景图：生成或进入查看器</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>普通图片先选“生成全景图”，再按面板选择预设并生成。</li><li>已有全景素材可选“进入全景”，拖动查看不同方向。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-existing-panorama-webgl-90-fov">
+<button class="image-button" type="button" aria-label="放大：全景查看：转动视角，再截取需要的画面"><img src="images/existing-panorama-webgl-90-fov.webp.svg?v=93819c0269bebfc7" alt="全景查看器，FOV90、透视曲度、参考线、截图/多视角/重置/镜像/全屏" width="1908" height="830" loading="lazy" decoding="async"></button>
+<figcaption><strong>全景查看：转动视角，再截取需要的画面</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开全景结果并拖动视角。</li><li>调整左下角 FOV（视野）与透视曲度，按需打开参考线。</li><li>点击上方“截图”，将当前构图带回画布。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-image-local">
+<summary>裁剪、旋转、调色与标注<span class="guide-details__count">6 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-image-more-menu">
+<button class="image-button" type="button" aria-label="放大：更多菜单：找到图片整理与区域工具"><img src="images/image-more-menu.webp.svg?v=941c8f25ce383daf" alt="图片更多工具菜单" width="458" height="692" loading="lazy" decoding="async"></button>
+<figcaption><strong>更多菜单：找到图片整理与区域工具</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片并展开“更多”。</li><li>按用途选择调色、裁剪、旋转，或重绘、擦除、扩图、抠图、去文字。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-crop">
+<button class="image-button" type="button" aria-label="放大：裁剪：保留需要的画面"><img src="images/image-crop.webp.svg?v=08e2a857451131ee" alt="裁剪：拖动裁框、宽高比与确认" width="1324" height="1450" loading="lazy" decoding="async"></button>
+<figcaption><strong>裁剪：保留需要的画面</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从“更多”进入“裁剪”。</li><li>拖动裁剪框，或通过“宽高比”选择构图。</li><li>点击“确认”应用裁剪。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-color">
+<button class="image-button" type="button" aria-label="放大：调色：调整光线与颜色后保存"><img src="images/image-color.webp.svg?v=75f76a73c01d8108" alt="调色：光线参数与保存" width="1962" height="1350" loading="lazy" decoding="async"></button>
+<figcaption><strong>调色：调整光线与颜色后保存</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从“更多”进入“调色”。</li><li>切换参数类别，调整曝光、对比度、颜色等选项。</li><li>查看预览，再点击“保存”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-rotate">
+<button class="image-button" type="button" aria-label="放大：旋转与镜像：调整图片方向"><img src="images/image-rotate.webp.svg?v=6d50c0705242451b" alt="旋转镜像" width="1292" height="1490" loading="lazy" decoding="async"></button>
+<figcaption><strong>旋转与镜像：调整图片方向</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从“更多”进入“旋转”。</li><li>按需要点击镜像、向左旋转或向右旋转。</li><li>查看画面后点击“保存”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-canvas-grid-crop-results">
+<button class="image-button" type="button" aria-label="放大：四宫格裁剪结果"><img src="images/canvas-grid-crop-results.png.svg?v=77016a8568aa229e" alt="左侧是原图，右侧分组内是四张可独立移动的裁图，整组执行呈灰色" width="2140" height="1168" loading="lazy" decoding="async"></button>
+<figcaption><strong>四宫格裁剪结果</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片，打开“宫格裁剪”，选择“4宫格裁剪”中的“仅裁剪”。</li><li>选中任意裁图，可以拖动位置或连接到生成节点。</li><li>组内只有素材时，“整组执行”呈灰色。点击“解组”可分开整理图片。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-annotation">
+<button class="image-button" type="button" aria-label="放大：标注：添加框、箭头、文字与笔迹"><img src="images/image-annotation.webp.svg?v=0c9d659706a17d12" alt="图片标注" width="1620" height="1496" loading="lazy" decoding="async"></button>
+<figcaption><strong>标注：添加框、箭头、文字与笔迹</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片并打开“标注”。</li><li>选择形状、画笔、箭头或文字，设置颜色与粗细后在图上标记。</li><li>需要时撤销或擦除，完成后点击“保存”。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-image-grid">
+<summary>宫格裁剪与分镜格子<span class="guide-details__count">4 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-image-grid-crop-menu">
+<button class="image-button" type="button" aria-label="放大：宫格裁剪：选择网格"><img src="images/image-grid-crop-menu.webp.svg?v=f3441a802a1c42e1" alt="宫格裁剪：选择网格数量或自定义" width="630" height="730" loading="lazy" decoding="async"></button>
+<figcaption><strong>宫格裁剪：选择网格</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中图片，展开“宫格裁剪”。</li><li>选择四宫格、九宫格等网格，或自定义行列数。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-grid-output-options">
+<button class="image-button" type="button" aria-label="放大：选择拆成图片，或放入分镜格子"><img src="images/image-grid-output-options.webp.svg?v=2b34fdfc4338cd2c" alt="宫格拆分输出：独立图片或分镜格子" width="630" height="470" loading="lazy" decoding="async"></button>
+<figcaption><strong>选择拆成图片，或放入分镜格子</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>“仅裁剪”会创建独立图片节点。</li><li>“创建分镜格子”会把裁剪结果填入分镜节点，便于后续排序和合成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-grid-custom">
+<button class="image-button" type="button" aria-label="放大：自定义宫格：输入行数与列数"><img src="images/image-grid-custom.webp.svg?v=21e012ea9db27023" alt="自定义宫格：设置行数和列数" width="630" height="504" loading="lazy" decoding="async"></button>
+<figcaption><strong>自定义宫格：输入行数与列数</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在宫格裁剪中选择自定义网格及输出方式。</li><li>输入行数、列数，再点击“确认”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-image-grid-editor">
+<button class="image-button" type="button" aria-label="放大：分镜格子：布局、替换与合成"><img src="images/image-grid-editor.webp.svg?v=53e39c134c36cf5d" alt="分镜格子：布局、替换与合成" width="1748" height="1926" loading="lazy" decoding="async"></button>
+<figcaption><strong>分镜格子：布局、替换与合成</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>创建分镜格子后，在顶部选择比例与网格数量。</li><li>逐格预览、替换或移除图片，确认每格内容和顺序。</li><li>各格就绪后点“合成”，生成组合图片；“退出”返回画布。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>确认结果再继续</strong>生成与放大可能重画细节；使用前统一检查人物、文字、边缘和全景接缝，并确认提示词与风格一致。</p>
+<p class="detail"><strong>从脚本到故事板</strong>添加“脚本策划”→ 输入剧情、人物与镜头要求 → 生成并“打开脚本节点”。先在资产页生成或上传角色图；需要单张或批量生成时，进入“多选”、选好角色，再点“生成”。确认角色图后，点“合成故事板”，设置合并方式，再点“生成分镜故事板”。</p>
+<p class="detail">角色生成以资产页上方实际选择的模型为准。需要沿用某张图的人物时，先从素材库明确选作参考，再选参考图编辑模型；类型弹窗中点选“角色人设图”或“角色四视图”会开始生成。</p>
+<details class="guide-details" id="s2-script">
+<summary>脚本策划与分镜表<span class="guide-details__count">3 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-script-node">
+<button class="image-button" type="button" aria-label="放大：脚本节点：打开完整分镜表"><img src="images/script-node.webp.svg?v=905f27d6204733d0" alt="脚本节点：打开完整分镜表" width="808" height="498" loading="lazy" decoding="async"></button>
+<figcaption><strong>脚本节点：打开完整分镜表</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>添加“脚本策划”节点，输入剧情、人物和镜头要求并生成。</li><li>完成后点“打开脚本节点”，进入脚本、资产与故事板三步面板。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-script-edit-table">
+<button class="image-button" type="button" aria-label="放大：编辑分镜表与逐镜内容"><img src="images/script-edit-table.webp.svg?v=a54e887fa3e21351" alt="编辑分镜表与逐镜内容" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>编辑分镜表与逐镜内容</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在“脚本”步骤查看镜号、时长、画面描述与分镜提示词。</li><li>用“编辑分镜”修改镜头；“字段”“筛选”用于整理表格。</li><li>检查镜头内容后点“下一步”，准备角色等资产。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-script-global-setting">
+<button class="image-button" type="button" aria-label="放大：全局设定：补充共同要求"><img src="images/script-global-setting.webp.svg?v=b5aa925a61bad13b" alt="全局设定：补充共同要求" width="1192" height="760" loading="lazy" decoding="async"></button>
+<figcaption><strong>全局设定：补充共同要求</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点分镜表顶部“全局设定”。</li><li>填写各镜共同遵守的场景、人物或风格要求，点“确认”。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-entities">
+<summary>角色图与批量生成<span class="guide-details__count">3 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-script-global-assets">
+<button class="image-button" type="button" aria-label="放大：资产步骤：准备角色参考图"><img src="images/script-global-assets.webp.svg?v=df12391aa91a0b6c" alt="资产步骤：准备角色参考图" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>资产步骤：准备角色参考图</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在“资产”步骤检查角色名称与描述，生成或上传角色图。</li><li>要固定某张图的人物，从素材库明确选作参考，再选参考图编辑模型。</li><li>角色图就绪后选择合并方式，再点“合成故事板”进入逐镜检查。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-script-role-multiselect">
+<button class="image-button" type="button" aria-label="放大：多选角色：单张与批量生成"><img src="images/script-role-multiselect.webp.svg?v=18a3e4b6eff73147" alt="多选角色：单张与批量生成" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>多选角色：单张与批量生成</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>先在上方选择实际图片模型，再进入“多选”。</li><li>点选一张角色卡可单独生成；点选多张或“选择全部”可批量生成。</li><li>点“生成”打开类型选择；参考编辑模型要求所选角色均已指定参考图。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-script-role-image-type">
+<button class="image-button" type="button" aria-label="放大：选择角色图类型，开始生成"><img src="images/script-role-image-type.webp.svg?v=ff439bd2c3b2f3a5" alt="选择角色图类型，开始生成" width="1096" height="526" loading="lazy" decoding="async"></button>
+<figcaption><strong>选择角色图类型，开始生成</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>按用途选择“角色四视图”或“角色人设图”；点击类型即开始生成。</li><li>实际模型以上一页模型菜单为准；图中“全能图片G2”旧提示不代表已接入该模型。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-storyboard">
+<summary>合成故事板<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-script-compose-storyboard">
+<button class="image-button" type="button" aria-label="放大：逐镜检查，再生成分镜故事板"><img src="images/script-compose-storyboard.webp.svg?v=9a43a9587de6bd12" alt="逐镜检查，再生成分镜故事板" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>逐镜检查，再生成分镜故事板</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在“合成故事板”步骤逐镜检查合成提示词和角色引用。</li><li>选择可用参考编辑模型，确认各镜所需资产就绪。</li><li>点击“生成分镜故事板”，等待分镜图片回到画布。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>从分镜图到视频</strong>分镜图就绪后，选中故事板组 →“批量生成视频节点”。创建节点后，逐个确认视频模式、模型、参考和规格，再点“开始生成”。创建视频节点本身不会生成成片。</p>
+<details class="guide-details" id="s2-storyboard-video">
+<summary>从故事板创建视频<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-storyboard-video-plan">
+<button class="image-button" type="button" aria-label="放大：从故事板规划每镜视频节点"><img src="images/storyboard-video-plan.webp.svg?v=a6f5358f16e10f49" alt="两张故事板各选约5秒，规划两个视频节点，显示总时长10秒" width="1792" height="634" loading="lazy" decoding="async"></button>
+<figcaption><strong>从故事板规划每镜视频节点</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中故事板组，点击“批量生成视频节点”，勾选要转成视频的分镜图。</li><li>选择模型和每镜规格；图中两镜各约5秒，总时长10秒。</li><li>点“批量生成视频节点”创建节点；再逐个检查参考与描述，点“开始生成”才生成视频。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<p class="detail"><strong>画布助手与整组处理</strong>点击画布伙伴打开助手，输入创作要求，按需添加素材并选择生成偏好；希望先确认方案时保留“先询问”。多选节点后可打组，选中普通组使用“整组执行”；执行前先核对组内各节点的模型、参数和引用。</p>
+<details class="guide-details" id="s2-canvas-agent">
+<summary>画布助手<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-canvas-agent">
+<button class="image-button" type="button" aria-label="放大：画布助手：从想法开始创作"><img src="images/canvas-agent.webp.svg?v=44bd3946956cb74f" alt="画布助手：从想法开始创作" width="1062" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>画布助手：从想法开始创作</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开画布助手，在新对话中描述想创建的内容。</li><li>需要时用“＋”补充素材，在设置中选择生成前是否确认。</li><li>检查助手给出的计划和生成节点，再继续编辑；未开放的技能入口仍不可使用。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+
+<p class="detail"><strong>处理已有视频与音频</strong>选中视频可提取首帧、末帧、当前帧或按间隔抽帧，也可生成 0.25～4 倍速视频。使用倍速预设、滑块或修改目标时长均适用此范围；超出范围时提交按钮变灰。展开“音频分离”并选择同名项目，可提取完整音轨。单独运行音轨节点时，只读取当前连线的视频及其所选结果。断开连线后须先接回一个视频；换接其他视频后会提取新视频的音轨。音频素材可裁切或调整倍速。需要稳定编排多个片段时，先下载到本地剪辑软件。</p>
+<details class="guide-details" id="s2-video-local">
+<summary>视频抽帧、倍速与音轨<span class="guide-details__count">5 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-video-local-toolbar">
+<button class="image-button" type="button" aria-label="放大：选中视频，查看可用工具"><img src="images/video-local-toolbar.webp.svg?v=15f808f65ba83a3e" alt="视频工具栏：捕捉帧、剪辑与完整音轨入口" width="1922" height="292" loading="lazy" decoding="async"></button>
+<figcaption><strong>选中视频，查看可用工具</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>单击视频节点，显示上方工具栏。</li><li>从“捕捉帧”“音频分离”或“更多”进入对应操作；灰色工具暂未开放。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-capture-frame-panel">
+<button class="image-button" type="button" aria-label="放大：捕捉帧：先选择画面，再加入画布"><img src="images/video-capture-frame-panel.webp.svg?v=d57f15ca8a81506e" alt="捕捉帧：首帧、当前帧、逐秒与尾帧" width="1872" height="1220" loading="lazy" decoding="async"></button>
+<figcaption><strong>捕捉帧：先选择画面，再加入画布</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开“捕捉帧”，拖动时间轴找到需要的时刻。</li><li>点击截首帧、截当前帧、逐秒抽帧或截尾帧。</li><li>检查抽出的图片，再单张添加或点“全部添加到画布”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-local-more-menu">
+<button class="image-button" type="button" aria-label="放大：视频更多菜单：进入倍速"><img src="images/video-local-more-menu.webp.svg?v=123cbf46f1457e66" alt="视频更多菜单：倍速等入口" width="2024" height="522" loading="lazy" decoding="async"></button>
+<figcaption><strong>视频更多菜单：进入倍速</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中视频，展开“更多”。</li><li>选择“倍速”，按下一面板设置速度与目标时长。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-speed-panel">
+<button class="image-button" type="button" aria-label="放大：视频倍速：确认目标时长后提交"><img src="images/video-speed-panel.webp.svg?v=701e6e9fd08465b4" alt="视频倍速：选择可用倍数后提交" width="792" height="770" loading="lazy" decoding="async"></button>
+<figcaption><strong>视频倍速：确认目标时长后提交</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从视频“更多”进入“倍速”。</li><li>选择当前可用的倍数，检查原时长与目标时长。</li><li>点击“提交”，等待新的倍速视频完成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-video-audio-separation-menu">
+<button class="image-button" type="button" aria-label="放大：音频分离：提取完整音轨"><img src="images/video-audio-separation-menu.webp.svg?v=da71b559253eface" alt="音频分离：完整音轨可用，人声与环境音暂未开放" width="1922" height="362" loading="lazy" decoding="async"></button>
+<figcaption><strong>音频分离：提取完整音轨</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中视频，展开“音频分离”。</li><li>选择同名“音频分离”项目，提取完整音轨；人声和环境音分离暂未开放。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s2-audio-local">
+<summary>音频裁切与倍速<span class="guide-details__count">3 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-audio-local-toolbar">
+<button class="image-button" type="button" aria-label="放大：音频工具：下载、裁剪与变速"><img src="images/audio-local-toolbar.webp.svg?v=861eaca9fb91f018" alt="音频工具栏：下载、裁剪与变速" width="1152" height="782" loading="lazy" decoding="async"></button>
+<figcaption><strong>音频工具：下载、裁剪与变速</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中已有音频，显示上方工具栏。</li><li>选择下载、裁剪或变速；波形下方可播放试听。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-audio-trim-panel">
+<button class="image-button" type="button" aria-label="放大：音频裁剪：调整保留范围"><img src="images/audio-trim-panel.webp.svg?v=b8dd8dc80eb7d3bb" alt="音频截取：调整范围后生成新片段" width="1310" height="812" loading="lazy" decoding="async"></button>
+<figcaption><strong>音频裁剪：调整保留范围</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开音频“裁剪”，拖动选框两侧改变范围；拖动选框可整体移动。</li><li>确认底部起止时间，点击“生成”创建截取后的片段。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-audio-speed-panel">
+<button class="image-button" type="button" aria-label="放大：音频变速：设置倍数后生成"><img src="images/audio-speed-panel.webp.svg?v=1a435e02c1f4d43d" alt="音频变速：设置倍数后生成" width="1310" height="812" loading="lazy" decoding="async"></button>
+<figcaption><strong>音频变速：设置倍数后生成</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开音频“变速”，拖动滑条或填写倍数。</li><li>确认新速度后点击“生成”，得到独立的音频结果。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<h3>当前未开放的能力</h3>
+<p class="detail">首页视频直出、通用动作复刻、AI 应用、画布工作流、SkillHub／技能／插件，以及语音／音乐、3D 模型／世界生成暂未开放。文生视频需选择已配置的官方型号；指定的四个动作入口按上方说明使用。生成视频请从画布视频节点或画布助手的视频模式进入。</p>
+<p class="detail">图片“编辑元素”，以及视频重拍、解析、修复、深度、专门画质处理、人声／环境音分离和配音预设暂未开放。原生工具栏、“更多”、添加节点和文本选区的快捷入口按实际能力开放。灰色按钮可悬停查看原因；纯文字生成视频需当前账号已有可用文生视频型号。历史画布仍可查看已有解析结果或重新上传 3D 文件；尚未接入的 3D 生成重试、解析确认和复刻继续导出也会置灰。</p>
+<details class="guide-details" id="s2-unavailable">
+<summary>当前未开放：如何识别边界<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-audio-generation-unavailable">
+<button class="image-button" type="button" aria-label="放大：未开放：语音与音乐生成"><img src="images/audio-generation-unavailable.webp.svg?v=224061182d4cc3f2" alt="未开放：语音与音乐生成" width="1830" height="1168" loading="lazy" decoding="async"></button>
+<figcaption><strong>未开放：语音与音乐生成</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>音频节点可展示生成面板，但当前没有已接入的语音／音乐模型。</li><li>需要声音时先上传已有音频；可使用本地裁切、倍速或视频音轨提取。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-canvas-tool-availability">
+<button class="image-button" type="button" aria-label="放大：同一工具菜单中，完整音轨可用，人声和环境音分离暂未开放"><img src="images/canvas-tool-availability-20261104.png.svg?v=5f9f260a23c2871c" alt="视频工具栏及展开的音频分离菜单，可用命令为白色，不可用命令为灰色" width="1908" height="354" loading="lazy" decoding="async"></button>
+<figcaption><strong>同一工具菜单中，完整音轨可用，人声和环境音分离暂未开放</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>选中已有视频，展开“音频分离”。</li><li>点击白色的“音频分离”提取完整音轨。灰色的“人声分离”和“环境音分离”当前不可执行。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+</section>
+<section id="s3"><p class="kicker">03</p>
+<h2>3D 导演台与画板</h2>
+<p class="intro">画布左侧“＋” → 导演台 → 打开3D导演台，用于安排角色、场景、灯光与机位。</p>
+<p class="detail">导演台的 AI 识图与文字自动布景暂未开放，请手动布置场景。预览、调整镜头和已有场景不受影响。</p>
+<figure class="guide-figure" id="figure-overview-director">
+<button class="image-button" type="button" aria-label="放大：3D 导演台与画板：主要操作位置"><img src="images/03-director.png.svg?v=9798073e4a5b663f" alt="3D 导演台与画板，关键操作位置已用数字标记" width="1360" height="840" loading="lazy" decoding="async"></button>
+<figcaption><strong>3D 导演台与画板：主要操作位置</strong><span class="guide-figure__hint">点击图片放大</span></figcaption>
+</figure><ol><li><span class="num">1</span><div><strong>布置场景</strong><span>左侧切换角色、模型、灯光和机位，选择需要的资源；右侧面板调整选中对象或场景参数。</span></div></li>
+<li><span class="num">2</span><div><strong>检查构图</strong><span>自由视角用于观察和摆放场景；机位视角用于查看镜头构图。</span></div></li>
+<li><span class="num">3</span><div><strong>调整对象</strong><span>使用底部的移动、旋转、缩放工具调整所选对象。</span></div></li>
+<li><span class="num">4</span><div><strong>输出画面</strong><span>底部相机按钮截屏，录像按钮录制视角画面。</span></div></li></ol>
+<details class="guide-details" id="s3-director-scene">
+<summary>导演台：场景与对象<span class="guide-details__count">4 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-director-scene">
+<button class="image-button" type="button" aria-label="放大：导演台：对象列表、视角与基础参数"><img src="images/director-scene.webp.svg?v=cc3421343f6b980b" alt="3D导演台场景与工具" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>导演台：对象列表、视角与基础参数</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>左侧“对象”用于选择场景中的对象，顶部切换自由视角与机位视角。</li><li>右侧可调整背景、名称显示、地面网格等基础设置。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-director-characters">
+<button class="image-button" type="button" aria-label="放大：角色库：选择单人或群体入口"><img src="images/director-characters.webp.svg?v=404ab002db22f734" alt="导演台角色库与群体摆放入口" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>角色库：选择单人或群体入口</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>左侧打开“角色”，按需要选择人物类型。</li><li>群体摆放可从下方阵列或随机分布入口开始，再检查场景位置。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-director-models">
+<button class="image-button" type="button" aria-label="放大：模型库：当前为空，可查看搜索与上传入口"><img src="images/director-models.webp.svg?v=50ea9bd1fb1eb0dd" alt="导演台模型库：搜索与上传入口" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>模型库：当前为空，可查看搜索与上传入口</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>左侧打开“模型”。</li><li>当前未预置模型时会显示空库提示；可通过搜索或上传入口准备资源。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-director-lighting">
+<button class="image-button" type="button" aria-label="放大：导演台灯光：主光与环境光"><img src="images/director-lighting.webp.svg?v=17820fea4ac40385" alt="导演台主光与环境光" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>导演台灯光：主光与环境光</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开左侧“灯光”。</li><li>调整主光强度、水平、俯仰与颜色，再按需要调环境光。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s3-director-camera">
+<summary>导演台：视角与输出<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-director-cameras">
+<button class="image-button" type="button" aria-label="放大：机位：选择方向、景别与视野"><img src="images/director-cameras.webp.svg?v=2e9d02903957ed62" alt="导演台机位库与镜头参数" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>机位：选择方向、景别与视野</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>打开左侧“机位”，选择基础方向、景别或当前视角。</li><li>通过 FOV 和镜头距离调整构图，再切换机位视角查看。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-director-output">
+<button class="image-button" type="button" aria-label="放大：机位视角：画幅与输出入口"><img src="images/director-output.webp.svg?v=f1aeaadc6ad4536f" alt="导演台画幅与输出入口" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>机位视角：画幅与输出入口</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>切换到“机位视角”，在右侧查看所选机位的位置与目标。</li><li>从底部画幅按钮选择构图比例，再检查当前画面。</li><li>底部相机与录像图标为输出入口，按出现的面板继续。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<h3>2D 画板：选好创作方式再生成</h3>
+<p class="detail">从画布左侧“画板”进入生成预览，点击“进入 2D 画板”绘制。画好后，选模型、填写描述，点“应用草图并生成”；也可直接在预览中选择模型、风格和生成方式。</p>
+<table>
+<tr><th>参考草图</th><td>Qwen-Image-Edit-2511、Codex 图像工具·参考编辑会读取当前绘画。这两项支持手动与实时模式；实时模式可按绘画变化继续生成，也可暂停。</td></tr>
+<tr><th>文字创作</th><td>Z-Image-Turbo、FLUX.1 [dev]、FLUX.2 [klein] 9B／4B、Codex 图像工具·生成仅用于手动模式。它们只读取描述与所选风格，不会读取草图；需要先填写画面描述。</td></tr>
+</table>
+<p class="detail">手动模式共 7 个模型选项，实时模式共 2 个。画板每次生成一张；结果可在历史中回看、作为新参考继续编辑，也可下载、保存到资产或加入画布。</p>
+<p class="detail">切入实时模式后，当前画面可能立即开始生成。整理或替换参考前先暂停；已提交的任务仍会在后台处理。</p>
+<details class="guide-details" id="s3-sketchboard-entry">
+<summary>2D画板入口与绘画<span class="guide-details__count">2 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-sketch-manual-overview">
+<button class="image-button" type="button" aria-label="放大：2D预览：左侧绘画，右侧查看结果"><img src="images/sketch-manual-overview.webp.svg?v=525d39a746f36a9b" alt="2D画板手动生成总览" width="3200" height="2200" loading="lazy" decoding="async"></button>
+<figcaption><strong>2D预览：左侧绘画，右侧查看结果</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>进入画板后选择“手动生成”。</li><li>在左侧绘画或放入参考，在下方填写描述并选择风格。</li><li>点击生成按钮；右侧结果可加入画布或打开历史回看。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-sketch-drawing-editor">
+<button class="image-button" type="button" aria-label="放大：进入完整2D编辑器，再应用当前绘画"><img src="images/sketch-drawing-editor.webp.svg?v=e9c1e871a4c9c32d" alt="2D绘画编辑器与生成设置" width="3200" height="2200" loading="lazy" decoding="async"></button>
+<figcaption><strong>进入完整2D编辑器，再应用当前绘画</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从预览点击“进入2D画板”。</li><li>使用画笔、图形、文字、图层等工具整理画面；工程可单独保存。</li><li>选好模型、填写描述，点“应用草图并生成”。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s3-sketchboard-models">
+<summary>2D模型与生成方式<span class="guide-details__count">3 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-sketch-manual-text-model">
+<button class="image-button" type="button" aria-label="放大：文字创作：按描述生成，不读取草图"><img src="images/sketch-manual-text-model.webp.svg?v=916725b6952e07a8" alt="2D画板文字创作模型" width="3200" height="2200" loading="lazy" decoding="async"></button>
+<figcaption><strong>文字创作：按描述生成，不读取草图</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在手动模式中选择 Z-Image、FLUX 或 Codex 生成模型。</li><li>填写画面描述并选择风格；左侧绘画不会作为约束。</li><li>点击生成；右侧会保留已有结果，直到新的结果完成。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-sketch-style-options">
+<button class="image-button" type="button" aria-label="放大：画板风格：与描述保持一致"><img src="images/sketch-style-options.webp.svg?v=a101abcd15378d33" alt="2D画板风格选择" width="2612" height="780" loading="lazy" decoding="async"></button>
+<figcaption><strong>画板风格：与描述保持一致</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击底部风格缩略图或“…”展开更多选项。</li><li>选择二次元、线稿、水彩等风格，再检查文字描述是否一致。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-sketch-realtime-pause-controls">
+<button class="image-button" type="button" aria-label="放大：实时模式：整理参考前先暂停"><img src="images/sketch-realtime-pause-controls.webp.svg?v=a7b5c9b8103ea28c" alt="2D实时生成的暂停状态" width="2612" height="1862" loading="lazy" decoding="async"></button>
+<figcaption><strong>实时模式：整理参考前先暂停</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>实时模式支持 Qwen 与 Codex 参考编辑，切入后可能立即提交当前画面。</li><li>整理或替换参考前，点击右下角暂停；显示“已暂停自动更新”后再操作。</li><li>已提交的任务仍会后台处理；准备好后再继续生成。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s3-sketchboard-results">
+<summary>2D结果与历史<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-sketch-history-loaded">
+<button class="image-button" type="button" aria-label="放大：画板历史：回看、切换与继续使用"><img src="images/sketch-history-loaded.webp.svg?v=1e4fed521e58aed3" alt="2D历史与结果工具栏" width="608" height="800" loading="lazy" decoding="async"></button>
+<figcaption><strong>画板历史：回看、切换与继续使用</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击结果右侧的历史图标。</li><li>点击缩略图切换旧结果，再按需下载、作为新参考或加入画布。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+</section>
+<section id="s4"><p class="kicker">04</p>
+<h2>剪辑与导出</h2>
+<p class="intro">从画布左侧“剪辑”进入。<strong>当前图片、视频导入与预览有限支持：</strong>导入后素材可能不显示。需要稳定处理成片时，先从画布下载到本地剪辑软件。下图用于说明界面位置。</p>
+<figure class="guide-figure" id="figure-overview-editor">
+<button class="image-button" type="button" aria-label="放大：剪辑与导出：主要操作位置"><img src="images/04-editor.png.svg?v=5f2f19a09f3f4cd9" alt="剪辑与导出，关键操作位置已用数字标记" width="1360" height="840" loading="lazy" decoding="async"></button>
+<figcaption><strong>剪辑与导出：主要操作位置</strong><span class="guide-figure__hint">点击图片放大</span></figcaption>
+</figure><ol><li><span class="num">1</span><div><strong>打开素材与文字</strong><span>左上可查看导入、画布素材、历史记录、我的资产和音效入口；文字可先从“文本”添加到时间轴。</span></div></li>
+<li><span class="num">2</span><div><strong>编排文字片段</strong><span>把文字拖入下方时间轴，调整位置和时长；选中片段后，在右侧编辑中文内容与样式。</span></div></li>
+<li><span class="num">3</span><div><strong>调整画幅与设置</strong><span>在播放器下方调整画幅比例；选中元素可查看属性，也可打开项目设置。使用图片或视频前，先确认素材能正常加载。</span></div></li>
+<li><span class="num">4</span><div><strong>查看导出选项</strong><span>右上“导出”可查看格式与参数。当前视频导入受限，稳定成片请在本地剪辑软件中导出；左上关闭按钮返回画布。</span></div></li></ol>
+<details class="guide-details" id="s4-import">
+<summary>导入与选择素材<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-editor-audio">
+<button class="image-button" type="button" aria-label="放大：剪辑音效页：查看画布音频"><img src="images/editor-audio.webp.svg?v=91d269b9e4a48aa7" alt="在剪辑器选择画布音频" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>剪辑音效页：查看画布音频</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在剪辑页左上选择“音效”。</li><li>切换画布音频或上传入口，查看可用素材；使用时先确认能正常加载与播放。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s4-timeline">
+<summary>时间轴与属性<span class="guide-details__count">3 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-editor-timeline-properties">
+<button class="image-button" type="button" aria-label="放大：文字片段：在时间轴与属性中编辑"><img src="images/editor-timeline-properties.webp.svg?v=61bed46b5f44e727" alt="时间轴文字与属性编辑" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>文字片段：在时间轴与属性中编辑</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从“文本”添加文字片段到时间轴。</li><li>选中片段，在右侧修改中文内容、位置、缩放等属性。</li><li>在时间轴中调整片段位置和时长，并检查中央预览。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-editor-ratio">
+<button class="image-button" type="button" aria-label="放大：剪辑画幅：从预览下方选择比例"><img src="images/editor-ratio.webp.svg?v=f83983bf18e1cd77" alt="选择剪辑画幅" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>剪辑画幅：从预览下方选择比例</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击播放器右下方的比例按钮。</li><li>选择横屏、竖屏或方形等当前选项，检查文字和画面布局。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-editor-settings">
+<button class="image-button" type="button" aria-label="放大：剪辑设置：画幅、帧率与背景"><img src="images/editor-settings.webp.svg?v=db5781dceb483cfb" alt="剪辑器画幅、帧率与背景设置" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>剪辑设置：画幅、帧率与背景</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在左上打开“设置”。</li><li>选择剪辑草稿的宽高比、帧率和背景颜色。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s4-export">
+<summary>预览与导出<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-editor-export">
+<button class="image-button" type="button" aria-label="放大：查看导出参数：当前媒体处理有限支持"><img src="images/editor-export.webp.svg?v=d19a5ef9a003a430" alt="视频导出设置" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>查看导出参数：当前媒体处理有限支持</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击右上“导出”，查看标题、分辨率、格式、帧率和音频选项。</li><li>当前图片和视频导入仍有限制，完整成片建议下载到本地剪辑软件处理；可取消返回编辑。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+</section>
+<section id="s5"><p class="kicker">05</p>
+<h2>个人资产与团队资产</h2>
+<p class="intro">顶部“资产库”用于保存、分类和共享创作素材。</p>
+<figure class="guide-figure" id="figure-overview-assets">
+<button class="image-button" type="button" aria-label="放大：个人资产与团队资产：主要操作位置"><img src="images/05-team-assets.png.svg?v=b669ab657449f96e" alt="个人资产与团队资产，关键操作位置已用数字标记" width="1360" height="470" loading="lazy" decoding="async"></button>
+<figcaption><strong>个人资产与团队资产：主要操作位置</strong><span class="guide-figure__hint">点击图片放大</span></figcaption>
+</figure><ol><li><span class="num">1</span><div><strong>选择资产范围</strong><span>个人资产整理自己的素材；团队资产查看和使用所在团队共享的内容。</span></div></li>
+<li><span class="num">2</span><div><strong>选择团队</strong><span>在下拉框切换团队。进入文件夹后，通过上方路径返回上级或全部资产。</span></div></li>
+<li><span class="num">3</span><div><strong>添加团队成员</strong><span>团队成员 → 添加成员 → 搜索同事 → 选择权限。可搜索已通过飞书登录 Studio TV 的同事。</span></div></li>
+<li><span class="num">4</span><div><strong>整理与发布</strong><span>“新建文件夹”建在当前团队、当前目录；“发布到团队”从个人素材或已存节点中选择内容，按需改名后发布，个人原件保留。</span></div></li>
+<li><span class="num">5</span><div><strong>创建与管理团队</strong><span>进入“团队管理”创建团队，或选择已有团队查看资产、管理成员。</span></div></li></ol>
+<table><tr><th>只读成员</th><td>查看团队资产，并导入项目使用。</td></tr>
+<tr><th>可编辑成员</th><td>在只读权限基础上，还可发布和整理团队资产。</td></tr></table>
+<p class="detail"><strong>把资产用于创作</strong>在资产条目中选择导入项目的操作；画布左侧“资产”用于复用已保存内容。团队资产权限与项目成员权限分别设置。</p>
+<p class="detail"><strong>下载素材</strong>画布、历史或资产条目的单个媒体下载会按实际文件类型保留图片、视频或音频后缀，例如PNG为.png、JPEG为.jpg。标题中的中文、括号和版本号会保留；批量下载仍使用ZIP。</p>
+<p class="detail"><strong>关闭与返回</strong>添加成员、发布素材等弹窗完成后回到来源页面；取消可放弃本次操作。浏览器后退用于返回此前页面。</p>
+<details class="guide-details" id="s5-personal">
+<summary>个人资产与复用<span class="guide-details__count">5 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-sketch-save-asset-ready">
+<button class="image-button" type="button" aria-label="放大：将画板结果保存到资产库"><img src="images/sketch-save-asset-ready.webp.svg?v=b50f278886b3f471" alt="将画板结果保存到资产库" width="1392" height="1008" loading="lazy" decoding="async"></button>
+<figcaption><strong>将画板结果保存到资产库</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击画板结果右侧的保存图标。</li><li>选择分类和保存文件夹，也可新建文件夹。</li><li>确认素材预览后点击“保存”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-asset-personal">
+<button class="image-button" type="button" aria-label="放大：个人资产库：查找素材与文件夹"><img src="images/asset-personal.webp.svg?v=5ff7ddd9f708506a" alt="个人资产库与文件夹" width="3200" height="2100" loading="lazy" decoding="async"></button>
+<figcaption><strong>个人资产库：查找素材与文件夹</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>从顶部进入“资产库”，选择“个人资产”。</li><li>通过搜索、类型筛选或文件夹定位素材。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-asset-folder-reuse">
+<button class="image-button" type="button" aria-label="放大：打开文件夹，查看已保存的素材"><img src="images/asset-folder-reuse.webp.svg?v=03f6804a38cd6c32" alt="打开个人资产文件夹" width="3200" height="2006" loading="lazy" decoding="async"></button>
+<figcaption><strong>打开文件夹，查看已保存的素材</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>点击资产文件夹，查看其中的素材。</li><li>选择需要的素材继续操作；本地文件可从“上传资产”添加。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-asset-item-menu">
+<button class="image-button" type="button" aria-label="放大：个人素材：查看、加入画布与整理"><img src="images/asset-item-menu.webp.svg?v=b9edf1d727a8739c" alt="个人素材更多操作" width="660" height="486" loading="lazy" decoding="async"></button>
+<figcaption><strong>个人素材：查看、加入画布与整理</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在素材卡片上选择“查看”或“添加到画布”。</li><li>点击卡片“…”可下载、移动或重命名素材。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-team-import-project">
+<button class="image-button" type="button" aria-label="放大：将团队素材复制到项目"><img src="images/team-import-project.webp.svg?v=33d96432e48e522a" alt="把团队素材复制到指定项目" width="1008" height="574" loading="lazy" decoding="async"></button>
+<figcaption><strong>将团队素材复制到项目</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在团队素材下点击“导入项目”。</li><li>选择目标项目，再点击“导入项目”。</li><li>项目中的副本与团队原件各自独立。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s5-team">
+<summary>团队与成员<span class="guide-details__count">6 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--2">
+<figure class="guide-figure" id="figure-team-library">
+<button class="image-button" type="button" aria-label="放大：团队资产：切换团队与查看素材"><img src="images/team-library.webp.svg?v=465a59858dff2feb" alt="团队资产与导入项目" width="3200" height="1046" loading="lazy" decoding="async"></button>
+<figcaption><strong>团队资产：切换团队与查看素材</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>进入“资产库”并选择“团队资产”。</li><li>在左侧下拉菜单切换目标团队，再查看文件夹和素材。</li><li>需要使用某项素材时，点击其“导入项目”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-team-management">
+<button class="image-button" type="button" aria-label="放大：团队管理：打开资产或管理成员"><img src="images/team-management.webp.svg?v=4b53bb4ce3f70d1e" alt="团队管理：打开资产、成员与创建" width="1432" height="826" loading="lazy" decoding="async"></button>
+<figcaption><strong>团队管理：打开资产或管理成员</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在团队资产页打开“团队管理”。</li><li>选择团队的“打开资产”或“成员”；需要新团队可点击“创建团队”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-team-create">
+<button class="image-button" type="button" aria-label="放大：创建团队：填写名称后确认"><img src="images/team-create.webp.svg?v=0455d8903c8920f3" alt="创建团队表单" width="1008" height="574" loading="lazy" decoding="async"></button>
+<figcaption><strong>创建团队：填写名称后确认</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在团队管理中点击“创建团队”。</li><li>填写团队名称，确认后点击“创建”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-team-members">
+<button class="image-button" type="button" aria-label="放大：团队成员：查看成员与权限"><img src="images/team-members.webp.svg?v=ccbe19864456b6c4" alt="团队成员与成员权限" width="1432" height="650" loading="lazy" decoding="async"></button>
+<figcaption><strong>团队成员：查看成员与权限</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在团队资产页或团队管理中打开“团队成员”。</li><li>查看只读、可编辑与所有者权限；需要协作时点击“添加成员”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-team-add-member">
+<button class="image-button" type="button" aria-label="放大：添加成员：搜索同事并选择权限"><img src="images/team-add-member.webp.svg?v=e3d89d7fd3e22462" alt="搜索并添加团队成员" width="1008" height="934" loading="lazy" decoding="async"></button>
+<figcaption><strong>添加成员：搜索同事并选择权限</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>输入已通过飞书登录过 Studio TV 的同事姓名，点击“搜索”。</li><li>选择同事，并设置只读或可编辑权限。</li><li>确认后点击“添加成员”。</li></ol></figcaption>
+</figure>
+<figure class="guide-figure" id="figure-team-item-menu">
+<button class="image-button" type="button" aria-label="放大：团队素材：按权限整理"><img src="images/team-item-menu.webp.svg?v=7d118802fdd67297" alt="团队素材更多操作" width="3144" height="566" loading="lazy" decoding="async"></button>
+<figcaption><strong>团队素材：按权限整理</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>在团队素材卡片上点击“…”打开更多操作。</li><li>有相应权限时，可重命名、移动或删除团队素材。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+<details class="guide-details" id="s5-publish">
+<summary>发布到团队<span class="guide-details__count">1 张图</span></summary>
+<div class="guide-details__body"><div class="guide-gallery guide-gallery--1">
+<figure class="guide-figure" id="figure-team-publish">
+<button class="image-button" type="button" aria-label="放大：发布到团队：选择素材并确认"><img src="images/team-publish.webp.svg?v=11918ca3df435b62" alt="选择个人素材发布到团队" width="1392" height="1506" loading="lazy" decoding="async"></button>
+<figcaption><strong>发布到团队：选择素材并确认</strong><span class="guide-figure__hint">点击图片放大</span><ol class="figure-steps"><li>切换到目标团队，点击“发布到团队”。</li><li>从个人素材或已存节点中选择内容，按需要填写共享名称。</li><li>确认发布位置和所选素材后，点击“发布到团队”。</li></ol></figcaption>
+</figure>
+</div></div>
+</details>
+</section>
+</main>
+<dialog class="screenshot-preview" aria-label="截图预览"><div class="screenshot-preview__heading"><p class="screenshot-preview__caption"></p><button class="screenshot-preview__zoom" type="button" aria-pressed="false">原图尺寸</button><button class="screenshot-preview__close" type="button" aria-label="关闭预览">×</button></div><img alt="截图放大预览"></dialog>
+<script>
+(() => {
+  const dialog = document.querySelector('.screenshot-preview');
+  const preview = dialog.querySelector('img');
+  const caption = dialog.querySelector('.screenshot-preview__caption');
+  const zoom = dialog.querySelector('.screenshot-preview__zoom');
+  const setZoom = (enabled) => {
+    dialog.classList.toggle('screenshot-preview--original', enabled);
+    zoom.setAttribute('aria-pressed', String(enabled));
+    zoom.textContent = enabled ? '适合屏幕' : '原图尺寸';
+    dialog.scrollTop = 0;
+    dialog.scrollLeft = 0;
+  };
+
+  document.querySelectorAll('.image-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const image = button.querySelector('img');
+      const figure = button.closest('figure');
+      preview.src = image.currentSrc || image.src;
+      preview.alt = image.alt;
+      caption.textContent = figure?.querySelector('figcaption strong')?.textContent || image.alt;
+      setZoom(false);
+      dialog.showModal();
+    });
+  });
+  dialog.querySelector('.screenshot-preview__close').addEventListener('click', () => dialog.close());
+  zoom.addEventListener('click', () => setZoom(zoom.getAttribute('aria-pressed') !== 'true'));
+  preview.addEventListener('click', () => setZoom(zoom.getAttribute('aria-pressed') !== 'true'));
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', () => {
+    preview.removeAttribute('src');
+    setZoom(false);
+  });
+
+  // Direct links into a feature must reveal its closed disclosure first.
+  const revealHash = () => {
+    let target;
+    try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); }
+    catch { return; }
+    if (!target) return;
+    for (let element = target; element; element = element.parentElement) {
+      if (element.tagName === 'DETAILS') element.open = true;
+    }
+  };
+  revealHash();
+  window.addEventListener('hashchange', revealHash);
+})();
+</script>
+</body>
+</html>

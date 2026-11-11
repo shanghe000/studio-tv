@@ -1,0 +1,1053 @@
+{
+  "contractVersion": "1.0.0",
+  "note": "示例ID、地址、令牌仅用于协议验证；不代表可调用服务。",
+  "examples": [
+    {
+      "name": "password-session-request",
+      "schema": "SessionRequest",
+      "valid": true,
+      "value": {
+        "grantType": "PASSWORD",
+        "email": "demo@example.com",
+        "password": "ExamplePassword123!"
+      }
+    },
+    {
+      "name": "otp-session-request",
+      "schema": "SessionRequest",
+      "valid": true,
+      "value": {
+        "grantType": "OTP",
+        "challengeId": "challenge_001",
+        "code": "123456"
+      }
+    },
+    {
+      "name": "google-authorization-request",
+      "schema": "OAuthAuthorizationRequest",
+      "valid": true,
+      "value": {
+        "redirectUri": "https://app.example.com/auth/google/callback",
+        "codeChallenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "codeChallengeMethod": "S256"
+      }
+    },
+    {
+      "name": "session-response",
+      "schema": "SessionResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "accessToken": "example-not-a-real-access-token",
+          "tokenType": "Bearer",
+          "expiresIn": 900,
+          "user": {
+            "id": "usr_001",
+            "displayName": "Example User",
+            "avatarUrl": null,
+            "locale": "zh-CN",
+            "memberships": [],
+            "wallet": {
+              "currency": "USD",
+              "amount": "12.000000"
+            },
+            "teamIds": []
+          }
+        }
+      }
+    },
+    {
+      "name": "create-project-request",
+      "schema": "ProjectCreateRequest",
+      "valid": true,
+      "value": {
+        "name": "视频测试"
+      }
+    },
+    {
+      "name": "create-project-response",
+      "schema": "ProjectResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "prj_001",
+          "name": "视频测试",
+          "ownerId": "usr_001",
+          "teamId": null,
+          "coverAssetId": null,
+          "pinned": false,
+          "revision": 1,
+          "createdAt": "2026-10-03T00:00:00Z",
+          "updatedAt": "2026-10-03T00:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "empty-project-page",
+      "schema": "ProjectPageResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "items": [],
+          "page": 1,
+          "pageSize": 8,
+          "total": 0,
+          "hasMore": false
+        }
+      }
+    },
+    {
+      "name": "upload-request",
+      "schema": "AssetUploadRequest",
+      "valid": true,
+      "value": {
+        "projectId": "prj_001",
+        "fileName": "reference.png",
+        "mimeType": "image/png",
+        "byteSize": 12345,
+        "checksumSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "name": "upload-session-response",
+      "schema": "UploadSessionResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "upl_001",
+          "assetId": "ast_001",
+          "method": "PUT",
+          "url": "https://storage.example.com/ast_001?signature=example",
+          "headers": {
+            "Content-Type": "image/png",
+            "x-checksum-sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "expiresAt": "2026-10-03T00:15:00Z",
+          "completeDeadlineAt": "2026-10-04T00:00:00Z",
+          "expectedByteSize": 12345,
+          "checksumSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "name": "upload-complete-request",
+      "schema": "UploadCompleteRequest",
+      "valid": true,
+      "value": {
+        "etag": "\"object-etag-example\""
+      }
+    },
+    {
+      "name": "ready-asset-response",
+      "schema": "AssetResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "ast_001",
+          "projectId": "prj_001",
+          "fileName": "reference.png",
+          "kind": "IMAGE",
+          "mimeType": "image/png",
+          "byteSize": 12345,
+          "checksumSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "state": "READY",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": null,
+          "previewUrl": "https://media.example.com/ast_001/preview?signature=example",
+          "downloadUrl": "https://media.example.com/ast_001/original?signature=example",
+          "urlsExpireAt": "2026-10-03T00:15:00Z",
+          "rejectionCode": null,
+          "createdAt": "2026-10-03T00:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "model-capability",
+      "schema": "Model",
+      "valid": true,
+      "value": {
+        "id": "mdl_video_001",
+        "code": "example-video",
+        "familyId": "family_001",
+        "name": {
+          "zh-CN": "示例视频模型"
+        },
+        "description": {
+          "zh-CN": "仅为协议示例，非真实模型目录"
+        },
+        "iconUrl": null,
+        "available": true,
+        "unavailableReason": null,
+        "capabilityVersion": "2026-10-03.1",
+        "modes": [
+          "VIDEO"
+        ],
+        "invocationTypes": [
+          "IMAGE_TO_VIDEO"
+        ],
+        "parameterSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "duration": {
+              "type": "integer",
+              "enum": [
+                5,
+                10
+              ],
+              "description": "秒"
+            },
+            "resolution": {
+              "type": "string",
+              "enum": [
+                "720p",
+                "1080p"
+              ]
+            },
+            "aspectRatio": {
+              "type": "string",
+              "enum": [
+                "16:9",
+                "9:16"
+              ]
+            }
+          },
+          "required": [
+            "duration",
+            "resolution",
+            "aspectRatio"
+          ],
+          "additionalProperties": false
+        },
+        "defaultParams": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "inputs": [
+          {
+            "role": "REFERENCE_IMAGE",
+            "kinds": [
+              "IMAGE"
+            ],
+            "minCount": 1,
+            "maxCount": 1,
+            "maxBytes": 10485760,
+            "minDurationSeconds": null,
+            "maxDurationSeconds": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "direct-generation-input",
+      "schema": "GenerationInput",
+      "valid": true,
+      "value": {
+        "projectId": "prj_001",
+        "mode": "VIDEO",
+        "modelId": "mdl_video_001",
+        "capabilityVersion": "2026-10-03.1",
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "assetId": "ast_001",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "outputCount": 1,
+        "executionPolicy": "AUTO",
+        "skillSelections": [],
+        "templateId": null,
+        "workflowId": null,
+        "invocationType": "IMAGE_TO_VIDEO"
+      }
+    },
+    {
+      "name": "agent-ask-input",
+      "schema": "GenerationInput",
+      "valid": true,
+      "value": {
+        "projectId": "prj_001",
+        "mode": "AGENT",
+        "modelId": null,
+        "capabilityVersion": null,
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "assetId": "ast_001",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {},
+        "outputCount": 1,
+        "executionPolicy": "ASK",
+        "skillSelections": [
+          {
+            "skillId": "skl_001",
+            "subOptionId": "sub_001"
+          }
+        ],
+        "templateId": null,
+        "workflowId": null,
+        "invocationType": null
+      }
+    },
+    {
+      "name": "initial-quote-response",
+      "schema": "GenerationQuoteResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "quo_001",
+          "purpose": "INITIAL",
+          "generationId": null,
+          "planRevision": null,
+          "inputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "capabilityVersion": "2026-10-03.1",
+          "maximumCost": {
+            "currency": "USD",
+            "amount": "0.242000"
+          },
+          "lineItems": [
+            {
+              "stage": "EXECUTION",
+              "description": {
+                "zh-CN": "5秒视频执行，上限0.242美元"
+              },
+              "maximumCost": {
+                "currency": "USD",
+                "amount": "0.242000"
+              }
+            }
+          ],
+          "chargingPolicy": "CONSUMED_WORK",
+          "expiresAt": "2026-10-03T00:05:00Z",
+          "pricingVersion": "price_2026_10_03_1"
+        }
+      }
+    },
+    {
+      "name": "generation-submit",
+      "schema": "GenerationCreateRequest",
+      "valid": true,
+      "value": {
+        "quoteId": "quo_001",
+        "input": {
+          "projectId": "prj_001",
+          "mode": "VIDEO",
+          "modelId": "mdl_video_001",
+          "capabilityVersion": "2026-10-03.1",
+          "prompt": "让参考图中的人物自然转身。",
+          "attachments": [
+            {
+              "assetId": "ast_001",
+              "role": "REFERENCE_IMAGE"
+            }
+          ],
+          "params": {
+            "duration": 5,
+            "resolution": "1080p",
+            "aspectRatio": "16:9"
+          },
+          "outputCount": 1,
+          "executionPolicy": "AUTO",
+          "skillSelections": [],
+          "templateId": null,
+          "workflowId": null,
+          "invocationType": "IMAGE_TO_VIDEO"
+        }
+      }
+    },
+    {
+      "name": "generation-accepted-response",
+      "schema": "GenerationResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "gen_001",
+          "projectId": "prj_001",
+          "mode": "VIDEO",
+          "state": "QUEUED",
+          "revision": 1,
+          "progress": null,
+          "phase": null,
+          "plan": null,
+          "confirmationQuote": null,
+          "outputs": [],
+          "billing": {
+            "state": "RESERVED",
+            "authorized": {
+              "currency": "USD",
+              "amount": "0.242000"
+            },
+            "reserved": {
+              "currency": "USD",
+              "amount": "0.242000"
+            },
+            "charged": {
+              "currency": "USD",
+              "amount": "0"
+            },
+            "released": {
+              "currency": "USD",
+              "amount": "0"
+            },
+            "refunded": {
+              "currency": "USD",
+              "amount": "0"
+            }
+          },
+          "error": null,
+          "createdAt": "2026-10-03T00:00:00Z",
+          "updatedAt": "2026-10-03T00:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "agent-awaiting-confirmation",
+      "schema": "GenerationResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "gen_agent_001",
+          "projectId": "prj_001",
+          "mode": "AGENT",
+          "state": "AWAITING_CONFIRMATION",
+          "revision": 3,
+          "progress": null,
+          "phase": "等待确认执行报价",
+          "plan": {
+            "revision": 1,
+            "summary": {
+              "zh-CN": "依据参考图生成5秒人物视频"
+            },
+            "steps": [
+              {
+                "id": "step_001",
+                "title": {
+                  "zh-CN": "视频生成"
+                },
+                "modelId": "mdl_video_001",
+                "capabilityVersion": "2026-10-03.1",
+                "prompt": "让参考图中的人物自然转身。",
+                "attachments": [
+                  {
+                    "assetId": "ast_001",
+                    "role": "REFERENCE_IMAGE"
+                  }
+                ],
+                "params": {
+                  "duration": 5,
+                  "resolution": "1080p",
+                  "aspectRatio": "16:9"
+                },
+                "outputCount": 1,
+                "invocationType": "IMAGE_TO_VIDEO"
+              }
+            ]
+          },
+          "confirmationQuote": {
+            "id": "quo_plan_001",
+            "purpose": "PLAN_EXECUTION",
+            "generationId": "gen_agent_001",
+            "planRevision": 1,
+            "inputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "capabilityVersion": null,
+            "maximumCost": {
+              "currency": "USD",
+              "amount": "0.242000"
+            },
+            "lineItems": [
+              {
+                "stage": "EXECUTION",
+                "description": {
+                  "zh-CN": "5秒视频执行，上限0.242美元"
+                },
+                "maximumCost": {
+                  "currency": "USD",
+                  "amount": "0.242000"
+                }
+              }
+            ],
+            "chargingPolicy": "CONSUMED_WORK",
+            "expiresAt": "2026-10-03T00:05:00Z",
+            "pricingVersion": "price_2026_10_03_1"
+          },
+          "outputs": [],
+          "billing": {
+            "state": "SETTLED",
+            "authorized": {
+              "currency": "USD",
+              "amount": "0.010000"
+            },
+            "reserved": {
+              "currency": "USD",
+              "amount": "0"
+            },
+            "charged": {
+              "currency": "USD",
+              "amount": "0.008000"
+            },
+            "released": {
+              "currency": "USD",
+              "amount": "0.002000"
+            },
+            "refunded": {
+              "currency": "USD",
+              "amount": "0"
+            }
+          },
+          "error": null,
+          "createdAt": "2026-10-03T00:00:00Z",
+          "updatedAt": "2026-10-03T00:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "agent-confirmation-request",
+      "schema": "GenerationConfirmRequest",
+      "valid": true,
+      "value": {
+        "quoteId": "quo_plan_001",
+        "expectedRevision": 3
+      }
+    },
+    {
+      "name": "agent-requote-request",
+      "schema": "GenerationRequoteRequest",
+      "valid": true,
+      "value": {
+        "expectedRevision": 3
+      }
+    },
+    {
+      "name": "generation-completed",
+      "schema": "GenerationResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "gen_001",
+          "projectId": "prj_001",
+          "mode": "VIDEO",
+          "state": "SUCCEEDED",
+          "revision": 4,
+          "progress": 1,
+          "phase": null,
+          "plan": null,
+          "confirmationQuote": null,
+          "outputs": [
+            {
+              "index": 0,
+              "state": "SUCCEEDED",
+              "assetId": "ast_result_001",
+              "error": null
+            }
+          ],
+          "billing": {
+            "state": "SETTLED",
+            "authorized": {
+              "currency": "USD",
+              "amount": "0.242000"
+            },
+            "reserved": {
+              "currency": "USD",
+              "amount": "0"
+            },
+            "charged": {
+              "currency": "USD",
+              "amount": "0.240000"
+            },
+            "released": {
+              "currency": "USD",
+              "amount": "0.002000"
+            },
+            "refunded": {
+              "currency": "USD",
+              "amount": "0"
+            }
+          },
+          "error": null,
+          "createdAt": "2026-10-03T00:00:00Z",
+          "updatedAt": "2026-10-03T00:01:00Z"
+        }
+      }
+    },
+    {
+      "name": "sse-completed-event",
+      "schema": "GenerationEvent",
+      "valid": true,
+      "value": {
+        "id": "evt_001",
+        "type": "generation.completed",
+        "generationId": "gen_001",
+        "revision": 4,
+        "occurredAt": "2026-10-03T00:01:00Z",
+        "snapshot": {
+          "id": "gen_001",
+          "projectId": "prj_001",
+          "mode": "VIDEO",
+          "state": "SUCCEEDED",
+          "revision": 4,
+          "progress": 1,
+          "phase": null,
+          "plan": null,
+          "confirmationQuote": null,
+          "outputs": [
+            {
+              "index": 0,
+              "state": "SUCCEEDED",
+              "assetId": "ast_result_001",
+              "error": null
+            }
+          ],
+          "billing": {
+            "state": "SETTLED",
+            "authorized": {
+              "currency": "USD",
+              "amount": "0.242000"
+            },
+            "reserved": {
+              "currency": "USD",
+              "amount": "0"
+            },
+            "charged": {
+              "currency": "USD",
+              "amount": "0.240000"
+            },
+            "released": {
+              "currency": "USD",
+              "amount": "0.002000"
+            },
+            "refunded": {
+              "currency": "USD",
+              "amount": "0"
+            }
+          },
+          "error": null,
+          "createdAt": "2026-10-03T00:00:00Z",
+          "updatedAt": "2026-10-03T00:01:00Z"
+        }
+      }
+    },
+    {
+      "name": "quote-expired-error",
+      "schema": "Error",
+      "valid": true,
+      "value": {
+        "code": "QUOTE_EXPIRED",
+        "message": "报价已过期，请重新获取报价。",
+        "requestId": "req_example_002",
+        "retryable": false,
+        "details": [
+          {
+            "field": "/quoteId",
+            "code": "QUOTE_EXPIRED",
+            "message": "报价有效期为5分钟。"
+          }
+        ]
+      }
+    },
+    {
+      "name": "product-order-request",
+      "schema": "OrderCreateRequest",
+      "valid": true,
+      "value": {
+        "kind": "PRODUCT",
+        "productId": "prd_001",
+        "catalogVersion": "cat_2026_10_03",
+        "quantity": 1
+      }
+    },
+    {
+      "name": "custom-top-up-request",
+      "schema": "OrderCreateRequest",
+      "valid": true,
+      "value": {
+        "kind": "CUSTOM_TOP_UP",
+        "amount": {
+          "currency": "USD",
+          "amount": "10.00"
+        }
+      }
+    },
+    {
+      "name": "order-response",
+      "schema": "OrderResponse",
+      "valid": true,
+      "value": {
+        "code": 0,
+        "message": "OK",
+        "requestId": "req_example_001",
+        "data": {
+          "id": "ord_001",
+          "kind": "PRODUCT",
+          "state": "PENDING_PAYMENT",
+          "productId": "prd_001",
+          "total": {
+            "currency": "USD",
+            "amount": "10.00"
+          },
+          "expiresAt": "2026-10-03T00:30:00Z",
+          "createdAt": "2026-10-03T00:00:00Z",
+          "updatedAt": "2026-10-03T00:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "notifications-read-request",
+      "schema": "NotificationsReadRequest",
+      "valid": true,
+      "value": {
+        "ids": [
+          "msg_001",
+          "msg_002"
+        ]
+      }
+    },
+    {
+      "name": "telemetry-request",
+      "schema": "TelemetryRequest",
+      "valid": true,
+      "value": {
+        "eventId": "evt_page_001",
+        "name": "composer.mode.changed",
+        "occurredAt": "2026-10-03T00:00:00Z",
+        "properties": {
+          "mode": "VIDEO"
+        }
+      }
+    },
+    {
+      "name": "project-share-request",
+      "schema": "ProjectShareRequest",
+      "valid": true,
+      "value": {
+        "allowClone": false,
+        "expiresInSeconds": 604800
+      }
+    },
+    {
+      "name": "numeric-id-rejected",
+      "schema": "ProjectCreateRequest",
+      "valid": false,
+      "value": {
+        "name": "测试",
+        "source": {
+          "kind": "TEMPLATE",
+          "id": 1234567890123456789
+        }
+      },
+      "reason": "所有ID必须为字符串，禁止精度损失。"
+    },
+    {
+      "name": "float-money-rejected",
+      "schema": "Money",
+      "valid": false,
+      "value": {
+        "currency": "USD",
+        "amount": 0.242
+      },
+      "reason": "金额不得用JSON number。"
+    },
+    {
+      "name": "sub-micro-money-rejected",
+      "schema": "Money",
+      "valid": false,
+      "value": {
+        "currency": "USD",
+        "amount": "0.0000001"
+      },
+      "reason": "超过六位小数。"
+    },
+    {
+      "name": "missing-direct-model-rejected",
+      "schema": "GenerationInput",
+      "valid": false,
+      "value": {
+        "projectId": "prj_001",
+        "mode": "VIDEO",
+        "capabilityVersion": "2026-10-03.1",
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "assetId": "ast_001",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "outputCount": 1,
+        "executionPolicy": "AUTO",
+        "skillSelections": [],
+        "templateId": null,
+        "workflowId": null,
+        "invocationType": "IMAGE_TO_VIDEO"
+      },
+      "reason": "直接生成模式必须提供非空模型和能力版本。"
+    },
+    {
+      "name": "null-direct-capability-rejected",
+      "schema": "GenerationInput",
+      "valid": false,
+      "value": {
+        "projectId": "prj_001",
+        "mode": "VIDEO",
+        "modelId": "mdl_video_001",
+        "capabilityVersion": null,
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "assetId": "ast_001",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "outputCount": 1,
+        "executionPolicy": "AUTO",
+        "skillSelections": [],
+        "templateId": null,
+        "workflowId": null,
+        "invocationType": "IMAGE_TO_VIDEO"
+      },
+      "reason": "能力版本不允许空。"
+    },
+    {
+      "name": "direct-ask-rejected",
+      "schema": "GenerationInput",
+      "valid": false,
+      "value": {
+        "projectId": "prj_001",
+        "mode": "VIDEO",
+        "modelId": "mdl_video_001",
+        "capabilityVersion": "2026-10-03.1",
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "assetId": "ast_001",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "outputCount": 1,
+        "executionPolicy": "ASK",
+        "skillSelections": [],
+        "templateId": null,
+        "workflowId": null,
+        "invocationType": "IMAGE_TO_VIDEO"
+      },
+      "reason": "直接模式只有AUTO，ASK属于Agent。"
+    },
+    {
+      "name": "arbitrary-attachment-url-rejected",
+      "schema": "GenerationInput",
+      "valid": false,
+      "value": {
+        "projectId": "prj_001",
+        "mode": "VIDEO",
+        "modelId": "mdl_video_001",
+        "capabilityVersion": "2026-10-03.1",
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "url": "https://external.example.com/input.png",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "outputCount": 1,
+        "executionPolicy": "AUTO",
+        "skillSelections": [],
+        "templateId": null,
+        "workflowId": null,
+        "invocationType": "IMAGE_TO_VIDEO"
+      },
+      "reason": "输入只接READY assetId，不接任意URL。"
+    },
+    {
+      "name": "too-many-outputs-rejected",
+      "schema": "GenerationInput",
+      "valid": false,
+      "value": {
+        "projectId": "prj_001",
+        "mode": "VIDEO",
+        "modelId": "mdl_video_001",
+        "capabilityVersion": "2026-10-03.1",
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "assetId": "ast_001",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "outputCount": 17,
+        "executionPolicy": "AUTO",
+        "skillSelections": [],
+        "templateId": null,
+        "workflowId": null,
+        "invocationType": "IMAGE_TO_VIDEO"
+      },
+      "reason": "最终结果数上限16。"
+    },
+    {
+      "name": "unknown-top-level-field-rejected",
+      "schema": "ProjectCreateRequest",
+      "valid": false,
+      "value": {
+        "name": "测试",
+        "chargeNow": true
+      },
+      "reason": "未知字段不静默忽略。"
+    },
+    {
+      "name": "oversized-page-rejected",
+      "schema": "ProjectPage",
+      "valid": false,
+      "value": {
+        "items": [],
+        "page": 1,
+        "pageSize": 101,
+        "total": 0,
+        "hasMore": false
+      },
+      "reason": "分页上限100。"
+    },
+    {
+      "name": "detached-plan-quote-rejected",
+      "schema": "GenerationQuote",
+      "valid": false,
+      "value": {
+        "id": "quo_plan_001",
+        "purpose": "PLAN_EXECUTION",
+        "generationId": null,
+        "planRevision": 1,
+        "inputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "capabilityVersion": null,
+        "maximumCost": {
+          "currency": "USD",
+          "amount": "0.242000"
+        },
+        "lineItems": [
+          {
+            "stage": "EXECUTION",
+            "description": {
+              "zh-CN": "5秒视频执行，上限0.242美元"
+            },
+            "maximumCost": {
+              "currency": "USD",
+              "amount": "0.242000"
+            }
+          }
+        ],
+        "chargingPolicy": "CONSUMED_WORK",
+        "expiresAt": "2026-10-03T00:05:00Z",
+        "pricingVersion": "price_2026_10_03_1"
+      },
+      "reason": "执行报价必须绑定任务。"
+    },
+    {
+      "name": "raw-password-digest-is-not-new-grant",
+      "schema": "SessionRequest",
+      "valid": false,
+      "value": {
+        "grantType": "MD5",
+        "email": "demo@example.com",
+        "password": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "reason": "旧MD5协议不能透传至新认证。"
+    },
+    {
+      "name": "model-duration-wrong-type",
+      "schema": "Model.parameterSchema",
+      "valid": false,
+      "value": {
+        "duration": "5",
+        "resolution": "1080p",
+        "aspectRatio": "16:9"
+      },
+      "reason": "后端必须执行版本化参数校验；此模型duration为秒整数。"
+    },
+    {
+      "name": "missing-direct-invocation-type-rejected",
+      "schema": "GenerationInput",
+      "valid": false,
+      "reason": "同一模型的调用子类型不能丢失。",
+      "value": {
+        "projectId": "prj_001",
+        "mode": "VIDEO",
+        "modelId": "mdl_video_001",
+        "capabilityVersion": "2026-10-03.1",
+        "prompt": "让参考图中的人物自然转身。",
+        "attachments": [
+          {
+            "assetId": "ast_001",
+            "role": "REFERENCE_IMAGE"
+          }
+        ],
+        "params": {
+          "duration": 5,
+          "resolution": "1080p",
+          "aspectRatio": "16:9"
+        },
+        "outputCount": 1,
+        "executionPolicy": "AUTO",
+        "skillSelections": [],
+        "templateId": null,
+        "workflowId": null
+      }
+    }
+  ]
+}

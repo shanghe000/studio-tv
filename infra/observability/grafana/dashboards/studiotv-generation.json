@@ -1,0 +1,1832 @@
+{
+  "uid": "studiotv-generation-overview",
+  "title": "Studio TV · 生成队列与服务心跳",
+  "description": "真实 STUDIO 持久化队列、H3/ComfyUI下游队列和服务心跳。分层观察，不能相加；离线或过期显示未知，不伪造空队列。",
+  "tags": [
+    "studiotv",
+    "generation",
+    "h3",
+    "observability"
+  ],
+  "timezone": "browser",
+  "schemaVersion": 41,
+  "version": 1,
+  "editable": false,
+  "graphTooltip": 1,
+  "refresh": "15s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "15s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "annotations": {
+    "list": []
+  },
+  "templating": {
+    "list": []
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "STUDIO API 就绪",
+      "description": "每 15 秒主动只读探测；1 为当前检查通过，0 为检查失败。H3 就绪检查服务进程、worker配置、Comfy接口和必需节点，不提交GPU生成任务。",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_service_ready{job=\"generation-exporter\",service=\"studiotv_api\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "STUDIO API 就绪",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "画布 Web",
+      "description": "每 15 秒主动只读探测；1 为当前检查通过，0 为检查失败。H3 就绪检查服务进程、worker配置、Comfy接口和必需节点，不提交GPU生成任务。",
+      "gridPos": {
+        "x": 3,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_service_up{job=\"generation-exporter\",service=\"studiotv_web\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "画布 Web",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Router 就绪",
+      "description": "每 15 秒主动只读探测；1 为当前检查通过，0 为检查失败。H3 就绪检查服务进程、worker配置、Comfy接口和必需节点，不提交GPU生成任务。",
+      "gridPos": {
+        "x": 6,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_service_ready{job=\"generation-exporter\",service=\"models_router\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "Router 就绪",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "H3 API",
+      "description": "每 15 秒主动只读探测；1 为当前检查通过，0 为检查失败。H3 就绪检查服务进程、worker配置、Comfy接口和必需节点，不提交GPU生成任务。",
+      "gridPos": {
+        "x": 9,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_service_up{job=\"generation-exporter\",service=\"h3_api\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "H3 API",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "H3 推理接入就绪",
+      "description": "每 15 秒主动只读探测；1 为当前检查通过，0 为检查失败。H3 就绪检查服务进程、worker配置、Comfy接口和必需节点，不提交GPU生成任务。",
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_service_ready{job=\"generation-exporter\",service=\"h3_inference\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "H3 推理接入就绪",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "ComfyUI",
+      "description": "每 15 秒主动只读探测；1 为当前检查通过，0 为检查失败。H3 就绪检查服务进程、worker配置、Comfy接口和必需节点，不提交GPU生成任务。",
+      "gridPos": {
+        "x": 15,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_service_up{job=\"generation-exporter\",service=\"comfyui\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "ComfyUI",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 7,
+      "type": "stat",
+      "title": "AutoDL ART",
+      "description": "每 15 秒主动只读探测；1 为当前检查通过，0 为检查失败。H3 就绪检查服务进程、worker配置、Comfy接口和必需节点，不提交GPU生成任务。",
+      "gridPos": {
+        "x": 18,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_service_up{job=\"generation-exporter\",service=\"autodl_art\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "AutoDL ART",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 8,
+      "type": "stat",
+      "title": "监控采集器",
+      "description": "Prometheus 能否抓取采集器。未知或离线时，下方队列不应被解释为零。",
+      "gridPos": {
+        "x": 21,
+        "y": 0,
+        "w": 3,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "up{job=\"generation-exporter\"}",
+          "legendFormat": "采集器",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 9,
+      "type": "stat",
+      "title": "画布 H3 等待",
+      "description": "STUDIO 队列含尚未转发 Router 的任务；STUDIO 执行中还包含传输与资产回收。H3、ComfyUI是同一任务的下游观察，不要将这些层相加。",
+      "gridPos": {
+        "x": 0,
+        "y": 5,
+        "w": 4,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(studiotv_generation_tasks{job=\"studiotv-api\",capability_family=\"h3\",state=\"queued\"} and on(job,instance) (studiotv_generation_queue_sampler_up{job=\"studiotv-api\"} == 1) and on(job,instance) (time() - studiotv_generation_queue_last_success_timestamp_seconds{job=\"studiotv-api\"} < 30) and on(job,instance) (up{job=\"studiotv-api\"} == 1))",
+          "legendFormat": "画布 H3 等待",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 10,
+      "type": "stat",
+      "title": "画布 H3 执行中",
+      "description": "STUDIO 队列含尚未转发 Router 的任务；STUDIO 执行中还包含传输与资产回收。H3、ComfyUI是同一任务的下游观察，不要将这些层相加。",
+      "gridPos": {
+        "x": 4,
+        "y": 5,
+        "w": 4,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(studiotv_generation_tasks{job=\"studiotv-api\",capability_family=\"h3\",state=\"running\"} and on(job,instance) (studiotv_generation_queue_sampler_up{job=\"studiotv-api\"} == 1) and on(job,instance) (time() - studiotv_generation_queue_last_success_timestamp_seconds{job=\"studiotv-api\"} < 30) and on(job,instance) (up{job=\"studiotv-api\"} == 1))",
+          "legendFormat": "画布 H3 执行中",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 11,
+      "type": "stat",
+      "title": "H3 等待",
+      "description": "STUDIO 队列含尚未转发 Router 的任务；STUDIO 执行中还包含传输与资产回收。H3、ComfyUI是同一任务的下游观察，不要将这些层相加。",
+      "gridPos": {
+        "x": 8,
+        "y": 5,
+        "w": 4,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_queue_jobs{job=\"generation-exporter\",layer=\"h3\",state=\"QUEUED\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "H3 等待",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 12,
+      "type": "stat",
+      "title": "H3 推理中",
+      "description": "STUDIO 队列含尚未转发 Router 的任务；STUDIO 执行中还包含传输与资产回收。H3、ComfyUI是同一任务的下游观察，不要将这些层相加。",
+      "gridPos": {
+        "x": 12,
+        "y": 5,
+        "w": 4,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_queue_jobs{job=\"generation-exporter\",layer=\"h3\",state=\"RUNNING\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "H3 推理中",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 13,
+      "type": "stat",
+      "title": "ComfyUI 等待",
+      "description": "STUDIO 队列含尚未转发 Router 的任务；STUDIO 执行中还包含传输与资产回收。H3、ComfyUI是同一任务的下游观察，不要将这些层相加。",
+      "gridPos": {
+        "x": 16,
+        "y": 5,
+        "w": 4,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_queue_jobs{job=\"generation-exporter\",layer=\"comfyui\",state=\"QUEUED\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "ComfyUI 等待",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 14,
+      "type": "stat",
+      "title": "ComfyUI 执行中",
+      "description": "STUDIO 队列含尚未转发 Router 的任务；STUDIO 执行中还包含传输与资产回收。H3、ComfyUI是同一任务的下游观察，不要将这些层相加。",
+      "gridPos": {
+        "x": 20,
+        "y": 5,
+        "w": 4,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_queue_jobs{job=\"generation-exporter\",layer=\"comfyui\",state=\"RUNNING\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "ComfyUI 执行中",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 15,
+      "type": "timeseries",
+      "title": "STUDIO 生成队列趋势",
+      "description": "按任务去重统计，每 5 秒读取持久化状态。h3 与 other 为固定能力类别。",
+      "gridPos": {
+        "x": 0,
+        "y": 10,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by(capability_family,state) (studiotv_generation_tasks{job=\"studiotv-api\"} and on(job,instance) (studiotv_generation_queue_sampler_up{job=\"studiotv-api\"} == 1) and on(job,instance) (time() - studiotv_generation_queue_last_success_timestamp_seconds{job=\"studiotv-api\"} < 30) and on(job,instance) (up{job=\"studiotv-api\"} == 1))",
+          "legendFormat": "{{capability_family}} · {{state}}",
+          "instant": false,
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": "timeseries",
+      "title": "H3 / ComfyUI 队列趋势",
+      "description": "仅展示活动状态与 UNKNOWN；各层不相加。缺测形成断点，避免假零。",
+      "gridPos": {
+        "x": 12,
+        "y": 10,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_queue_jobs{job=\"generation-exporter\",state=~\"QUEUED|SUBMITTING|RUNNING|UNKNOWN\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "{{layer}} · {{state}}",
+          "instant": false,
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": "stat",
+      "title": "H3 最老等待时长（STUDIO）",
+      "description": "队列为空时为0，采集失败或过期时为未知。超过15分钟且持续5分钟时出现本地监控警告。",
+      "gridPos": {
+        "x": 0,
+        "y": 18,
+        "w": 6,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max(studiotv_generation_oldest_queued_age_seconds{job=\"studiotv-api\",capability_family=\"h3\"} and on(job,instance) (studiotv_generation_queue_sampler_up{job=\"studiotv-api\"} == 1) and on(job,instance) (time() - studiotv_generation_queue_last_success_timestamp_seconds{job=\"studiotv-api\"} < 30) and on(job,instance) (up{job=\"studiotv-api\"} == 1))",
+          "legendFormat": "H3",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 18,
+      "type": "stat",
+      "title": "其他生成等待 / 执行中",
+      "description": "包括图片、其他模型与本地媒体任务，不调用供应商 API 进行探测。",
+      "gridPos": {
+        "x": 6,
+        "y": 18,
+        "w": 6,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by(state) (studiotv_generation_tasks{job=\"studiotv-api\",capability_family=\"other\"} and on(job,instance) (studiotv_generation_queue_sampler_up{job=\"studiotv-api\"} == 1) and on(job,instance) (time() - studiotv_generation_queue_last_success_timestamp_seconds{job=\"studiotv-api\"} < 30) and on(job,instance) (up{job=\"studiotv-api\"} == 1))",
+          "legendFormat": "{{state}}",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 19,
+      "type": "stat",
+      "title": "STUDIO 队列采样正常",
+      "description": "只读后台采样健康，0表示无法获得新队列快照。",
+      "gridPos": {
+        "x": 12,
+        "y": 18,
+        "w": 6,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(studiotv_generation_queue_sampler_up{job=\"studiotv-api\"} * on(job,instance) (time() - studiotv_generation_queue_last_success_timestamp_seconds{job=\"studiotv-api\"} < bool 30)) and on(job,instance) (up{job=\"studiotv-api\"} == 1)",
+          "legendFormat": "STUDIO",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 20,
+      "type": "stat",
+      "title": "H3 采样正常",
+      "description": "专用受限SSH连通且H3、Comfy队列都能成功采样；任一失败显示0。",
+      "gridPos": {
+        "x": 18,
+        "y": 18,
+        "w": 6,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "min by(job,instance) (studiotv_generation_probe_success{job=\"generation-exporter\",probe=~\"h3_runtime|h3_queue|comfy_queue\"}) and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "H3",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 21,
+      "type": "timeseries",
+      "title": "探测结果时间线",
+      "description": "固定探针分别判断传输、API、数据库就绪及执行端状态。",
+      "gridPos": {
+        "x": 0,
+        "y": 23,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_probe_success{job=\"generation-exporter\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1)",
+          "legendFormat": "{{probe}}",
+          "instant": false,
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": "timeseries",
+      "title": "最新成功采样距今",
+      "description": "时间持续增长表示新快照没有到达；大于30/40秒的队列快照不在上方面板展示。",
+      "gridPos": {
+        "x": 12,
+        "y": 23,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - studiotv_generation_queue_last_success_timestamp_seconds{job=\"studiotv-api\"}",
+          "legendFormat": "PF队列",
+          "instant": false,
+          "range": true
+        },
+        {
+          "refId": "B",
+          "expr": "time() - studiotv_generation_probe_last_success_timestamp_seconds{job=\"generation-exporter\",probe=\"h3_runtime\"}",
+          "legendFormat": "H3执行端",
+          "instant": false,
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 23,
+      "type": "stat",
+      "title": "推理入口节点注册",
+      "description": "首尾帧与首帧共用ImageToVideo，全能参考共用ReferenceToVideo；SaveVideo为输出归档节点。",
+      "gridPos": {
+        "x": 0,
+        "y": 31,
+        "w": 12,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "studiotv_generation_comfy_node_registered{job=\"generation-exporter\"} and on(job,instance) (up{job=\"generation-exporter\"} == 1) and on(job,instance) (time() - studiotv_generation_collector_last_poll_timestamp_seconds{job=\"generation-exporter\"} < 40)",
+          "legendFormat": "{{node}}",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "不可达",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "可达",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 24,
+      "type": "stat",
+      "title": "本地监控规则状态",
+      "description": "已确认Prometheus采集正常且6条生成规则加载时，无触发显示0。规则或采集缺失显示未知。本地规则没有新增飞书或邮件发送。",
+      "gridPos": {
+        "x": 12,
+        "y": 31,
+        "w": 12,
+        "h": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "studiotv-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(ALERTS{alertname=~\"STUDIOTVGeneration.*\"}) or on() (0 * (sum(prometheus_rule_group_rules{job=\"prometheus\",rule_group=~\".*;studiotv-generation\"}) == 6) and on() (sum(up{job=\"prometheus\"}) == 1))",
+          "legendFormat": "触发或等待中的规则数",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "未知／采集不可用"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "无触发规则",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    }
+  ],
+  "links": [
+    {
+      "type": "link",
+      "title": "API 服务监控",
+      "url": "/d/studiotv-api-overview",
+      "targetBlank": false
+    }
+  ]
+}

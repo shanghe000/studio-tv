@@ -1,0 +1,128 @@
+{
+  "projectId": "qa_idle_empty",
+  "targetId": "qa_existing_video",
+  "acknowledged": {
+    "nodes": [
+      {
+        "id": "qa_source",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "Synthetic source",
+          "status": "idle",
+          "subType": "text-image",
+          "sourceObjects": [
+            "rhtv-asset:qa_image"
+          ]
+        }
+      },
+      {
+        "id": "qa_existing_video",
+        "type": "rh-video",
+        "position": {
+          "x": 400,
+          "y": 0
+        },
+        "data": {
+          "label": "Synthetic idle reference video",
+          "title": "Synthetic idle reference video",
+          "status": "idle",
+          "subType": "multimodal-video",
+          "modelCode": "h3-reference-v1",
+          "capabilityRef": "h3-reference-v1",
+          "capabilityVersion": "4",
+          "parameterSchemaVersion": "4",
+          "estimateTaskId": "qa_previous_estimate",
+          "generationStartedAt": 1000,
+          "generateNum": 1,
+          "nodeOutputHistory": [],
+          "params": {
+            "prompt": "Synthetic authored input.",
+            "imageUrls": [],
+            "audioUrls": [],
+            "outputPreset": "landscape-480p-5s",
+            "aspectRatio": "16:9"
+          },
+          "prompt": "Synthetic authored input.",
+          "routerParameters": {
+            "outputPreset": "landscape-480p-5s"
+          },
+          "userPromptSnapshot": {
+            "paramName": "prompt",
+            "value": "Synthetic authored input."
+          },
+          "testMode": false
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "qa_existing_edge",
+        "source": "qa_source",
+        "target": "qa_existing_video",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  },
+  "native": {
+    "nodes": [
+      {
+        "id": "qa_source",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "label": "Synthetic source",
+          "status": "idle",
+          "subType": "text-image",
+          "sourceObjects": [
+            "rhtv-asset:qa_image"
+          ]
+        }
+      },
+      {
+        "id": "qa_existing_video",
+        "type": "rh-video",
+        "position": {
+          "x": 400,
+          "y": 0
+        },
+        "data": {
+          "label": "Synthetic idle reference video",
+          "title": "Synthetic idle reference video",
+          "status": "idle",
+          "subType": "multimodal-video",
+          "modelCode": "h3-reference-v1",
+          "estimateTaskId": "qa_previous_estimate",
+          "generationStartedAt": 1000,
+          "generateNum": 1,
+          "nodeOutputHistory": [],
+          "params": {
+            "prompt": "Synthetic authored input.",
+            "imageUrls": [],
+            "audioUrls": [],
+            "outputPreset": "landscape-480p-5s",
+            "aspectRatio": "16:9"
+          },
+          "prompt": "Synthetic authored input."
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "qa_existing_edge",
+        "source": "qa_source",
+        "target": "qa_existing_video",
+        "sourceHandle": "output",
+        "targetHandle": "input"
+      }
+    ]
+  },
+  "note": "Synthetic matching structural shape; no production prompt, asset or URL."
+}

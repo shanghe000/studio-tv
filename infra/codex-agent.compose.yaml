@@ -1,0 +1,63 @@
+# Optional direct Agent boundary; current Router traffic is unaffected. Start
+# only after the pinned profile and per-runtime network gate acceptance.
+services:
+  api:
+    depends_on:
+      agent-launcher:
+        condition: service_healthy
+    environment:
+      STUDIO_CODEX_AGENT_ENABLED: ${STUDIO_CODEX_AGENT_ENABLED:-false}
+      STUDIO_CODEX_AGENT_PROFILE_VALIDATED: ${STUDIO_CODEX_AGENT_PROFILE_VALIDATED:-false}
+      STUDIO_CODEX_AGENT_SOCKET: /run/studio-agent/launcher.sock
+    volumes:
+      - ${STUDIO_AGENT_SOCKET_DIR:?Set protected external launcher socket directory}:/run/studio-agent:ro
+  agent-runtime-image:
+    profiles: [build-agent-runtime]
+    image: ${STUDIO_AGENT_RUNTIME_IMAGE:-studio-agent-runtime:0.160.0-v1}
+    build:
+      context: .
+      dockerfile: infra/codex-agent.Dockerfile
+  agent-launcher:
+    container_name: studio-tv-agent-launcher-1
+    image: studio-tv-agent-launcher
+    build:
+      context: .
+      dockerfile: infra/codex-agent-launcher.Dockerfile
+    restart: unless-stopped
+    read_only: true
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 256m
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/python3", "-c", "import os,socket; s=socket.socket(socket.AF_UNIX); s.settimeout(2); s.connect(os.environ['STUDIO_AGENT_SOCKET']); s.close()"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    environment:
+      STUDIO_AGENT_PROFILE_VALIDATED: ${STUDIO_CODEX_AGENT_PROFILE_VALIDATED:-false}
+      STUDIO_AGENT_ACCEPTANCE_ONLY: ${STUDIO_AGENT_ACCEPTANCE_ONLY:-false}
+      STUDIO_AGENT_STATE_ROOT: ${STUDIO_AGENT_STATE_ROOT:?Set external private per-user state root}
+      STUDIO_AGENT_COMPANY_AUTH_FILE: ${STUDIO_AGENT_COMPANY_AUTH_FILE:?Set dedicated private company auth copy}
+      STUDIO_AGENT_CODEX_BINARY: ${STUDIO_AGENT_CODEX_BINARY:?Set pinned private binary copy}
+      STUDIO_AGENT_CODE_MODE_HOST_BINARY: ${STUDIO_AGENT_CODE_MODE_HOST_BINARY:?Set pinned private Code Mode host copy}
+      STUDIO_AGENT_SOCKET: ${STUDIO_AGENT_SOCKET_DIR:?Set protected socket directory}/launcher.sock
+      STUDIO_AGENT_RUNTIME_IMAGE: ${STUDIO_AGENT_RUNTIME_IMAGE:-studio-agent-runtime:0.160.0-v1}
+      STUDIO_AGENT_CALLER_UID: 1000
+    volumes:
+      # This is the ONLY service receiving Docker access. It accepts fixed
+      # hashed scope/run/profile fields, never images, commands or mounts.
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${STUDIO_AGENT_SOCKET_DIR}:${STUDIO_AGENT_SOCKET_DIR}
+      - ${STUDIO_AGENT_STATE_ROOT}:${STUDIO_AGENT_STATE_ROOT}
+      - ${STUDIO_AGENT_COMPANY_AUTH_FILE}:${STUDIO_AGENT_COMPANY_AUTH_FILE}:ro
+      - ${STUDIO_AGENT_CODEX_BINARY}:${STUDIO_AGENT_CODEX_BINARY}:ro
+      - ${STUDIO_AGENT_CODE_MODE_HOST_BINARY}:${STUDIO_AGENT_CODE_MODE_HOST_BINARY}:ro
+    # Resolve model endpoints through normal LAN DNS. The trusted launcher
+    # pins only public IPv4 answers into each runtime and its HTTPS firewall.
+    dns: ["${STUDIO_AGENT_DNS:-192.0.2.10}", "${STUDIO_AGENT_DNS_SECONDARY:-192.0.2.10}"]
+    networks: [agent-runtime]
+networks:
+  agent-runtime:
+    name: studio-agent-direct
+    internal: false
+    driver: bridge

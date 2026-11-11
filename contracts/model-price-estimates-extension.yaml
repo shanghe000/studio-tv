@@ -1,0 +1,366 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Read-only vendor video list-price estimates",
+    "version": "1.0.0",
+    "description": "IMPLEMENTED independent extension. No invocation, billing authorization, balance reservation, secret resolution, vendor API call or FX conversion. Media summaries are display estimates, not billing evidence. Frozen v1 Billing and generation-quotes unchanged."
+  },
+  "x-implementation-status": "IMPLEMENTED",
+  "components": {
+    "schemas": {
+      "PriceEstimateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capabilityRef",
+          "capabilityVersion",
+          "parameters",
+          "media"
+        ],
+        "properties": {
+          "capabilityRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "capabilityVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Exact frozen capability parameters; unsupported keys rejected. Omitted outputPreset uses the same frozen default as invocation."
+          },
+          "media": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "imageCount",
+              "videoDurationsMs"
+            ],
+            "properties": {
+              "imageCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "videoDurationsMs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1,
+                  "maximum": 86400000
+                },
+                "description": "One item per video; actual milliseconds or null if unknown. Empty means no video. Provider profile limits remain authoritative."
+              }
+            }
+          }
+        }
+      },
+      "PriceEstimate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "capabilityRef",
+          "capabilityVersion",
+          "status",
+          "currency",
+          "amount",
+          "minimumAmount",
+          "maximumAmount",
+          "providerRef",
+          "region",
+          "pricingRevision",
+          "checkedAt",
+          "basis",
+          "warnings",
+          "sources"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "const": "1"
+          },
+          "capabilityRef": {
+            "type": "string"
+          },
+          "capabilityVersion": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ESTIMATE",
+              "RANGE",
+              "LOWER_BOUND",
+              "UNKNOWN"
+            ]
+          },
+          "currency": {
+            "enum": [
+              "CNY",
+              "USD",
+              null
+            ]
+          },
+          "amount": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^(0|[1-9][0-9]{0,15})(\\.[0-9]{1,6})?$"
+          },
+          "minimumAmount": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^(0|[1-9][0-9]{0,15})(\\.[0-9]{1,6})?$"
+          },
+          "maximumAmount": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^(0|[1-9][0-9]{0,15})(\\.[0-9]{1,6})?$"
+          },
+          "providerRef": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "pricingRevision": {
+            "type": "string"
+          },
+          "checkedAt": {
+            "type": "string",
+            "description": "Date public list price was checked, not vendor effective date."
+          },
+          "basis": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "title",
+                "url"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "ESTIMATE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "amount": {
+                  "type": "string"
+                },
+                "minimumAmount": {
+                  "type": "null"
+                },
+                "maximumAmount": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "RANGE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "amount": {
+                  "type": "null"
+                },
+                "minimumAmount": {
+                  "type": "string"
+                },
+                "maximumAmount": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "LOWER_BOUND"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "amount": {
+                  "type": "null"
+                },
+                "minimumAmount": {
+                  "type": "string"
+                },
+                "maximumAmount": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "UNKNOWN"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "amount": {
+                  "type": "null"
+                },
+                "minimumAmount": {
+                  "type": "null"
+                },
+                "maximumAmount": {
+                  "type": "null"
+                },
+                "currency": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "SessionBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/api/v2"
+    }
+  ],
+  "security": [
+    {
+      "SessionBearer": []
+    }
+  ],
+  "paths": {
+    "/model-price-estimates": {
+      "post": {
+        "operationId": "estimateVideoListPrice",
+        "x-implementation-status": "IMPLEMENTED",
+        "summary": "Estimate selected official video parameters before submission",
+        "description": "No query parameters or idempotency key. Actor from verified identity. No configured API Key required. MiniMax region from masked personal credential metadata; absent configuration previews global USD and warns. Failure means unknown, never zero. ESTIMATE has amount only; RANGE min/max only; LOWER_BOUND min only with no ceiling; UNKNOWN all money and currency null. Public list estimates are not actual charges.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PriceEstimateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estimate; monetary fields decimal strings or null",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId",
+                    "data"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": 0
+                    },
+                    "message": {
+                      "const": "OK"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/PriceEstimate"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed/unsupported request"
+          },
+          "401": {
+            "description": "Verified actor required"
+          },
+          "404": {
+            "description": "Exact capability/version not installed"
+          },
+          "422": {
+            "description": "STUDIO input violates frozen profile"
+          },
+          "503": {
+            "description": "Estimate unavailable; never display zero"
+          }
+        },
+        "x-required-capability": "tv.access"
+      }
+    }
+  }
+}

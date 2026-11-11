@@ -1,0 +1,493 @@
+{
+  "targetId": "gigapixel_1792600080179_v65ru34",
+  "before": {
+    "nodes": [
+      {
+        "id": "node_1792598553293_phzzvow",
+        "type": "rh-image",
+        "position": {
+          "x": 209.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图片",
+          "title": "图片",
+          "status": "idle",
+          "width": 360,
+          "height": 360,
+          "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+          "output": [
+            {
+              "assetId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "height": 1024,
+              "mediaId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mimeType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "outputId": "out_06f78d7d6ceafd0a9eb3d9b043566f26c95e25b1259e905a82e5c463af391177",
+              "outputType": "image/png",
+              "testMode": false,
+              "thumbnailUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "url": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "width": 1024
+            }
+          ],
+          "aspectRatio": "16:9",
+          "params": {
+            "outputPreset": "1024-square",
+            "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "text": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph."
+          },
+          "modelCode": "flux1-dev-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "estimateTaskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "generationStartedAt": 1792599046498,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_c740ddd1f02744c1afb598118fb2495b",
+            "resultCount": 1,
+            "revision": "8",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "capabilityRef": "flux1-dev-generate-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        },
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true
+      },
+      {
+        "id": "node_1792599115456_uozoxv3",
+        "type": "rh-video",
+        "position": {
+          "x": 200.72418304584573,
+          "y": -49.11919787148406
+        },
+        "data": {
+          "label": "视频",
+          "title": "视频",
+          "status": "finished",
+          "width": 360,
+          "height": 200,
+          "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+          "output": [
+            {
+              "url": "rhtv-asset:ast_189e9c9dfb36d065ab8f2c1a0f7aeeca7b526e533e5aea93",
+              "width": 864,
+              "height": 480,
+              "assetId": "ast_189e9c9dfb36d065ab8f2c1a0f7aeeca7b526e533e5aea93",
+              "mediaId": "ast_189e9c9dfb36d065ab8f2c1a0f7aeeca7b526e533e5aea93",
+              "mimeType": "video/mp4",
+              "outputId": "out_6c5d70e8fc29782b44d4e89e16cb222dcbfe3df47416ce3c79d1d99075ce1007",
+              "testMode": false,
+              "durationMs": 5167,
+              "outputType": "video/mp4",
+              "originalUrl": "rhtv-asset:ast_189e9c9dfb36d065ab8f2c1a0f7aeeca7b526e533e5aea93",
+              "thumbnailUrl": "rhtv-asset:ast_189e9c9dfb36d065ab8f2c1a0f7aeeca7b526e533e5aea93"
+            }
+          ],
+          "videoUrl": "rhtv-asset:ast_189e9c9dfb36d065ab8f2c1a0f7aeeca7b526e533e5aea93",
+          "params": {
+            "audioUrls": [],
+            "imageUrls": [
+              "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+            ],
+            "outputPreset": "landscape-480p-5s",
+            "prompt": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music.",
+            "videoUrls": [],
+            "text": "The red ceramic mug from [image_0] rests on the wooden table. The camera slowly moves closer. Warm daylight. Quiet room tone, no dialogue, no music."
+          },
+          "modelCode": "h3-action-reference-v1",
+          "generateNum": 1,
+          "subType": "multimodal-video",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "taskId": "tsk_667a19059f2540e2bff94e8901e15237",
+          "estimateTaskId": "tsk_667a19059f2540e2bff94e8901e15237",
+          "generationStartedAt": 1792600062967,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_392a532a36c64f2e86394bc33669e8f5",
+            "resultCount": 1,
+            "revision": "11",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "capabilityRef": "h3-action-reference-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        },
+        "style": {
+          "height": 220,
+          "width": 380
+        },
+        "selectable": true
+      },
+      {
+        "id": "gigapixel_1792600080179_v65ru34",
+        "type": "rh-image",
+        "position": {
+          "x": 689.4552838466434,
+          "y": 263.1494439838375
+        },
+        "selectable": true,
+        "data": {
+          "label": "图像放大",
+          "title": "图像放大",
+          "width": 380,
+          "height": 280,
+          "prompt": "",
+          "toolsType": "image-gigapixel",
+          "toolsSourceUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+          "params": {
+            "outputPreset": "2x",
+            "imageUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+            "imageUrls": [
+              "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+            ]
+          },
+          "modelCode": "seedvr2-image-enhance-v1",
+          "generateNum": 1,
+          "subType": "image-gigapixel",
+          "sourceNodeId": "node_1792598553293_phzzvow",
+          "capabilityRef": "seedvr2-image-enhance-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        },
+        "style": {
+          "width": 380,
+          "height": 280
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "studio-acceptance-reference-edge",
+        "source": "node_1792598553293_phzzvow",
+        "target": "node_1792599115456_uozoxv3",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      },
+      {
+        "id": "e-node_1792598553293_phzzvow-gigapixel_1792600080179_v65ru34",
+        "source": "node_1792598553293_phzzvow",
+        "target": "gigapixel_1792600080179_v65ru34",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ],
+    "meta": {
+      "id": "prj_90175dc9-de83-409d-ad30-c7797e0f39ef",
+      "name": "ComfyUI 模型与进度验收 · 2026-10-22"
+    }
+  },
+  "command": {
+    "nodes": [
+      {
+        "id": "gigapixel_1792600080179_v65ru34",
+        "type": "rh-image",
+        "position": {
+          "x": 689.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图像放大",
+          "title": "图像放大",
+          "width": 380,
+          "height": 280,
+          "prompt": "",
+          "toolsType": "image-gigapixel",
+          "toolsSourceUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+          "params": {
+            "outputPreset": "2x",
+            "imageUrls": [
+              "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+            ],
+            "prompt": "",
+            "text": ""
+          },
+          "modelCode": "seedvr2-image-enhance-v1",
+          "generateNum": 1,
+          "subType": "image-gigapixel",
+          "sourceNodeId": "node_1792598553293_phzzvow",
+          "modelType": "OPENAPI",
+          "presetSelections": [],
+          "nodeOutputHistory": []
+        },
+        "style": {
+          "width": 380,
+          "height": 280
+        },
+        "selectable": true,
+        "hidden": false
+      },
+      {
+        "id": "node_1792598553293_phzzvow",
+        "type": "rh-image",
+        "position": {
+          "x": 209.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图片",
+          "title": "图片",
+          "status": "idle",
+          "width": 360,
+          "height": 360,
+          "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+          "output": [
+            {
+              "assetId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "height": 1024,
+              "mediaId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mimeType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "outputId": "out_06f78d7d6ceafd0a9eb3d9b043566f26c95e25b1259e905a82e5c463af391177",
+              "outputType": "image/png",
+              "testMode": false,
+              "thumbnailUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "url": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "width": 1024
+            }
+          ],
+          "aspectRatio": "16:9",
+          "params": {
+            "outputPreset": "1024-square",
+            "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "text": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph."
+          },
+          "modelCode": "flux1-dev-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "estimateTaskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "generationStartedAt": 1792599046498,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_c740ddd1f02744c1afb598118fb2495b",
+            "resultCount": 1,
+            "revision": "8",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI"
+        },
+        "style": {
+          "height": 360,
+          "width": 360
+        },
+        "selectable": true,
+        "hidden": false
+      }
+    ],
+    "edges": [
+      {
+        "source": "node_1792598553293_phzzvow",
+        "target": "gigapixel_1792600080179_v65ru34"
+      }
+    ]
+  },
+  "frozen": {
+    "nodes": [
+      {
+        "id": "gigapixel_1792600080179_v65ru34",
+        "type": "rh-image",
+        "position": {
+          "x": 689.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图像放大",
+          "title": "图像放大",
+          "width": 380,
+          "height": 280,
+          "prompt": "",
+          "toolsType": "image-gigapixel",
+          "toolsSourceUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+          "params": {
+            "outputPreset": "2x",
+            "imageUrls": [
+              "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+            ],
+            "prompt": "",
+            "text": ""
+          },
+          "modelCode": "seedvr2-image-enhance-v1",
+          "generateNum": 1,
+          "subType": "image-gigapixel",
+          "sourceNodeId": "node_1792598553293_phzzvow",
+          "modelType": "OPENAPI",
+          "presetSelections": [],
+          "nodeOutputHistory": [],
+          "capabilityRef": "seedvr2-image-enhance-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1",
+          "testMode": false,
+          "routerParameters": {
+            "outputPreset": "2x"
+          }
+        },
+        "style": {
+          "width": 380,
+          "height": 280
+        },
+        "selectable": true,
+        "hidden": false
+      },
+      {
+        "id": "node_1792598553293_phzzvow",
+        "type": "rh-image",
+        "position": {
+          "x": 209.4552838466434,
+          "y": 263.1494439838375
+        },
+        "data": {
+          "label": "图片",
+          "title": "图片",
+          "status": "idle",
+          "width": 360,
+          "height": 360,
+          "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+          "output": [
+            {
+              "assetId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "height": 1024,
+              "mediaId": "ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "mimeType": "image/png",
+              "originalUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "outputId": "out_06f78d7d6ceafd0a9eb3d9b043566f26c95e25b1259e905a82e5c463af391177",
+              "outputType": "image/png",
+              "testMode": false,
+              "thumbnailUrl": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "url": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf",
+              "width": 1024
+            }
+          ],
+          "aspectRatio": "16:9",
+          "params": {
+            "outputPreset": "1024-square",
+            "prompt": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph.",
+            "text": "A red ceramic mug on a wooden table in a sunlit room, natural daylight, product photograph."
+          },
+          "modelCode": "flux1-dev-generate-v1",
+          "generateNum": 1,
+          "subType": "text-image",
+          "maxConnect": {
+            "image": null,
+            "text": null,
+            "video": null
+          },
+          "estimateTaskId": "tsk_c6da4bb9697049459f0fa3595e12b986",
+          "generationStartedAt": 1792599046498,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_c740ddd1f02744c1afb598118fb2495b",
+            "resultCount": 1,
+            "revision": "8",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "presetSelections": [],
+          "modelType": "OPENAPI",
+          "capabilityRef": "flux1-dev-generate-v1",
+          "capabilityVersion": "1",
+          "parameterSchemaVersion": "1"
+        },
+        "style": {
+          "height": 360,
+          "width": 360
+        },
+        "selectable": true,
+        "hidden": false
+      }
+    ],
+    "edges": [
+      {
+        "source": "node_1792598553293_phzzvow",
+        "target": "gigapixel_1792600080179_v65ru34"
+      }
+    ]
+  },
+  "differences": [
+    {
+      "path": "gigapixel_1792600080179_v65ru34/params/imageUrl",
+      "before": "rhtv-asset:ast_0c659d2425182eda607a25e4759b742c83d5113383a1ccbf"
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/params/prompt",
+      "command": ""
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/params/text",
+      "command": ""
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/capabilityRef",
+      "before": "seedvr2-image-enhance-v1"
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/capabilityVersion",
+      "before": "1"
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/parameterSchemaVersion",
+      "before": "1"
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/modelType",
+      "command": "OPENAPI"
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/presetSelections",
+      "command": []
+    },
+    {
+      "path": "gigapixel_1792600080179_v65ru34/nodeOutputHistory",
+      "command": []
+    },
+    {
+      "path": "node_1792598553293_phzzvow/capabilityRef",
+      "before": "flux1-dev-generate-v1"
+    },
+    {
+      "path": "node_1792598553293_phzzvow/capabilityVersion",
+      "before": "1"
+    },
+    {
+      "path": "node_1792598553293_phzzvow/parameterSchemaVersion",
+      "before": "1"
+    }
+  ],
+  "notices": [
+    "生成命令与当前画布输入不一致，请重新生成。",
+    "生成命令与当前画布输入不一致，请重新生成。 日志编号：5bf4a000-b0ab-4667-a0aa-8094d72e73a3",
+    "生成命令与当前画布输入不一致，请重新生成。"
+  ]
+}

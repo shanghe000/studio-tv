@@ -1,0 +1,99 @@
+name: ${STUDIOTV_COMPOSE_PROJECT:-studio-tv}
+services:
+  db:
+    container_name: studio-tv-db-1
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rhtv
+      POSTGRES_DB: rhtv
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD outside Git}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rhtv -d rhtv"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  api:
+    container_name: studio-tv-api-1
+    image: studio-tv-api
+    build:
+      context: .
+      dockerfile: infra/api.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://rhtv:${POSTGRES_PASSWORD}@db:5432/rhtv
+      AUTH_SIGNING_SECRET: ${AUTH_SIGNING_SECRET:?Set AUTH_SIGNING_SECRET outside Git}
+      AUTH_ISSUER: ${AUTH_ISSUER:-rhtv-service}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-rhtv-web}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:18880}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:18880}
+      ALLOW_LOCAL_HTTP: ${ALLOW_LOCAL_HTTP:-true}
+      ALLOW_PRIVATE_HTTP: ${ALLOW_PRIVATE_HTTP:-false}
+      HOST: 0.0.0.0
+      PORT: 3000
+      STORAGE_ROOT: /data/assets
+      CHROMIUM_SANDBOX_MODE: ${CHROMIUM_SANDBOX_MODE:-container}
+      CONTRACT_PATH: /app/contracts/openapi.json
+      RHTV_EDITION: ${RHTV_EDITION:-internal}
+      FEATURE_COMMUNITY: ${FEATURE_COMMUNITY:-}
+      FEATURE_BILLING: ${FEATURE_BILLING:-}
+      FEATURE_PUBLIC_SHARING: ${FEATURE_PUBLIC_SHARING:-}
+      FEATURE_MARKETING: ${FEATURE_MARKETING:-}
+      FEATURE_EXTERNAL_LINKS: ${FEATURE_EXTERNAL_LINKS:-}
+      IPAC_ISSUER_URL: ${IPAC_ISSUER_URL:-}
+      IPAC_BASE_URL: ${IPAC_BASE_URL:-}
+      IPAC_APP_ID: ${IPAC_APP_ID:-}
+      IPAC_APP_SECRET: ${IPAC_APP_SECRET:-}
+      IPAC_REDIRECT_URI: ${IPAC_REDIRECT_URI:-}
+      IPAC_ALLOW_INSECURE_HTTP: ${IPAC_ALLOW_INSECURE_HTTP:-false}
+      MODEL_REAL_EXECUTION_ENABLED: ${MODEL_REAL_EXECUTION_ENABLED:-false}
+      MODEL_MEDIA_SERVICE_TOKEN_FILE: ${MODEL_MEDIA_SERVICE_TOKEN_FILE:-}
+      MODELS_ROUTER_BASE_URL: ${MODELS_ROUTER_BASE_URL:-}
+      MODELS_ROUTER_CLIENT_APP: ${MODELS_ROUTER_CLIENT_APP:-}
+      MODELS_ROUTER_SERVICE_TOKEN: ${MODELS_ROUTER_SERVICE_TOKEN:-}
+      MODELS_ROUTER_ACTOR_SIGNING_KEY_B64: ${MODELS_ROUTER_ACTOR_SIGNING_KEY_B64:-}
+      MODELS_ROUTER_TIMEOUT_SECONDS: ${MODELS_ROUTER_TIMEOUT_SECONDS:-}
+      MODELS_ROUTER_SERVICE_TOKEN_FILE: ${MODELS_ROUTER_SERVICE_TOKEN_FILE:-}
+      MODELS_ROUTER_ACTOR_SIGNING_KEY_B64_FILE: ${MODELS_ROUTER_ACTOR_SIGNING_KEY_B64_FILE:-}
+    ports:
+      - "127.0.0.1:18881:3000"
+    volumes:
+      - asset_data:/data/assets
+      - ./.local/catalog/studio-character-media:/app/catalog/studio-character-media:ro
+    healthcheck:
+      test: ["CMD", "studiotv-api", "--healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  web:
+    container_name: studio-tv-web-1
+    image: studio-tv-web
+    build:
+      context: .
+      dockerfile: infra/web.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      RHTV_MODE: ${RHTV_MODE:-service}
+      RHTV_EDITION: ${RHTV_EDITION:-internal}
+      FEATURE_COMMUNITY: ${FEATURE_COMMUNITY:-}
+      FEATURE_BILLING: ${FEATURE_BILLING:-}
+      FEATURE_PUBLIC_SHARING: ${FEATURE_PUBLIC_SHARING:-}
+      FEATURE_MARKETING: ${FEATURE_MARKETING:-}
+      FEATURE_EXTERNAL_LINKS: ${FEATURE_EXTERNAL_LINKS:-}
+    ports:
+      - "${WEB_BIND_IP:-127.0.0.1}:${WEB_PORT:-18880}:80"
+    volumes:
+      - ./.local/catalog/studio-character-media:/usr/share/nginx/html/studio-character-media:ro
+volumes:
+  postgres_data:
+    name: ${STUDIOTV_POSTGRES_VOLUME:-studio-tv_postgres_data}
+  asset_data:
+    name: ${STUDIOTV_ASSET_VOLUME:-studio-tv_asset_data}

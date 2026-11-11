@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-03",
+  "scope": "静态接口合同验证，不含真实后端或供应商调用",
+  "validator": "openapi-spec-validator 0.7.2 / JSON Schema Draft 2020-12",
+  "result": "PASS",
+  "checks": {
+    "openapiStructure": true,
+    "jsonYamlParity": true,
+    "localReferences": true,
+    "uniqueOperationIds": true,
+    "paths": 61,
+    "operations": 71,
+    "validExamples": 29,
+    "invalidExamplesRejected": 14,
+    "inlineExamples": 22,
+    "legacyMappingsComplete": 70,
+    "billingInvariants": true,
+    "invalidBillingExamplesRejected": 2
+  },
+  "backendImplemented": false,
+  "compatibilityLayerImplemented": false
+}

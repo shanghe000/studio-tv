@@ -1,0 +1,1 @@
+import{a6 as o,k as e}from"./DGtFQwJn.js";const n=(n,s)=>{const t=s||o(),{proxy:a}=e();return{formatCost:o=>`${a.$isAI?"$":"¥"}${n.value?o.baseMoneyAmountUsd:o.baseMoneyAmountCny}${t.value?o.deductionTypeEn:o.deductionTypeCn}`}};export{n as u};

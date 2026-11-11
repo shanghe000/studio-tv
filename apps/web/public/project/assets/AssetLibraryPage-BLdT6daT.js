@@ -1,0 +1,1 @@
+import{j as s,as as e}from"./index-DeyN_Phq.js";function r(){return s.jsx("main",{className:"project-list-page project-assets-page",children:s.jsx("div",{className:"project-assets-workspace",children:s.jsx(e,{mode:"page"})})})}export{r as AssetLibraryPage};

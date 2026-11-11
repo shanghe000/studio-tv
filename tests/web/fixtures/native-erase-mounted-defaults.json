@@ -1,0 +1,370 @@
+{
+  "command": {
+    "canvasId": "p",
+    "targetType": "NODE",
+    "targetId": "n",
+    "canvas": {
+      "nodes": [
+        {
+          "id": "n",
+          "type": "rh-image",
+          "position": {
+            "x": 960,
+            "y": -650
+          },
+          "data": {
+            "sceneCode": "canvas-image-erase",
+            "modelCode": "codex-image-edit-v1",
+            "params": {
+              "imageUrls": [
+                "rhtv-asset:ast_fixture0"
+              ]
+            },
+            "generateNum": 1,
+            "toolsType": "image-erase",
+            "toolsSourceUrl": "rhtv-asset:ast_fixture0",
+            "sourceNodeId": "repaint-source",
+            "label": "擦除",
+            "title": "擦除",
+            "width": 360,
+            "height": 360,
+            "opResize": true,
+            "presetSelections": [],
+            "nodeOutputHistory": []
+          },
+          "style": {
+            "width": 360,
+            "height": 360
+          },
+          "selectable": true
+        }
+      ],
+      "edges": []
+    },
+    "name": "图片工具专项验收 · 2026-10-07"
+  },
+  "baseline": {
+    "nodes": [
+      {
+        "id": "source",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 150
+        },
+        "data": {
+          "title": "工具验收原图",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_fixture1",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "ast_fixture1",
+              "mediaId": "ast_fixture1",
+              "mimeType": "image/png",
+              "outputId": "out_fixture0",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:ast_fixture1",
+              "thumbnailUrl": "rhtv-asset:ast_fixture1",
+              "historyOutputId": "out_fixture0"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:ast_fixture1"
+          ],
+          "imageUrl": "rhtv-asset:ast_fixture1"
+        }
+      },
+      {
+        "id": "repaint-source",
+        "type": "rh-image",
+        "position": {
+          "x": 500,
+          "y": 150
+        },
+        "data": {
+          "label": "重绘",
+          "title": "重绘",
+          "status": "idle",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_fixture2",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "ast_fixture2",
+              "mediaId": "ast_fixture2",
+              "mimeType": "image/png",
+              "outputId": "out_fixture1",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:ast_fixture2",
+              "thumbnailUrl": "rhtv-asset:ast_fixture2",
+              "historyOutputId": "out_fixture1"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:ast_fixture2"
+          ],
+          "imageUrl": "rhtv-asset:ast_fixture2",
+          "toolsType": "image-redraw",
+          "toolsSourceUrl": "rhtv-asset:ast_fixture3",
+          "opResize": true,
+          "params": {
+            "imageUrls": [
+              "rhtv-asset:ast_fixture3"
+            ],
+            "prompt": "fill the content within the white mask area without leaving any white borders. 把标记区域中的蓝色围巾改为鲜明的绿色围巾，保留图形的角色特征、姿态和奶油色背景。输出一张完整图片，不显示涂抹标记。"
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "estimateTaskId": "tsk_fixture0",
+          "generationStartedAt": 1791361350357,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_fixture0",
+            "imageBatchOrigin": {
+              "count": 1,
+              "executionId": "exe_fixture0",
+              "index": 0,
+              "outputId": "out_fixture1",
+              "sourceNodeId": "repaint-source",
+              "taskId": "tsk_fixture0"
+            },
+            "resultCount": 1,
+            "revision": "5",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "selectedHistoryOutputId": "out_fixture1",
+          "selectedOutputHistoryIndex": 0,
+          "presetSelections": [],
+          "sourceNodeId": "source"
+        },
+        "style": {
+          "height": 360,
+          "width": 360
+        },
+        "selectable": true
+      },
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 960,
+          "y": -650
+        },
+        "selectable": true,
+        "data": {
+          "label": "擦除",
+          "title": "擦除",
+          "width": 360,
+          "height": 360,
+          "toolsType": "image-erase",
+          "toolsSourceUrl": "rhtv-asset:ast_fixture0",
+          "opResize": true,
+          "params": {
+            "imageUrls": [
+              "rhtv-asset:ast_fixture0"
+            ]
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "sceneCode": "canvas-image-erase",
+          "sourceNodeId": "repaint-source"
+        },
+        "style": {
+          "width": 360,
+          "height": 360
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-source-repaint-source",
+        "source": "source",
+        "target": "repaint-source",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      },
+      {
+        "id": "e-repaint-source-n",
+        "source": "repaint-source",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  },
+  "current": {
+    "nodes": [
+      {
+        "id": "source",
+        "type": "rh-image",
+        "position": {
+          "x": 0,
+          "y": 150
+        },
+        "data": {
+          "title": "工具验收原图",
+          "status": "finished",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_fixture1",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "ast_fixture1",
+              "mediaId": "ast_fixture1",
+              "mimeType": "image/png",
+              "outputId": "out_fixture0",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:ast_fixture1",
+              "thumbnailUrl": "rhtv-asset:ast_fixture1",
+              "historyOutputId": "out_fixture0"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:ast_fixture1"
+          ],
+          "imageUrl": "rhtv-asset:ast_fixture1"
+        }
+      },
+      {
+        "id": "repaint-source",
+        "type": "rh-image",
+        "position": {
+          "x": 500,
+          "y": 150
+        },
+        "data": {
+          "label": "重绘",
+          "title": "重绘",
+          "status": "idle",
+          "width": 360,
+          "height": 360,
+          "output": [
+            {
+              "url": "rhtv-asset:ast_fixture2",
+              "width": 1254,
+              "height": 1254,
+              "assetId": "ast_fixture2",
+              "mediaId": "ast_fixture2",
+              "mimeType": "image/png",
+              "outputId": "out_fixture1",
+              "testMode": false,
+              "outputType": "image/png",
+              "originalUrl": "rhtv-asset:ast_fixture2",
+              "thumbnailUrl": "rhtv-asset:ast_fixture2",
+              "historyOutputId": "out_fixture1"
+            }
+          ],
+          "sourceObjects": [
+            "rhtv-asset:ast_fixture2"
+          ],
+          "imageUrl": "rhtv-asset:ast_fixture2",
+          "toolsType": "image-redraw",
+          "toolsSourceUrl": "rhtv-asset:ast_fixture3",
+          "opResize": true,
+          "params": {
+            "imageUrls": [
+              "rhtv-asset:ast_fixture3"
+            ],
+            "prompt": "fill the content within the white mask area without leaving any white borders. 把标记区域中的蓝色围巾改为鲜明的绿色围巾，保留图形的角色特征、姿态和奶油色背景。输出一张完整图片，不显示涂抹标记。"
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "estimateTaskId": "tsk_fixture0",
+          "generationStartedAt": 1791361350357,
+          "errorMsg": "",
+          "nodeOutputHistory": [],
+          "historyStorage": {
+            "historyId": "exe_fixture0",
+            "imageBatchOrigin": {
+              "count": 1,
+              "executionId": "exe_fixture0",
+              "index": 0,
+              "outputId": "out_fixture1",
+              "sourceNodeId": "repaint-source",
+              "taskId": "tsk_fixture0"
+            },
+            "resultCount": 1,
+            "revision": "5",
+            "schemaVersion": 1,
+            "source": "remote"
+          },
+          "selectedHistoryOutputId": "out_fixture1",
+          "selectedOutputHistoryIndex": 0,
+          "presetSelections": [],
+          "sourceNodeId": "source"
+        },
+        "style": {
+          "height": 360,
+          "width": 360
+        },
+        "selectable": true
+      },
+      {
+        "id": "n",
+        "type": "rh-image",
+        "position": {
+          "x": 960,
+          "y": -650
+        },
+        "selectable": true,
+        "data": {
+          "label": "擦除",
+          "title": "擦除",
+          "width": 360,
+          "height": 360,
+          "toolsType": "image-erase",
+          "toolsSourceUrl": "rhtv-asset:ast_fixture0",
+          "opResize": true,
+          "params": {
+            "imageUrls": [
+              "rhtv-asset:ast_fixture0"
+            ]
+          },
+          "modelCode": "codex-image-edit-v1",
+          "generateNum": 1,
+          "sceneCode": "canvas-image-erase",
+          "nodeOutputHistory": [],
+          "presetSelections": [],
+          "sourceNodeId": "repaint-source"
+        },
+        "style": {
+          "width": 360,
+          "height": 360
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-source-repaint-source",
+        "source": "source",
+        "target": "repaint-source",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      },
+      {
+        "id": "e-repaint-source-n",
+        "source": "repaint-source",
+        "target": "n",
+        "sourceHandle": "output",
+        "targetHandle": "input",
+        "type": "default"
+      }
+    ]
+  }
+}

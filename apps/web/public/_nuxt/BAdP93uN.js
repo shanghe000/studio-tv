@@ -1,0 +1,1 @@
+import{d as s,c as t,a,aA as e,Y as r,V as o}from"./DGtFQwJn.js";/* empty css        */const p=o(s({__name:"rhButton",props:{type:String,size:String},setup(s){const o=s;return(s,p)=>(a(),t("div",{class:r(`${o.type||"default"} ${o.size} rh-btn-wrap`)},[e(s.$slots,"default",{},void 0,!0)],2))}}),[["__scopeId","data-v-ce727430"]]);export{p as r};

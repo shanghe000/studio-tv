@@ -1,0 +1,111 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Studio TV IPAC tool access authorization extension",
+    "version": "1.2.0",
+    "description": "Authorization policy for existing frozen core v1.0.0 routes. IPAC grants only tool-level tv.access; the server reuses trusted application-level access leases for at most 300 seconds. The frontend preserves the original layout and functions without workspace selection. Work items remain owner-isolated and are never partitioned by IPAC scopes. Experimental workspace interfaces are retired, not implemented endpoints."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {},
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "x-core-route-authorization": {
+    "tv.access": [
+      "GET /projects",
+      "GET /projects/{projectId}",
+      "GET /projects/{projectId}/snapshot",
+      "POST /projects",
+      "PATCH /projects/{projectId}",
+      "PUT /projects/{projectId}/pin",
+      "DELETE /projects/{projectId}/pin",
+      "PUT /projects/{projectId}/snapshot",
+      "DELETE /projects/{projectId}",
+      "GET /assets",
+      "GET /assets/{assetId}",
+      "GET /storage/assets/{assetId}",
+      "HEAD /storage/assets/{assetId}",
+      "POST /asset-uploads",
+      "POST /asset-uploads/{uploadId}/renew",
+      "POST /asset-uploads/{uploadId}/complete",
+      "PUT /storage/uploads/{uploadId}",
+      "DELETE /assets/{assetId}"
+    ]
+  },
+  "x-reserved-capabilities": {
+    "status": "RESERVED",
+    "description": "LLM, text-to-image, image-to-video, reference generation and collaboration retain existing 501 protocol placeholders. They perform no execution, billing, or role-based bypass."
+  },
+  "x-frozen-core-sha256": {
+    "openapi.json": "6c135c7a598589613c12d4b3e53941af7579965c22375e520b42beeeb06fad03",
+    "openapi.yaml": "867dc26ab8dda2ab6be8542febbdca90b81ba5a8d5a87b47892873d6a887ba6d"
+  },
+  "x-server-authorization-policy": {
+    "capability": "tv.access",
+    "authenticationProvider": "feishu",
+    "subjectSource": "VERIFIED_IPAC_SESSION",
+    "scopeSource": "VERIFIED_IPAC_EFFECTIVE_SCOPES",
+    "effectiveScopes": "BOUNDED_APPLICATION_LEASE",
+    "runtimeCheck": "NOT_REQUIRED",
+    "grantRule": "ANY_VERIFIED_TV_ACCESS_SCOPE",
+    "description": "Use the verified application, issuer, subject, sid and session_version to obtain trusted EffectiveScopes. ACTIVE subject/application, matching version and any non-empty real scope containing tv.access allow whole-application use. Cache the decision for at most 300 seconds, bounded by session expiry. Coalesce concurrent refreshes; expired leases require fresh evidence and never serve stale allowances.",
+    "clientSelectsScope": false,
+    "ownerIsolation": true,
+    "scopePartitionsResources": false,
+    "localRoleFallback": false,
+    "failureHttpStatus": {
+      "UNAUTHENTICATED": 401,
+      "FORBIDDEN": 403,
+      "AUTHORIZATION_UNAVAILABLE": 503
+    },
+    "leaseSeconds": 300,
+    "errorCoalescingSeconds": 2,
+    "localRevocation": "NEXT_REQUEST",
+    "upstreamRevocation": "LEASE_EXPIRY",
+    "loginAndRefresh": "LIVE_SESSION_STATUS"
+  },
+  "x-retired-experimental-interfaces": {
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/workspaces",
+        "status": "RETIRED",
+        "httpStatus": 404,
+        "description": "Removed route; returns the generic not-found response. No workspace or authorization-self endpoint is introduced."
+      }
+    ],
+    "parameters": [
+      {
+        "name": "X-Workspace-Id",
+        "in": "header",
+        "status": "RETIRED",
+        "behavior": "IGNORED",
+        "affectsAuthorization": false,
+        "affectsDataPartition": false,
+        "affectsIdempotency": false,
+        "description": "The frontend does not send this header. Any legacy value is ignored entirely and cannot select a scope, filter or move data, or change idempotent request identity."
+      }
+    ]
+  },
+  "x-legacy-storage": {
+    "workspaceColumnsAndMappings": "PRESERVED",
+    "participatesInAuthorization": false,
+    "partitionsBusinessData": false,
+    "description": "Existing workspace_id values, NULLs and mapping rows are retained without destructive migration or reassignment. Existing and new resources use owner_id isolation; legacy workspace values cannot prevent the real owner from accessing or referencing their resources. Identity and resource ownership are not merged by display name or email."
+  }
+}

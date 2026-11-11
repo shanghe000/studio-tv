@@ -1,0 +1,4104 @@
+openapi: 3.1.1
+info:
+  title: RHTV additive canvas boundaries
+  version: 0.1.0
+  description: Additive contracts. All extension HTTP operations RESERVED and must
+    return501 NOT_IMPLEMENTED until deployed. Frozen v1.0.0 is unchanged.
+servers:
+- url: /api/v1
+x-frozen-core-version: 1.0.0
+x-frozen-core-sha256:
+  openapi.json: 6c135c7a598589613c12d4b3e53941af7579965c22375e520b42beeeb06fad03
+  openapi.yaml: 867dc26ab8dda2ab6be8542febbdca90b81ba5a8d5a87b47892873d6a887ba6d
+x-implementation-stage: RESERVED
+paths:
+  /library/folders:
+    get:
+      operationId: listLibraryFolders
+      summary: listLibraryFolders
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Omitted parentId selects root children. Does not recursively
+        list descendants.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - &id002
+        $ref: ./openapi.json#/components/parameters/Page
+      - &id003
+        $ref: ./openapi.json#/components/parameters/PageSize
+      - &id004
+        $ref: ./openapi.json#/components/parameters/Search
+      - name: parentId
+        in: query
+        required: false
+        schema: &id001
+          $ref: ./openapi.json#/components/schemas/Id
+      - &id005
+        name: kind
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - IMAGE
+          - VIDEO
+          - AUDIO
+          - TEXT
+          - MODEL_3D
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderPageResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    post:
+      operationId: createLibraryFolder
+      summary: createLibraryFolder
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '201':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCreate'
+  /library/folders/{folderId}:
+    patch:
+      operationId: updateLibraryFolder
+      summary: updateLibraryFolder
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: folderId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IfMatch
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderUpdate'
+    delete:
+      operationId: deleteLibraryFolder
+      summary: deleteLibraryFolder
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Only empty folders; use atomic deletion batch with recursive=true
+        for explicit cascade.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: folderId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      - $ref: ./openapi.json#/components/parameters/IfMatch
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /library/items:
+    get:
+      operationId: listLibraryItems
+      summary: listLibraryItems
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Omitted folderId selects root items. Does not recursively
+        list descendants.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - *id002
+      - *id003
+      - *id004
+      - name: folderId
+        in: query
+        required: false
+        schema: *id001
+      - *id005
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryItemPageResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    post:
+      operationId: createLibraryItem
+      summary: createLibraryItem
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '201':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryItemResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryItemCreate'
+  /library/items/{itemId}:
+    patch:
+      operationId: updateLibraryItem
+      summary: updateLibraryItem
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IfMatch
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryItemResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryItemUpdate'
+    delete:
+      operationId: deleteLibraryItem
+      summary: deleteLibraryItem
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Removes library reference, never deletes referenced media
+        object.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      - $ref: ./openapi.json#/components/parameters/IfMatch
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /library/moves:
+    post:
+      operationId: moveLibraryResources
+      summary: moveLibraryResources
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Atomic; expected revisions, same authorized scope, no
+        cycles, no partial success.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryBatchResultResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryMove'
+  /library/deletions:
+    post:
+      operationId: deleteLibraryResources
+      summary: deleteLibraryResources
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Atomic; recursive explicit. Removing items never cascades
+        into v1 media deletion.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryBatchResultResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryDeletion'
+  /characters:
+    get:
+      operationId: listCharacters
+      summary: listCharacters
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - {}
+      - BearerAuth: []
+      parameters:
+      - *id002
+      - *id003
+      - *id004
+      - name: favoriteOnly
+        in: query
+        required: false
+        schema: &id008
+          type: boolean
+      - name: filterOptionIds
+        in: query
+        required: false
+        schema:
+          type: array
+          items: *id001
+          maxItems: 100
+          uniqueItems: true
+        style: form
+        explode: true
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterPageResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /characters/{characterId}:
+    get:
+      operationId: getCharacter
+      summary: getCharacter
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - {}
+      - BearerAuth: []
+      parameters:
+      - name: characterId
+        in: path
+        required: true
+        schema: *id001
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /character-filters:
+    get:
+      operationId: listCharacterFilters
+      summary: listCharacterFilters
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - {}
+      - BearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterFilterListResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /ai-apps:
+    get:
+      operationId: listAIApplications
+      summary: listAIApplications
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - {}
+      - BearerAuth: []
+      parameters:
+      - *id002
+      - *id003
+      - *id004
+      - name: tagId
+        in: query
+        required: false
+        schema: *id001
+      - name: scope
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - PUBLIC
+          - OWNED
+          - FAVORITED
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIApplicationPageResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /ai-apps/{appId}:
+    get:
+      operationId: getAIApplication
+      summary: getAIApplication
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - {}
+      - BearerAuth: []
+      parameters:
+      - name: appId
+        in: path
+        required: true
+        schema: *id001
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIApplicationResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /ai-app-tags:
+    get:
+      operationId: listAIApplicationTags
+      summary: listAIApplicationTags
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - {}
+      - BearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppTagListResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /characters/{characterId}/favorite:
+    put:
+      operationId: setCharacterFavorite
+      summary: setCharacterFavorite
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Desired state, never toggle. Repeating PUT stays true;
+        DELETE stays false.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: characterId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactionResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    delete:
+      operationId: removeCharacterFavorite
+      summary: removeCharacterFavorite
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Desired state, never toggle. Repeating PUT stays true;
+        DELETE stays false.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: characterId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactionResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /ai-apps/{appId}/favorite:
+    put:
+      operationId: setAIApplicationFavorite
+      summary: setAIApplicationFavorite
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Desired state, never toggle. Repeating PUT stays true;
+        DELETE stays false.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: appId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactionResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    delete:
+      operationId: removeAIApplicationFavorite
+      summary: removeAIApplicationFavorite
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Desired state, never toggle. Repeating PUT stays true;
+        DELETE stays false.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: appId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactionResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /ai-app-invocations:
+    post:
+      operationId: createAIApplicationInvocation
+      summary: createAIApplicationInvocation
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. No graph execution in v1. App version and typed bindings
+        validated before any future quote/run; reserved, no fee or fabricated output.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '202':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgementResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppInvocationInput'
+  /canvas/capabilities:
+    get:
+      operationId: getCanvasCapabilities
+      summary: getCanvasCapabilities
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanvasCapabilitiesResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /model-assets/uploads:
+    post:
+      operationId: createModelAssetUpload
+      summary: createModelAssetUpload
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. GLB one file; GLTF manifest entrypoint + textures/buffers.
+        Reject remote URIs, traversal, missing refs, archives and all executable content.
+        Total <=512 MiB.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '201':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelBundleUploadResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelAssetUploadRequest'
+  /model-assets/uploads/{uploadId}/complete:
+    post:
+      operationId: completeModelAssetUpload
+      summary: completeModelAssetUpload
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Verify all manifest files, hashes, MIME and internal references.
+        ETag alone is not integrity proof.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: uploadId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '202':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelAssetResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelBundleComplete'
+  /model-assets/{modelAssetId}:
+    get:
+      operationId: getModelAsset
+      summary: getModelAsset
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: modelAssetId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelAssetResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    delete:
+      operationId: deleteModelAsset
+      summary: deleteModelAsset
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Reference safety and permissions; active references return409.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: modelAssetId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /model-capabilities:
+    get:
+      operationId: listReservedModelCapabilities
+      summary: listReservedModelCapabilities
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - {}
+      - BearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelCapabilityListResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /hyperframes/workspaces:
+    get:
+      operationId: listHFWorkspaces
+      summary: listHFWorkspaces
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - *id002
+      - *id003
+      - *id004
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFWorkspacePageResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    post:
+      operationId: createHFWorkspace
+      summary: createHFWorkspace
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '201':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFWorkspaceResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HFWorkspaceCreate'
+  /hyperframes/workspaces/{workspaceId}:
+    get:
+      operationId: getHFWorkspace
+      summary: getHFWorkspace
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFWorkspaceResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    delete:
+      operationId: deleteHFWorkspace
+      summary: deleteHFWorkspace
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Independent workspace; never interprets id as core projectId.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      - $ref: ./openapi.json#/components/parameters/IfMatch
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /hyperframes/workspaces/{workspaceId}/files:
+    get:
+      operationId: listHFFiles
+      summary: listHFFiles
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - *id002
+      - *id003
+      - *id004
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFFilePageResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    post:
+      operationId: createHFFile
+      summary: createHFFile
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '201':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFFileResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HFFileWrite'
+  /hyperframes/workspaces/{workspaceId}/files/{fileId}:
+    get:
+      operationId: getHFFile
+      summary: getHFFile
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - name: fileId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFFileResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    put:
+      operationId: replaceHFFile
+      summary: replaceHFFile
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - name: fileId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IfMatch
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFFileResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HFFileWrite'
+    delete:
+      operationId: deleteHFFile
+      summary: deleteHFFile
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - name: fileId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      - $ref: ./openapi.json#/components/parameters/IfMatch
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /hyperframes/workspaces/{workspaceId}/sessions:
+    get:
+      operationId: listHFSessions
+      summary: listHFSessions
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - *id002
+      - *id003
+      - *id004
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFSessionPageResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+    post:
+      operationId: createHFSession
+      summary: createHFSession
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '201':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFSessionResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HFSessionCreate'
+  /hyperframes/workspaces/{workspaceId}/sessions/{sessionId}:
+    get:
+      operationId: getHFSession
+      summary: getHFSession
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - name: sessionId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFSessionResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /hyperframes/workspaces/{workspaceId}/sessions/{sessionId}/messages:
+    post:
+      operationId: createHFMessage
+      summary: createHFMessage
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Agent execution/SSE is reserved; stored session is not
+        a connected agent.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - name: sessionId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '202':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgementResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HFMessage'
+  /hyperframes/workspaces/{workspaceId}/renders:
+    post:
+      operationId: createHFRender
+      summary: createHFRender
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. Server render needs sandbox worker with fixed revision,
+        resource/time bounds, no arbitrary network or host filesystem access.'
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '202':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFRenderResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HFRenderRequest'
+  /hyperframes/workspaces/{workspaceId}/renders/{renderId}:
+    get:
+      operationId: getHFRender
+      summary: getHFRender
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - name: renderId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      responses:
+        '200':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFRenderResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+  /hyperframes/workspaces/{workspaceId}/renders/{renderId}/cancel:
+    post:
+      operationId: cancelHFRender
+      summary: cancelHFRender
+      description: 'RESERVED: not deployed; returns 501 NOT_IMPLEMENTED until capability
+        explicitly enabled. '
+      x-implementation-stage: RESERVED
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: workspaceId
+        in: path
+        required: true
+        schema: *id001
+      - name: renderId
+        in: path
+        required: true
+        schema: *id001
+      - $ref: ./openapi.json#/components/parameters/TeamId
+      - $ref: ./openapi.json#/components/parameters/IdempotencyKey
+      responses:
+        '202':
+          description: Future successful response; not evidence of implementation.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+                maxLength: 200
+              description: Same as body.requestId.
+            ETag:
+              schema:
+                type: string
+                pattern: ^"[0-9]+"$
+              description: 'Strong ETag: quoted resource revision. Lists expose each
+                resource revision; If-Match must match the selected resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HFRenderResponse'
+        '501':
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+        default:
+          $ref: ./openapi.json#/components/responses/ErrorResponse
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Folder:
+      type: object
+      properties:
+        id: *id001
+        parentId:
+          anyOf:
+          - *id001
+          - type: 'null'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        kind:
+          type: string
+          enum:
+          - IMAGE
+          - VIDEO
+          - AUDIO
+          - TEXT
+          - MODEL_3D
+        revision: &id007
+          type: integer
+          minimum: 0
+        createdAt: &id006
+          type: string
+          format: date-time
+          pattern: Z$
+        updatedAt: *id006
+      required:
+      - id
+      - parentId
+      - name
+      - kind
+      - revision
+      - createdAt
+      - updatedAt
+      additionalProperties: false
+    FolderCreate:
+      type: object
+      properties:
+        parentId:
+          anyOf:
+          - *id001
+          - type: 'null'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        kind:
+          type: string
+          enum:
+          - IMAGE
+          - VIDEO
+          - AUDIO
+          - TEXT
+          - MODEL_3D
+      required:
+      - parentId
+      - name
+      - kind
+      additionalProperties: false
+    FolderUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+      required:
+      - name
+      additionalProperties: false
+    MediaItemContent:
+      type: object
+      properties:
+        assetId: *id001
+      required:
+      - assetId
+      additionalProperties: false
+    TextItemContent:
+      type: object
+      properties:
+        text:
+          type: string
+          maxLength: 1000000
+      required:
+      - text
+      additionalProperties: false
+    ModelItemContent:
+      type: object
+      properties:
+        modelAssetId: *id001
+      required:
+      - modelAssetId
+      additionalProperties: false
+    LibraryItem:
+      type: object
+      properties:
+        folderId:
+          anyOf:
+          - *id001
+          - type: 'null'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        kind:
+          type: string
+          enum:
+          - IMAGE
+          - VIDEO
+          - AUDIO
+          - TEXT
+          - MODEL_3D
+        content:
+          type: object
+        id: *id001
+        revision: *id007
+        createdAt: *id006
+        updatedAt: *id006
+      required:
+      - folderId
+      - name
+      - kind
+      - content
+      - id
+      - revision
+      - createdAt
+      - updatedAt
+      additionalProperties: false
+      allOf:
+      - if:
+          properties:
+            kind:
+              const: IMAGE
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/MediaItemContent'
+      - if:
+          properties:
+            kind:
+              const: VIDEO
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/MediaItemContent'
+      - if:
+          properties:
+            kind:
+              const: AUDIO
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/MediaItemContent'
+      - if:
+          properties:
+            kind:
+              const: TEXT
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/TextItemContent'
+      - if:
+          properties:
+            kind:
+              const: MODEL_3D
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/ModelItemContent'
+    LibraryItemCreate:
+      type: object
+      properties:
+        folderId:
+          anyOf:
+          - *id001
+          - type: 'null'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        kind:
+          type: string
+          enum:
+          - IMAGE
+          - VIDEO
+          - AUDIO
+          - TEXT
+          - MODEL_3D
+        content:
+          type: object
+      required:
+      - folderId
+      - name
+      - kind
+      - content
+      additionalProperties: false
+      allOf:
+      - if:
+          properties:
+            kind:
+              const: IMAGE
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/MediaItemContent'
+      - if:
+          properties:
+            kind:
+              const: VIDEO
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/MediaItemContent'
+      - if:
+          properties:
+            kind:
+              const: AUDIO
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/MediaItemContent'
+      - if:
+          properties:
+            kind:
+              const: TEXT
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/TextItemContent'
+      - if:
+          properties:
+            kind:
+              const: MODEL_3D
+          required:
+          - kind
+        then:
+          properties:
+            content:
+              $ref: '#/components/schemas/ModelItemContent'
+    LibraryItemUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+      required:
+      - name
+      additionalProperties: false
+    ResourceRevision:
+      type: object
+      properties:
+        id: *id001
+        expectedRevision: *id007
+      required:
+      - id
+      - expectedRevision
+      additionalProperties: false
+    LibraryMove:
+      type: object
+      properties:
+        targetFolderId:
+          anyOf:
+          - *id001
+          - type: 'null'
+        folders:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRevision'
+          maxItems: 100
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRevision'
+          maxItems: 100
+      required:
+      - targetFolderId
+      - folders
+      - items
+      additionalProperties: false
+      anyOf:
+      - properties:
+          folders:
+            minItems: 1
+      - properties:
+          items:
+            minItems: 1
+    LibraryDeletion:
+      type: object
+      properties:
+        folders:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRevision'
+          maxItems: 100
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRevision'
+          maxItems: 100
+        recursive: *id008
+      required:
+      - folders
+      - items
+      - recursive
+      additionalProperties: false
+      anyOf:
+      - properties:
+          folders:
+            minItems: 1
+      - properties:
+          items:
+            minItems: 1
+    LibraryBatchResult:
+      type: object
+      properties:
+        affectedIds:
+          type: array
+          items: *id001
+          maxItems: 10000
+        revision: *id007
+      required:
+      - affectedIds
+      - revision
+      additionalProperties: false
+    Character:
+      type: object
+      properties:
+        id: *id001
+        version:
+          type: string
+          minLength: 1
+        name:
+          $ref: ./openapi.json#/components/schemas/LocalizedText
+        description:
+          $ref: ./openapi.json#/components/schemas/LocalizedText
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+            pattern: ^https://
+          maxItems: 20
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+            maxLength: 128
+        favorited: *id008
+      required:
+      - id
+      - version
+      - name
+      - description
+      - images
+      - attributes
+      - favorited
+      additionalProperties: false
+    CharacterFilter:
+      type: object
+      properties:
+        id: *id001
+        label:
+          $ref: ./openapi.json#/components/schemas/LocalizedText
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              id: *id001
+              label:
+                $ref: ./openapi.json#/components/schemas/LocalizedText
+            required:
+            - id
+            - label
+            additionalProperties: false
+          maxItems: 100
+      required:
+      - id
+      - label
+      - options
+      additionalProperties: false
+    AppInputBinding:
+      type: object
+      properties:
+        appNodeId: *id001
+        inputId: *id001
+        sourceNodeId: *id001
+      required:
+      - appNodeId
+      - inputId
+      - sourceNodeId
+      additionalProperties: false
+    AppInput:
+      oneOf:
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: &id009
+            type: string
+            minLength: 1
+          label: &id010
+            $ref: ./openapi.json#/components/schemas/LocalizedText
+          description: &id011
+            $ref: ./openapi.json#/components/schemas/LocalizedText
+          required: *id008
+          type:
+            const: STRING
+          defaultValue:
+            anyOf:
+            - type: string
+              maxLength: 32000
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: INT
+          defaultValue:
+            anyOf:
+            - type: integer
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: FLOAT
+          defaultValue:
+            anyOf:
+            - type: number
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: BOOLEAN
+          defaultValue:
+            anyOf:
+            - *id008
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: SWITCH
+          defaultValue:
+            anyOf:
+            - *id008
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: LIST
+          defaultValue:
+            anyOf:
+            - type: string
+              maxLength: 1024
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: IMAGE
+          defaultValue:
+            anyOf:
+            - anyOf:
+              - *id001
+              - type: 'null'
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: VIDEO
+          defaultValue:
+            anyOf:
+            - anyOf:
+              - *id001
+              - type: 'null'
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+      - type: object
+        properties:
+          id: *id001
+          nodeId: *id001
+          fieldName: *id009
+          label: *id010
+          description: *id011
+          required: *id008
+          type:
+            const: AUDIO
+          defaultValue:
+            anyOf:
+            - anyOf:
+              - *id001
+              - type: 'null'
+            - type: 'null'
+          constraints:
+            type: object
+            additionalProperties: true
+            description: JSON Schema 2020-12 fragment; enum/minimum/maximum/length
+              limits only, no script or provider credentials.
+        required:
+        - id
+        - nodeId
+        - fieldName
+        - label
+        - description
+        - required
+        - type
+        - defaultValue
+        - constraints
+        additionalProperties: false
+    AIApplication:
+      type: object
+      properties:
+        id: *id001
+        version:
+          type: string
+          minLength: 1
+        workflowId: *id001
+        name:
+          $ref: ./openapi.json#/components/schemas/LocalizedText
+        description:
+          $ref: ./openapi.json#/components/schemas/LocalizedText
+        coverUrl:
+          anyOf:
+          - type: string
+            format: uri
+            pattern: ^https://
+          - type: 'null'
+        tagIds:
+          type: array
+          items: *id001
+          maxItems: 100
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppInput'
+          maxItems: 200
+        favorited: *id008
+        executionStage:
+          const: RESERVED
+      required:
+      - id
+      - version
+      - workflowId
+      - name
+      - description
+      - coverUrl
+      - tagIds
+      - inputs
+      - favorited
+      - executionStage
+      additionalProperties: false
+    AppInputValue:
+      type: object
+      properties:
+        inputId: *id001
+        value:
+          type:
+          - string
+          - integer
+          - number
+          - boolean
+          - 'null'
+      required:
+      - inputId
+      - value
+      additionalProperties: false
+    AppInvocationInput:
+      type: object
+      properties:
+        projectId: *id001
+        appNodeId: *id001
+        appId: *id001
+        appVersion:
+          type: string
+          minLength: 1
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppInputValue'
+          maxItems: 200
+        bindings:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppInputBinding'
+          maxItems: 200
+      required:
+      - projectId
+      - appNodeId
+      - appId
+      - appVersion
+      - values
+      - bindings
+      additionalProperties: false
+    AppTag:
+      type: object
+      properties:
+        id: *id001
+        parentId:
+          anyOf:
+          - *id001
+          - type: 'null'
+        label:
+          $ref: ./openapi.json#/components/schemas/LocalizedText
+      required:
+      - id
+      - parentId
+      - label
+      additionalProperties: false
+    NativeNodeProperties:
+      type: object
+      properties:
+        parentId: *id001
+        extent:
+          type: string
+          enum:
+          - parent
+        style:
+          type: object
+          additionalProperties:
+            type:
+            - string
+            - number
+            - boolean
+            - 'null'
+        width:
+          type: number
+          minimum: 0
+        height:
+          type: number
+          minimum: 0
+        zIndex:
+          type: number
+      additionalProperties: true
+      description: Sanitized JSON UI properties; no credentials, scripts, prototype
+        keys, signed/blob URLs or executable authority.
+    EditorNodeMetadata:
+      type: object
+      properties:
+        native:
+          $ref: '#/components/schemas/NativeNodeProperties'
+      required:
+      - native
+      additionalProperties: false
+    CanvasMetadata:
+      type: object
+      properties:
+        version:
+          const: '1'
+        meta:
+          type: object
+          additionalProperties: true
+        edges:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: true
+      required:
+      - version
+      - meta
+      - edges
+      additionalProperties: false
+    CompatibleProjectGraph:
+      allOf:
+      - $ref: ./openapi.json#/components/schemas/ProjectGraph
+      - properties:
+          nodes:
+            type: array
+            items:
+              oneOf:
+              - &id012
+                allOf:
+                - $ref: ./openapi.json#/components/schemas/GraphNode
+                - properties:
+                    id:
+                      const: rhtv_meta_v1
+                    type:
+                      const: __rhtv_meta
+                    data:
+                      $ref: '#/components/schemas/CanvasMetadata'
+              - allOf:
+                - $ref: ./openapi.json#/components/schemas/GraphNode
+                - not:
+                    anyOf:
+                    - properties:
+                        id:
+                          const: rhtv_meta_v1
+                      required:
+                      - id
+                    - properties:
+                        type:
+                          const: __rhtv_meta
+                      required:
+                      - type
+                - properties:
+                    data:
+                      type: object
+                      properties:
+                        __rhtv:
+                          $ref: '#/components/schemas/EditorNodeMetadata'
+                      additionalProperties: true
+            contains: *id012
+            minContains: 1
+            maxContains: 1
+      description: Exactly one reserved metadata node; decoded away before rendering/execution.
+        Validate unique IDs, group/edge endpoints, prototype keys and authorized asset
+        references separately.
+    CanvasCapabilities:
+      type: object
+      properties:
+        snapshotFormat:
+          const: __rhtv/1
+        collaboration:
+          const: RESERVED
+        graphExecution:
+          const: RESERVED
+        library:
+          const: RESERVED
+        appExecution:
+          const: RESERVED
+        modelProvidersConnected:
+          const: false
+      required:
+      - snapshotFormat
+      - collaboration
+      - graphExecution
+      - library
+      - appExecution
+      - modelProvidersConnected
+      additionalProperties: false
+    ModelBundleFile:
+      type: object
+      properties:
+        path: &id013
+          type: string
+          minLength: 1
+          maxLength: 1024
+          pattern: ^(?!/)(?!.*(?:^|/)\.\.(?:/|$))(?!.*\\)(?!.*:)[A-Za-z0-9._ /-]+$
+        mimeType:
+          type: string
+          enum:
+          - model/gltf-binary
+          - model/gltf+json
+          - application/octet-stream
+          - image/png
+          - image/jpeg
+          - image/webp
+        byteSize:
+          type: integer
+          minimum: 1
+          maximum: 536870912
+        checksumSha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+      required:
+      - path
+      - mimeType
+      - byteSize
+      - checksumSha256
+      additionalProperties: false
+    ModelAssetUploadRequest:
+      type: object
+      properties:
+        projectId: *id001
+        format:
+          type: string
+          enum:
+          - GLB
+          - GLTF
+        entrypoint: *id013
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelBundleFile'
+          maxItems: 256
+          minItems: 1
+      required:
+      - projectId
+      - format
+      - entrypoint
+      - files
+      additionalProperties: false
+      allOf:
+      - if:
+          properties:
+            format:
+              const: GLB
+        then:
+          properties:
+            files:
+              maxItems: 1
+            entrypoint:
+              pattern: \.glb$
+      - if:
+          properties:
+            format:
+              const: GLTF
+        then:
+          properties:
+            entrypoint:
+              pattern: \.gltf$
+    ModelUploadFile:
+      type: object
+      properties:
+        path: *id013
+        method:
+          const: PUT
+        url:
+          type: string
+          format: uri
+          pattern: ^https://
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+      - path
+      - method
+      - url
+      - headers
+      additionalProperties: false
+    ModelBundleUpload:
+      type: object
+      properties:
+        id: *id001
+        modelAssetId: *id001
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelUploadFile'
+          maxItems: 256
+        expiresAt: *id006
+        completeDeadlineAt: *id006
+      required:
+      - id
+      - modelAssetId
+      - files
+      - expiresAt
+      - completeDeadlineAt
+      additionalProperties: false
+    ModelBundleComplete:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            type: object
+            properties:
+              path: *id013
+              etag:
+                type: string
+                minLength: 1
+            required:
+            - path
+            - etag
+            additionalProperties: false
+          maxItems: 256
+          minItems: 1
+      required:
+      - files
+      additionalProperties: false
+    ModelAssetFile:
+      type: object
+      properties:
+        path: *id013
+        mimeType:
+          type: string
+          maxLength: 128
+        byteSize:
+          type: integer
+          minimum: 1
+        checksumSha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        downloadUrl:
+          anyOf:
+          - type: string
+            format: uri
+            pattern: ^https://
+          - type: 'null'
+      required:
+      - path
+      - mimeType
+      - byteSize
+      - checksumSha256
+      - downloadUrl
+      additionalProperties: false
+    ModelAsset:
+      type: object
+      properties:
+        id: *id001
+        projectId: *id001
+        format:
+          type: string
+          enum:
+          - GLB
+          - GLTF
+        entrypoint: *id013
+        state:
+          type: string
+          enum:
+          - UPLOADING
+          - PROCESSING
+          - READY
+          - REJECTED
+          - DELETED
+        byteSize:
+          type: integer
+          minimum: 0
+        downloadUrl:
+          anyOf:
+          - type: string
+            format: uri
+            pattern: ^https://
+          - type: 'null'
+        urlsExpireAt:
+          anyOf:
+          - *id006
+          - type: 'null'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelAssetFile'
+          maxItems: 256
+          minItems: 1
+        createdAt: *id006
+      required:
+      - id
+      - projectId
+      - format
+      - entrypoint
+      - state
+      - byteSize
+      - downloadUrl
+      - urlsExpireAt
+      - files
+      - createdAt
+      additionalProperties: false
+    HFWorkspaceCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+      required:
+      - name
+      additionalProperties: false
+    HFWorkspace:
+      type: object
+      properties:
+        id: *id001
+        name:
+          type: string
+          maxLength: 120
+        revision: *id007
+        createdAt: *id006
+        updatedAt: *id006
+      required:
+      - id
+      - name
+      - revision
+      - createdAt
+      - updatedAt
+      additionalProperties: false
+    HFFileWrite:
+      type: object
+      properties:
+        path: *id013
+        mimeType:
+          type: string
+          enum:
+          - text/html
+          - text/plain
+          - application/json
+          - text/css
+          - text/javascript
+        content:
+          type: string
+          maxLength: 1000000
+      required:
+      - path
+      - mimeType
+      - content
+      additionalProperties: false
+    HFFile:
+      type: object
+      properties:
+        id: *id001
+        workspaceId: *id001
+        path: *id013
+        mimeType:
+          type: string
+          maxLength: 128
+        content:
+          type: string
+          maxLength: 1000000
+        revision: *id007
+        updatedAt: *id006
+      required:
+      - id
+      - workspaceId
+      - path
+      - mimeType
+      - content
+      - revision
+      - updatedAt
+      additionalProperties: false
+    HFSessionCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+      required:
+      - title
+      additionalProperties: false
+    HFSession:
+      type: object
+      properties:
+        id: *id001
+        workspaceId: *id001
+        title:
+          type: string
+          maxLength: 120
+        state:
+          type: string
+          enum:
+          - STORED
+          - RUNNING
+          - COMPLETE
+          - FAILED
+        revision: *id007
+        createdAt: *id006
+        updatedAt: *id006
+      required:
+      - id
+      - workspaceId
+      - title
+      - state
+      - revision
+      - createdAt
+      - updatedAt
+      additionalProperties: false
+    HFMessage:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 32000
+      required:
+      - text
+      additionalProperties: false
+    HFRenderRequest:
+      type: object
+      properties:
+        entrypointFileId: *id001
+        workspaceRevision: *id007
+        width:
+          type: integer
+          minimum: 16
+          maximum: 4096
+        height:
+          type: integer
+          minimum: 16
+          maximum: 4096
+        fps:
+          type: integer
+          minimum: 1
+          maximum: 60
+        durationSeconds:
+          type: number
+          exclusiveMinimum: 0
+          maximum: 600
+      required:
+      - entrypointFileId
+      - workspaceRevision
+      - width
+      - height
+      - fps
+      - durationSeconds
+      additionalProperties: false
+    HFRender:
+      type: object
+      properties:
+        id: *id001
+        workspaceId: *id001
+        workspaceRevision: *id007
+        state:
+          type: string
+          enum:
+          - QUEUED
+          - RUNNING
+          - SUCCEEDED
+          - FAILED
+          - CANCEL_REQUESTED
+          - CANCELED
+        revision: *id007
+        progress:
+          anyOf:
+          - type: number
+            minimum: 0
+            maximum: 1
+          - type: 'null'
+        outputAssetId:
+          anyOf:
+          - *id001
+          - type: 'null'
+        error:
+          anyOf:
+          - $ref: ./openapi.json#/components/schemas/Error
+          - type: 'null'
+        createdAt: *id006
+        updatedAt: *id006
+      required:
+      - id
+      - workspaceId
+      - workspaceRevision
+      - state
+      - revision
+      - progress
+      - outputAssetId
+      - error
+      - createdAt
+      - updatedAt
+      additionalProperties: false
+    HFRenderEvent:
+      type: object
+      properties:
+        id: *id001
+        renderId: *id001
+        revision: *id007
+        occurredAt: *id006
+        snapshot:
+          $ref: '#/components/schemas/HFRender'
+      required:
+      - id
+      - renderId
+      - revision
+      - occurredAt
+      - snapshot
+      additionalProperties: false
+    FolderPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Folder'
+          maxItems: 100
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total: *id007
+        hasMore: *id008
+      required:
+      - items
+      - page
+      - pageSize
+      - total
+      - hasMore
+      additionalProperties: false
+    LibraryItemPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LibraryItem'
+          maxItems: 100
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total: *id007
+        hasMore: *id008
+      required:
+      - items
+      - page
+      - pageSize
+      - total
+      - hasMore
+      additionalProperties: false
+    CharacterPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Character'
+          maxItems: 100
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total: *id007
+        hasMore: *id008
+      required:
+      - items
+      - page
+      - pageSize
+      - total
+      - hasMore
+      additionalProperties: false
+    AIApplicationPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIApplication'
+          maxItems: 100
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total: *id007
+        hasMore: *id008
+      required:
+      - items
+      - page
+      - pageSize
+      - total
+      - hasMore
+      additionalProperties: false
+    HFWorkspacePage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/HFWorkspace'
+          maxItems: 100
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total: *id007
+        hasMore: *id008
+      required:
+      - items
+      - page
+      - pageSize
+      - total
+      - hasMore
+      additionalProperties: false
+    HFFilePage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/HFFile'
+          maxItems: 100
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total: *id007
+        hasMore: *id008
+      required:
+      - items
+      - page
+      - pageSize
+      - total
+      - hasMore
+      additionalProperties: false
+    HFSessionPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/HFSession'
+          maxItems: 100
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total: *id007
+        hasMore: *id008
+      required:
+      - items
+      - page
+      - pageSize
+      - total
+      - hasMore
+      additionalProperties: false
+    ModelCapabilityList:
+      $ref: ./model-capabilities.json
+    FolderResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/Folder'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    FolderCreateResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/FolderCreate'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    FolderUpdateResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/FolderUpdate'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    MediaItemContentResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/MediaItemContent'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    TextItemContentResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/TextItemContent'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelItemContentResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelItemContent'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    LibraryItemResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/LibraryItem'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    LibraryItemCreateResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/LibraryItemCreate'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    LibraryItemUpdateResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/LibraryItemUpdate'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ResourceRevisionResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ResourceRevision'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    LibraryMoveResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/LibraryMove'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    LibraryDeletionResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/LibraryDeletion'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    LibraryBatchResultResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/LibraryBatchResult'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    CharacterResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/Character'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    CharacterFilterResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/CharacterFilter'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AppInputBindingResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AppInputBinding'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AppInputResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AppInput'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AIApplicationResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AIApplication'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AppInputValueResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AppInputValue'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AppInvocationInputResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AppInvocationInput'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AppTagResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AppTag'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    NativeNodePropertiesResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/NativeNodeProperties'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    EditorNodeMetadataResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/EditorNodeMetadata'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    CanvasMetadataResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/CanvasMetadata'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    CompatibleProjectGraphResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/CompatibleProjectGraph'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    CanvasCapabilitiesResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/CanvasCapabilities'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelBundleFileResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelBundleFile'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelAssetUploadRequestResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelAssetUploadRequest'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelUploadFileResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelUploadFile'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelBundleUploadResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelBundleUpload'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelBundleCompleteResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelBundleComplete'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelAssetFileResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelAssetFile'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelAssetResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelAsset'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFWorkspaceCreateResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFWorkspaceCreate'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFWorkspaceResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFWorkspace'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFFileWriteResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFFileWrite'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFFileResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFFile'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFSessionCreateResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFSessionCreate'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFSessionResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFSession'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFMessageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFMessage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFRenderRequestResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFRenderRequest'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFRenderResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFRender'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFRenderEventResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFRenderEvent'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    FolderPageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/FolderPage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    LibraryItemPageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/LibraryItemPage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    CharacterPageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/CharacterPage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AIApplicationPageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AIApplicationPage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFWorkspacePageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFWorkspacePage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFFilePageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFFilePage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    HFSessionPageResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/HFSessionPage'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    ModelCapabilityListResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/ModelCapabilityList'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    Acknowledgement:
+      $ref: ./openapi.json#/components/schemas/Acknowledgement
+    AcknowledgementResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/Acknowledgement'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    Deleted:
+      $ref: ./openapi.json#/components/schemas/Deleted
+    DeletedResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/Deleted'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    Reaction:
+      $ref: ./openapi.json#/components/schemas/Reaction
+    ReactionResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/Reaction'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    CharacterFilterList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CharacterFilter'
+      maxItems: 100
+    CharacterFilterListResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/CharacterFilterList'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false
+    AppTagList:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppTag'
+      maxItems: 100
+    AppTagListResponse:
+      type: object
+      properties:
+        code:
+          const: 0
+        message:
+          type: string
+          maxLength: 200
+        requestId: *id001
+        data:
+          $ref: '#/components/schemas/AppTagList'
+      required:
+      - code
+      - message
+      - requestId
+      - data
+      additionalProperties: false

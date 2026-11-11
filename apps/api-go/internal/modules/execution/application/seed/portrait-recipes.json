@@ -1,0 +1,3807 @@
+{
+  "version": "studio-portrait-recipes-1",
+  "source": "Public labels and props in docs/model-function-matrix.json; original STUDIO authored text, not recovered RunningHub hidden prompts",
+  "categories": [
+    {
+      "id": 920055,
+      "name": "妆容调节",
+      "prop": null,
+      "parentId": null
+    },
+    {
+      "id": 920060,
+      "name": "特效·设定",
+      "prop": null,
+      "parentId": 920055
+    },
+    {
+      "id": 920059,
+      "name": "年代·风格",
+      "prop": null,
+      "parentId": 920055
+    },
+    {
+      "id": 920058,
+      "name": "剧情·节点",
+      "prop": null,
+      "parentId": 920055
+    },
+    {
+      "id": 920057,
+      "name": "古装·人设",
+      "prop": null,
+      "parentId": 920055
+    },
+    {
+      "id": 920056,
+      "name": "现代·人设",
+      "prop": null,
+      "parentId": 920055
+    },
+    {
+      "id": 920053,
+      "name": "姿态调整",
+      "prop": null,
+      "parentId": null
+    },
+    {
+      "id": 920054,
+      "name": "姿态底稿",
+      "prop": {
+        "group": "poseBase",
+        "panel": "pose",
+        "multiSelect": false
+      },
+      "parentId": 920053
+    },
+    {
+      "id": 920047,
+      "name": "形象设定",
+      "prop": null,
+      "parentId": null
+    },
+    {
+      "id": 920052,
+      "name": "服饰配件",
+      "prop": {
+        "group": "clothing",
+        "panel": "appearance",
+        "maxSelect": 3,
+        "multiSelect": true
+      },
+      "parentId": 920047
+    },
+    {
+      "id": 920051,
+      "name": "体态",
+      "prop": {
+        "group": "body",
+        "panel": "appearance",
+        "multiSelect": false
+      },
+      "parentId": 920047
+    },
+    {
+      "id": 920050,
+      "name": "发型",
+      "prop": {
+        "group": "hair",
+        "panel": "appearance",
+        "multiSelect": false
+      },
+      "parentId": 920047
+    },
+    {
+      "id": 920049,
+      "name": "肤色",
+      "prop": {
+        "group": "skin",
+        "panel": "appearance",
+        "multiSelect": false
+      },
+      "parentId": 920047
+    },
+    {
+      "id": 920048,
+      "name": "年龄",
+      "prop": {
+        "group": "age",
+        "panel": "appearance",
+        "multiSelect": false
+      },
+      "parentId": 920047
+    },
+    {
+      "id": 920041,
+      "name": "面部控制",
+      "prop": null,
+      "parentId": null
+    },
+    {
+      "id": 920046,
+      "name": "嘴巴形态",
+      "prop": {
+        "group": "mouth",
+        "panel": "face",
+        "multiSelect": false
+      },
+      "parentId": 920041
+    },
+    {
+      "id": 920043,
+      "name": "情绪控制",
+      "prop": {
+        "group": "emotion",
+        "panel": "face",
+        "multiSelect": false,
+        "initialPoint": {
+          "x": 50,
+          "y": 50
+        }
+      },
+      "parentId": 920041
+    },
+    {
+      "id": 920042,
+      "name": "视线方向",
+      "prop": {
+        "group": "gaze",
+        "panel": "face",
+        "multiSelect": false
+      },
+      "parentId": 920041
+    },
+    {
+      "id": 920040,
+      "name": "保护项",
+      "prop": {
+        "group": "protection",
+        "panel": "shared",
+        "multiSelect": true
+      },
+      "parentId": null
+    }
+  ],
+  "items": [
+    {
+      "categoryId": 920060,
+      "prop": {
+        "key": "makeup-1059",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1059-v1",
+        "label": "少年妆",
+        "prompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“少年妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“少年妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1059-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920060,
+      "prop": {
+        "key": "makeup-1058",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1058-v1",
+        "label": "老年妆",
+        "prompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“老年妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“老年妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1058-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920060,
+      "prop": {
+        "key": "makeup-1057",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1057-v1",
+        "label": "疤痕脸",
+        "prompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“疤痕脸”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“疤痕脸”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1057-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920060,
+      "prop": {
+        "key": "makeup-1056",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1056-v1",
+        "label": "烧伤毁容",
+        "prompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“烧伤毁容”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“烧伤毁容”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1056-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920060,
+      "prop": {
+        "key": "makeup-1055",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1055-v1",
+        "label": "妖精化形",
+        "prompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“妖精化形”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“妖精化形”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1055-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920060,
+      "prop": {
+        "key": "makeup-1054",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1054-v1",
+        "label": "吸血鬼",
+        "prompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“吸血鬼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“吸血鬼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1054-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920060,
+      "prop": {
+        "key": "makeup-1053",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1053-v1",
+        "label": "胎记",
+        "prompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“胎记”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的特效·设定调整为“胎记”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1053-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1052",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1052-v1",
+        "label": "赛博朋克·男",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“赛博朋克·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“赛博朋克·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1052-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1051",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1051-v1",
+        "label": "知青岁月·男",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“知青岁月·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“知青岁月·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1051-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1050",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1050-v1",
+        "label": "军阀大帅",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“军阀大帅”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“军阀大帅”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1050-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1049",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1049-v1",
+        "label": "末世废土·男",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“末世废土·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“末世废土·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1049-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1048",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1048-v1",
+        "label": "民国学生",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“民国学生”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“民国学生”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1048-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1047",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1047-v1",
+        "label": "民国旗袍",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“民国旗袍”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“民国旗袍”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1047-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1046",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1046-v1",
+        "label": "末世废土·女",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“末世废土·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“末世废土·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1046-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1045",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1045-v1",
+        "label": "知青岁月·女",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“知青岁月·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“知青岁月·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1045-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1044",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1044-v1",
+        "label": "日系清新",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“日系清新”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“日系清新”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1044-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1043",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1043-v1",
+        "label": "赛博朋克·女",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“赛博朋克·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“赛博朋克·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1043-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920059,
+      "prop": {
+        "key": "makeup-1042",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1042-v1",
+        "label": "民国歌女",
+        "prompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“民国歌女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年代·风格调整为“民国歌女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1042-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1041",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1041-v1",
+        "label": "病弱妆·男",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“病弱妆·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“病弱妆·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1041-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1040",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1040-v1",
+        "label": "丧尸妆·男",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“丧尸妆·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“丧尸妆·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1040-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1039",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1039-v1",
+        "label": "丧尸妆·女",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“丧尸妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“丧尸妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1039-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1038",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1038-v1",
+        "label": "醉酒微醺",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“醉酒微醺”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“醉酒微醺”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1038-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1037",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1037-v1",
+        "label": "出嫁红妆",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“出嫁红妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“出嫁红妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1037-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1036",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1036-v1",
+        "label": "登基为帝",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“登基为帝”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“登基为帝”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1036-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1035",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1035-v1",
+        "label": "身陷天牢",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“身陷天牢”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“身陷天牢”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1035-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1034",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1034-v1",
+        "label": "大病初愈",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“大病初愈”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“大病初愈”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1034-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1033",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1033-v1",
+        "label": "病弱妆·女",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“病弱妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“病弱妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1033-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1032",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1032-v1",
+        "label": "亢奋妆·女",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“亢奋妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“亢奋妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1032-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1031",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1031-v1",
+        "label": "战损妆·男",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“战损妆·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“战损妆·男”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1031-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920058,
+      "prop": {
+        "key": "makeup-1030",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1030-v1",
+        "label": "战损妆·女",
+        "prompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“战损妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的剧情·节点调整为“战损妆·女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1030-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1029",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1029-v1",
+        "label": "仙界师尊",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“仙界师尊”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“仙界师尊”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1029-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1028",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1028-v1",
+        "label": "寒门书生",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“寒门书生”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“寒门书生”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1028-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1027",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1027-v1",
+        "label": "西域王子",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“西域王子”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“西域王子”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1027-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1026",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1026-v1",
+        "label": "锦衣暗卫",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“锦衣暗卫”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“锦衣暗卫”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1026-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1025",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1025-v1",
+        "label": "白衣仙君",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“白衣仙君”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“白衣仙君”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1025-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1024",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1024-v1",
+        "label": "冷面杀手",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“冷面杀手”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“冷面杀手”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1024-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1023",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1023-v1",
+        "label": "纨绔子弟",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“纨绔子弟”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“纨绔子弟”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1023-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1022",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1022-v1",
+        "label": "九五帝王",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“九五帝王”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“九五帝王”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1022-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1021",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1021-v1",
+        "label": "魔教妖女",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“魔教妖女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“魔教妖女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1021-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1020",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1020-v1",
+        "label": "陪嫁丫鬟",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“陪嫁丫鬟”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“陪嫁丫鬟”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1020-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1019",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1019-v1",
+        "label": "狐妖小唯",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“狐妖小唯”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“狐妖小唯”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1019-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1018",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1018-v1",
+        "label": "敦煌华彩",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“敦煌华彩”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“敦煌华彩”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1018-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1017",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1017-v1",
+        "label": "唐妆秾艳",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“唐妆秾艳”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“唐妆秾艳”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1017-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1016",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1016-v1",
+        "label": "盛唐花钿",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“盛唐花钿”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“盛唐花钿”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1016-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1015",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1015-v1",
+        "label": "江湖侠客",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“江湖侠客”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“江湖侠客”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1015-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1014",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1014-v1",
+        "label": "魏晋风骨",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“魏晋风骨”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“魏晋风骨”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1014-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1013",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1013-v1",
+        "label": "初唐清雅",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“初唐清雅”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“初唐清雅”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1013-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1012",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1012-v1",
+        "label": "少年将军",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“少年将军”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“少年将军”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1012-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1011",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1011-v1",
+        "label": "冷面权臣",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“冷面权臣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“冷面权臣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1011-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1010",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1010-v1",
+        "label": "清雅书生",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“清雅书生”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“清雅书生”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1010-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1009",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1009-v1",
+        "label": "金枝公主",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“金枝公主”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“金枝公主”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1009-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1008",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1008-v1",
+        "label": "江湖侠女",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“江湖侠女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“江湖侠女”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1008-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1007",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1007-v1",
+        "label": "病弱谋士",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“病弱谋士”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“病弱谋士”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1007-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1006",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1006-v1",
+        "label": "大家闺秀",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“大家闺秀”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“大家闺秀”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1006-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1005",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1005-v1",
+        "label": "母仪皇后",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“母仪皇后”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“母仪皇后”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1005-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1004",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1004-v1",
+        "label": "明制端庄",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“明制端庄”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“明制端庄”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1004-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920057,
+      "prop": {
+        "key": "makeup-1003",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1003-v1",
+        "label": "宋韵淡雅",
+        "prompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“宋韵淡雅”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的古装·人设调整为“宋韵淡雅”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1003-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-1002",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1002-v1",
+        "label": "痞帅摇滚",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“痞帅摇滚”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“痞帅摇滚”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1002-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-1001",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1001-v1",
+        "label": "港风雅痞",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“港风雅痞”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“港风雅痞”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1001-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-1000",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-1000-v1",
+        "label": "禁欲总裁",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“禁欲总裁”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“禁欲总裁”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-1000-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-999",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-999-v1",
+        "label": "冷峻时尚",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“冷峻时尚”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“冷峻时尚”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-999-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-998",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-998-v1",
+        "label": "斯文败类",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“斯文败类”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“斯文败类”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-998-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-997",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-997-v1",
+        "label": "成熟绅士",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“成熟绅士”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“成熟绅士”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-997-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-996",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-996-v1",
+        "label": "腹黑男二",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“腹黑男二”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“腹黑男二”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-996-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-995",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-995-v1",
+        "label": "利落精英",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“利落精英”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“利落精英”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-995-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-994",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-994-v1",
+        "label": "硬汉保镖",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“硬汉保镖”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“硬汉保镖”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-994-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-993",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-993-v1",
+        "label": "韩系偶像",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“韩系偶像”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“韩系偶像”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-993-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-992",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-992-v1",
+        "label": "夜店辣妹",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“夜店辣妹”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“夜店辣妹”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-992-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-991",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-991-v1",
+        "label": "豪门贵妇",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“豪门贵妇”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“豪门贵妇”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-991-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-990",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-990-v1",
+        "label": "霸道女总裁",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“霸道女总裁”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“霸道女总裁”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-990-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-989",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-989-v1",
+        "label": "恶毒女配",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“恶毒女配”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“恶毒女配”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-989-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-988",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-988-v1",
+        "label": "灰姑娘素颜",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“灰姑娘素颜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“灰姑娘素颜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-988-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-987",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-987-v1",
+        "label": "绿茶白莲花",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“绿茶白莲花”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“绿茶白莲花”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-987-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-986",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-986-v1",
+        "label": "清纯校花",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“清纯校花”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“清纯校花”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-986-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-985",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-985-v1",
+        "label": "甜酷辣妹",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“甜酷辣妹”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“甜酷辣妹”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-985-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-984",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-984-v1",
+        "label": "港风复古",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“港风复古”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“港风复古”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-984-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-983",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-983-v1",
+        "label": "清爽少年",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“清爽少年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“清爽少年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-983-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-982",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-982-v1",
+        "label": "豪门千金",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“豪门千金”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“豪门千金”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-982-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-981",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-981-v1",
+        "label": "冷感时尚",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“冷感时尚”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“冷感时尚”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-981-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-980",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-980-v1",
+        "label": "白月光",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“白月光”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“白月光”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-980-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-979",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-979-v1",
+        "label": "明艳浓妆",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“明艳浓妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“明艳浓妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-979-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-978",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-978-v1",
+        "label": "都市精英",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“都市精英”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“都市精英”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-978-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920056,
+      "prop": {
+        "key": "makeup-977",
+        "group": "makeup",
+        "panel": "makeup"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "makeup",
+        "id": "studio-portrait-977-v1",
+        "label": "通勤裸妆",
+        "prompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“通勤裸妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的现代·人设调整为“通勤裸妆”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "makeup",
+        "promptCode": "studio-portrait-977-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920054,
+      "prop": {
+        "key": "pose-base",
+        "group": "poseBase",
+        "panel": "pose"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "poseBase",
+        "id": "studio-portrait-952-v1",
+        "label": "全身姿态参考底稿",
+        "prompt": "按照另附姿态参考图或骨架调整原人物的全身姿势，保留原人物身份、服饰和画面风格；若没有姿态参考则保持原姿态。姿态参考只提供关节与姿势，不替换人物。",
+        "prefixPrompt": "按照另附姿态参考图或骨架调整原人物的全身姿势，保留原人物身份、服饰和画面风格；若没有姿态参考则保持原姿态。姿态参考只提供关节与姿势，不替换人物。",
+        "promptType": "poseBase",
+        "promptCode": "studio-portrait-952-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920052,
+      "prop": {
+        "key": "hoodie",
+        "group": "clothing",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "clothing",
+        "id": "studio-portrait-951-v1",
+        "label": "连帽卫衣",
+        "prompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“连帽卫衣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“连帽卫衣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "clothing",
+        "promptCode": "studio-portrait-951-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920052,
+      "prop": {
+        "key": "denimJacket",
+        "group": "clothing",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "clothing",
+        "id": "studio-portrait-950-v1",
+        "label": "牛仔外套",
+        "prompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“牛仔外套”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“牛仔外套”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "clothing",
+        "promptCode": "studio-portrait-950-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920052,
+      "prop": {
+        "key": "knitTop",
+        "group": "clothing",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "clothing",
+        "id": "studio-portrait-949-v1",
+        "label": "针织上衣",
+        "prompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“针织上衣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“针织上衣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "clothing",
+        "promptCode": "studio-portrait-949-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920052,
+      "prop": {
+        "key": "cap",
+        "group": "clothing",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "clothing",
+        "id": "studio-portrait-948-v1",
+        "label": "帽子",
+        "prompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“帽子”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“帽子”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "clothing",
+        "promptCode": "studio-portrait-948-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920052,
+      "prop": {
+        "key": "glasses",
+        "group": "clothing",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "clothing",
+        "id": "studio-portrait-947-v1",
+        "label": "眼镜",
+        "prompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“眼镜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的服饰配件调整为“眼镜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "clothing",
+        "promptCode": "studio-portrait-947-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920051,
+      "prop": {
+        "key": "normal",
+        "group": "body",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "body",
+        "id": "studio-portrait-946-v1",
+        "label": "正常",
+        "prompt": "STUDIO 人物调节：将参考人物的体态调整为“正常”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的体态调整为“正常”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "body",
+        "promptCode": "studio-portrait-946-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920051,
+      "prop": {
+        "key": "overweight",
+        "group": "body",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "body",
+        "id": "studio-portrait-945-v1",
+        "label": "肥胖",
+        "prompt": "STUDIO 人物调节：将参考人物的体态调整为“肥胖”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的体态调整为“肥胖”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "body",
+        "promptCode": "studio-portrait-945-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920051,
+      "prop": {
+        "key": "slim",
+        "group": "body",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "body",
+        "id": "studio-portrait-944-v1",
+        "label": "纤瘦",
+        "prompt": "STUDIO 人物调节：将参考人物的体态调整为“纤瘦”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的体态调整为“纤瘦”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "body",
+        "promptCode": "studio-portrait-944-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "bald",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-943-v1",
+        "label": "光头",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“光头”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“光头”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-943-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "twinTails",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-942-v1",
+        "label": "双马尾",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“双马尾”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“双马尾”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-942-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "frenchCurl",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-941-v1",
+        "label": "法式卷发",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“法式卷发”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“法式卷发”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-941-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "texturedCrop",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-940-v1",
+        "label": "微分碎盖",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“微分碎盖”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“微分碎盖”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-940-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "longHair",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-939-v1",
+        "label": "长发",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“长发”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“长发”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-939-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "ponytail",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-938-v1",
+        "label": "马尾辫",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“马尾辫”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“马尾辫”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-938-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "bob",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-937-v1",
+        "label": "波波头",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“波波头”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“波波头”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-937-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920050,
+      "prop": {
+        "key": "crewCut",
+        "group": "hair",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "hair",
+        "id": "studio-portrait-936-v1",
+        "label": "小平头",
+        "prompt": "STUDIO 人物调节：将参考人物的发型调整为“小平头”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的发型调整为“小平头”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "hair",
+        "promptCode": "studio-portrait-936-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920049,
+      "prop": {
+        "key": "white",
+        "group": "skin",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "skin",
+        "id": "studio-portrait-935-v1",
+        "label": "小麦色",
+        "prompt": "STUDIO 人物调节：将参考人物的肤色调整为“小麦色”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的肤色调整为“小麦色”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "skin",
+        "promptCode": "studio-portrait-935-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920049,
+      "prop": {
+        "key": "yellow",
+        "group": "skin",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "skin",
+        "id": "studio-portrait-934-v1",
+        "label": "自然肤色",
+        "prompt": "STUDIO 人物调节：将参考人物的肤色调整为“自然肤色”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的肤色调整为“自然肤色”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "skin",
+        "promptCode": "studio-portrait-934-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920049,
+      "prop": {
+        "key": "black",
+        "group": "skin",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "skin",
+        "id": "studio-portrait-933-v1",
+        "label": "冷白皮",
+        "prompt": "STUDIO 人物调节：将参考人物的肤色调整为“冷白皮”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的肤色调整为“冷白皮”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "skin",
+        "promptCode": "studio-portrait-933-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920048,
+      "prop": {
+        "key": "child",
+        "group": "age",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "age",
+        "id": "studio-portrait-932-v1",
+        "label": "幼年",
+        "prompt": "STUDIO 人物调节：将参考人物的年龄调整为“幼年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年龄调整为“幼年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "age",
+        "promptCode": "studio-portrait-932-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920048,
+      "prop": {
+        "key": "older",
+        "group": "age",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "age",
+        "id": "studio-portrait-931-v1",
+        "label": "老年",
+        "prompt": "STUDIO 人物调节：将参考人物的年龄调整为“老年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年龄调整为“老年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "age",
+        "promptCode": "studio-portrait-931-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920048,
+      "prop": {
+        "key": "young",
+        "group": "age",
+        "panel": "appearance"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "age",
+        "id": "studio-portrait-930-v1",
+        "label": "青年",
+        "prompt": "STUDIO 人物调节：将参考人物的年龄调整为“青年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的年龄调整为“青年”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "age",
+        "promptCode": "studio-portrait-930-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "down",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-929-v1",
+        "label": "嘴角下垂",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“嘴角下垂”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“嘴角下垂”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-929-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "open",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-928-v1",
+        "label": "张嘴",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“张嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“张嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-928-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "flat",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-927-v1",
+        "label": "瘪嘴",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“瘪嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“瘪嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-927-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "purse",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-926-v1",
+        "label": "嘟嘴",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“嘟嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“嘟嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-926-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "bite",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-925-v1",
+        "label": "咬嘴唇",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“咬嘴唇”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“咬嘴唇”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-925-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "smile",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-924-v1",
+        "label": "微笑",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“微笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“微笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-924-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "laugh",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-923-v1",
+        "label": "大笑",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“大笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“大笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-923-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "side-smile",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-922-v1",
+        "label": "单侧嗤笑",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“单侧嗤笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“单侧嗤笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-922-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920046,
+      "prop": {
+        "key": "pout",
+        "group": "mouth",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "mouth",
+        "id": "studio-portrait-921-v1",
+        "label": "歪嘴",
+        "prompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“歪嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的嘴巴形态调整为“歪嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "mouth",
+        "promptCode": "studio-portrait-921-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "scornful-pout",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 28,
+          "y": 57
+        },
+        "dotIndex": 19,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-905-v1",
+        "label": "不屑撇嘴",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“不屑撇嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“不屑撇嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-905-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "holding-back-smile",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 72,
+          "y": 72
+        },
+        "preset": true,
+        "dotIndex": 28,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-904-v1",
+        "label": "想笑却忍住",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“想笑却忍住”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“想笑却忍住”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-904-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "post-cry-daze",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 57,
+          "y": 72
+        },
+        "dotIndex": 27,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-903-v1",
+        "label": "哭后愣住",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“哭后愣住”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“哭后愣住”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-903-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "aggrieved-pout",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 86,
+          "y": 57
+        },
+        "preset": true,
+        "dotIndex": 23,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-902-v1",
+        "label": "委屈瘪嘴",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“委屈瘪嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“委屈瘪嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-902-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "holding-back-sad",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 72,
+          "y": 57
+        },
+        "dotIndex": 22,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-901-v1",
+        "label": "强忍难过",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“强忍难过”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“强忍难过”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-901-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "toothy-smile",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 86,
+          "y": 14
+        },
+        "dotIndex": 5,
+        "quadrant": "happy-excited",
+        "quickLocate": true,
+        "quickLocateLabel": "开心",
+        "quickLocateOrder": 0
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-900-v1",
+        "label": "露齿笑",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“露齿笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“露齿笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-900-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "hearty-laugh",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 57,
+          "y": 43
+        },
+        "dotIndex": 15,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-899-v1",
+        "label": "开怀大笑",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“开怀大笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“开怀大笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-899-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "quiet-joyful-tears",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 86,
+          "y": 86
+        },
+        "dotIndex": 35,
+        "quadrant": "happy-sad",
+        "quickLocate": true,
+        "quickLocateLabel": "低落",
+        "quickLocateOrder": 2
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-898-v1",
+        "label": "安静喜极而泣",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“安静喜极而泣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“安静喜极而泣”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-898-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "emotion-numb",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 57,
+          "y": 57
+        },
+        "dotIndex": 21,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-897-v1",
+        "label": "情绪麻木",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“情绪麻木”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“情绪麻木”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-897-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "furious-stare",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 43,
+          "y": 86
+        },
+        "dotIndex": 32,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-896-v1",
+        "label": "愤怒瞪眼",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“愤怒瞪眼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“愤怒瞪眼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-896-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "high-tension-cry",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 43,
+          "y": 43
+        },
+        "dotIndex": 14,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-895-v1",
+        "label": "高张力大哭",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“高张力大哭”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“高张力大哭”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-895-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "smug-brow",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 72,
+          "y": 28
+        },
+        "preset": true,
+        "dotIndex": 10,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-894-v1",
+        "label": "得意挑眉",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“得意挑眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“得意挑眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-894-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "smirk",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 86,
+          "y": 28
+        },
+        "dotIndex": 11,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-893-v1",
+        "label": "坏笑",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“坏笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“坏笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-893-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "gentle-happy",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 72,
+          "y": 86
+        },
+        "dotIndex": 34,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-892-v1",
+        "label": "温柔开心",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“温柔开心”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“温柔开心”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-892-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "calm-content",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 57,
+          "y": 86
+        },
+        "dotIndex": 33,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-891-v1",
+        "label": "安心满足",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“安心满足”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“安心满足”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-891-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "tearful-smile",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 86,
+          "y": 72
+        },
+        "dotIndex": 29,
+        "quadrant": "happy-sad"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-890-v1",
+        "label": "破涕浅笑",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“破涕浅笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“破涕浅笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-890-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "awkward-smile",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 43,
+          "y": 72
+        },
+        "dotIndex": 26,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-889-v1",
+        "label": "尴尬赔笑",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“尴尬赔笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“尴尬赔笑”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-889-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "tense-lips",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 28,
+          "y": 72
+        },
+        "dotIndex": 25,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-888-v1",
+        "label": "紧张抿唇",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“紧张抿唇”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“紧张抿唇”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-888-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "angry-frown",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 14,
+          "y": 72
+        },
+        "preset": true,
+        "dotIndex": 24,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-887-v1",
+        "label": "生气皱眉",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“生气皱眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“生气皱眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-887-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "cold-sneer",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 43,
+          "y": 57
+        },
+        "dotIndex": 20,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-886-v1",
+        "label": "冷笑嘲讽",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“冷笑嘲讽”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“冷笑嘲讽”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-886-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "shocked-stare",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 28,
+          "y": 86
+        },
+        "dotIndex": 31,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-885-v1",
+        "label": "惊讶瞪眼",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“惊讶瞪眼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“惊讶瞪眼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-885-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "disgust-frown",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 14,
+          "y": 86
+        },
+        "dotIndex": 30,
+        "quadrant": "sad-low",
+        "quickLocate": true,
+        "quickLocateLabel": "难过",
+        "quickLocateOrder": 3
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-884-v1",
+        "label": "厌恶皱眉",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“厌恶皱眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“厌恶皱眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-884-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "dissatisfied-frown",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 14,
+          "y": 57
+        },
+        "dotIndex": 18,
+        "quadrant": "sad-low"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-883-v1",
+        "label": "不满皱眉",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“不满皱眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“不满皱眉”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-883-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "coquettish-pout",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 86,
+          "y": 43
+        },
+        "preset": true,
+        "dotIndex": 17,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-882-v1",
+        "label": "撒娇嘟嘴",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“撒娇嘟嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“撒娇嘟嘴”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-882-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "ecstasy",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 72,
+          "y": 43
+        },
+        "dotIndex": 16,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-881-v1",
+        "label": "狂喜",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“狂喜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“狂喜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-881-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "surprise-delight",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 72,
+          "y": 14
+        },
+        "dotIndex": 4,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-880-v1",
+        "label": "意外惊喜",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“意外惊喜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“意外惊喜”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-880-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "expectant-eyes",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 57,
+          "y": 14
+        },
+        "dotIndex": 3,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-879-v1",
+        "label": "期待眼神",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“期待眼神”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“期待眼神”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-879-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "stunned-loss",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 14,
+          "y": 28
+        },
+        "dotIndex": 6,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-878-v1",
+        "label": "错愕失落",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“错愕失落”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“错愕失落”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-878-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "excited-freeze",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 43,
+          "y": 14
+        },
+        "preset": true,
+        "dotIndex": 2,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-877-v1",
+        "label": "兴奋卡住",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“兴奋卡住”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“兴奋卡住”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-877-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "agitated-uneasy",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 28,
+          "y": 14
+        },
+        "dotIndex": 1,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-876-v1",
+        "label": "激动不安",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“激动不安”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“激动不安”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-876-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "playful-wink",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 57,
+          "y": 28
+        },
+        "preset": true,
+        "dotIndex": 9,
+        "quadrant": "happy-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-875-v1",
+        "label": "调皮眨眼",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“调皮眨眼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“调皮眨眼”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-875-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "intense-tears",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 28,
+          "y": 43
+        },
+        "dotIndex": 13,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-874-v1",
+        "label": "激烈落泪",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“激烈落泪”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“激烈落泪”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-874-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "breaking-edge",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 14,
+          "y": 43
+        },
+        "dotIndex": 12,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-873-v1",
+        "label": "破防边缘",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“破防边缘”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“破防边缘”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-873-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "choking-loss",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 43,
+          "y": 28
+        },
+        "dotIndex": 8,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-872-v1",
+        "label": "哽咽失控",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“哽咽失控”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“哽咽失控”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-872-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "excited-grievance",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 28,
+          "y": 28
+        },
+        "preset": true,
+        "dotIndex": 7,
+        "quadrant": "low-excited"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-871-v1",
+        "label": "激动委屈",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“激动委屈”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“激动委屈”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-871-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920043,
+      "prop": {
+        "key": "tense-excited",
+        "group": "emotion",
+        "panel": "face",
+        "point": {
+          "x": 14,
+          "y": 14
+        },
+        "dotIndex": 0,
+        "quadrant": "low-excited",
+        "quickLocate": true,
+        "quickLocateLabel": "亢奋",
+        "quickLocateOrder": 1
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "emotion",
+        "id": "studio-portrait-870-v1",
+        "label": "紧张兴奋",
+        "prompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“紧张兴奋”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的情绪控制调整为“紧张兴奋”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "emotion",
+        "promptCode": "studio-portrait-870-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "up",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-869-v1",
+        "label": "上方",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“上方”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“上方”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-869-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "right",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-868-v1",
+        "label": "右侧",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“右侧”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“右侧”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-868-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "up-left",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-867-v1",
+        "label": "左上",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“左上”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“左上”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-867-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "center",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-866-v1",
+        "label": "正视",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“正视”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“正视”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-866-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "down-left",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-865-v1",
+        "label": "左下",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“左下”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“左下”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-865-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "down-right",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-864-v1",
+        "label": "右下",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“右下”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“右下”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-864-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "left",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-863-v1",
+        "label": "左侧",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“左侧”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“左侧”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-863-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "down",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-862-v1",
+        "label": "下方",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“下方”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“下方”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-862-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920042,
+      "prop": {
+        "key": "up-right",
+        "group": "gaze",
+        "panel": "face"
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "gaze",
+        "id": "studio-portrait-861-v1",
+        "label": "右上",
+        "prompt": "STUDIO 人物调节：将参考人物的视线方向调整为“右上”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "prefixPrompt": "STUDIO 人物调节：将参考人物的视线方向调整为“右上”。只修改这一指定项，保留身份和其他未指定细节；此为 STUDIO 自有语义配方，不是原站隐藏提示词。",
+        "promptType": "gaze",
+        "promptCode": "studio-portrait-861-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920040,
+      "prop": {
+        "key": "background",
+        "group": "protection",
+        "panel": "shared",
+        "defaultOn": true
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "protection:background",
+        "id": "studio-portrait-858-v1",
+        "label": "背景保护",
+        "prompt": "保持参考图的背景与场景布局不变。",
+        "prefixPrompt": "保持参考图的背景与场景布局不变。",
+        "promptType": "protection",
+        "promptCode": "studio-portrait-858-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    },
+    {
+      "categoryId": 920040,
+      "prop": {
+        "key": "style",
+        "group": "protection",
+        "panel": "shared",
+        "defaultOn": true
+      },
+      "definition": {
+        "schemaVersion": "1",
+        "revision": 1,
+        "key": "protection:style",
+        "id": "studio-portrait-857-v1",
+        "label": "风格保护",
+        "prompt": "保持参考图的绘画、摄影或渲染风格不变。",
+        "prefixPrompt": "保持参考图的绘画、摄影或渲染风格不变。",
+        "promptType": "protection",
+        "promptCode": "studio-portrait-857-v1",
+        "coverUrl": "",
+        "referenceImageUrl": ""
+      }
+    }
+  ]
+}

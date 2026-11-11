@@ -1,0 +1,27 @@
+{
+  "name": "studio-tv",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev:web": "npm run dev --workspace @studiotv/web --",
+    "dev:api": "cd apps/api-go && go run ./cmd/api",
+    "build:web": "npm run build --workspace @studiotv/web",
+    "build:api": "cd apps/api-go && go build ./cmd/api ./cmd/migrate",
+    "build": "npm run build:api && npm run build:web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test:web": "npm run test --workspace @studiotv/web",
+    "test:api": "cd apps/api-go && go test ./...",
+    "test": "npm run test:web && npm run test:api",
+    "vet:api": "cd apps/api-go && go vet ./...",
+    "verify:baseline": "node scripts/verify-baseline.mjs",
+    "verify:contracts": "bash scripts/verify-contracts.sh",
+    "verify": "npm run typecheck && npm run test && npm run vet:api && npm run verify:baseline && npm run verify:contracts"
+  }
+}

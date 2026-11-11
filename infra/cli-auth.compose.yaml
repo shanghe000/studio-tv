@@ -1,0 +1,8 @@
+# Use after codex-agent.compose.yaml. Source is the Router project's protected
+# local credential reader; model containers never receive this socket mount.
+services:
+  agent-launcher:
+    environment:
+      STUDIO_AGENT_COMPANY_AUTH_FILE: /run/cli-auth/auth.sock
+    volumes:
+      - ${STUDIO_CLI_AUTH_SOCKET_DIR:?Set private CLI auth socket directory}:/run/cli-auth:ro

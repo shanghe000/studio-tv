@@ -1,0 +1,1 @@
+import{r as l}from"./DGtFQwJn.js";const n=l(!1),u=l(null),o=l(null);const e={visible:n,payload:u,onSuccess:o,open:function(l,e){u.value={...l},o.value=e??null,n.value=!0},close:function(){n.value=!1,u.value=null,o.value=null}};function a(l,n){e.open(l,n)}export{e as b,a as o};
