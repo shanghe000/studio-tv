@@ -1,14 +1,6 @@
 {
   "version": "2026-10-03-static-audit",
-  "scope": "existing replica homepage and QA-tested menus; no browser/network/API calls; no Site edits",
-  "sources": {
-    "replica": "rhtv-clone/dist/replica.js",
-    "prepare": "rhtv-clone/prepare.mjs",
-    "bundle": "/home/developer/rhtv-replica/research/original.js",
-    "paymentChunk": "/home/developer/rhtv-replica/research/assets-cache/CanvasAiPaymentDialog-D6cAZf-m.js",
-    "fixtures": "rhtv-clone/dist/fixtures.json",
-    "qa": "/home/developer/rhtv-replica/research/interaction-qa.md"
-  },
+  "scope": "Reference interface inventory; backend support is recorded per endpoint.",
   "globalLegacyProtocol": {
     "baseUrl": "original Hf https://www.runninghub.ai; current prepared assets helper window.location.origin",
     "contentType": "application/json",

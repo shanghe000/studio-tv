@@ -5,8 +5,7 @@
 - preview 和 service 只启用一种数据来源；service 使用服务端鉴权、资产ID和版本控制，无假用户、原站认证或自动回落模拟数据。
 - 模型能力通过现有供应商中立接口接入；新增供应商、模型参数与回调认证须按实际服务配置。未接入能力返回501，不默认调用未经用户授权的收费模型。
 - 密钥、密码、令牌仅在环境配置/秘密目录，不进入Git、浏览器资源或日志。
-- deployment-host 只在 `/home/user/apps/studio-tv`、`/home/user/repos/studio-tv.git` 和 `/home/user/.config/studio-tv` 部署本工程；独立Compose项目，保持其他服务。
-- 构建必须从本仓库+锁文件复现，不依赖原采集目录或电脑绝对路径。
+- 构建必须从本仓库+锁文件复现，不依赖开发者电脑上的外部目录。
 
 ## 画布产品方向
 
@@ -21,3 +20,10 @@
 - 每次新增、调整或下线用户功能时，在同一变更中同步更新指南，包括入口、操作步骤、模型选择、参数限制和可用状态；涉及画布、2D画板、资产或协作等功能时检查对应章节。没有用户可见变化的内部修改无需改指南。
 - 延续现有简洁中文、编号步骤和截图版式。每种可实际打开的操作面板尽量提供真实截图及简短步骤；相同面板的不同预设可合并说明。功能或界面变化时同步替换相关截图，不能只改文字。只写已实际开放的能力；未接入、暂停和有限支持须明确标注，不能把可见菜单或测试通过写成全部效果保证。
 - 发布前运行 `python3 scripts/build-user-guide.py --check`，确认首页入口、章节导航、图解展开、截图放大和窄屏阅读正常，并确认部署的指南包含本次功能变化。截图须已加载完整、关键按钮清楚无遮挡；截图和示例不得带入密钥、签名下载地址或无关用户数据。
+
+## Publication
+
+- Keep new repositories private during preparation. Run `python3 scripts/check_publication.py`, project tests and a full-history credential scan before requesting publication.
+- Write product documentation for readers. Do not publish internal handoff reports, workstation paths, historical deployment receipts or unfinished scaffold instructions.
+- Preserve third-party attribution. Missing source or distribution permission is a release blocker, not a branding issue.
+- Do not force-push history, change visibility, disable failing checks or replace integrity fingerprints merely to obtain a passing result.
